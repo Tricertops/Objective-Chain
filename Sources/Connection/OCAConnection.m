@@ -57,6 +57,11 @@
 - (void)close {
     self->_closed = YES;
     [self->_producer removeConnection:self];
+    self->_producer = nil;
+    
+    self.transformer = nil;
+    self.predicate = nil;
+    self.consumer = nil;
 }
 
 
