@@ -9,7 +9,15 @@
 /* Begin PBXBuildFile section */
 		5B097E221871AE6D006240D8 /* OCAConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B097E211871AE6D006240D8 /* OCAConnection.m */; };
 		5B097E281871B0C1006240D8 /* OCAProducer.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B097E271871B0C1006240D8 /* OCAProducer.m */; };
-		5B097E2D1871B9CC006240D8 /* OCAObjectTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B097E2C1871B9CC006240D8 /* OCAObjectTest.m */; };
+		5B097E341871BE01006240D8 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B097E331871BE01006240D8 /* Cocoa.framework */; };
+		5B097E441871BE01006240D8 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B4F85AF1871A4DC004695DA /* XCTest.framework */; };
+		5B097E451871BE01006240D8 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B097E331871BE01006240D8 /* Cocoa.framework */; };
+		5B097E481871BE01006240D8 /* libObjectiveChain-OSX.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B097E321871BE01006240D8 /* libObjectiveChain-OSX.a */; };
+		5B097E571871BEA1006240D8 /* OCAObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B4F85CF1871A939004695DA /* OCAObject.m */; };
+		5B097E581871BEA1006240D8 /* OCAConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B097E211871AE6D006240D8 /* OCAConnection.m */; };
+		5B097E591871BEA1006240D8 /* OCAProducer.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B097E271871B0C1006240D8 /* OCAProducer.m */; };
+		5B097E5F1871BED0006240D8 /* OCAObjectTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B097E5B1871BED0006240D8 /* OCAObjectTest.m */; };
+		5B097E601871BED0006240D8 /* OCAObjectTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B097E5B1871BED0006240D8 /* OCAObjectTest.m */; };
 		5B4F85A21871A4DC004695DA /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B4F85A11871A4DC004695DA /* Foundation.framework */; };
 		5B4F85B01871A4DC004695DA /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B4F85AF1871A4DC004695DA /* XCTest.framework */; };
 		5B4F85B11871A4DC004695DA /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B4F85A11871A4DC004695DA /* Foundation.framework */; };
@@ -18,6 +26,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		5B097E461871BE01006240D8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5B2E8BC51871A23B008AC4B1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 5B097E311871BE01006240D8;
+			remoteInfo = "ObjectiveChain-OSX";
+		};
 		5B4F85B41871A4DC004695DA /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 5B2E8BC51871A23B008AC4B1 /* Project object */;
@@ -48,19 +63,43 @@
 		5B097E291871B0F8006240D8 /* OCAProducer+Protocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "OCAProducer+Protocol.h"; sourceTree = "<group>"; };
 		5B097E2A1871B14C006240D8 /* OCAProducer+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "OCAProducer+Private.h"; sourceTree = "<group>"; };
 		5B097E2B1871B3BB006240D8 /* OCAConnection+Producer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "OCAConnection+Producer.h"; sourceTree = "<group>"; };
-		5B097E2C1871B9CC006240D8 /* OCAObjectTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCAObjectTest.m; sourceTree = "<group>"; };
+		5B097E321871BE01006240D8 /* libObjectiveChain-OSX.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libObjectiveChain-OSX.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		5B097E331871BE01006240D8 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		5B097E361871BE01006240D8 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		5B097E371871BE01006240D8 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		5B097E381871BE01006240D8 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		5B097E431871BE01006240D8 /* ObjectiveChain-OSX-Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "ObjectiveChain-OSX-Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		5B097E5A1871BED0006240D8 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		5B097E5B1871BED0006240D8 /* OCAObjectTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCAObjectTest.m; sourceTree = "<group>"; };
+		5B097E5C1871BED0006240D8 /* Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Prefix.pch; sourceTree = "<group>"; };
 		5B4F859E1871A4DB004695DA /* libObjectiveChain-iOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libObjectiveChain-iOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5B4F85A11871A4DC004695DA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		5B4F85AE1871A4DC004695DA /* ObjectiveChain-iOS-Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "ObjectiveChain-iOS-Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5B4F85AF1871A4DC004695DA /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		5B4F85C61871A73D004695DA /* ObjectiveChain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ObjectiveChain.h; sourceTree = "<group>"; };
-		5B4F85C91871A874004695DA /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		5B4F85CD1871A8A7004695DA /* Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Prefix.pch; sourceTree = "<group>"; };
 		5B4F85CE1871A939004695DA /* OCAObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCAObject.h; sourceTree = "<group>"; };
 		5B4F85CF1871A939004695DA /* OCAObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCAObject.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		5B097E2F1871BE01006240D8 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5B097E341871BE01006240D8 /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5B097E401871BE01006240D8 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5B097E451871BE01006240D8 /* Cocoa.framework in Frameworks */,
+				5B097E481871BE01006240D8 /* libObjectiveChain-OSX.a in Frameworks */,
+				5B097E441871BE01006240D8 /* XCTest.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		5B4F859B1871A4DB004695DA /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -111,6 +150,16 @@
 			path = Producer;
 			sourceTree = "<group>";
 		};
+		5B097E351871BE01006240D8 /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				5B097E361871BE01006240D8 /* Foundation.framework */,
+				5B097E371871BE01006240D8 /* CoreData.framework */,
+				5B097E381871BE01006240D8 /* AppKit.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
 		5B2E8BC41871A23B008AC4B1 = {
 			isa = PBXGroup;
 			children = (
@@ -126,6 +175,8 @@
 			children = (
 				5B4F859E1871A4DB004695DA /* libObjectiveChain-iOS.a */,
 				5B4F85AE1871A4DC004695DA /* ObjectiveChain-iOS-Tests.xctest */,
+				5B097E321871BE01006240D8 /* libObjectiveChain-OSX.a */,
+				5B097E431871BE01006240D8 /* ObjectiveChain-OSX-Tests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -135,6 +186,8 @@
 			children = (
 				5B4F85A11871A4DC004695DA /* Foundation.framework */,
 				5B4F85AF1871A4DC004695DA /* XCTest.framework */,
+				5B097E331871BE01006240D8 /* Cocoa.framework */,
+				5B097E351871BE01006240D8 /* Other Frameworks */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -155,24 +208,61 @@
 		5B4F85C71871A874004695DA /* Tests */ = {
 			isa = PBXGroup;
 			children = (
-				5B4F85C81871A874004695DA /* iOS */,
+				5B097E5A1871BED0006240D8 /* Info.plist */,
+				5B097E5C1871BED0006240D8 /* Prefix.pch */,
+				5B097E5B1871BED0006240D8 /* OCAObjectTest.m */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
 		};
-		5B4F85C81871A874004695DA /* iOS */ = {
-			isa = PBXGroup;
-			children = (
-				5B4F85C91871A874004695DA /* Info.plist */,
-				5B4F85CD1871A8A7004695DA /* Prefix.pch */,
-				5B097E2C1871B9CC006240D8 /* OCAObjectTest.m */,
-			);
-			path = iOS;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
+/* Begin PBXHeadersBuildPhase section */
+		5B097E301871BE01006240D8 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
 /* Begin PBXNativeTarget section */
+		5B097E311871BE01006240D8 /* OS X Library */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 5B097E511871BE01006240D8 /* Build configuration list for PBXNativeTarget "OS X Library" */;
+			buildPhases = (
+				5B097E2E1871BE01006240D8 /* Sources */,
+				5B097E2F1871BE01006240D8 /* Frameworks */,
+				5B097E301871BE01006240D8 /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "OS X Library";
+			productName = "ObjectiveChain-OSX";
+			productReference = 5B097E321871BE01006240D8 /* libObjectiveChain-OSX.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		5B097E421871BE01006240D8 /* OS X Tests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 5B097E541871BE01006240D8 /* Build configuration list for PBXNativeTarget "OS X Tests" */;
+			buildPhases = (
+				5B097E3F1871BE01006240D8 /* Sources */,
+				5B097E401871BE01006240D8 /* Frameworks */,
+				5B097E411871BE01006240D8 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				5B097E471871BE01006240D8 /* PBXTargetDependency */,
+			);
+			name = "OS X Tests";
+			productName = "ObjectiveChain-OSXTests";
+			productReference = 5B097E431871BE01006240D8 /* ObjectiveChain-OSX-Tests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		5B4F859D1871A4DB004695DA /* iOS Library */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 5B4F85C31871A4DC004695DA /* Build configuration list for PBXNativeTarget "iOS Library" */;
@@ -235,11 +325,20 @@
 			targets = (
 				5B4F859D1871A4DB004695DA /* iOS Library */,
 				5B4F85AD1871A4DC004695DA /* iOS Tests */,
+				5B097E311871BE01006240D8 /* OS X Library */,
+				5B097E421871BE01006240D8 /* OS X Tests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		5B097E411871BE01006240D8 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		5B4F85AC1871A4DC004695DA /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -250,6 +349,24 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		5B097E2E1871BE01006240D8 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5B097E571871BEA1006240D8 /* OCAObject.m in Sources */,
+				5B097E581871BEA1006240D8 /* OCAConnection.m in Sources */,
+				5B097E591871BEA1006240D8 /* OCAProducer.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5B097E3F1871BE01006240D8 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5B097E601871BED0006240D8 /* OCAObjectTest.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		5B4F859A1871A4DB004695DA /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -264,13 +381,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5B097E2D1871B9CC006240D8 /* OCAObjectTest.m in Sources */,
+				5B097E5F1871BED0006240D8 /* OCAObjectTest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		5B097E471871BE01006240D8 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 5B097E311871BE01006240D8 /* OS X Library */;
+			targetProxy = 5B097E461871BE01006240D8 /* PBXContainerItemProxy */;
+		};
 		5B4F85B51871A4DC004695DA /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 5B4F859D1871A4DB004695DA /* iOS Library */;
@@ -279,6 +401,102 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		5B097E521871BE01006240D8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "ObjectiveChain-OSX";
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		5B097E531871BE01006240D8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				PRODUCT_NAME = "ObjectiveChain-OSX";
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		5B097E551871BE01006240D8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"$(inherited)",
+				);
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = Tests/Prefix.pch;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INFOPLIST_FILE = Tests/Info.plist;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "ObjectiveChain-OSX-Tests";
+				SDKROOT = macosx;
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Debug;
+		};
+		5B097E561871BE01006240D8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"$(inherited)",
+				);
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = Tests/Prefix.pch;
+				INFOPLIST_FILE = Tests/Info.plist;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				PRODUCT_NAME = "ObjectiveChain-OSX-Tests";
+				SDKROOT = macosx;
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Release;
+		};
 		5B2E8BC91871A23B008AC4B1 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -459,6 +677,22 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		5B097E511871BE01006240D8 /* Build configuration list for PBXNativeTarget "OS X Library" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5B097E521871BE01006240D8 /* Debug */,
+				5B097E531871BE01006240D8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		5B097E541871BE01006240D8 /* Build configuration list for PBXNativeTarget "OS X Tests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5B097E551871BE01006240D8 /* Debug */,
+				5B097E561871BE01006240D8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
 		5B2E8BC81871A23B008AC4B1 /* Build configuration list for PBXProject "Objective-Chain" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
