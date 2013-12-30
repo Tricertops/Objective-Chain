@@ -7,6 +7,9 @@
 //
 
 #import "OCAConnection+Private.h"
+#import "OCAProducer+Private.h"
+
+
 
 
 
@@ -18,18 +21,56 @@
 
 
 
+
+
+
+
+
 @implementation OCAConnection
 
 
 
 
 
+#pragma mark Creating Connection
+
+
 - (instancetype)initWithProducer:(id<OCAProducer>)producer {
     self = [super init];
     if (self) {
+        OCAAssert(producer != nil, @"Missing producer!") return nil;
+        
         self->_producer = producer;
+        [self.producer addConnection:self];
     }
     return self;
+}
+
+
+
+
+
+#pragma mark Breaking Connection
+
+
+- (void)dealloc {
+    [self.producer removeConnection:self];
+}
+
+
+
+
+
+#pragma mark Receiving From Producer
+
+
+- (void)producerDidSendValue:(id)value {
+    
+}
+
+
+- (void)producerDidFinishWithError:(NSError *)error {
+    
 }
 
 

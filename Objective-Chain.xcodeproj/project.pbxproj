@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		5B097E221871AE6D006240D8 /* OCAConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B097E211871AE6D006240D8 /* OCAConnection.m */; };
+		5B097E281871B0C1006240D8 /* OCAProducer.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B097E271871B0C1006240D8 /* OCAProducer.m */; };
 		5B4F85A21871A4DC004695DA /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B4F85A11871A4DC004695DA /* Foundation.framework */; };
 		5B4F85B01871A4DC004695DA /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B4F85AF1871A4DC004695DA /* XCTest.framework */; };
 		5B4F85B11871A4DC004695DA /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B4F85A11871A4DC004695DA /* Foundation.framework */; };
@@ -42,6 +43,11 @@
 		5B097E201871AE6D006240D8 /* OCAConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCAConnection.h; sourceTree = "<group>"; };
 		5B097E211871AE6D006240D8 /* OCAConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCAConnection.m; sourceTree = "<group>"; };
 		5B097E231871AFA5006240D8 /* OCAConnection+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "OCAConnection+Private.h"; sourceTree = "<group>"; };
+		5B097E261871B0C1006240D8 /* OCAProducer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCAProducer.h; sourceTree = "<group>"; };
+		5B097E271871B0C1006240D8 /* OCAProducer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCAProducer.m; sourceTree = "<group>"; };
+		5B097E291871B0F8006240D8 /* OCAProducer+Protocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "OCAProducer+Protocol.h"; sourceTree = "<group>"; };
+		5B097E2A1871B14C006240D8 /* OCAProducer+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "OCAProducer+Private.h"; sourceTree = "<group>"; };
+		5B097E2B1871B3BB006240D8 /* OCAConnection+Producer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "OCAConnection+Producer.h"; sourceTree = "<group>"; };
 		5B4F859E1871A4DB004695DA /* libObjectiveChain-iOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libObjectiveChain-iOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5B4F85A11871A4DC004695DA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		5B4F85AE1871A4DC004695DA /* ObjectiveChain-iOS-Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "ObjectiveChain-iOS-Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -80,6 +86,7 @@
 			isa = PBXGroup;
 			children = (
 				5B097E201871AE6D006240D8 /* OCAConnection.h */,
+				5B097E2B1871B3BB006240D8 /* OCAConnection+Producer.h */,
 				5B097E231871AFA5006240D8 /* OCAConnection+Private.h */,
 				5B097E211871AE6D006240D8 /* OCAConnection.m */,
 			);
@@ -96,6 +103,10 @@
 		5B097E1F1871AE2C006240D8 /* Producer */ = {
 			isa = PBXGroup;
 			children = (
+				5B097E261871B0C1006240D8 /* OCAProducer.h */,
+				5B097E291871B0F8006240D8 /* OCAProducer+Protocol.h */,
+				5B097E2A1871B14C006240D8 /* OCAProducer+Private.h */,
+				5B097E271871B0C1006240D8 /* OCAProducer.m */,
 			);
 			path = Producer;
 			sourceTree = "<group>";
@@ -243,6 +254,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5B097E281871B0C1006240D8 /* OCAProducer.m in Sources */,
 				5B4F85D01871A939004695DA /* OCAObject.m in Sources */,
 				5B097E221871AE6D006240D8 /* OCAConnection.m in Sources */,
 			);
