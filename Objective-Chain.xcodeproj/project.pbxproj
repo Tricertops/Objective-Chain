@@ -6,20 +6,178 @@
 	objectVersion = 46;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		5B4F85A21871A4DC004695DA /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B4F85A11871A4DC004695DA /* Foundation.framework */; };
+		5B4F85B01871A4DC004695DA /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B4F85AF1871A4DC004695DA /* XCTest.framework */; };
+		5B4F85B11871A4DC004695DA /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B4F85A11871A4DC004695DA /* Foundation.framework */; };
+		5B4F85B61871A4DC004695DA /* libObjectiveChain-iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B4F859E1871A4DB004695DA /* libObjectiveChain-iOS.a */; };
+		5B4F85CC1871A874004695DA /* ObjectiveChain.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B4F85CA1871A874004695DA /* ObjectiveChain.m */; };
+		5B4F85D01871A939004695DA /* OCAObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B4F85CF1871A939004695DA /* OCAObject.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		5B4F85B41871A4DC004695DA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5B2E8BC51871A23B008AC4B1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 5B4F859D1871A4DB004695DA;
+			remoteInfo = "ObjectiveChain-iOS";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		5B4F859C1871A4DB004695DA /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "include/$(PRODUCT_NAME)";
+			dstSubfolderSpec = 16;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		5B4F859E1871A4DB004695DA /* libObjectiveChain-iOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libObjectiveChain-iOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		5B4F85A11871A4DC004695DA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		5B4F85AE1871A4DC004695DA /* ObjectiveChain-iOS-Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "ObjectiveChain-iOS-Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		5B4F85AF1871A4DC004695DA /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		5B4F85C61871A73D004695DA /* ObjectiveChain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ObjectiveChain.h; sourceTree = "<group>"; };
+		5B4F85C91871A874004695DA /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		5B4F85CA1871A874004695DA /* ObjectiveChain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ObjectiveChain.m; sourceTree = "<group>"; };
+		5B4F85CD1871A8A7004695DA /* Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Prefix.pch; sourceTree = "<group>"; };
+		5B4F85CE1871A939004695DA /* OCAObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCAObject.h; sourceTree = "<group>"; };
+		5B4F85CF1871A939004695DA /* OCAObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCAObject.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		5B4F859B1871A4DB004695DA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5B4F85A21871A4DC004695DA /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5B4F85AB1871A4DC004695DA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5B4F85B01871A4DC004695DA /* XCTest.framework in Frameworks */,
+				5B4F85B11871A4DC004695DA /* Foundation.framework in Frameworks */,
+				5B4F85B61871A4DC004695DA /* libObjectiveChain-iOS.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
 /* Begin PBXGroup section */
 		5B2E8BC41871A23B008AC4B1 = {
 			isa = PBXGroup;
 			children = (
+				5B4F85C51871A6F5004695DA /* Sources */,
+				5B4F85C71871A874004695DA /* Tests */,
+				5B4F85A01871A4DB004695DA /* Frameworks */,
+				5B4F859F1871A4DB004695DA /* Products */,
 			);
 			sourceTree = "<group>";
 		};
+		5B4F859F1871A4DB004695DA /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				5B4F859E1871A4DB004695DA /* libObjectiveChain-iOS.a */,
+				5B4F85AE1871A4DC004695DA /* ObjectiveChain-iOS-Tests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		5B4F85A01871A4DB004695DA /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				5B4F85A11871A4DC004695DA /* Foundation.framework */,
+				5B4F85AF1871A4DC004695DA /* XCTest.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		5B4F85C51871A6F5004695DA /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				5B4F85C61871A73D004695DA /* ObjectiveChain.h */,
+				5B4F85CE1871A939004695DA /* OCAObject.h */,
+				5B4F85CF1871A939004695DA /* OCAObject.m */,
+			);
+			path = Sources;
+			sourceTree = "<group>";
+		};
+		5B4F85C71871A874004695DA /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				5B4F85C81871A874004695DA /* iOS */,
+			);
+			path = Tests;
+			sourceTree = "<group>";
+		};
+		5B4F85C81871A874004695DA /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				5B4F85C91871A874004695DA /* Info.plist */,
+				5B4F85CD1871A8A7004695DA /* Prefix.pch */,
+				5B4F85CA1871A874004695DA /* ObjectiveChain.m */,
+			);
+			path = iOS;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		5B4F859D1871A4DB004695DA /* iOS Library */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 5B4F85C31871A4DC004695DA /* Build configuration list for PBXNativeTarget "iOS Library" */;
+			buildPhases = (
+				5B4F859A1871A4DB004695DA /* Sources */,
+				5B4F859B1871A4DB004695DA /* Frameworks */,
+				5B4F859C1871A4DB004695DA /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "iOS Library";
+			productName = "ObjectiveChain-iOS";
+			productReference = 5B4F859E1871A4DB004695DA /* libObjectiveChain-iOS.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		5B4F85AD1871A4DC004695DA /* iOS Tests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 5B4F85C41871A4DC004695DA /* Build configuration list for PBXNativeTarget "iOS Tests" */;
+			buildPhases = (
+				5B4F85AA1871A4DC004695DA /* Sources */,
+				5B4F85AB1871A4DC004695DA /* Frameworks */,
+				5B4F85AC1871A4DC004695DA /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				5B4F85B51871A4DC004695DA /* PBXTargetDependency */,
+			);
+			name = "iOS Tests";
+			productName = "ObjectiveChain-iOSTests";
+			productReference = 5B4F85AE1871A4DC004695DA /* ObjectiveChain-iOS-Tests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
 		5B2E8BC51871A23B008AC4B1 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0500;
+				TargetAttributes = {
+					5B4F85AD1871A4DC004695DA = {
+						TestTargetID = 5B4F859D1871A4DB004695DA;
+					};
+				};
 			};
 			buildConfigurationList = 5B2E8BC81871A23B008AC4B1 /* Build configuration list for PBXProject "Objective-Chain" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -29,23 +187,227 @@
 				en,
 			);
 			mainGroup = 5B2E8BC41871A23B008AC4B1;
+			productRefGroup = 5B4F859F1871A4DB004695DA /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
+				5B4F859D1871A4DB004695DA /* iOS Library */,
+				5B4F85AD1871A4DC004695DA /* iOS Tests */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		5B4F85AC1871A4DC004695DA /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		5B4F859A1871A4DB004695DA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5B4F85D01871A939004695DA /* OCAObject.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5B4F85AA1871A4DC004695DA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5B4F85CC1871A874004695DA /* ObjectiveChain.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		5B4F85B51871A4DC004695DA /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 5B4F859D1871A4DB004695DA /* iOS Library */;
+			targetProxy = 5B4F85B41871A4DC004695DA /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		5B2E8BC91871A23B008AC4B1 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ANALYZER_SECURITY_FLOATLOOPCOUNTER = YES;
+				CLANG_ANALYZER_SECURITY_INSECUREAPI_RAND = YES;
+				CLANG_ANALYZER_SECURITY_INSECUREAPI_STRCPY = YES;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_ATOMIC_PROPERTIES = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_REPEATED_USE_OF_WEAK = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				GCC_TREAT_INCOMPATIBLE_POINTER_TYPE_WARNINGS_AS_ERRORS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNKNOWN_PRAGMAS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_LABEL = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				RUN_CLANG_STATIC_ANALYZER = YES;
 			};
 			name = Debug;
 		};
 		5B2E8BCA1871A23B008AC4B1 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ANALYZER_SECURITY_FLOATLOOPCOUNTER = YES;
+				CLANG_ANALYZER_SECURITY_INSECUREAPI_RAND = YES;
+				CLANG_ANALYZER_SECURITY_INSECUREAPI_STRCPY = YES;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_ATOMIC_PROPERTIES = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_REPEATED_USE_OF_WEAK = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				GCC_TREAT_INCOMPATIBLE_POINTER_TYPE_WARNINGS_AS_ERRORS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNKNOWN_PRAGMAS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_LABEL = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				RUN_CLANG_STATIC_ANALYZER = YES;
+			};
+			name = Release;
+		};
+		5B4F85BF1871A4DC004695DA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				COPY_PHASE_STRIP = NO;
+				DSTROOT = /tmp/ObjectiveChain_iOS.dst;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "ObjectiveChain-iOS";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		5B4F85C01871A4DC004695DA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				COPY_PHASE_STRIP = YES;
+				DSTROOT = /tmp/ObjectiveChain_iOS.dst;
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "ObjectiveChain-iOS";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		5B4F85C11871A4DC004695DA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = Tests/iOS/Prefix.pch;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INFOPLIST_FILE = Tests/iOS/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "ObjectiveChain-iOS-Tests";
+				SDKROOT = iphoneos;
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Debug;
+		};
+		5B4F85C21871A4DC004695DA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = Tests/iOS/Prefix.pch;
+				INFOPLIST_FILE = Tests/iOS/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				PRODUCT_NAME = "ObjectiveChain-iOS-Tests";
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+				WRAPPER_EXTENSION = xctest;
 			};
 			name = Release;
 		};
@@ -60,6 +422,22 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		5B4F85C31871A4DC004695DA /* Build configuration list for PBXNativeTarget "iOS Library" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5B4F85BF1871A4DC004695DA /* Debug */,
+				5B4F85C01871A4DC004695DA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		5B4F85C41871A4DC004695DA /* Build configuration list for PBXNativeTarget "iOS Tests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5B4F85C11871A4DC004695DA /* Debug */,
+				5B4F85C21871A4DC004695DA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
 	};
