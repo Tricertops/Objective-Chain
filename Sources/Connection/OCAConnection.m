@@ -8,7 +8,7 @@
 
 #import "OCAConnection+Private.h"
 #import "OCAProducer+Private.h"
-#import "OCAConsumer.h"
+#import "OCAConsumer+Protocol.h"
 
 
 

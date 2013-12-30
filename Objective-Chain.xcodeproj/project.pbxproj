@@ -26,9 +26,6 @@
 		5BD9ECE51871D82E0069044C /* OCACommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BD9ECE21871D82E0069044C /* OCACommand.m */; };
 		5BD9ECED1871E1370069044C /* OCAConnectionTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BD9ECEC1871E1370069044C /* OCAConnectionTest.m */; };
 		5BD9ECEE1871E1370069044C /* OCAConnectionTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BD9ECEC1871E1370069044C /* OCAConnectionTest.m */; };
-		5BD9ECF11871E9620069044C /* OCAConsumer.h in Headers */ = {isa = PBXBuildFile; fileRef = 5BD9ECEF1871E9620069044C /* OCAConsumer.h */; };
-		5BD9ECF21871E9620069044C /* OCAConsumer.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BD9ECF01871E9620069044C /* OCAConsumer.m */; };
-		5BD9ECF31871E9620069044C /* OCAConsumer.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BD9ECF01871E9620069044C /* OCAConsumer.m */; };
 		5BD9ECF81871E9F20069044C /* OCASubscriber.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BD9ECF61871E9E80069044C /* OCASubscriber.m */; };
 		5BD9ECF91871E9F30069044C /* OCASubscriber.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BD9ECF61871E9E80069044C /* OCASubscriber.m */; };
 /* End PBXBuildFile section */
@@ -87,8 +84,6 @@
 		5BD9ECE21871D82E0069044C /* OCACommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCACommand.m; sourceTree = "<group>"; };
 		5BD9ECEB1871DFC70069044C /* OCAConsumer+Protocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "OCAConsumer+Protocol.h"; sourceTree = "<group>"; };
 		5BD9ECEC1871E1370069044C /* OCAConnectionTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCAConnectionTest.m; sourceTree = "<group>"; };
-		5BD9ECEF1871E9620069044C /* OCAConsumer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCAConsumer.h; sourceTree = "<group>"; };
-		5BD9ECF01871E9620069044C /* OCAConsumer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCAConsumer.m; sourceTree = "<group>"; };
 		5BD9ECF51871E9E80069044C /* OCASubscriber.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCASubscriber.h; sourceTree = "<group>"; };
 		5BD9ECF61871E9E80069044C /* OCASubscriber.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCASubscriber.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -146,8 +141,6 @@
 			isa = PBXGroup;
 			children = (
 				5BD9ECEB1871DFC70069044C /* OCAConsumer+Protocol.h */,
-				5BD9ECEF1871E9620069044C /* OCAConsumer.h */,
-				5BD9ECF01871E9620069044C /* OCAConsumer.m */,
 				5BD9ECF41871E9E80069044C /* Subscriber */,
 			);
 			path = Consumer;
@@ -245,7 +238,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				5BD9ECE31871D82E0069044C /* OCACommand.h in Headers */,
-				5BD9ECF11871E9620069044C /* OCAConsumer.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -385,7 +377,6 @@
 				5B097E581871BEA1006240D8 /* OCAConnection.m in Sources */,
 				5BD9ECF91871E9F30069044C /* OCASubscriber.m in Sources */,
 				5B097E591871BEA1006240D8 /* OCAProducer.m in Sources */,
-				5BD9ECF31871E9620069044C /* OCAConsumer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -407,7 +398,6 @@
 				5B4F85D01871A939004695DA /* OCAObject.m in Sources */,
 				5BD9ECF81871E9F20069044C /* OCASubscriber.m in Sources */,
 				5B097E221871AE6D006240D8 /* OCAConnection.m in Sources */,
-				5BD9ECF21871E9620069044C /* OCAConsumer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

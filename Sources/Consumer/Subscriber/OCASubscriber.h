@@ -6,14 +6,15 @@
 //
 //
 
-#import "OCAConsumer.h"
+#import "OCAObject.h"
+#import "OCAConsumer+Protocol.h"
 
 
 
 
 
 /// Subscriber is concrete Consumer, that can be customized with blocks.
-@interface OCASubscriber : OCAConsumer
+@interface OCASubscriber : OCAObject < OCAConsumer >
 
 
 
