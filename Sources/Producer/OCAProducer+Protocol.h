@@ -15,7 +15,7 @@
 
 
 
-/// Producer is abstract source of values that are propagated to Connections.
+/// Producer is abstract source of values that are sent to Connections.
 @protocol OCAProducer < NSObject >
 
 @required

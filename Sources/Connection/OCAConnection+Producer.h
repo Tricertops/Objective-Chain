@@ -12,7 +12,7 @@
 
 
 
-/// Used by implementors of Producer protocol to propagate values to Connections.
+/// Used by implementors of Producer protocol to send values to Connections.
 @interface OCAConnection ()
 
 

@@ -8,6 +8,7 @@
 
 #import "OCAConnection+Private.h"
 #import "OCAProducer+Private.h"
+#import "OCAConsumer.h"
 
 
 
@@ -78,11 +79,14 @@
                            : value);
     BOOL passes = ( ! self.predicate || [self.predicate evaluateWithObject:transformedValue]);
     
-    
+    if (passes) {
+        [self.consumer receiveValue:transformedValue];
+    }
 }
 
 
 - (void)producerDidFinishWithError:(NSError *)error {
+    [self.consumer finishWithError:error];
     [self close];
 }
 
