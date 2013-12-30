@@ -41,7 +41,7 @@
         OCAAssert(producer != nil, @"Missing producer!") return nil;
         
         self->_producer = producer;
-        [self.producer addConnection:self];
+        [producer addConnection:self];
     }
     return self;
 }
@@ -50,11 +50,17 @@
 
 
 
-#pragma mark Breaking Connection
+#pragma mark Closing Connection
+
+
+- (void)close {
+    self->_closed = YES;
+    [self->_producer removeConnection:self];
+}
 
 
 - (void)dealloc {
-    [self.producer removeConnection:self];
+    [self close];
 }
 
 
@@ -64,13 +70,14 @@
 #pragma mark Receiving From Producer
 
 
-- (void)producerDidSendValue:(id)value {
+- (void)producerDidProduceValue:(id)value {
+    if (self.closed) return;
     
 }
 
 
 - (void)producerDidFinishWithError:(NSError *)error {
-    
+    [self close];
 }
 
 

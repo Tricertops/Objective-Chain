@@ -12,12 +12,13 @@
 
 
 
+/// Used by implementors of Producer protocol to propagate values to Connections.
 @interface OCAConnection ()
 
 
 
-- (void)producer:(id<OCAProducer>)producer didSendValue:(id)value;
-- (void)producer:(id<OCAProducer>)producer didFinishWithError:(NSError *)error;
+- (void)producerDidProduceValue:(id)value;
+- (void)producerDidFinishWithError:(NSError *)error;
 
 
 
