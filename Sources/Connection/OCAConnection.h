@@ -28,6 +28,12 @@
 - (void)close;
 
 
+//TODO: Enabled
+//TODO: Enabled Property object
+//TODO: Queues
+//TODO: Behavior
+
+
 @property (OCA_atomic, readwrite, strong) NSValueTransformer *transformer;
 @property (OCA_atomic, readwrite, strong) NSPredicate *predicate;
 

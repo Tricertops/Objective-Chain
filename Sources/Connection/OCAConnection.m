@@ -73,6 +73,12 @@
 - (void)producerDidProduceValue:(id)value {
     if (self.closed) return;
     
+    id transformedValue = (self.transformer
+                           ? [self.transformer transformedValue:value]
+                           : value);
+    BOOL passes = ( ! self.predicate || [self.predicate evaluateWithObject:transformedValue]);
+    
+    
 }
 
 
