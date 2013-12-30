@@ -12,6 +12,14 @@
 
 
 
+/// Methods used by private subclasses.
 @interface OCAProducer ()
+
+
+
+- (void)sendValue:(id)value NS_REQUIRES_SUPER;
+- (void)finishWithError:(NSError *)error NS_REQUIRES_SUPER;
+
+
 
 @end

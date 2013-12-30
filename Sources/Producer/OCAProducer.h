@@ -13,6 +13,7 @@
 
 
 
+/// Basic concrete implementation of Producer protocol.
 @interface OCAProducer : OCAObject < OCAProducer >
 
 @end

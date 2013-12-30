@@ -15,11 +15,15 @@
 
 
 
+/// Producer is abstract source of values that are propagated to Connections.
 @protocol OCAProducer < NSObject >
 
 @required
 
 
+@property (OCA_atomic, readonly, strong) id lastValue;
+@property (OCA_atomic, readonly, assign) BOOL finished;
+@property (OCA_atomic, readonly, strong) NSError *error;
 
 @property (OCA_atomic, readonly, strong) NSArray *connections;
 - (void)addConnection:(OCAConnection *)connection;
