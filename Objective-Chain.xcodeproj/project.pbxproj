@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5B097E221871AE6D006240D8 /* OCAConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B097E211871AE6D006240D8 /* OCAConnection.m */; };
 		5B4F85A21871A4DC004695DA /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B4F85A11871A4DC004695DA /* Foundation.framework */; };
 		5B4F85B01871A4DC004695DA /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B4F85AF1871A4DC004695DA /* XCTest.framework */; };
 		5B4F85B11871A4DC004695DA /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B4F85A11871A4DC004695DA /* Foundation.framework */; };
@@ -38,6 +39,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		5B097E201871AE6D006240D8 /* OCAConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCAConnection.h; sourceTree = "<group>"; };
+		5B097E211871AE6D006240D8 /* OCAConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCAConnection.m; sourceTree = "<group>"; };
+		5B097E231871AFA5006240D8 /* OCAConnection+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "OCAConnection+Private.h"; sourceTree = "<group>"; };
 		5B4F859E1871A4DB004695DA /* libObjectiveChain-iOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libObjectiveChain-iOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5B4F85A11871A4DC004695DA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		5B4F85AE1871A4DC004695DA /* ObjectiveChain-iOS-Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "ObjectiveChain-iOS-Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -72,6 +76,30 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5B097E1D1871AE2C006240D8 /* Connection */ = {
+			isa = PBXGroup;
+			children = (
+				5B097E201871AE6D006240D8 /* OCAConnection.h */,
+				5B097E231871AFA5006240D8 /* OCAConnection+Private.h */,
+				5B097E211871AE6D006240D8 /* OCAConnection.m */,
+			);
+			path = Connection;
+			sourceTree = "<group>";
+		};
+		5B097E1E1871AE2C006240D8 /* Consumer */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Consumer;
+			sourceTree = "<group>";
+		};
+		5B097E1F1871AE2C006240D8 /* Producer */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Producer;
+			sourceTree = "<group>";
+		};
 		5B2E8BC41871A23B008AC4B1 = {
 			isa = PBXGroup;
 			children = (
@@ -106,6 +134,9 @@
 				5B4F85C61871A73D004695DA /* ObjectiveChain.h */,
 				5B4F85CE1871A939004695DA /* OCAObject.h */,
 				5B4F85CF1871A939004695DA /* OCAObject.m */,
+				5B097E1D1871AE2C006240D8 /* Connection */,
+				5B097E1F1871AE2C006240D8 /* Producer */,
+				5B097E1E1871AE2C006240D8 /* Consumer */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -213,6 +244,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5B4F85D01871A939004695DA /* OCAObject.m in Sources */,
+				5B097E221871AE6D006240D8 /* OCAConnection.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -430,6 +462,7 @@
 				5B4F85C01871A4DC004695DA /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		5B4F85C41871A4DC004695DA /* Build configuration list for PBXNativeTarget "iOS Tests" */ = {
 			isa = XCConfigurationList;
@@ -438,6 +471,7 @@
 				5B4F85C21871A4DC004695DA /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
