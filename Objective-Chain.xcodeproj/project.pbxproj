@@ -9,9 +9,7 @@
 /* Begin PBXBuildFile section */
 		5B097E221871AE6D006240D8 /* OCAConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B097E211871AE6D006240D8 /* OCAConnection.m */; };
 		5B097E281871B0C1006240D8 /* OCAProducer.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B097E271871B0C1006240D8 /* OCAProducer.m */; };
-		5B097E341871BE01006240D8 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B097E331871BE01006240D8 /* Cocoa.framework */; };
 		5B097E441871BE01006240D8 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B4F85AF1871A4DC004695DA /* XCTest.framework */; };
-		5B097E451871BE01006240D8 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B097E331871BE01006240D8 /* Cocoa.framework */; };
 		5B097E481871BE01006240D8 /* libObjectiveChain-OSX.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B097E321871BE01006240D8 /* libObjectiveChain-OSX.a */; };
 		5B097E571871BEA1006240D8 /* OCAObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B4F85CF1871A939004695DA /* OCAObject.m */; };
 		5B097E581871BEA1006240D8 /* OCAConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B097E211871AE6D006240D8 /* OCAConnection.m */; };
@@ -64,10 +62,6 @@
 		5B097E2A1871B14C006240D8 /* OCAProducer+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "OCAProducer+Private.h"; sourceTree = "<group>"; };
 		5B097E2B1871B3BB006240D8 /* OCAConnection+Producer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "OCAConnection+Producer.h"; sourceTree = "<group>"; };
 		5B097E321871BE01006240D8 /* libObjectiveChain-OSX.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libObjectiveChain-OSX.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		5B097E331871BE01006240D8 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
-		5B097E361871BE01006240D8 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		5B097E371871BE01006240D8 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
-		5B097E381871BE01006240D8 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		5B097E431871BE01006240D8 /* ObjectiveChain-OSX-Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "ObjectiveChain-OSX-Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5B097E5A1871BED0006240D8 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5B097E5B1871BED0006240D8 /* OCAObjectTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCAObjectTest.m; sourceTree = "<group>"; };
@@ -86,7 +80,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5B097E341871BE01006240D8 /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -94,7 +87,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5B097E451871BE01006240D8 /* Cocoa.framework in Frameworks */,
 				5B097E481871BE01006240D8 /* libObjectiveChain-OSX.a in Frameworks */,
 				5B097E441871BE01006240D8 /* XCTest.framework in Frameworks */,
 			);
@@ -150,16 +142,6 @@
 			path = Producer;
 			sourceTree = "<group>";
 		};
-		5B097E351871BE01006240D8 /* Other Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				5B097E361871BE01006240D8 /* Foundation.framework */,
-				5B097E371871BE01006240D8 /* CoreData.framework */,
-				5B097E381871BE01006240D8 /* AppKit.framework */,
-			);
-			name = "Other Frameworks";
-			sourceTree = "<group>";
-		};
 		5B2E8BC41871A23B008AC4B1 = {
 			isa = PBXGroup;
 			children = (
@@ -186,8 +168,6 @@
 			children = (
 				5B4F85A11871A4DC004695DA /* Foundation.framework */,
 				5B4F85AF1871A4DC004695DA /* XCTest.framework */,
-				5B097E331871BE01006240D8 /* Cocoa.framework */,
-				5B097E351871BE01006240D8 /* Other Frameworks */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -306,6 +286,9 @@
 			attributes = {
 				LastUpgradeCheck = 0500;
 				TargetAttributes = {
+					5B097E421871BE01006240D8 = {
+						TestTargetID = 5B097E311871BE01006240D8;
+					};
 					5B4F85AD1871A4DC004695DA = {
 						TestTargetID = 5B4F859D1871A4DB004695DA;
 					};
@@ -447,6 +430,7 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
+				ENABLE_NS_ASSERTIONS = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
 					"$(inherited)",
@@ -684,6 +668,7 @@
 				5B097E531871BE01006240D8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		5B097E541871BE01006240D8 /* Build configuration list for PBXNativeTarget "OS X Tests" */ = {
 			isa = XCConfigurationList;
@@ -692,6 +677,7 @@
 				5B097E561871BE01006240D8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		5B2E8BC81871A23B008AC4B1 /* Build configuration list for PBXProject "Objective-Chain" */ = {
 			isa = XCConfigurationList;
