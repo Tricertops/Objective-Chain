@@ -57,12 +57,14 @@
 
 
 - (id)transformedValue:(id)value {
-    return [super transformedValue:value];
+    if (self->_transformationBlock) return self->_transformationBlock(value);
+    else return [super transformedValue:value];
 }
 
 
 - (id)reverseTransformedValue:(id)value {
-    return [super reverseTransformedValue:value];
+    if (self->_reverseTransformationBlock) return self->_reverseTransformationBlock(value);
+    else return [super reverseTransformedValue:value];
 }
 
 

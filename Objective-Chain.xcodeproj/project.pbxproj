@@ -36,6 +36,8 @@
 		5BD9ED0918731B570069044C /* OCATransformer.h in Headers */ = {isa = PBXBuildFile; fileRef = 5BD9ED0718731B570069044C /* OCATransformer.h */; };
 		5BD9ED0A18731B570069044C /* OCATransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BD9ED0818731B570069044C /* OCATransformer.m */; };
 		5BD9ED0B18731B570069044C /* OCATransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BD9ED0818731B570069044C /* OCATransformer.m */; };
+		5BD9ED0D1873351C0069044C /* OCATransformerTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BD9ED0C1873351C0069044C /* OCATransformerTest.m */; };
+		5BD9ED0E1873351C0069044C /* OCATransformerTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BD9ED0C1873351C0069044C /* OCATransformerTest.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -98,6 +100,7 @@
 		5BD9ED021872FFA90069044C /* OCASemaphore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCASemaphore.m; sourceTree = "<group>"; };
 		5BD9ED0718731B570069044C /* OCATransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCATransformer.h; sourceTree = "<group>"; };
 		5BD9ED0818731B570069044C /* OCATransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCATransformer.m; sourceTree = "<group>"; };
+		5BD9ED0C1873351C0069044C /* OCATransformerTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCATransformerTest.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -221,6 +224,7 @@
 				5B097E5C1871BED0006240D8 /* Prefix.pch */,
 				5B097E5B1871BED0006240D8 /* OCAObjectTest.m */,
 				5BD9ECEC1871E1370069044C /* OCAConnectionTest.m */,
+				5BD9ED0C1873351C0069044C /* OCATransformerTest.m */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -429,6 +433,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5BD9ED0E1873351C0069044C /* OCATransformerTest.m in Sources */,
 				5B097E601871BED0006240D8 /* OCAObjectTest.m in Sources */,
 				5BD9ECEE1871E1370069044C /* OCAConnectionTest.m in Sources */,
 			);
@@ -453,6 +458,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5BD9ED0D1873351C0069044C /* OCATransformerTest.m in Sources */,
 				5B097E5F1871BED0006240D8 /* OCAObjectTest.m in Sources */,
 				5BD9ECED1871E1370069044C /* OCAConnectionTest.m in Sources */,
 			);
