@@ -12,9 +12,13 @@
 
 
 
+/// Methods used internally by other classes.
 @interface OCAConnection ()
 
 
+
+- (void)producerDidProduceValue:(id)value;
+- (void)producerDidFinishWithError:(NSError *)error;
 
 
 

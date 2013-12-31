@@ -8,11 +8,13 @@
 
 #import "OCAProducer.h"
 
+@class OCAConnection;
 
 
 
 
-/// Methods used by private subclasses.
+
+/// Methods used internally by other classes.
 @interface OCAProducer ()
 
 
@@ -20,6 +22,8 @@
 - (void)sendValue:(id)value NS_REQUIRES_SUPER;
 - (void)finishWithError:(NSError *)error NS_REQUIRES_SUPER;
 
+- (void)addConnection:(OCAConnection *)connection;
+- (void)removeConnection:(OCAConnection *)connection;
 
 
 @end

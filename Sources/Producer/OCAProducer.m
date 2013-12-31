@@ -7,7 +7,7 @@
 //
 
 #import "OCAProducer+Private.h"
-#import "OCAConnection+Producer.h"
+#import "OCAConnection+Private.h"
 
 
 

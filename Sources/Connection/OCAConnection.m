@@ -36,7 +36,7 @@
 #pragma mark Creating Connection
 
 
-- (instancetype)initWithProducer:(id<OCAProducer>)producer {
+- (instancetype)initWithProducer:(OCAProducer *)producer {
     self = [super init];
     if (self) {
         OCAAssert(producer != nil, @"Missing producer!") return nil;

@@ -68,9 +68,7 @@
 		5B097E231871AFA5006240D8 /* OCAConnection+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "OCAConnection+Private.h"; sourceTree = "<group>"; };
 		5B097E261871B0C1006240D8 /* OCAProducer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCAProducer.h; sourceTree = "<group>"; };
 		5B097E271871B0C1006240D8 /* OCAProducer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCAProducer.m; sourceTree = "<group>"; };
-		5B097E291871B0F8006240D8 /* OCAProducer+Protocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "OCAProducer+Protocol.h"; sourceTree = "<group>"; };
 		5B097E2A1871B14C006240D8 /* OCAProducer+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "OCAProducer+Private.h"; sourceTree = "<group>"; };
-		5B097E2B1871B3BB006240D8 /* OCAConnection+Producer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "OCAConnection+Producer.h"; sourceTree = "<group>"; };
 		5B097E321871BE01006240D8 /* libObjectiveChain-OSX.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libObjectiveChain-OSX.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5B097E431871BE01006240D8 /* ObjectiveChain-OSX-Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "ObjectiveChain-OSX-Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5B097E5A1871BED0006240D8 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -135,7 +133,6 @@
 			isa = PBXGroup;
 			children = (
 				5B097E201871AE6D006240D8 /* OCAConnection.h */,
-				5B097E2B1871B3BB006240D8 /* OCAConnection+Producer.h */,
 				5B097E231871AFA5006240D8 /* OCAConnection+Private.h */,
 				5B097E211871AE6D006240D8 /* OCAConnection.m */,
 			);
@@ -154,7 +151,6 @@
 		5B097E1F1871AE2C006240D8 /* Producer */ = {
 			isa = PBXGroup;
 			children = (
-				5B097E291871B0F8006240D8 /* OCAProducer+Protocol.h */,
 				5B097E261871B0C1006240D8 /* OCAProducer.h */,
 				5B097E2A1871B14C006240D8 /* OCAProducer+Private.h */,
 				5B097E271871B0C1006240D8 /* OCAProducer.m */,

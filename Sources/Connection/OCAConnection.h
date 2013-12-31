@@ -8,7 +8,7 @@
 
 #import "OCAObject.h"
 
-@protocol OCAProducer;
+@class OCAProducer;
 @protocol OCAConsumer;
 
 
@@ -20,8 +20,8 @@
 
 
 
-- (instancetype)initWithProducer:(id<OCAProducer>)producer;
-@property (OCA_atomic, readonly, weak) id<OCAProducer> producer;
+- (instancetype)initWithProducer:(OCAProducer *)producer;
+@property (OCA_atomic, readonly, weak) OCAProducer *producer;
 
 
 @property (OCA_atomic, readonly, assign) BOOL closed;
