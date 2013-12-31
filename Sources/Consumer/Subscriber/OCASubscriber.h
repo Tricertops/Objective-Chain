@@ -8,6 +8,12 @@
 
 #import "OCAObject.h"
 #import "OCAConsumer+Protocol.h"
+#import "OCAProducer.h"
+
+
+
+typedef void(^OCASubscriberValueHandler)(id value);
+typedef void(^OCASubscriberFinishHandler)(NSError *error);
 
 
 
@@ -18,9 +24,27 @@
 
 
 
-- (instancetype)initWithValueHandler:(void(^)(id value))valueHandler
-                       finishHandler:(void(^)(NSError *error))finishHandler;
+- (instancetype)initWithValueHandler:(OCASubscriberValueHandler)valueHandler finishHandler:(OCASubscriberFinishHandler)finishHandler;
+
++ (instancetype)value:(OCASubscriberValueHandler)valueHandler;
++ (instancetype)value:(OCASubscriberValueHandler)valueHandler finish:(OCASubscriberFinishHandler)finishHandler;
 
 
 
 @end
+
+
+
+
+
+/// Additions to directly subscribe block to a Producer.
+@interface OCAProducer (OCASubscriber)
+
+
+- (OCAConnection *)subscribeValues:(OCASubscriberValueHandler)valueHandler;
+- (OCAConnection *)subscribeValues:(OCASubscriberValueHandler)valueHandler finish:(OCASubscriberFinishHandler)finishHandler;
+
+
+@end
+
+

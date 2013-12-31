@@ -10,14 +10,21 @@
 
 
 
+
+
 @interface OCASubscriber ()
 
 
-@property (OCA_atomic, readonly, copy) void (^valueHandler)(id value);
-@property (OCA_atomic, readonly, copy) void (^finishHandler)(NSError *error);
+@property (OCA_atomic, readonly, copy) OCASubscriberValueHandler valueHandler;
+@property (OCA_atomic, readonly, copy) OCASubscriberFinishHandler finishHandler;
 
 
 @end
+
+
+
+
+
 
 
 
@@ -28,7 +35,16 @@
 
 
 
-- (instancetype)initWithValueHandler:(void (^)(id))valueHandler finishHandler:(void (^)(NSError *))finishHandler {
+
+#pragma mark Creating Subscriber
+
+
+- (instancetype)init {
+    return [self initWithValueHandler:nil finishHandler:nil];
+}
+
+
+- (instancetype)initWithValueHandler:(OCASubscriberValueHandler)valueHandler finishHandler:(OCASubscriberFinishHandler)finishHandler {
     self = [super init];
     if (self) {
         self->_valueHandler = valueHandler;
@@ -37,6 +53,21 @@
     return self;
 }
 
+
++ (instancetype)value:(OCASubscriberValueHandler)valueHandler {
+    return [[self alloc] initWithValueHandler:valueHandler finishHandler:nil];
+}
+
+
++ (instancetype)value:(OCASubscriberValueHandler)valueHandler finish:(OCASubscriberFinishHandler)finishHandler {
+    return [[self alloc] initWithValueHandler:valueHandler finishHandler:finishHandler];
+}
+
+
+
+
+
+#pragma mark Lifetime of Subscriber
 
 
 - (void)receiveValue:(id)value {
@@ -53,3 +84,31 @@
 
 
 @end
+
+
+
+
+
+
+
+
+
+
+@implementation OCAProducer (OCASubscriber)
+
+
+
+- (OCAConnection *)subscribeValues:(OCASubscriberValueHandler)valueHandler {
+    return [self connectTo:[OCASubscriber value:valueHandler]];
+}
+
+
+- (OCAConnection *)subscribeValues:(OCASubscriberValueHandler)valueHandler finish:(OCASubscriberFinishHandler)finishHandler {
+    return [self connectTo:[OCASubscriber value:valueHandler finish:finishHandler]];
+}
+
+
+
+@end
+
+

@@ -32,9 +32,20 @@
 
 @implementation OCAProducer
 
-@synthesize lastValue = _lastValue;
-@synthesize finished = _finished;
-@synthesize error = _error;
+
+
+
+
+#pragma mark Creating Producer
+
+
+- (instancetype)init {
+    self = [super init];
+    if (self) {
+        OCAAssert(self.class == [OCAProducer class], @"Cannot instantinate abstract class.") return nil;
+    }
+    return self;
+}
 
 
 
@@ -72,7 +83,20 @@ OCALazyGetter(NSMutableArray *, mutableConnections) {
 
 
 
-#pragma mark Lifetime
+#pragma mark Connecting to Producer
+
+
+- (OCAConnection *)connectTo:(id<OCAConsumer>)consumer {
+    OCAConnection *connection = [[OCAConnection alloc] initWithProducer:self];
+    connection.consumer = consumer;
+    return connection;
+}
+
+
+
+
+
+#pragma mark Lifetime of Producer
 
 
 - (void)sendValue:(id)value {
@@ -103,3 +127,5 @@ OCALazyGetter(NSMutableArray *, mutableConnections) {
 
 
 @end
+
+
