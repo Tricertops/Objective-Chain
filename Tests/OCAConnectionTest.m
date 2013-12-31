@@ -10,6 +10,7 @@
 #import "OCACommand.h"
 #import "OCATimer.h"
 #import "OCASubscriber.h"
+#import "OCASemaphore.h"
 
 
 
@@ -39,40 +40,34 @@
 
 
 - (void)test_simpleConnection_objectsMustBeIdentical {
-    OCACommand *producer = [[OCACommand alloc] init];
-    OCAConnection *connection = [[OCAConnection alloc] initWithProducer:producer];
-    __block id receivedValue = @"Default";
-    OCASubscriber *consumer = [[OCASubscriber alloc] initWithValueHandler:
-                               ^(id value){
-                                   receivedValue = value;
-                               } finishHandler:nil];
-    connection.consumer = consumer;
+    id sentValue = @"Sent";
+    __block id receivedValue = @"Received";
     
-    id sentValue = @"Value";
-    [producer sendValue:sentValue];
+    OCACommand *command = [OCACommand new];
+    [command connectTo:[OCASubscriber value:^(id value) {
+        receivedValue = value;
+    }]];
+    
+    [command sendValue:sentValue];
     
     XCTAssertTrue(sentValue == receivedValue, @"Received different value.");
 }
 
 
 - (void)test_OCATimer_periodicProductionOfDatesOfLimitedCount {
-    NSUInteger designatedTickCount = 10;
-    OCATimer *timer = [[OCATimer alloc] initWithDelay:0 interval:0.1 leeway:0 count:designatedTickCount];
-    OCAConnection *connection = [[OCAConnection alloc] initWithProducer:timer];
+    OCATimer *timer = [[OCATimer alloc] initWithDelay:0 interval:0.1 leeway:0 count:10];
+    OCASemaphore *semaphore = [[OCASemaphore alloc] init];
     __block NSUInteger tickCount = 0;
-    dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
     
-    OCASubscriber *consumer = [[OCASubscriber alloc] initWithValueHandler:
-                               ^(NSDate *date){
-                                   tickCount ++;
-                               } finishHandler:^(NSError *error){
-                                   dispatch_semaphore_signal(semaphore);
-                               }];
-    connection.consumer = consumer;
+    [timer subscribeValues:^(id value) {
+        tickCount ++;
+    } finish:^(NSError *error) {
+        [semaphore signal];
+    }];
     
-    BOOL timedOut = dispatch_semaphore_wait(semaphore, dispatch_time(DISPATCH_TIME_NOW, (2 * NSEC_PER_SEC)));
-    XCTAssertFalse(timedOut, @"Timer didn't end in given time.");
-    XCTAssertEqual(tickCount, designatedTickCount, @"Timer didn't fire required number of times.");
+    BOOL signaled = [semaphore waitFor:10];
+    XCTAssertTrue(signaled, @"Timer didn't end in given time.");
+    XCTAssertEqual(tickCount, timer.count, @"Timer didn't fire required number of times.");
 }
 
 

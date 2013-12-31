@@ -31,6 +31,8 @@
 		5BD9ECFD1872D61E0069044C /* OCATimer.h in Headers */ = {isa = PBXBuildFile; fileRef = 5BD9ECFB1872D61E0069044C /* OCATimer.h */; };
 		5BD9ECFE1872D61E0069044C /* OCATimer.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BD9ECFC1872D61E0069044C /* OCATimer.m */; };
 		5BD9ECFF1872D61E0069044C /* OCATimer.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BD9ECFC1872D61E0069044C /* OCATimer.m */; };
+		5BD9ED04187300B70069044C /* OCASemaphore.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BD9ED021872FFA90069044C /* OCASemaphore.m */; };
+		5BD9ED05187300B80069044C /* OCASemaphore.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BD9ED021872FFA90069044C /* OCASemaphore.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -89,6 +91,8 @@
 		5BD9ECF61871E9E80069044C /* OCASubscriber.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCASubscriber.m; sourceTree = "<group>"; };
 		5BD9ECFB1872D61E0069044C /* OCATimer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCATimer.h; sourceTree = "<group>"; };
 		5BD9ECFC1872D61E0069044C /* OCATimer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCATimer.m; sourceTree = "<group>"; };
+		5BD9ED011872FFA90069044C /* OCASemaphore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCASemaphore.h; sourceTree = "<group>"; };
+		5BD9ED021872FFA90069044C /* OCASemaphore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCASemaphore.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -199,6 +203,7 @@
 				5B097E1D1871AE2C006240D8 /* Connection */,
 				5B097E1F1871AE2C006240D8 /* Producer */,
 				5B097E1E1871AE2C006240D8 /* Consumer */,
+				5BD9ED001872FF960069044C /* Utilities */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -239,6 +244,15 @@
 				5BD9ECFC1872D61E0069044C /* OCATimer.m */,
 			);
 			path = Timer;
+			sourceTree = "<group>";
+		};
+		5BD9ED001872FF960069044C /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				5BD9ED011872FFA90069044C /* OCASemaphore.h */,
+				5BD9ED021872FFA90069044C /* OCASemaphore.m */,
+			);
+			path = Utilities;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -389,6 +403,7 @@
 				5BD9ECE51871D82E0069044C /* OCACommand.m in Sources */,
 				5B097E581871BEA1006240D8 /* OCAConnection.m in Sources */,
 				5BD9ECF91871E9F30069044C /* OCASubscriber.m in Sources */,
+				5BD9ED05187300B80069044C /* OCASemaphore.m in Sources */,
 				5B097E591871BEA1006240D8 /* OCAProducer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -411,6 +426,7 @@
 				5BD9ECE41871D82E0069044C /* OCACommand.m in Sources */,
 				5B4F85D01871A939004695DA /* OCAObject.m in Sources */,
 				5BD9ECF81871E9F20069044C /* OCASubscriber.m in Sources */,
+				5BD9ED04187300B70069044C /* OCASemaphore.m in Sources */,
 				5B097E221871AE6D006240D8 /* OCAConnection.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

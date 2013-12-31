@@ -13,8 +13,18 @@
 
 
 
+
+
+
+
+
 @implementation OCATimer
 
+
+
+
+
+#pragma mark Creating Timer
 
 
 - (instancetype)initWithDelay:(NSTimeInterval)delay interval:(NSTimeInterval)interval leeway:(NSTimeInterval)leeway count:(NSUInteger)count {
@@ -55,4 +65,8 @@
 
 
 
+
+
 @end
+
+

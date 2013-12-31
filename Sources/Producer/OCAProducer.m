@@ -42,7 +42,7 @@
 - (instancetype)init {
     self = [super init];
     if (self) {
-        OCAAssert(self.class == [OCAProducer class], @"Cannot instantinate abstract class.") return nil;
+        OCAAssert(self.class != [OCAProducer class], @"Cannot instantinate abstract class.") return nil;
     }
     return self;
 }
