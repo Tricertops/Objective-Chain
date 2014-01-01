@@ -12,7 +12,7 @@
 
 @interface OCASemaphore ()
 
-@property (atomic, readonly, assign) dispatch_semaphore_t semaphore;
+@property (atomic, readonly, strong) dispatch_semaphore_t semaphore;
 
 @end
 
