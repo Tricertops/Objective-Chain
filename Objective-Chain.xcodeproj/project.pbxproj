@@ -38,6 +38,9 @@
 		5BD9ED0B18731B570069044C /* OCATransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BD9ED0818731B570069044C /* OCATransformer.m */; };
 		5BD9ED0D1873351C0069044C /* OCATransformerTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BD9ED0C1873351C0069044C /* OCATransformerTest.m */; };
 		5BD9ED0E1873351C0069044C /* OCATransformerTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BD9ED0C1873351C0069044C /* OCATransformerTest.m */; };
+		5BD9ED1118733A350069044C /* OCATransformer+Predefined.h in Headers */ = {isa = PBXBuildFile; fileRef = 5BD9ED0F18733A350069044C /* OCATransformer+Predefined.h */; };
+		5BD9ED1218733A350069044C /* OCATransformer+Predefined.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BD9ED1018733A350069044C /* OCATransformer+Predefined.m */; };
+		5BD9ED1318733A350069044C /* OCATransformer+Predefined.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BD9ED1018733A350069044C /* OCATransformer+Predefined.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -101,6 +104,8 @@
 		5BD9ED0718731B570069044C /* OCATransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCATransformer.h; sourceTree = "<group>"; };
 		5BD9ED0818731B570069044C /* OCATransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCATransformer.m; sourceTree = "<group>"; };
 		5BD9ED0C1873351C0069044C /* OCATransformerTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCATransformerTest.m; sourceTree = "<group>"; };
+		5BD9ED0F18733A350069044C /* OCATransformer+Predefined.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "OCATransformer+Predefined.h"; sourceTree = "<group>"; };
+		5BD9ED1018733A350069044C /* OCATransformer+Predefined.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "OCATransformer+Predefined.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -270,6 +275,8 @@
 			children = (
 				5BD9ED0718731B570069044C /* OCATransformer.h */,
 				5BD9ED0818731B570069044C /* OCATransformer.m */,
+				5BD9ED0F18733A350069044C /* OCATransformer+Predefined.h */,
+				5BD9ED1018733A350069044C /* OCATransformer+Predefined.m */,
 			);
 			path = Transformer;
 			sourceTree = "<group>";
@@ -281,6 +288,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5BD9ED1118733A350069044C /* OCATransformer+Predefined.h in Headers */,
 				5BD9ECFD1872D61E0069044C /* OCATimer.h in Headers */,
 				5BD9ED0918731B570069044C /* OCATransformer.h in Headers */,
 				5BD9ECE31871D82E0069044C /* OCACommand.h in Headers */,
@@ -423,6 +431,7 @@
 				5BD9ECFF1872D61E0069044C /* OCATimer.m in Sources */,
 				5BD9ECE51871D82E0069044C /* OCACommand.m in Sources */,
 				5B097E581871BEA1006240D8 /* OCAConnection.m in Sources */,
+				5BD9ED1318733A350069044C /* OCATransformer+Predefined.m in Sources */,
 				5BD9ECF91871E9F30069044C /* OCASubscriber.m in Sources */,
 				5BD9ED05187300B80069044C /* OCASemaphore.m in Sources */,
 				5B097E591871BEA1006240D8 /* OCAProducer.m in Sources */,
@@ -448,6 +457,7 @@
 				5BD9ECFE1872D61E0069044C /* OCATimer.m in Sources */,
 				5BD9ECE41871D82E0069044C /* OCACommand.m in Sources */,
 				5B4F85D01871A939004695DA /* OCAObject.m in Sources */,
+				5BD9ED1218733A350069044C /* OCATransformer+Predefined.m in Sources */,
 				5BD9ECF81871E9F20069044C /* OCASubscriber.m in Sources */,
 				5BD9ED04187300B70069044C /* OCASemaphore.m in Sources */,
 				5B097E221871AE6D006240D8 /* OCAConnection.m in Sources */,
