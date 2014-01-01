@@ -18,13 +18,13 @@
 
 
 
-+ (instancetype)pass {
++ (OCATransformer *)pass {
     Class class = [self subclassForInputClass:nil outputClass:nil reversible:YES name:@"OCAPassTransformer"];
     return [[class alloc] initWithBlock:nil reverseBlock:nil];
 }
 
 
-+ (instancetype)sequence:(NSArray *)transformers {
++ (OCATransformer *)sequence:(NSArray *)transformers {
     if ( ! transformers.count) return [self pass];
     transformers = [transformers copy];
     

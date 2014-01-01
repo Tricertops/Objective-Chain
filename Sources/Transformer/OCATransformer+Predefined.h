@@ -16,9 +16,9 @@
 
 
 
-+ (instancetype)pass;
++ (OCATransformer *)pass;
 
-+ (instancetype)sequence:(NSArray *)transformers;
++ (OCATransformer *)sequence:(NSArray *)transformers;
 
 
 

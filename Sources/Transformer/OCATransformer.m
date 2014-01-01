@@ -157,7 +157,7 @@ void OCATransformerSubclassOverrideMethod(Class, SEL, IMP);
 }
 
 
-- (instancetype)initWithBlock:(OCATransformerBlock)transformationBlock reverseBlock:(OCATransformerBlock)reverseTransformationBlock {
+- (OCATransformer *)initWithBlock:(OCATransformerBlock)transformationBlock reverseBlock:(OCATransformerBlock)reverseTransformationBlock {
     self = [super init];
     if (self) {
         self->_transformationBlock = transformationBlock;
@@ -167,13 +167,13 @@ void OCATransformerSubclassOverrideMethod(Class, SEL, IMP);
 }
 
 
-+ (instancetype)fromClass:(Class)inputClass toClass:(Class)outputClass transformation:(OCATransformerBlock)transformationBlock {
++ (OCATransformer *)fromClass:(Class)inputClass toClass:(Class)outputClass transformation:(OCATransformerBlock)transformationBlock {
     Class genericClass = [OCATransformer subclassForInputClass:inputClass outputClass:outputClass reversible:NO name:nil];
     return [[genericClass alloc] initWithBlock:transformationBlock reverseBlock:nil];
 }
 
 
-+ (instancetype)fromClass:(Class)inputClass toClass:(Class)outputClass transformation:(OCATransformerBlock)transformationBlock reverseTransformation:(OCATransformerBlock)reverseTransformationBlock {
++ (OCATransformer *)fromClass:(Class)inputClass toClass:(Class)outputClass transformation:(OCATransformerBlock)transformationBlock reverseTransformation:(OCATransformerBlock)reverseTransformationBlock {
     Class genericClass = [OCATransformer subclassForInputClass:inputClass outputClass:outputClass reversible:YES name:nil];
     return [[genericClass alloc] initWithBlock:transformationBlock reverseBlock:reverseTransformationBlock];
 }
