@@ -61,12 +61,13 @@
     __block NSUInteger tick = 0;
     dispatch_source_set_event_handler(timer, ^{
         tick ++;
-        
+        NSLog(@"Tick %lu", (unsigned long)tick);
         NSDate *date = [NSDate date];
         [self sendValue:date];
         
         if (tick >= self->_count) {
             dispatch_source_cancel(timer);
+            NSLog(@"Finished");
             [self finishWithError:nil];
         }
     });
