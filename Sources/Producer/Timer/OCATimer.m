@@ -41,8 +41,10 @@
         
         __block NSUInteger tick = 0;
         
-        dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+        NSString *label = [NSString stringWithFormat:@"com.iMartin.ObjectiveChain.OCATimer.%p", self];
+        dispatch_queue_t queue = dispatch_queue_create(label.UTF8String, DISPATCH_QUEUE_SERIAL);
         dispatch_source_t timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, queue);
+        
         dispatch_time_t startTime = dispatch_time(DISPATCH_TIME_NOW, delay * NSEC_PER_SEC);
         dispatch_source_set_timer(timer, startTime, interval * NSEC_PER_SEC, leeway * NSEC_PER_SEC);
         
