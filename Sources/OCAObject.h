@@ -41,6 +41,18 @@
 #endif
 
 
+#define OCAValidateClass(VARIABLE, CLASS) \
+(BOOL)({ \
+    Class class = (CLASS); \
+    BOOL isKindOfClass = ( ! class || [VARIABLE isKindOfClass:class]); \
+    OCAAssert(isKindOfClass, @"Expected %@ class of '" # VARIABLE "', but got %@.", class, [VARIABLE class]) { \
+        VARIABLE = nil; \
+    } \
+    isKindOfClass; \
+}) \
+
+
+
 
 
 @interface OCAObject : NSObject

@@ -57,14 +57,32 @@
 
 
 - (id)transformedValue:(id)value {
-    if (self->_transformationBlock) return self->_transformationBlock(value);
-    else return [super transformedValue:value];
+    BOOL validInput = OCAValidateClass(value, [self.class valueClass]);
+    if ( ! validInput) return nil;
+    
+    id transformedValue = (validInput && self->_transformationBlock
+                           ? self->_transformationBlock(value)
+                           : [super transformedValue:value]);
+    
+    BOOL validOutput = OCAValidateClass(transformedValue, [self.class transformedValueClass]);
+    if ( ! validOutput) return nil;
+    
+    return transformedValue;
 }
 
 
 - (id)reverseTransformedValue:(id)value {
-    if (self->_reverseTransformationBlock) return self->_reverseTransformationBlock(value);
-    else return [super reverseTransformedValue:value];
+    BOOL validInput = OCAValidateClass(value, [self.class transformedValueClass]);
+    if ( ! validInput) return nil;
+    
+    id transformedValue = (self->_reverseTransformationBlock
+                           ? self->_reverseTransformationBlock(value)
+                           : [super reverseTransformedValue:value]);
+    
+    BOOL validOutput = OCAValidateClass(transformedValue, [self.class valueClass]);
+    if ( ! validOutput) return nil;
+    
+    return transformedValue;
 }
 
 

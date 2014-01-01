@@ -78,6 +78,19 @@
 }
 
 
+- (void)test_classValidation {
+    OCATransformer *t = [OCATransformer fromClass:[NSNumber class] toClass:[NSString class] transformation:^NSString *(NSNumber *input) {
+        XCTFail(@"If we pass wrong input class, this block should never be inkoved.");
+        return input.description;
+    } reverseTransformation:^NSNumber *(NSString *input) {
+        XCTFail(@"If we pass wrong input class, this block should never be inkoved.");
+        return @(input.doubleValue);
+    }];
+    XCTAssertNil([t transformedValue:@"test"], @"Object of wrong class passed transformation.");
+    XCTAssertNil([t reverseTransformedValue:@42], @"Object of wrong class passed reverse transformation.");
+}
+
+
 
 
 - (void)test_predefined_pass {
