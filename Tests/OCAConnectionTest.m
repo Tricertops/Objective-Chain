@@ -60,7 +60,9 @@
     __block NSUInteger tickCount = 0;
     
     [timer subscribeValues:^(id value) {
+        NSLog(@"Start");
         tickCount ++;
+        NSLog(@"End %lu", (unsigned long)tickCount);
     } finish:^(NSError *error) {
         [semaphore signal];
     }];

@@ -16,13 +16,9 @@
 
 
 
-+ (instancetype)indentity {
-    return [self subclassTransformerWithName:@"OCAIdentityTransformer"
-                                  inputClass:nil
-                                 outputClass:nil
-                              transformation:nil
-                                  reversible:YES
-                       reverseTransformation:nil];
++ (instancetype)pass {
+    Class class = [self subclassForInputClass:nil outputClass:nil reversible:YES name:@"OCAPassTransformer"];
+    return [[class alloc] initWithBlock:nil reverseBlock:nil];
 }
 
 

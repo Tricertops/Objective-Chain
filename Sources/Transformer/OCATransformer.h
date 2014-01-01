@@ -32,21 +32,11 @@ typedef id (^OCATransformerBlock)(id input);
 
 #pragma mark Customizing Using Blocks
 
-+ (instancetype)subclassTransformerWithName:(NSString *)name
-                                 inputClass:(Class)inputClass
-                                outputClass:(Class)outputClass
-                             transformation:(OCATransformerBlock)transformation
-                                 reversible:(BOOL)allowsReversedTransformtion
-                      reverseTransformation:(OCATransformerBlock)reverseTransformation;
++ (Class)subclassForInputClass:(Class)inputClass outputClass:(Class)outputClass reversible:(BOOL)isReversible name:(NSString *)subclassName;
+- (instancetype)initWithBlock:(OCATransformerBlock)transformationBlock reverseBlock:(OCATransformerBlock)reverseTransformationBlock;
 
-+ (instancetype)fromClass:(Class)inputClass
-                  toClass:(Class)outputClass
-           transformation:(OCATransformerBlock)transformation;
-
-+ (instancetype)fromClass:(Class)inputClass
-                  toClass:(Class)outputClass
-           transformation:(OCATransformerBlock)transformation
-    reverseTransformation:(OCATransformerBlock)reverseTransformation;
++ (instancetype)fromClass:(Class)inputClass toClass:(Class)outputClass transformation:(OCATransformerBlock)transformationBlock;
++ (instancetype)fromClass:(Class)inputClass toClass:(Class)outputClass transformation:(OCATransformerBlock)transformationBlock reverseTransformation:(OCATransformerBlock)reverseTransformationBlock;
 
 
 

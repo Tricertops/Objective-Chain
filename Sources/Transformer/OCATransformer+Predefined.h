@@ -16,7 +16,7 @@
 
 
 
-+ (instancetype)indentity;
++ (instancetype)pass;
 
 
 

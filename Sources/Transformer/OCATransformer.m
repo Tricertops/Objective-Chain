@@ -74,81 +74,95 @@
 #pragma mark Customizing Using Blocks
 
 
-+ (Class)transformerClassWithName:(NSString *)className inputClass:(Class)inputClass outputClass:(Class)outputClass isReverse:(BOOL)isReverse {
-    OCAAssert(className.length >= 0, @"Missing class name.") return nil;
++ (Class)subclassForInputClass:(Class)inputClass outputClass:(Class)outputClass reversible:(BOOL)isReversible name:(NSString *)subclassName {
+    // OCAAnythingToAnythingReversibleTransformer
+    NSString *genericClassName = [NSString stringWithFormat:@"OCA%@To%@%@Transformer",
+                                  inputClass ?: @"Anything",
+                                  outputClass ?: @"Anything",
+                                  (isReversible? @"Reversible" : @"")];
     
-    Class subclass = NSClassFromString(className);
+    Class genericClass = [OCATransformer subclassWithName:genericClassName
+                                            customization:^(Class subclass) {
+                                                [subclass setValueClass:inputClass];
+                                                [subclass setTransformedValueClass:outputClass];
+                                                [subclass setAllowsReverseTransformation:isReversible];
+                                            }];
+    if (subclassName) {
+        return [genericClass subclassWithName:subclassName customization:nil];
+    }
+    else {
+        return genericClass;
+    }
+}
+
+
++ (Class)subclassWithName:(NSString *)name customization:(void(^)(Class subclass))block {
+    if ( ! name.length) return nil;
+    
+    Class subclass = NSClassFromString(name);
     if ( ! subclass) {
-        subclass = objc_allocateClassPair(self, className.UTF8String, 0);
+        subclass = objc_allocateClassPair(self, name.UTF8String, 0);
         
-        [self inSubclass:subclass overrideSelector:@selector(valueClass) withImplementation:
-         imp_implementationWithBlock(^Class(id self){
-            return inputClass;
-        })];
-        [self inSubclass:subclass overrideSelector:@selector(transformedValueClass) withImplementation:
-         imp_implementationWithBlock(^Class(id self){
-            return outputClass;
-        })];
-        [self inSubclass:subclass overrideSelector:@selector(allowsReverseTransformation) withImplementation:
-         imp_implementationWithBlock(^BOOL(id self){
-            return isReverse;
-        })];
+        if (block) block(subclass);
         
         objc_registerClassPair(subclass);
     }
     else {
-        OCAAssert([subclass isSubclassOfClass:self], @"Found existing class '%@', but it's not subclassed from '%@'!", subclass, self) return nil;
-        
-        OCAAssert([subclass valueClass] == inputClass, @"Found existing transformer class %@, but class of input value doesn't match. Requested %@ and got %@.", subclass, inputClass, [subclass valueClass]);
-        OCAAssert([subclass transformedValueClass] == outputClass, @"Found existing transformer class %@, but class of output value doesn't match. Requested %@ and got %@.", subclass, outputClass, [subclass transformedValueClass]);
-        OCAAssert([subclass allowsReverseTransformation] == isReverse, @"Found existing transformer class %@, but %@ reversible.", subclass, (isReverse? @"it's not" : @"it's" ));
+        OCAAssert([subclass isSubclassOfClass:self], @"Found existing class %@, but it's not subclassed from %@!", subclass, self) return nil;
     }
-    
-    return subclass ?: self;
+    return subclass;
 }
 
 
-+ (void)inSubclass:(Class)subclass overrideSelector:(SEL)selector withImplementation:(IMP)implementation {
-    Method method = class_getClassMethod(subclass, selector);
++ (void)overrideSelector:(SEL)selector withImplementation:(IMP)implementation {
+    Method method = class_getClassMethod(self, selector);
     method_setImplementation(method, implementation);
 }
 
 
-+ (instancetype)fromClass:(Class)inputClass toClass:(Class)outputClass transformation:(OCATransformerBlock)transformation {
-    return [self fromClass:inputClass toClass:outputClass transformation:transformation reverseTransformation:nil];
++ (void)setValueClass:(Class)valueClass {
+    Class (^implementationBlock)(id) = ^Class(id self){
+        return valueClass;
+    };
+    [self overrideSelector:@selector(valueClass) withImplementation:imp_implementationWithBlock(implementationBlock)];
+}
+
+
++ (void)setTransformedValueClass:(Class)transformedValueClass {
+    Class (^implementationBlock)(id) = ^Class(id self){
+        return transformedValueClass;
+    };
+    [self overrideSelector:@selector(transformedValueClass) withImplementation:imp_implementationWithBlock(implementationBlock)];
+}
+
+
++ (void)setAllowsReverseTransformation:(BOOL)allowsReverseTransformation {
+    BOOL (^implementationBlock)(id) = ^BOOL(id self){
+        return allowsReverseTransformation;
+    };
+    [self overrideSelector:@selector(allowsReverseTransformation) withImplementation:imp_implementationWithBlock(implementationBlock)];
+}
+
+
+- (instancetype)initWithBlock:(OCATransformerBlock)transformationBlock reverseBlock:(OCATransformerBlock)reverseTransformationBlock {
+    self = [super init];
+    if (self) {
+        self->_transformationBlock = transformationBlock;
+        self->_reverseTransformationBlock = reverseTransformationBlock;
+    }
+    return self;
+}
+
+
++ (instancetype)fromClass:(Class)inputClass toClass:(Class)outputClass transformation:(OCATransformerBlock)transformationBlock {
+    return [self fromClass:inputClass toClass:outputClass transformation:transformationBlock reverseTransformation:nil];
 }
 
 
 + (instancetype)fromClass:(Class)inputClass toClass:(Class)outputClass transformation:(OCATransformerBlock)transformationBlock reverseTransformation:(OCATransformerBlock)reverseTransformationBlock {
-    
-    BOOL hasReversingBlock = (reverseTransformationBlock != nil);
-    BOOL preservesClass = (inputClass == outputClass);
-    BOOL isReversible = (hasReversingBlock || preservesClass);
-    
-    NSString *transformerClassName = [NSString stringWithFormat:@"OCA%@To%@%@Transformer", inputClass ?: @"Any", outputClass ?: @"Any", (isReversible? @"Reversible" : @"")];
-    
-    return [self subclassTransformerWithName:transformerClassName
-                                  inputClass:inputClass
-                                 outputClass:outputClass
-                              transformation:transformationBlock
-                                  reversible:isReversible
-                       reverseTransformation:reverseTransformationBlock];
-}
-
-
-+ (instancetype)subclassTransformerWithName:(NSString *)name
-                                 inputClass:(Class)inputClass
-                                outputClass:(Class)outputClass
-                             transformation:(OCATransformerBlock)transformationBlock
-                                 reversible:(BOOL)allowsReversedTransformtion
-                      reverseTransformation:(OCATransformerBlock)reverseTransformationBlock {
-    
-    Class class = [self transformerClassWithName:name inputClass:inputClass outputClass:outputClass isReverse:allowsReversedTransformtion];
-    
-    OCATransformer *transformer = [[class alloc] init];
-    transformer->_transformationBlock = transformationBlock;
-    transformer->_reverseTransformationBlock = reverseTransformationBlock;
-    return transformer;
+    BOOL isReversible = (reverseTransformationBlock != nil);
+    Class genericClass = [OCATransformer subclassForInputClass:inputClass outputClass:outputClass reversible:isReversible name:nil];
+    return [[genericClass alloc] initWithBlock:transformationBlock reverseBlock:reverseTransformationBlock];
 }
 
 

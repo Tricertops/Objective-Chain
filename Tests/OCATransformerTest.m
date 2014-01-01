@@ -7,6 +7,7 @@
 //
 
 #import "OCATransformer.h"
+#import "OCATransformer+Predefined.h"
 
 
 
@@ -74,6 +75,15 @@
     NSString *reversedOutput = [uppercaseTransformer reverseTransformedValue:output];
     XCTAssertEqualObjects(@"HELLO WORLD!", output, @"Transformer failed to transform value.");
     XCTAssertEqualObjects(@"hello world!", reversedOutput, @"Transformer failed to reverse transform value.");
+}
+
+
+
+
+- (void)test_predefined_pass {
+    OCATransformer *t = [OCATransformer pass];
+    id s = @"Hello!";
+    XCTAssertTrue([t transformedValue:s] == s, @"Object should pass through without modifications");
 }
 
 
