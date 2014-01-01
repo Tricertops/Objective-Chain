@@ -40,6 +40,12 @@ typedef id (^OCATransformerBlock)(id input);
 
 
 
+#pragma mark Deriving Transformers
+
+- (OCATransformer *)reversed;
+
+
+
 #pragma mark Customizing Using Blocks
 
 + (Class)subclassForInputClass:(Class)inputClass outputClass:(Class)outputClass reversible:(BOOL)isReversible name:(NSString *)subclassName;

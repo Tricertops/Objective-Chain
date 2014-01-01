@@ -120,6 +120,28 @@
 }
 
 
+- (void)test_predefinedSequence_reversingWorks {
+    OCATransformer *appendExclamation = [OCATransformer fromClass:[NSString class] toClass:[NSString class]
+                                                   transformation:^NSString *(NSString *input) {
+                                                       return [input stringByAppendingString:@"!"];
+                                                   } reverseTransformation:nil];
+    OCATransformer *toWords = [OCATransformer fromClass:[NSString class] toClass:[NSArray class]
+                                             transformation:^NSArray *(NSString *input) {
+                                                 return [input componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+                                             } reverseTransformation:^NSString *(NSArray *input) {
+                                                 return [input componentsJoinedByString:@" "];
+                                             }];
+    OCATransformer *reverseArray = [OCATransformer fromClass:[NSArray class] toClass:[NSArray class]
+                                                     transformation:^NSArray *(NSArray *input) {
+                                                         return input.reverseObjectEnumerator.allObjects;
+                                                     }];
+    OCATransformer *t = [OCATransformer sequence:@[ appendExclamation, toWords, reverseArray, [toWords reversed] ]];
+    
+    XCTAssertEqualObjects([t transformedValue:@"One two three four"], @"four! three two One", @"");
+    XCTAssertEqualObjects([t reverseTransformedValue:@"One two three four"], @"four three two One!", @"");
+}
+
+
 
 
 

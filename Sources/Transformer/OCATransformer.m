@@ -80,17 +80,36 @@ void OCATransformerSubclassOverrideMethod(Class, SEL, IMP);
 
 
 - (id)reverseTransformedValue:(id)value {
-    BOOL validInput = OCAValidateClass(value, [self.class transformedValueClass]);
-    if ( ! validInput) return nil;
+    if (self->_reverseTransformationBlock) {
+        BOOL validInput = OCAValidateClass(value, [self.class transformedValueClass]);
+        if ( ! validInput) return nil;
+        
+        id transformedValue = self->_reverseTransformationBlock(value);
+        
+        BOOL validOutput = OCAValidateClass(transformedValue, [self.class valueClass]);
+        if ( ! validOutput) return nil;
+        
+        return transformedValue;
+    }
+    else {
+        return [self transformedValue:value];
+    }
+}
+
+
+
+
+
+#pragma mark Deriving Transformers
+
+
+- (OCATransformer *)reversed {
+    if ( ! [self.class allowsReverseTransformation]) return self;
     
-    id transformedValue = (self->_reverseTransformationBlock
-                           ? self->_reverseTransformationBlock(value)
-                           : [super reverseTransformedValue:value]);
-    
-    BOOL validOutput = OCAValidateClass(transformedValue, [self.class valueClass]);
-    if ( ! validOutput) return nil;
-    
-    return transformedValue;
+    return [OCATransformer fromClass:[self.class transformedValueClass]
+                             toClass:[self.class valueClass]
+                      transformation:self.reverseTransformationBlock
+               reverseTransformation:self.transformationBlock];
 }
 
 
@@ -149,13 +168,13 @@ void OCATransformerSubclassOverrideMethod(Class, SEL, IMP);
 
 
 + (instancetype)fromClass:(Class)inputClass toClass:(Class)outputClass transformation:(OCATransformerBlock)transformationBlock {
-    return [self fromClass:inputClass toClass:outputClass transformation:transformationBlock reverseTransformation:nil];
+    Class genericClass = [OCATransformer subclassForInputClass:inputClass outputClass:outputClass reversible:NO name:nil];
+    return [[genericClass alloc] initWithBlock:transformationBlock reverseBlock:nil];
 }
 
 
 + (instancetype)fromClass:(Class)inputClass toClass:(Class)outputClass transformation:(OCATransformerBlock)transformationBlock reverseTransformation:(OCATransformerBlock)reverseTransformationBlock {
-    BOOL isReversible = (reverseTransformationBlock != nil);
-    Class genericClass = [OCATransformer subclassForInputClass:inputClass outputClass:outputClass reversible:isReversible name:nil];
+    Class genericClass = [OCATransformer subclassForInputClass:inputClass outputClass:outputClass reversible:YES name:nil];
     return [[genericClass alloc] initWithBlock:transformationBlock reverseBlock:reverseTransformationBlock];
 }
 
