@@ -15,6 +15,16 @@ typedef id (^OCATransformerBlock)(id input);
 
 
 
+@interface NSValueTransformer (valueClass)
+
++ (Class)valueClass;
+
+@end
+
+
+
+
+
 @interface OCATransformer : NSValueTransformer
 
 

@@ -93,10 +93,30 @@
 
 
 
-- (void)test_predefined_pass {
+- (void)test_predefinedPass_mustReturnWhatItReceives {
     OCATransformer *t = [OCATransformer pass];
     id s = @"Hello!";
     XCTAssertTrue([t transformedValue:s] == s, @"Object should pass through without modifications");
+}
+
+
+- (void)test_predefinedSequence_gatherConfigurationBasedOnSubTransformers {
+    NSValueTransformer *toWords = [OCATransformer fromClass:[NSString class] toClass:[NSArray class]
+                                             transformation:^NSArray *(NSString *input) {
+                                                 return [input componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+                                             }];
+    NSValueTransformer *countCollection = [OCATransformer fromClass:nil toClass:[NSNumber class]
+                                             transformation:^NSNumber *(id input) {
+                                                 if ([input respondsToSelector:@selector(count)]) return @([input count]);
+                                                 else return @0;
+                                             }];
+    NSValueTransformer *countWords = [OCATransformer sequence:@[ toWords, countCollection ]];
+    
+    XCTAssertEqualObjects([countWords.class valueClass], [NSString class], @"Sequence has mismatched input class.");
+    XCTAssertEqualObjects([countWords.class transformedValueClass], [NSNumber class], @"Sequence has mismatched output class.");
+    XCTAssertFalse([countWords.class allowsReverseTransformation], @"Sequence wrongly declares reversibility..");
+    
+    XCTAssertEqualObjects([countWords transformedValue:@"One two three"], @3, @"Returned unexpected value.");
 }
 
 

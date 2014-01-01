@@ -18,6 +18,8 @@
 
 + (instancetype)pass;
 
++ (instancetype)sequence:(NSArray *)transformers;
+
 
 
 @end
