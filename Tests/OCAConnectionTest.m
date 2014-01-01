@@ -55,7 +55,7 @@
 
 
 - (void)test_OCATimer_periodicProductionOfDatesOfLimitedCount {
-    OCATimer *timer = [[OCATimer alloc] initWithDelay:0 interval:0.1 leeway:0 count:10];
+    OCATimer *timer = [[OCATimer alloc] initWithDelay:0 interval:0.01 leeway:0 count:10];
     OCASemaphore *semaphore = [[OCASemaphore alloc] init];
     __block NSUInteger tickCount = 0;
     

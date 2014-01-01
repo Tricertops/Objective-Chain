@@ -39,30 +39,39 @@
         self->_count = count ?: NSUIntegerMax;
         self->_leeway = leeway;
         
-        __block NSUInteger tick = 0;
-        
-        NSString *label = [NSString stringWithFormat:@"com.iMartin.ObjectiveChain.OCATimer.%p", self];
-        dispatch_queue_t queue = dispatch_queue_create(label.UTF8String, DISPATCH_QUEUE_SERIAL);
-        dispatch_source_t timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, queue);
-        
-        dispatch_time_t startTime = dispatch_time(DISPATCH_TIME_NOW, delay * NSEC_PER_SEC);
-        dispatch_source_set_timer(timer, startTime, interval * NSEC_PER_SEC, leeway * NSEC_PER_SEC);
-        
-        dispatch_source_set_event_handler(timer, ^{
-            tick ++;
-            
-            NSDate *date = [NSDate date];
-            [self sendValue:date];
-            
-            if (tick >= count) {
-                dispatch_source_cancel(timer);
-                [self finishWithError:nil];
-            }
-        });
-        
-        dispatch_resume(timer);
+        [self start];
     }
     return self;
+}
+
+
+- (void)start {
+    
+    NSString *label = [NSString stringWithFormat:@"com.iMartin.ObjectiveChain.OCATimer.%p", self];
+    dispatch_queue_t queue = dispatch_queue_create(label.UTF8String, DISPATCH_QUEUE_SERIAL);
+    
+    // Targetting Global Queue, to make sure it is not targetted to Main Queue. This might cause Testing issues.
+    dispatch_queue_t target = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+    dispatch_set_target_queue(queue, target);
+    
+    dispatch_source_t timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, queue);
+    dispatch_time_t startTime = dispatch_time(DISPATCH_TIME_NOW, self->_delay * NSEC_PER_SEC);
+    dispatch_source_set_timer(timer, startTime, self->_interval * NSEC_PER_SEC, self->_leeway * NSEC_PER_SEC);
+    
+    __block NSUInteger tick = 0;
+    dispatch_source_set_event_handler(timer, ^{
+        tick ++;
+        
+        NSDate *date = [NSDate date];
+        [self sendValue:date];
+        
+        if (tick >= self->_count) {
+            dispatch_source_cancel(timer);
+            [self finishWithError:nil];
+        }
+    });
+    
+    dispatch_resume(timer);
 }
 
 
