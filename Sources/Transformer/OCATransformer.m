@@ -25,14 +25,6 @@
 
 
 
-// These functions were once class methods, but they were mistakenly modifying different subclasses, because of the receiver was not yet registered with the runtime.
-void OCATransformerSubclassSetValueClass(Class subclass, Class valueClass);
-void OCATransformerSubclassSetTransformedValueClass(Class subclass, Class transformedValueClass);
-void OCATransformerSubclassSetAllowsReverseTransformation(Class subclass, BOOL allowsReverseTransformation);
-void OCATransformerSubclassOverrideMethod(Class, SEL, IMP);
-
-
-
 
 
 
@@ -128,9 +120,9 @@ void OCATransformerSubclassOverrideMethod(Class, SEL, IMP);
     
     Class genericClass = [OCATransformer subclassWithName:genericClassName
                                             customization:^(Class subclass) {
-                                                OCATransformerSubclassSetValueClass(subclass, inputClass);
-                                                OCATransformerSubclassSetTransformedValueClass(subclass, outputClass);
-                                                OCATransformerSubclassSetAllowsReverseTransformation(subclass, isReversible);
+                                                [subclass setValueClass:inputClass];
+                                                [subclass setTransformedValueClass:outputClass];
+                                                [subclass setAllowsReverseTransformation:isReversible];
                                             }];
     if (subclassName) {
         return [genericClass subclassWithName:subclassName customization:nil];
@@ -154,6 +146,37 @@ void OCATransformerSubclassOverrideMethod(Class, SEL, IMP);
         OCAAssert([subclass isSubclassOfClass:self], @"Found existing class %@, but it's not subclassed from %@!", subclass, self) return nil;
     }
     return subclass;
+}
+
+
++ (void)overrideSelector:(SEL)selector withImplementation:(IMP)implementation {
+    Method superMethod = class_getClassMethod(self, selector);
+    Class metaClass = (class_isMetaClass(self)? self : object_getClass(self));
+    class_addMethod(metaClass, selector, implementation, method_getTypeEncoding(superMethod));
+}
+
+
++ (void)setValueClass:(Class)valueClass {
+    Class (^implementationBlock)(id) = ^Class(id self){
+        return valueClass;
+    };
+    [self overrideSelector:@selector(valueClass) withImplementation:imp_implementationWithBlock(implementationBlock)];
+}
+
+
++ (void)setTransformedValueClass:(Class)transformedValueClass {
+    Class (^implementationBlock)(id) = ^Class(id self){
+        return transformedValueClass;
+    };
+    [self overrideSelector:@selector(transformedValueClass) withImplementation:imp_implementationWithBlock(implementationBlock)];
+}
+
+
++ (void)setAllowsReverseTransformation:(BOOL)allowsReverseTransformation {
+    BOOL (^implementationBlock)(id) = ^BOOL(id self){
+        return allowsReverseTransformation;
+    };
+    [self overrideSelector:@selector(allowsReverseTransformation) withImplementation:imp_implementationWithBlock(implementationBlock)];
 }
 
 
@@ -202,45 +225,6 @@ void OCATransformerSubclassOverrideMethod(Class, SEL, IMP);
 
 
 @end
-
-
-
-
-
-
-
-
-
-
-void OCATransformerSubclassSetValueClass(Class subclass, Class valueClass) {
-    Class (^implementationBlock)(id) = ^Class(id self){
-        return valueClass;
-    };
-    OCATransformerSubclassOverrideMethod(subclass, @selector(valueClass), imp_implementationWithBlock(implementationBlock));
-}
-
-
-void OCATransformerSubclassSetTransformedValueClass(Class subclass, Class transformedValueClass) {
-    Class (^implementationBlock)(id) = ^Class(id self){
-        return transformedValueClass;
-    };
-    OCATransformerSubclassOverrideMethod(subclass, @selector(transformedValueClass), imp_implementationWithBlock(implementationBlock));
-}
-
-
-void OCATransformerSubclassSetAllowsReverseTransformation(Class subclass, BOOL allowsReverseTransformation) {
-    BOOL (^implementationBlock)(id) = ^BOOL(id self){
-        return allowsReverseTransformation;
-    };
-    OCATransformerSubclassOverrideMethod(subclass, @selector(allowsReverseTransformation), imp_implementationWithBlock(implementationBlock));
-}
-
-
-void OCATransformerSubclassOverrideMethod(Class class, SEL selector, IMP implementation) {
-    Method superMethod = class_getClassMethod(class, selector);
-    Class metaClass = (class_isMetaClass(class)? class : object_getClass(class));
-    class_addMethod(metaClass, selector, implementation, method_getTypeEncoding(superMethod));
-}
 
 
 
