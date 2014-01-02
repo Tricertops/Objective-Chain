@@ -29,14 +29,26 @@ typedef id (^OCATransformerBlock)(id input);
 
 
 
-#pragma mark Methods To Override In Subclass
+#pragma mark Class Info
 
 + (Class)valueClass;
 + (Class)transformedValueClass;
 + (BOOL)allowsReverseTransformation;
 
+
+
+#pragma mark Transformation
+
 - (id)transformedValue:(id)value;
 - (id)reverseTransformedValue:(id)value;
+
+
+
+#pragma mark Describing
+
+- (NSString *)description;
+- (instancetype)describe:(NSString *)description;
+- (instancetype)describe:(NSString *)description reverse:(NSString *)reverseDescription;
 
 
 

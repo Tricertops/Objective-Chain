@@ -20,6 +20,9 @@
 @property (OCA_atomic, readonly, copy) OCATransformerBlock transformationBlock;
 @property (OCA_atomic, readonly, copy) OCATransformerBlock reverseTransformationBlock;
 
+@property (OCA_atomic, readwrite, copy) NSString *description;
+@property (OCA_atomic, readwrite, copy) NSString *reverseDescription;
+
 
 @end
 
@@ -38,7 +41,7 @@
 
 
 
-#pragma mark Default Values
+#pragma mark Class Info
 
 
 + (Class)valueClass {
@@ -54,6 +57,11 @@
 + (BOOL)allowsReverseTransformation {
     return NO;
 }
+
+
+
+
+#pragma mark Transformation
 
 
 - (id)transformedValue:(id)value {
@@ -92,16 +100,43 @@
 
 
 
+#pragma mark Description
+
+
+- (instancetype)describe:(NSString *)description {
+    self.description = description;
+    self.reverseDescription = description;
+    return self;
+}
+
+
+- (instancetype)describe:(NSString *)description reverse:(NSString *)reverseDescription {
+    self.description = description;
+    self.reverseDescription = reverseDescription;
+    return self;
+}
+
+
+- (NSString *)debugDescription {
+    return [NSString stringWithFormat:@"<%@ %p; %@>", self.class, self, self.description];
+}
+
+
+
+
+
 #pragma mark Deriving Transformers
 
 
 - (OCATransformer *)reversed {
     if ( ! [self.class allowsReverseTransformation]) return self;
     
-    return [OCATransformer fromClass:[self.class transformedValueClass]
+    return [[OCATransformer fromClass:[self.class transformedValueClass]
                              toClass:[self.class valueClass]
                       transformation:self.reverseTransformationBlock
-               reverseTransformation:self.transformationBlock];
+               reverseTransformation:self.transformationBlock]
+            describe:self.reverseDescription
+            reverse:self.description];
 }
 
 
