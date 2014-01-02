@@ -24,6 +24,8 @@
 		5BA8A6411875B1740012BA5D /* OCAMath.h in Headers */ = {isa = PBXBuildFile; fileRef = 5BA8A63F1875B1740012BA5D /* OCAMath.h */; };
 		5BA8A6421875B1740012BA5D /* OCAMath.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BA8A6401875B1740012BA5D /* OCAMath.m */; };
 		5BA8A6431875B1740012BA5D /* OCAMath.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BA8A6401875B1740012BA5D /* OCAMath.m */; };
+		5BA8A6451875BD950012BA5D /* OCAMathTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BA8A6441875BD950012BA5D /* OCAMathTest.m */; };
+		5BA8A6461875BD950012BA5D /* OCAMathTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BA8A6441875BD950012BA5D /* OCAMathTest.m */; };
 		5BD9ECE31871D82E0069044C /* OCACommand.h in Headers */ = {isa = PBXBuildFile; fileRef = 5BD9ECE11871D82E0069044C /* OCACommand.h */; };
 		5BD9ECE41871D82E0069044C /* OCACommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BD9ECE21871D82E0069044C /* OCACommand.m */; };
 		5BD9ECE51871D82E0069044C /* OCACommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BD9ECE21871D82E0069044C /* OCACommand.m */; };
@@ -96,6 +98,7 @@
 		5B4F85CF1871A939004695DA /* OCAObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCAObject.m; sourceTree = "<group>"; };
 		5BA8A63F1875B1740012BA5D /* OCAMath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCAMath.h; sourceTree = "<group>"; };
 		5BA8A6401875B1740012BA5D /* OCAMath.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCAMath.m; sourceTree = "<group>"; };
+		5BA8A6441875BD950012BA5D /* OCAMathTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCAMathTest.m; sourceTree = "<group>"; };
 		5BD9ECE11871D82E0069044C /* OCACommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCACommand.h; sourceTree = "<group>"; };
 		5BD9ECE21871D82E0069044C /* OCACommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCACommand.m; sourceTree = "<group>"; };
 		5BD9ECEB1871DFC70069044C /* OCAConsumer+Protocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "OCAConsumer+Protocol.h"; sourceTree = "<group>"; };
@@ -235,6 +238,7 @@
 				5B097E5B1871BED0006240D8 /* OCAObjectTest.m */,
 				5BD9ECEC1871E1370069044C /* OCAConnectionTest.m */,
 				5BD9ED0C1873351C0069044C /* OCATransformerTest.m */,
+				5BA8A6441875BD950012BA5D /* OCAMathTest.m */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -454,6 +458,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5BD9ED0E1873351C0069044C /* OCATransformerTest.m in Sources */,
+				5BA8A6461875BD950012BA5D /* OCAMathTest.m in Sources */,
 				5B097E601871BED0006240D8 /* OCAObjectTest.m in Sources */,
 				5BD9ECEE1871E1370069044C /* OCAConnectionTest.m in Sources */,
 			);
@@ -481,6 +486,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5BD9ED0D1873351C0069044C /* OCATransformerTest.m in Sources */,
+				5BA8A6451875BD950012BA5D /* OCAMathTest.m in Sources */,
 				5B097E5F1871BED0006240D8 /* OCAObjectTest.m in Sources */,
 				5BD9ECED1871E1370069044C /* OCAConnectionTest.m in Sources */,
 			);
