@@ -149,18 +149,40 @@
 
 
 + (OCATransformer *)map:(NSDictionary *)dictionary {
-    return [[OCATransformer fromClass:nil toClass:nil transform:^id(id input) {
+    // Using classForKeyedArchiver, because __NSCFString is not very friendly class.
+    Class inputClass = [OCATransformer valueClassForClasses:[dictionary.allKeys valueForKey:@"classForKeyedArchiver"]];
+    Class outputClass = [OCATransformer valueClassForClasses:[dictionary.allValues valueForKey:@"classForKeyedArchiver"]];
+    
+    return [[OCATransformer fromClass:inputClass toClass:outputClass transform:^id(id input) {
         return [dictionary objectForKey:input];
-    } reverse:OCATransformationPass]
-            describe:[NSString stringWithFormat:@"map %@ pairs", @(dictionary.count)]];
+    } reverse:^id(id input){
+        return [[dictionary allKeysForObject:input] firstObject];
+    }]
+            describe:[NSString stringWithFormat:@"map %@ pairs from %@ to %@", @(dictionary.count), inputClass ?: @"various", outputClass ?: @"various"]
+            reverse:[NSString stringWithFormat:@"map %@ pairs from %@ to %@", @(dictionary.count), outputClass ?: @"various", inputClass ?: @"various"]];
 }
 
 
 + (OCATransformer *)mapFromTable:(NSMapTable *)mapTable {
-    return [[OCATransformer fromClass:nil toClass:nil transform:^id(id input) {
+    // Using classForKeyedArchiver, because __NSCFString is not very friendly class.
+    Class inputClass = [OCATransformer valueClassForClasses:[mapTable.keyEnumerator.allObjects valueForKey:@"classForKeyedArchiver"]];
+    Class outputClass = [OCATransformer valueClassForClasses:[mapTable.objectEnumerator.allObjects valueForKey:@"classForKeyedArchiver"]];
+    
+    return [[OCATransformer fromClass:inputClass toClass:outputClass transform:^id(id input) {
         return [mapTable objectForKey:input];
-    } reverse:OCATransformationPass]
-            describe:[NSString stringWithFormat:@"map %@ pairs", @(mapTable.count)]];
+    } reverse:^id(id input){
+        if ( ! input) return nil;
+        
+        for (id key in mapTable) {
+            id value = [mapTable objectForKey:key];
+            if ([value isEqualTo:input]) {
+                return key;
+            }
+        }
+        return nil;
+    }]
+            describe:[NSString stringWithFormat:@"map %@ pairs from %@ to %@", @(mapTable.count), inputClass ?: @"various", outputClass ?: @"various"]
+            reverse:[NSString stringWithFormat:@"map %@ pairs from %@ to %@", @(mapTable.count), outputClass ?: @"various", inputClass ?: @"various"]];
 }
 
 

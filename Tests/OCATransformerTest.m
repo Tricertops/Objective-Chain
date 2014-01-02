@@ -180,6 +180,98 @@
 }
 
 
+- (void)test_predefinedCopy_returnCopyIfCopiable {
+    OCATransformer *t = [OCATransformer copy];
+    NSMutableString *s = [@"test" mutableCopy];
+    XCTAssertEqualObjects([t transformedValue:s], s);
+    XCTAssertFalse([t transformedValue:s] == s, @"Returned the same, didn't copy.");
+    XCTAssertTrue([t transformedValue:self] == self, @"Non-copiable objects should just pass.");
+}
+
+
+- (void)test_predefinedMutableCopy_returnCopyIfCopiable {
+    OCATransformer *t = [OCATransformer mutableCopy];
+    NSMutableString *s = [@"test" mutableCopy];
+    XCTAssertEqualObjects([t transformedValue:s], s);
+    XCTAssertNoThrow([[t transformedValue:s] appendString:@"test"], @"Transformed string is not mutable.");
+    XCTAssertFalse([t transformedValue:s] == s, @"Returned the same, didn't copy.");
+    XCTAssertTrue([t transformedValue:self] == self, @"Non-copiable objects should just pass.");
+}
+
+
+- (void)test_predefinedIfThenElse {
+    NSPredicate *condition = [NSPredicate predicateWithFormat:@"self BEGINSWITH 'A'"];
+    OCATransformer *appendExclamation = [[OCATransformer fromClass:[NSString class] toClass:[NSString class]
+                                                          symetric:^NSString *(NSString *input) {
+                                                              return [input stringByAppendingString:@"!"];
+                                                          }] describe:@"append “!”"];
+    OCATransformer *uppercase = [[OCATransformer fromClass:[NSObject class] toClass:[NSString class]
+                                                 transform:^NSString *(NSString *input) {
+                                                     return [input uppercaseString];
+                                                 } reverse:^NSString *(NSString *input) {
+                                                     return [input lowercaseString];
+                                                 }] describe:@"to uppercase" reverse:@" to lowercase"];
+    
+    OCATransformer *t = [OCATransformer if:condition then:appendExclamation else:uppercase];
+    
+    XCTAssertEqualObjects([t transformedValue:@"Au"], @"Au!", @"Didn't invoke 'then' branch.");
+    XCTAssertEqualObjects([t transformedValue:@"Be"], @"BE", @"Didn't invoke 'else' branch.");
+}
+
+
+- (void)test_predefinedTraverseKeyPath {
+    OCATransformer *t = [OCATransformer traverseKeyPath:@"length"];
+    XCTAssertEqualObjects([t transformedValue:@"123456"], @6);
+}
+
+
+- (void)test_predefinedReplace {
+    OCATransformer *t = [OCATransformer replaceWith:@"A"];
+    XCTAssertEqualObjects([t transformedValue:@"B"], @"A");
+}
+
+
+- (void)test_predefinedMap_NSDictionary {
+    OCATransformer *t = [OCATransformer map:@{
+                                              @"A": @1,
+                                              @"B": @4,
+                                              @"C": @8,
+                                              }];
+    XCTAssertEqualObjects([t.class valueClass], [NSString class], @"Key classes are consistent NSStrings.");
+    XCTAssertEqualObjects([t.class transformedValueClass], [NSNumber class], @"Object classes are consistent NSNumbers.");
+    XCTAssertEqualObjects([t transformedValue:@"C"], @8);
+    XCTAssertNil([t transformedValue:@"D"]);
+    XCTAssertEqualObjects([t reverseTransformedValue:@1], @"A");
+    XCTAssertNil([t reverseTransformedValue:@100]);
+}
+
+
+- (void)test_predefinedMap_NSMapTable {
+    NSMapTable *table = [NSMapTable strongToStrongObjectsMapTable];
+    [table setObject:@1 forKey:@"A"];
+    [table setObject:@4 forKey:@"B"];
+    [table setObject:@8 forKey:@"C"];
+    OCATransformer *t = [OCATransformer mapFromTable:table];
+    XCTAssertEqualObjects([t.class valueClass], [NSString class], @"Key classes are consistent NSStrings.");
+    XCTAssertEqualObjects([t.class transformedValueClass], [NSNumber class], @"Object classes are consistent NSNumbers.");
+    XCTAssertEqualObjects([t transformedValue:@"C"], @8);
+    XCTAssertNil([t transformedValue:@"D"]);
+    XCTAssertEqualObjects([t reverseTransformedValue:@1], @"A");
+    XCTAssertNil([t reverseTransformedValue:@100]);
+}
+
+
+- (void)test_predefinedKindOfClass {
+    OCATransformer *t = [OCATransformer ofClass:[NSString class] or:[@"" mutableCopy]];
+    XCTAssertEqualObjects([t.class transformedValueClass], [NSString class], @"Output class should be detected.");
+    XCTAssertEqualObjects([t transformedValue:@"test"], @"test");
+    XCTAssertEqualObjects([t transformedValue:@42], @"");
+}
+
+
+
+
+
 
 
 
