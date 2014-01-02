@@ -118,7 +118,12 @@
 
 
 + (OCATransformer *)if:(NSPredicate *)predicate then:(OCATransformer *)thenTransformer else:(OCATransformer *)elseTransformer {
-    return [[OCATransformer fromClass:nil toClass:nil asymetric:^id(id input) {
+    Class inputClass = [self valueClassForClasses:@[ [thenTransformer.class valueClass],
+                                                     [elseTransformer.class valueClass] ]];
+    Class outputClass = [self valueClassForClasses:@[ [thenTransformer.class transformedValueClass],
+                                                      [elseTransformer.class transformedValueClass] ]];
+    
+    return [[OCATransformer fromClass:inputClass toClass:outputClass asymetric:^id(id input) {
         BOOL condition = ( ! predicate || [predicate evaluateWithObject:input]);
         if (condition)
             return [thenTransformer transformedValue:input];
