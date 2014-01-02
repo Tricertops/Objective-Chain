@@ -67,8 +67,8 @@
 + (OCATransformer *)function:(OCAReal(*)(OCAReal))function reverse:(OCAReal (*)(OCAReal))reverse {
     return [self transform:^OCAReal(OCAReal x) {
         return (function? function(x) : NAN);
-    } reverse:^OCAReal(OCAReal x) {
-        return (reverse? reverse(x) : NAN);
+    } reverse:^OCAReal(OCAReal y) {
+        return (reverse? reverse(y) : NAN);
     }];
 }
 
@@ -82,11 +82,11 @@
 + (OCATransformer *)add:(OCAReal)value {
     return [[self transform:^OCAReal(OCAReal x) {
         return x + value;
-    } reverse:^OCAReal(OCAReal x) {
-        return x - value;
+    } reverse:^OCAReal(OCAReal y) {
+        return y - value;
     }]
-            describe:[NSString stringWithFormat:@"add %lf", value]
-            reverse:[NSString stringWithFormat:@"subtract %lf", value]];
+            describe:[NSString stringWithFormat:@"add %@", @(value)]
+            reverse:[NSString stringWithFormat:@"subtract %@", @(value)]];
 }
 
 
@@ -98,11 +98,11 @@
 + (OCATransformer *)multiplyBy:(OCAReal)value {
     return [[self transform:^OCAReal(OCAReal x) {
         return x * value;
-    } reverse:^OCAReal(OCAReal x) {
-        return x / value;
+    } reverse:^OCAReal(OCAReal y) {
+        return y / value;
     }]
-            describe:[NSString stringWithFormat:@"multiply by %lf", value]
-            reverse:[NSString stringWithFormat:@"divide by %lf", value]];
+            describe:[NSString stringWithFormat:@"multiply by %@", @(value)]
+            reverse:[NSString stringWithFormat:@"divide by %@", @(value)]];
 }
 
 
@@ -114,10 +114,10 @@
 + (OCATransformer *)modulus:(OCAInteger)value {
     return [[self integerTransform:^OCAInteger(OCAInteger x) {
         return x % value;
-    } reverse:^OCAInteger(OCAInteger x) {
-        return x;
+    } reverse:^OCAInteger(OCAInteger y) {
+        return y;
     }]
-            describe:[NSString stringWithFormat:@"modulus %li", value]
+            describe:[NSString stringWithFormat:@"modulus %@", @(value)]
             reverse:@"pass integer"];
 }
 
@@ -125,8 +125,8 @@
 + (OCATransformer *)absoluteValue {
     return [[self transform:^OCAReal(OCAReal x) {
         return ABS(x);
-    } reverse:^OCAReal(OCAReal x) {
-        return x;
+    } reverse:^OCAReal(OCAReal y) {
+        return y;
     }]
             describe:@"absolute value"
             reverse:@"pass number"];
