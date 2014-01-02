@@ -113,6 +113,12 @@
 }
 
 
+- (void)test_findingCommonClass {
+    NSArray *classes = @[ NSString.class, NSMutableString.class, NSObject.class, NSNull.null, NSString.class ];
+    XCTAssertEqualObjects([OCATransformer valueClassForClasses:classes], NSString.class, @"Should be highest of all concrete classes.");
+}
+
+
 
 
 
