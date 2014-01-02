@@ -19,8 +19,7 @@
 
 
 + (OCATransformer *)pass {
-    Class class = [self subclassForInputClass:nil outputClass:nil reversible:YES name:@"OCAPassTransformer"];
-    return [[class alloc] initWithBlock:nil reverseBlock:nil];
+    return [[OCATransformer fromClass:nil toClass:nil symetric:OCATransformationPass] describe:@"pass"];
 }
 
 
@@ -28,35 +27,37 @@
     if ( ! transformers.count) return [self pass];
     transformers = [transformers copy];
     
-    NSValueTransformer *firstTransformer = transformers.firstObject;
-    NSValueTransformer *lastTransformer = transformers.lastObject;
+    OCATransformer *firstTransformer = transformers.firstObject;
+    OCATransformer *lastTransformer = transformers.lastObject;
     
     BOOL areReversible = YES;
-    for (NSValueTransformer *t in transformers) {
-        if ( ! [t.class allowsReverseTransformation]) {
-            areReversible = NO;
-            break;
-        }
+    NSMutableArray *descriptions = [[NSMutableArray alloc] init];
+    NSMutableArray *reverseDescriptions = [[NSMutableArray alloc] init];
+    
+    for (OCATransformer *t in transformers) {
+        areReversible &= [t.class allowsReverseTransformation];
+        [descriptions addObject:t.description ?: @"unknown"];
+        [reverseDescriptions addObject:t.reverseDescription ?: @"unknown"];
     }
+    //TODO: Class check
     
-    Class class = [self subclassForInputClass:[firstTransformer.class valueClass]
-                                  outputClass:[lastTransformer.class transformedValueClass]
-                                   reversible:areReversible
-                                         name:nil];
-    
-    return [[class alloc] initWithBlock:^id(id input) {
-        id value = input;
-        for (NSValueTransformer *t in transformers) {
-            value = [t transformedValue:value];
-        }
-        return value;
-    } reverseBlock:^id(id input) {
-        id value = input;
-        for (NSValueTransformer *t in transformers.reverseObjectEnumerator.allObjects) {
-            value = [t reverseTransformedValue:value];
-        }
-        return value;
-    }];
+    return [[OCATransformer fromClass:[firstTransformer.class valueClass]
+                              toClass:[lastTransformer.class transformedValueClass]
+                            transform:^id(id input) {
+                                id value = input;
+                                for (NSValueTransformer *t in transformers) {
+                                    value = [t transformedValue:value];
+                                }
+                                return value;
+                            } reverse:^id(id input) {
+                                id value = input;
+                                for (NSValueTransformer *t in transformers.reverseObjectEnumerator.allObjects) {
+                                    value = [t reverseTransformedValue:value];
+                                }
+                                return value;
+                            }]
+            describe:[NSString stringWithFormat:@"(%@)", [descriptions componentsJoinedByString:@" –> "]]
+            reverse:[NSString stringWithFormat:@"(%@)", [reverseDescriptions.reverseObjectEnumerator.allObjects componentsJoinedByString:@" –> "]]];
 }
 
 

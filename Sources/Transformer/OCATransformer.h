@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "OCAObject.h"
 
 
 typedef id (^OCATransformerBlock)(id input);
@@ -46,7 +47,8 @@ typedef id (^OCATransformerBlock)(id input);
 
 #pragma mark Describing
 
-- (NSString *)description;
+@property (OCA_atomic, readonly, copy) NSString *description;
+@property (OCA_atomic, readonly, copy) NSString *reverseDescription;
 - (instancetype)describe:(NSString *)description;
 - (instancetype)describe:(NSString *)description reverse:(NSString *)reverseDescription;
 
@@ -60,14 +62,23 @@ typedef id (^OCATransformerBlock)(id input);
 
 #pragma mark Customizing Using Blocks
 
-+ (Class)subclassForInputClass:(Class)inputClass outputClass:(Class)outputClass reversible:(BOOL)isReversible name:(NSString *)subclassName;
-- (OCATransformer *)initWithBlock:(OCATransformerBlock)transformationBlock reverseBlock:(OCATransformerBlock)reverseTransformationBlock;
++ (Class)subclassForInputClass:(Class)inputClass outputClass:(Class)outputClass reversible:(BOOL)isReversible;
+- (OCATransformer *)initWithBlock:(OCATransformerBlock)block reverseBlock:(OCATransformerBlock)reverseBlock;
 
-+ (OCATransformer *)fromClass:(Class)inputClass toClass:(Class)outputClass transformation:(OCATransformerBlock)transformationBlock;
-+ (OCATransformer *)fromClass:(Class)inputClass toClass:(Class)outputClass transformation:(OCATransformerBlock)transformationBlock reverseTransformation:(OCATransformerBlock)reverseTransformationBlock;
++ (OCATransformer *)fromClass:(Class)fromClass toClass:(Class)toClass symetric:(OCATransformerBlock)symetric;
++ (OCATransformer *)fromClass:(Class)fromClass toClass:(Class)toClass asymetric:(OCATransformerBlock)asymetric;
++ (OCATransformer *)fromClass:(Class)fromClass toClass:(Class)toClass transform:(OCATransformerBlock)transform reverse:(OCATransformerBlock)reverse;
 
 
 
 @end
+
+
+
+
+extern OCATransformerBlock const OCATransformationNil;
+extern OCATransformerBlock const OCATransformationPass;
+
+
 
 

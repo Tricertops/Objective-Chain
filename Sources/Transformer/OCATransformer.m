@@ -7,7 +7,6 @@
 //
 
 #import "OCATransformer.h"
-#import "OCAObject.h"
 #import <objc/runtime.h>
 
 
@@ -68,9 +67,9 @@
     BOOL validInput = OCAValidateClass(value, [self.class valueClass]);
     if ( ! validInput) return nil;
     
-    id transformedValue = (validInput && self->_transformationBlock
+    id transformedValue = (self->_transformationBlock
                            ? self->_transformationBlock(value)
-                           : [super transformedValue:value]);
+                           : nil);
     
     BOOL validOutput = OCAValidateClass(transformedValue, [self.class transformedValueClass]);
     if ( ! validOutput) return nil;
@@ -80,11 +79,13 @@
 
 
 - (id)reverseTransformedValue:(id)value {
-    if (self->_reverseTransformationBlock) {
+    if ([self.class allowsReverseTransformation]) {
         BOOL validInput = OCAValidateClass(value, [self.class transformedValueClass]);
         if ( ! validInput) return nil;
         
-        id transformedValue = self->_reverseTransformationBlock(value);
+        id transformedValue = (self->_reverseTransformationBlock
+                               ? self->_reverseTransformationBlock(value)
+                               : nil);
         
         BOOL validOutput = OCAValidateClass(transformedValue, [self.class valueClass]);
         if ( ! validOutput) return nil;
@@ -92,7 +93,7 @@
         return transformedValue;
     }
     else {
-        return [self transformedValue:value];
+        return nil;
     }
 }
 
@@ -104,15 +105,13 @@
 
 
 - (instancetype)describe:(NSString *)description {
-    self.description = description;
-    self.reverseDescription = description;
-    return self;
+    return [self describe:description reverse:description];
 }
 
 
 - (instancetype)describe:(NSString *)description reverse:(NSString *)reverseDescription {
-    self.description = description;
-    self.reverseDescription = reverseDescription;
+    self.description = description ?: @"unknown";
+    self.reverseDescription = reverseDescription ?: @"unknown";
     return self;
 }
 
@@ -131,12 +130,13 @@
 - (OCATransformer *)reversed {
     if ( ! [self.class allowsReverseTransformation]) return self;
     
-    return [[OCATransformer fromClass:[self.class transformedValueClass]
-                             toClass:[self.class valueClass]
-                      transformation:self.reverseTransformationBlock
-               reverseTransformation:self.transformationBlock]
-            describe:self.reverseDescription
-            reverse:self.description];
+    Class class = [OCATransformer subclassForInputClass:[self.class transformedValueClass]
+                                            outputClass:[self.class valueClass]
+                                             reversible:[self.class allowsReverseTransformation]];
+    
+    OCATransformer *reverse = [[class alloc] initWithBlock:self.reverseTransformationBlock
+                                              reverseBlock:self.transformationBlock];
+    return [reverse describe:self.reverseDescription reverse:self.description];
 }
 
 
@@ -146,7 +146,7 @@
 #pragma mark Customizing Using Blocks
 
 
-+ (Class)subclassForInputClass:(Class)inputClass outputClass:(Class)outputClass reversible:(BOOL)isReversible name:(NSString *)subclassName {
++ (Class)subclassForInputClass:(Class)inputClass outputClass:(Class)outputClass reversible:(BOOL)isReversible {
     // OCAAnythingToAnythingReversibleTransformer
     NSString *genericClassName = [NSString stringWithFormat:@"OCA%@To%@%@Transformer",
                                   inputClass ?: @"Anything",
@@ -159,12 +159,7 @@
                                                 [subclass setTransformedValueClass:outputClass];
                                                 [subclass setAllowsReverseTransformation:isReversible];
                                             }];
-    if (subclassName) {
-        return [genericClass subclassWithName:subclassName customization:nil];
-    }
-    else {
-        return genericClass;
-    }
+    return genericClass;
 }
 
 
@@ -215,25 +210,40 @@
 }
 
 
+- (OCATransformer *)init {
+    return [self initWithBlock:nil reverseBlock:nil];
+}
+
+
 - (OCATransformer *)initWithBlock:(OCATransformerBlock)transformationBlock reverseBlock:(OCATransformerBlock)reverseTransformationBlock {
     self = [super init];
     if (self) {
         self->_transformationBlock = transformationBlock;
         self->_reverseTransformationBlock = reverseTransformationBlock;
+        
+        //TODO: Detect different classes or the same class.
+        [self describe:[NSString stringWithFormat:@"to %@", [self.class transformedValueClass]]
+               reverse:[NSString stringWithFormat:@"to %@", [self.class valueClass]]];
     }
     return self;
 }
 
 
-+ (OCATransformer *)fromClass:(Class)inputClass toClass:(Class)outputClass transformation:(OCATransformerBlock)transformationBlock {
-    Class genericClass = [OCATransformer subclassForInputClass:inputClass outputClass:outputClass reversible:NO name:nil];
-    return [[genericClass alloc] initWithBlock:transformationBlock reverseBlock:nil];
++ (OCATransformer *)fromClass:(Class)inputClass toClass:(Class)outputClass symetric:(OCATransformerBlock)transform {
+    Class genericClass = [OCATransformer subclassForInputClass:inputClass outputClass:outputClass reversible:YES];
+    return [[genericClass alloc] initWithBlock:transform reverseBlock:transform];
 }
 
 
-+ (OCATransformer *)fromClass:(Class)inputClass toClass:(Class)outputClass transformation:(OCATransformerBlock)transformationBlock reverseTransformation:(OCATransformerBlock)reverseTransformationBlock {
-    Class genericClass = [OCATransformer subclassForInputClass:inputClass outputClass:outputClass reversible:YES name:nil];
-    return [[genericClass alloc] initWithBlock:transformationBlock reverseBlock:reverseTransformationBlock];
++ (OCATransformer *)fromClass:(Class)inputClass toClass:(Class)outputClass asymetric:(OCATransformerBlock)transform {
+    Class genericClass = [OCATransformer subclassForInputClass:inputClass outputClass:outputClass reversible:NO];
+    return [[genericClass alloc] initWithBlock:transform reverseBlock:nil];
+}
+
+
++ (OCATransformer *)fromClass:(Class)inputClass toClass:(Class)outputClass transform:(OCATransformerBlock)transform reverse:(OCATransformerBlock)reverse {
+    Class genericClass = [OCATransformer subclassForInputClass:inputClass outputClass:outputClass reversible:YES];
+    return [[genericClass alloc] initWithBlock:transform reverseBlock:reverse];
 }
 
 
@@ -241,6 +251,19 @@
 
 
 @end
+
+
+
+
+
+OCATransformerBlock const OCATransformationNil = ^id(id x) {
+    return nil;
+};
+
+
+OCATransformerBlock const OCATransformationPass = ^id(id x) {
+    return x;
+};
 
 
 
