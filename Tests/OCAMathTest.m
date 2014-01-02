@@ -43,15 +43,26 @@
 }
 
 
-- (void)test_someBasicOperations {
-    OCATransformer *t = [OCATransformer sequence: @[
-                                                    [OCAMath add:3],
-                                                    [OCAMath multiplyBy:4],
-                                                    [OCAMath divideBy:2],
-                                                    [OCAMath subtract:5],
-                                                    ]];
+- (void)test_basicOperations {
+    OCATransformer *t = [OCATransformer sequence:@[
+                                                   [OCAMath add:3],
+                                                   [OCAMath multiplyBy:4],
+                                                   [OCAMath divideBy:2],
+                                                   [OCAMath subtract:5],
+                                                   ]];
     XCTAssertEqualObjects([t transformedValue:@8], @17);
     XCTAssertEqualObjects([t reverseTransformedValue:@17], @8);
+}
+
+
+- (void)test_advancedOperations {
+    OCATransformer *t = [OCATransformer sequence:@[
+                                                   [OCAMath powerBy:4],
+                                                   [OCAMath rootOf:2],
+                                                   [OCAMath logarithmWithBase:10],
+                                                   ]];
+    XCTAssertEqualObjects([t transformedValue:@10], @2);
+    XCTAssertEqualObjects([t reverseTransformedValue:@2], @10);
 }
 
 

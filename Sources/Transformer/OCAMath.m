@@ -136,6 +136,44 @@
 
 
 
+#pragma mark Advanced
+
+
++ (OCATransformer *)powerBy:(OCAReal)value {
+    return [[self transform:^OCAReal(OCAReal x) {
+        return pow(x, value);
+    } reverse:^OCAReal(OCAReal y) {
+        return pow(y, 1/value);
+    }]
+            describe:[NSString stringWithFormat:@"power by %@", @(value)]
+            reverse:[NSString stringWithFormat:@"root of %@", @(value)]];
+}
+
+
++ (OCATransformer *)rootOf:(OCAReal)value {
+    return [[self powerBy:value] reversed];
+}
+
+
++ (OCATransformer *)exponentOf:(OCAReal)value {
+    return [[self transform:^OCAReal(OCAReal x) {
+        return pow(value, x);
+    } reverse:^OCAReal(OCAReal y) {
+        return log(y) / log(value);
+    }]
+            describe:[NSString stringWithFormat:@"exponent of %@", @(value)]
+            reverse:[NSString stringWithFormat:@"log with base %@", @(value)]];
+}
+
+
++ (OCATransformer *)logarithmWithBase:(OCAReal)value {
+    return [[self exponentOf:value] reversed];
+}
+
+
+
+
+
 
 //TODO: Implement operations.
 

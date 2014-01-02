@@ -51,6 +51,7 @@ typedef OCAReal(^OCARealTransformBlock)(OCAReal x);
 
 + (OCATransformer *)powerBy:(OCAReal)value;
 + (OCATransformer *)rootOf:(OCAReal)value;
++ (OCATransformer *)exponentOf:(OCAReal)value;
 + (OCATransformer *)logarithmWithBase:(OCAReal)value;
 
 
