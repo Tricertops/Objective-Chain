@@ -47,15 +47,6 @@ typedef OCAReal(^OCARealTransformBlock)(OCAReal x);
 + (OCATransformer *)absoluteValue;
 
 
-#pragma mark Comparisons
-
-+ (OCATransformer *)greaterThan:(OCAReal)value;
-+ (OCATransformer *)greaterOrEqualThan:(OCAReal)value;
-+ (OCATransformer *)lowerThan:(OCAReal)value;
-+ (OCATransformer *)lowerOrEqualThan:(OCAReal)value;
-+ (OCATransformer *)equals:(OCAReal)value;
-
-
 #pragma mark Advanced
 
 + (OCATransformer *)powerBy:(OCAReal)value;
