@@ -49,7 +49,7 @@
 }
 
 
-- (void)test_equalClassesAfterbeingCreatedWithTheSameParameters {
+- (void)test_equalClassesAfterBeingCreatedWithTheSameParameters {
     OCATransformer *uppercase = [[OCATransformer fromClass:[NSString class] toClass:[NSString class]
                                                  asymetric:^NSString *(NSString *input) {
                                                      return [input uppercaseString];

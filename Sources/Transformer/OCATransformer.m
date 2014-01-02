@@ -110,8 +110,8 @@
 
 
 - (instancetype)describe:(NSString *)description reverse:(NSString *)reverseDescription {
-    self.description = description ?: @"unknown";
-    self.reverseDescription = reverseDescription ?: @"unknown";
+    if (description.length) self.description = description;
+    if (reverseDescription.length) self.reverseDescription = reverseDescription;
     return self;
 }
 
@@ -221,9 +221,18 @@
         self->_transformationBlock = transformationBlock;
         self->_reverseTransformationBlock = reverseTransformationBlock;
         
-        //TODO: Detect different classes or the same class.
-        [self describe:[NSString stringWithFormat:@"to %@", [self.class transformedValueClass]]
-               reverse:[NSString stringWithFormat:@"to %@", [self.class valueClass]]];
+        NSString *inputClassName = NSStringFromClass([self.class valueClass]) ?: @"anything";
+        NSString *outputClassName = NSStringFromClass([self.class transformedValueClass]) ?: @"anything";
+        BOOL preservesClass = [inputClassName isEqualToString:outputClassName];
+        if (preservesClass) {
+            NSString *description = [NSString stringWithFormat:@"[transform %@]", outputClassName];
+            [self describe:description reverse:description];
+        }
+        else {
+            [self describe:[NSString stringWithFormat:@"[convert %@ to %@]", inputClassName, outputClassName]
+                   reverse:[NSString stringWithFormat:@"[convert %@ to %@]", outputClassName, inputClassName]];
+        }
+        
     }
     return self;
 }
