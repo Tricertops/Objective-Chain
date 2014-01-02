@@ -113,7 +113,7 @@
     if (description.length) self.description = description;
     
     if ( ! self.reverseTransformationBlock) {
-        self.reverseDescription = @"[undefined]";
+        self.reverseDescription = @"<undefined>";
     }
     else if (reverseDescription.length) {
         self.reverseDescription = reverseDescription;

@@ -56,8 +56,8 @@
                                 }
                                 return value;
                             }]
-            describe:[NSString stringWithFormat:@"(%@)", [descriptions componentsJoinedByString:@", "]]
-            reverse:[NSString stringWithFormat:@"(%@)", [reverseDescriptions.reverseObjectEnumerator.allObjects componentsJoinedByString:@", "]]];
+            describe:[NSString stringWithFormat:@"[%@]", [descriptions componentsJoinedByString:@", "]]
+            reverse:[NSString stringWithFormat:@"[%@]", [reverseDescriptions.reverseObjectEnumerator.allObjects componentsJoinedByString:@", "]]];
 }
 
 
@@ -129,7 +129,7 @@
             return [thenTransformer transformedValue:input];
         else
             return (elseTransformer ? [elseTransformer transformedValue:input] : input);
-    }] describe:[NSString stringWithFormat:@"(if %@ then %@ else %@)", predicate, thenTransformer, elseTransformer ?: @"pass"]];
+    }] describe:[NSString stringWithFormat:@"if (%@) then %@ else %@", predicate, thenTransformer, elseTransformer ?: @"pass"]];
 }
 
 
