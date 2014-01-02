@@ -128,11 +128,12 @@
 
 
 - (OCATransformer *)reversed {
-    if ( ! [self.class allowsReverseTransformation]) return self;
+    // My reverse is fully reversible only, if I am. Got it?
+    BOOL isReverseReversible = (self.transformationBlock != nil);
     
     Class class = [OCATransformer subclassForInputClass:[self.class transformedValueClass]
                                             outputClass:[self.class valueClass]
-                                             reversible:[self.class allowsReverseTransformation]];
+                                             reversible:isReverseReversible];
     
     OCATransformer *reverse = [[class alloc] initWithBlock:self.reverseTransformationBlock
                                               reverseBlock:self.transformationBlock];
