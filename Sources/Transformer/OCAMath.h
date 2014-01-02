@@ -31,6 +31,8 @@ typedef OCAReal(^OCARealTransformBlock)(OCAReal x);
 + (OCATransformer *)integerTransform:(OCAIntegerTransformBlock)transform reverse:(OCAIntegerTransformBlock)reverse;
 + (OCATransformer *)transform:(OCARealTransformBlock)transform;
 + (OCATransformer *)transform:(OCARealTransformBlock)transform reverse:(OCARealTransformBlock)reverse;
++ (OCATransformer *)function:(OCAReal(*)(OCAReal))function;
++ (OCATransformer *)function:(OCAReal(*)(OCAReal))function reverse:(OCAReal(*)(OCAReal))reverse;
 
 
 

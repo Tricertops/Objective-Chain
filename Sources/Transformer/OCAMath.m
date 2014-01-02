@@ -24,7 +24,7 @@
 
 
 + (OCATransformer *)integerTransform:(OCAIntegerTransformBlock)transformBlock reverse:(OCAIntegerTransformBlock)reverseBlock {
-    return [OCATransformer fromClass:[NSNumber class] toClass:[NSNumber class]
+    return [[OCATransformer fromClass:[NSNumber class] toClass:[NSNumber class]
             
                            transform:^NSNumber *(NSNumber *input) {
                                if (transformBlock) return @( transformBlock(input.longValue) );
@@ -33,7 +33,7 @@
                            } reverse:^NSNumber *(NSNumber *input) {
                                if (reverseBlock) return @( reverseBlock(input.longValue) );
                                else return input;
-                           }];
+                           }] describe:@"integer operation"];
 }
 
 
@@ -43,7 +43,7 @@
 
 
 + (OCATransformer *)transform:(OCARealTransformBlock)transformBlock reverse:(OCARealTransformBlock)reverseBlock {
-    return [OCATransformer fromClass:[NSNumber class] toClass:[NSNumber class]
+    return [[OCATransformer fromClass:[NSNumber class] toClass:[NSNumber class]
             
                            transform:^NSNumber *(NSNumber *input) {
                                if (transformBlock) return @( transformBlock(input.doubleValue) );
@@ -52,7 +52,21 @@
                            } reverse:^NSNumber *(NSNumber *input) {
                                if (reverseBlock) return @( reverseBlock(input.doubleValue) );
                                else return input;
-                           }];
+                           }] describe:@"math operation"];
+}
+
+
++ (OCATransformer *)function:(OCAReal(*)(OCAReal))function {
+    return [self function:function reverse:nil];
+}
+
+
++ (OCATransformer *)function:(OCAReal(*)(OCAReal))function reverse:(OCAReal (*)(OCAReal))reverse {
+    return [self transform:^OCAReal(OCAReal x) {
+        return (function? function(x) : NAN);
+    } reverse:^OCAReal(OCAReal x) {
+        return (reverse? reverse(x) : NAN);
+    }];
 }
 
 

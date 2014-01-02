@@ -24,8 +24,22 @@
 
 
 
-- (void)test {
+- (void)test_generic {
+    OCATransformer *t = [OCAMath transform:^OCAReal(OCAReal x) {
+        return (x * 4 - 5) / 3;
+    } reverse:^OCAReal(OCAReal x) {
+        return (x * 3 + 5) / 4;
+    }];
     
+    XCTAssertEqualObjects([t transformedValue:@8], @9);
+    XCTAssertEqualObjects([t reverseTransformedValue:@9], @8);
+}
+
+
+- (void)test_function {
+    OCATransformer *cosine = [OCAMath function:&cos reverse:&acos];
+    XCTAssertEqualObjects([cosine transformedValue:@0], @1);
+    XCTAssertEqualObjects([cosine reverseTransformedValue:@1], @0);
 }
 
 
