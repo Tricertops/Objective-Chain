@@ -19,6 +19,20 @@
 + (OCATransformer *)pass;
 
 + (OCATransformer *)sequence:(NSArray *)transformers;
++ (OCATransformer *)convertTo:(Class)finalClass using:(NSArray *)transformers;
+
++ (OCATransformer *)copy;
++ (OCATransformer *)mutableCopy;
+
++ (OCATransformer *)if:(NSPredicate *)predicate then:(OCATransformer *)thenTransformer else:(OCATransformer *)elseTransformer;
++ (OCATransformer *)traverseKeyPath:(NSString *)keypath;
+//TODO: +property:(OCAProperty *)property, that knows input and output classes
++ (OCATransformer *)replaceWith:(id)replacement;
++ (OCATransformer *)map:(NSDictionary *)dictionary;
++ (OCATransformer *)mapFromTable:(NSMapTable *)mapTable;
++ (OCATransformer *)ofClass:(Class)class or:(id)replacement;
+
++ (OCATransformer *)debugPrintWithMarker:(NSString *)marker;
 
 
 

@@ -56,9 +56,129 @@
                                 }
                                 return value;
                             }]
-            describe:[NSString stringWithFormat:@"(%@)", [descriptions componentsJoinedByString:@" –> "]]
-            reverse:[NSString stringWithFormat:@"(%@)", [reverseDescriptions.reverseObjectEnumerator.allObjects componentsJoinedByString:@" –> "]]];
+            describe:[NSString stringWithFormat:@"(%@)", [descriptions componentsJoinedByString:@", "]]
+            reverse:[NSString stringWithFormat:@"(%@)", [reverseDescriptions.reverseObjectEnumerator.allObjects componentsJoinedByString:@", "]]];
 }
+
+
++ (OCATransformer *)convertTo:(Class)finalClass using:(NSArray *)transformers {
+    NSMapTable *byInputClass = [NSMapTable strongToStrongObjectsMapTable];
+    NSMapTable *byOutputClass = [NSMapTable strongToStrongObjectsMapTable];
+    NSMutableSet *inputClasses = [[NSMutableSet alloc] init];
+    for (OCATransformer *t in transformers) {
+        //TODO: Warn about multiple matches.
+        Class inputClass = [t.class valueClass] ?: [NSObject class];
+        Class outputClass = [t.class transformedValueClass] ?: [NSObject class];
+        [byInputClass setObject:t forKey:inputClass];
+        [byOutputClass setObject:t forKey:outputClass];
+        [inputClasses addObject:inputClass];
+        
+        OCAAssert([outputClass isSubclassOfClass:finalClass], @"Provided transformer doesn't have requested output class.");
+    }
+    NSString *inputClassesString = [inputClasses.allObjects componentsJoinedByString:@", "];
+    
+    //TODO: Find common input class.
+    return [[OCATransformer fromClass:nil toClass:finalClass transform:^id(id input) {
+        Class class = [input class];
+        while (class) {
+            OCATransformer *t = [byInputClass objectForKey:class];
+            if (t) return [t transformedValue:input];
+            class = class.superclass;
+        }
+        return nil; //TODO: Instantinate default transformer.
+    } reverse:^id(id input) {
+        // Reverse is basically undefined, but this should do it. Using first most concrete transformer.
+        Class class = [input class];
+        while (class) {
+            OCATransformer *t = [byOutputClass objectForKey:class];
+            if (t) return [t reverseTransformedValue:input];
+            class = class.superclass;
+        }
+        return input; // Lookup failed, pass.
+    }]
+            describe:[NSString stringWithFormat:@"convert { %@ } to %@", inputClassesString, finalClass]
+            reverse:[NSString stringWithFormat:@"convert %@ to undefined { %@ }", finalClass, inputClassesString]];
+}
+
+
++ (OCATransformer *)copy {
+    return [[OCATransformer fromClass:nil toClass:nil transform:^id(id input) {
+        if ([input conformsToProtocol:@protocol(NSCopying)]) return [input copy];
+        else return input;
+    } reverse:OCATransformationPass] describe:@"copy" reverse:@"pass"];
+}
+
+
++ (OCATransformer *)mutableCopy {
+    return [[OCATransformer fromClass:nil toClass:nil transform:^id(id input) {
+        if ([input conformsToProtocol:@protocol(NSMutableCopying)]) return [input mutableCopy];
+        else return input;
+    } reverse:OCATransformationPass] describe:@"mutable copy" reverse:@"pass"];
+}
+
+
++ (OCATransformer *)if:(NSPredicate *)predicate then:(OCATransformer *)thenTransformer else:(OCATransformer *)elseTransformer {
+    return [[OCATransformer fromClass:nil toClass:nil asymetric:^id(id input) {
+        BOOL condition = ( ! predicate || [predicate evaluateWithObject:input]);
+        if (condition)
+            return [thenTransformer transformedValue:input];
+        else
+            return (elseTransformer ? [elseTransformer transformedValue:input] : input);
+    }] describe:[NSString stringWithFormat:@"(if %@ then %@ else %@)", predicate, thenTransformer, elseTransformer ?: @"pass"]];
+}
+
+
++ (OCATransformer *)traverseKeyPath:(NSString *)keypath {
+    return [[OCATransformer fromClass:nil toClass:nil asymetric:^id(id input) {
+        return [input valueForKeyPath:keypath];
+    }] describe:[NSString stringWithFormat:@"key-path %@", keypath]];
+}
+
+
++ (OCATransformer *)replaceWith:(id)replacement {
+    return [[OCATransformer fromClass:nil toClass:[replacement class] transform:^id(id input) {
+        return replacement;
+    } reverse:OCATransformationPass]
+            describe:[NSString stringWithFormat:@"replace with %@", replacement]];
+}
+
+
++ (OCATransformer *)map:(NSDictionary *)dictionary {
+    return [[OCATransformer fromClass:nil toClass:nil transform:^id(id input) {
+        return [dictionary objectForKey:input];
+    } reverse:OCATransformationPass]
+            describe:[NSString stringWithFormat:@"map %@ pairs", @(dictionary.count)]];
+}
+
+
++ (OCATransformer *)mapFromTable:(NSMapTable *)mapTable {
+    return [[OCATransformer fromClass:nil toClass:nil transform:^id(id input) {
+        return [mapTable objectForKey:input];
+    } reverse:OCATransformationPass]
+            describe:[NSString stringWithFormat:@"map %@ pairs", @(mapTable.count)]];
+}
+
+
++ (OCATransformer *)ofClass:(Class)class or:(id)replacement {
+    Class commonClass = [replacement class];
+    while (commonClass) {
+        if ([class isSubclassOfClass:commonClass]) break;
+        commonClass = [commonClass superclass];
+    }
+    
+    return [[OCATransformer fromClass:nil toClass:commonClass asymetric:^id(id input) {
+        return ([input isKindOfClass:class]? input : replacement);
+    }] describe:[NSString stringWithFormat:@"kind of %@ or %@", class, replacement]];
+}
+
+
++ (OCATransformer *)debugPrintWithMarker:(NSString *)marker {
+    return [[OCATransformer fromClass:nil toClass:nil symetric:^id(id input) {
+        NSLog(@"%@: %@", marker ?: @"Debug", input);
+        return input;
+    }] describe:[NSString stringWithFormat:@"debug print “%@”", marker]];
+}
+
 
 
 

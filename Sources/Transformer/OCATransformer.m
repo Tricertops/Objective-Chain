@@ -111,7 +111,13 @@
 
 - (instancetype)describe:(NSString *)description reverse:(NSString *)reverseDescription {
     if (description.length) self.description = description;
-    if (reverseDescription.length) self.reverseDescription = reverseDescription;
+    
+    if ( ! self.reverseTransformationBlock) {
+        self.reverseDescription = @"[undefined]";
+    }
+    else if (reverseDescription.length) {
+        self.reverseDescription = reverseDescription;
+    }
     return self;
 }
 
@@ -226,12 +232,12 @@
         NSString *outputClassName = NSStringFromClass([self.class transformedValueClass]) ?: @"anything";
         BOOL preservesClass = [inputClassName isEqualToString:outputClassName];
         if (preservesClass) {
-            NSString *description = [NSString stringWithFormat:@"[transform %@]", outputClassName];
+            NSString *description = [NSString stringWithFormat:@"transform %@", outputClassName];
             [self describe:description reverse:description];
         }
         else {
-            [self describe:[NSString stringWithFormat:@"[convert %@ to %@]", inputClassName, outputClassName]
-                   reverse:[NSString stringWithFormat:@"[convert %@ to %@]", outputClassName, inputClassName]];
+            [self describe:[NSString stringWithFormat:@"convert %@ to %@", inputClassName, outputClassName]
+                   reverse:[NSString stringWithFormat:@"convert %@ to %@", outputClassName, inputClassName]];
         }
         
     }
