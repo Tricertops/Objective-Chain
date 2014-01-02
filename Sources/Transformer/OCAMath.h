@@ -8,6 +8,7 @@
 
 #import "OCAObject.h"
 #import "OCATransformer.h"
+#import "OCATransformer+Predefined.h"
 #import <math.h>
 
 
@@ -42,9 +43,11 @@ typedef OCAReal(^OCARealTransformBlock)(OCAReal x);
 + (OCATransformer *)subtract:(OCAReal)value;
 + (OCATransformer *)multiplyBy:(OCAReal)value;
 + (OCATransformer *)divideBy:(OCAReal)value;
-+ (OCATransformer *)modulus:(OCAReal)value;
++ (OCATransformer *)modulus:(OCAInteger)value;
 + (OCATransformer *)absoluteValue;
 
+
+#pragma mark Comparisons
 
 + (OCATransformer *)greaterThan:(OCAReal)value;
 + (OCATransformer *)greaterOrEqualThan:(OCAReal)value;

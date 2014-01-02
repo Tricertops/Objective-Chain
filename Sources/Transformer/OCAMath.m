@@ -18,6 +18,9 @@
 
 
 
+#pragma mark Generic
+
+
 + (OCATransformer *)integerTransform:(OCAIntegerTransformBlock)transform {
     return [self integerTransform:transform reverse:nil];
 }
@@ -68,6 +71,67 @@
         return (reverse? reverse(x) : NAN);
     }];
 }
+
+
+
+
+
+#pragma mark Basic
+
+
++ (OCATransformer *)add:(OCAReal)value {
+    return [[self transform:^OCAReal(OCAReal x) {
+        return x + value;
+    } reverse:^OCAReal(OCAReal x) {
+        return x - value;
+    }]
+            describe:[NSString stringWithFormat:@"add %lf", value]
+            reverse:[NSString stringWithFormat:@"subtract %lf", value]];
+}
+
+
++ (OCATransformer *)subtract:(OCAReal)value {
+    return [[self add:value] reversed];
+}
+
+
++ (OCATransformer *)multiplyBy:(OCAReal)value {
+    return [[self transform:^OCAReal(OCAReal x) {
+        return x * value;
+    } reverse:^OCAReal(OCAReal x) {
+        return x / value;
+    }]
+            describe:[NSString stringWithFormat:@"multiply by %lf", value]
+            reverse:[NSString stringWithFormat:@"divide by %lf", value]];
+}
+
+
++ (OCATransformer *)divideBy:(OCAReal)value {
+    return [[self multiplyBy:value] reversed];
+}
+
+
++ (OCATransformer *)modulus:(OCAInteger)value {
+    return [[self integerTransform:^OCAInteger(OCAInteger x) {
+        return x % value;
+    } reverse:^OCAInteger(OCAInteger x) {
+        return x;
+    }]
+            describe:[NSString stringWithFormat:@"modulus %li", value]
+            reverse:@"pass integer"];
+}
+
+
++ (OCATransformer *)absoluteValue {
+    return [[self transform:^OCAReal(OCAReal x) {
+        return ABS(x);
+    } reverse:^OCAReal(OCAReal x) {
+        return x;
+    }]
+            describe:@"absolute value"
+            reverse:@"pass number"];
+}
+
 
 
 
