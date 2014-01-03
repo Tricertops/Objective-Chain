@@ -36,6 +36,7 @@
                            } reverse:^NSNumber *(NSNumber *input) {
                                if (reverseBlock) return @( reverseBlock(input.longValue) );
                                else return input;
+                               
                            }] describe:@"integer operation"];
 }
 
@@ -55,6 +56,7 @@
                            } reverse:^NSNumber *(NSNumber *input) {
                                if (reverseBlock) return @( reverseBlock(input.doubleValue) );
                                else return input;
+                               
                            }] describe:@"math operation"];
 }
 
@@ -167,6 +169,85 @@
 
 + (OCATransformer *)logarithmWithBase:(OCAReal)value {
     return [[self exponentOf:value] reversed];
+}
+
+
+
+
+
+#pragma mark Rounding
+
+
++ (OCATransformer *)roundToClosest:(OCAReal)scale {
+    return [[OCAMath transform:^OCAReal(OCAReal x) {
+        return round(x * scale) / scale;
+    } reverse:^OCAReal(OCAReal y) {
+        return y;
+    }]
+            describe:[NSString stringWithFormat:@"round to %@", @(scale)]
+            reverse:@"pass"];
+}
+
+
++ (OCATransformer *)roundUpToClosest:(OCAReal)scale {
+    return [[OCAMath transform:^OCAReal(OCAReal x) {
+        return ceil(x * scale) / scale;
+    } reverse:^OCAReal(OCAReal y) {
+        return y;
+    }]
+            describe:[NSString stringWithFormat:@"round up to %@", @(scale)]
+            reverse:@"pass"];
+}
+
+
++ (OCATransformer *)roundDownToClosest:(OCAReal)scale {
+    return [[OCAMath transform:^OCAReal(OCAReal x) {
+        return floor(x * scale) / scale;
+    } reverse:^OCAReal(OCAReal y) {
+        return y;
+    }]
+            describe:[NSString stringWithFormat:@"round down to %@", @(scale)]
+            reverse:@"pass"];
+}
+
+
+
+
+
+#pragma mark Limits
+
+
++ (OCATransformer *)maximumOf:(OCAReal)max {
+    return [[OCAMath transform:^OCAReal(OCAReal x) {
+        return MIN(x, max); // This is not a mistake. MIN will clamp the value from top.
+    } reverse:^OCAReal(OCAReal y) {
+        return y;
+    }]
+            describe:[NSString stringWithFormat:@"max %@", @(max)]
+            reverse:@"pass"];
+}
+
+
++ (OCATransformer *)minimumOf:(OCAReal)min {
+    return [[OCAMath transform:^OCAReal(OCAReal x) {
+        return MAX(x, min); // This is not a mistake. MAX will clamp the value from bottom.
+    } reverse:^OCAReal(OCAReal y) {
+        return y;
+    }]
+            describe:[NSString stringWithFormat:@"min %@", @(min)]
+            reverse:@"pass"];
+}
+
+
++ (OCATransformer *)clampFrom:(OCAReal)min to:(OCAReal)max {
+    OCAAssert(min <= max, @"What is this supposed to do return, when minimum (%@) is greater than maximum (%@)?!", @(min), @(max)) return [OCATransformer null];
+    return [[OCAMath transform:^OCAReal(OCAReal x) {
+        return MIN(MAX(min, x), max);
+    } reverse:^OCAReal(OCAReal y) {
+        return y;
+    }]
+            describe:[NSString stringWithFormat:@"between %@ and %@", @(min), @(max)]
+            reverse:@"pass"];
 }
 
 
