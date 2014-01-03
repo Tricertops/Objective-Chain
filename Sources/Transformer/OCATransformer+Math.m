@@ -302,6 +302,39 @@
 
 
 
+#pragma mark Array
+
+
++ (OCATransformer *)sum {
+    return [[[OCATransformer traverseKeyPath:@"@sum"]
+             specializeFromClass:[NSArray class] toClass:[NSNumber class]]
+            describe:@"sum up"];
+}
+
+
++ (OCATransformer *)average {
+    return [[[OCATransformer traverseKeyPath:@"@avg"]
+             specializeFromClass:[NSArray class] toClass:[NSNumber class]]
+            describe:@"average"];
+}
+
+
++ (OCATransformer *)minimum {
+    return [[[OCATransformer traverseKeyPath:@"@min"]
+             specializeFromClass:[NSArray class] toClass:[NSNumber class]]
+            describe:@"find minimum"];
+}
+
+
++ (OCATransformer *)maximum {
+    return [[[OCATransformer traverseKeyPath:@"@max"]
+             specializeFromClass:[NSArray class] toClass:[NSNumber class]]
+            describe:@"find maximum"];
+}
+
+
+
+
 
 @end
 

@@ -148,6 +148,8 @@
 
 
 - (OCATransformer *)specializeFromClass:(Class)fromClass toClass:(Class)toClass {
+    //TODO: Must use subclasses of existing.
+    
     Class class = [OCATransformer subclassForInputClass:fromClass
                                             outputClass:toClass
                                              reversible:[self.class allowsReverseTransformation]];

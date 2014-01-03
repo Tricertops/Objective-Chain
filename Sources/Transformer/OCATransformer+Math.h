@@ -82,6 +82,14 @@ typedef OCAReal(^OCARealTransformBlock)(OCAReal x);
 + (OCATransformer *)toRadians;
 
 
+#pragma mark Array
+
++ (OCATransformer *)sum;
++ (OCATransformer *)average;
++ (OCATransformer *)minimum;
++ (OCATransformer *)maximum;
+
+
 
 @end
 
