@@ -44,6 +44,7 @@
 
 #pragma mark Array
 
++ (OCATransformer *)count;
 + (OCATransformer *)branch:(NSArray *)transformers;
 + (OCATransformer *)pickIndexes:(NSIndexSet *)indexes;
 + (OCATransformer *)enumerate:(NSValueTransformer *)transformer;

@@ -225,6 +225,14 @@
 #pragma mark Collections
 
 
++ (OCATransformer *)count {
+    return [OCATransformer fromClass:nil toClass:[NSNumber class] asymetric:^NSNumber *(id input) {
+        if ([input respondsToSelector:@selector(count)]) return @([input count]);
+        return nil;
+    }];
+}
+
+
 + (OCATransformer *)branch:(NSArray *)transformers {
     return [OCATransformer fromClass:nil toClass:[NSArray class] asymetric:^id(id input) {
         NSMutableArray *output = [[NSMutableArray alloc] init];

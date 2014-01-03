@@ -138,13 +138,7 @@
                                                    return [input componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
                                                }] describe:@"split words"];
     
-    OCATransformer *countCollection = [[OCATransformer fromClass:nil toClass:[NSNumber class]
-                                                       asymetric:^NSNumber *(id input) {
-                                                           if ([input respondsToSelector:@selector(count)]) return @([input count]);
-                                                           else return @0;
-                                                       }] describe:@"count"];
-    
-    OCATransformer *countWords = [OCATransformer sequence:@[ toWords, countCollection ]];
+    OCATransformer *countWords = [OCATransformer sequence:@[ toWords, [OCATransformer count] ]];
     
     XCTAssertEqualObjects([countWords.class valueClass], [NSString class], @"Sequence has mismatched input class.");
     XCTAssertEqualObjects([countWords.class transformedValueClass], [NSNumber class], @"Sequence has mismatched output class.");
