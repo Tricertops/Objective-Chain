@@ -33,5 +33,7 @@
 + (id)boxValue:(const void *)buffer objCType:(const char *)type;
 - (BOOL)unboxValue:(void *)buffer objCType:(const char *)type;
 
++ (BOOL)objCTypeIsNumeric:(const char *)type;
+
 
 @end

@@ -15,36 +15,39 @@
 @implementation NSValue (Boxing)
 
 
+//TODO: Something better than macros.
+
+
 
 
 #define NSValueConditional(TYPE)                    if (strcmp(type, @encode(TYPE)) == 0)
 
 
 + (id)boxValue:(const void *)buffer objCType:(const char *)type {
-#define NSValueConditionalyReturnNumber(TYPE)       NSValueConditional(TYPE) return @( * (TYPE *)buffer)
+#define NSValueConditionalyBoxNumber(TYPE)       NSValueConditional(TYPE) return @( * (TYPE *)buffer)
     
     NSValueConditional(void) return nil;
     
-    NSValueConditionalyReturnNumber(char);
-    NSValueConditionalyReturnNumber(short);
-    NSValueConditionalyReturnNumber(int);
-    NSValueConditionalyReturnNumber(long);
-    NSValueConditionalyReturnNumber(long long);
+    NSValueConditionalyBoxNumber(char);
+    NSValueConditionalyBoxNumber(short);
+    NSValueConditionalyBoxNumber(int);
+    NSValueConditionalyBoxNumber(long);
+    NSValueConditionalyBoxNumber(long long);
     
-    NSValueConditionalyReturnNumber(unsigned char);
-    NSValueConditionalyReturnNumber(unsigned short);
-    NSValueConditionalyReturnNumber(unsigned int);
-    NSValueConditionalyReturnNumber(unsigned long);
-    NSValueConditionalyReturnNumber(unsigned long long);
+    NSValueConditionalyBoxNumber(unsigned char);
+    NSValueConditionalyBoxNumber(unsigned short);
+    NSValueConditionalyBoxNumber(unsigned int);
+    NSValueConditionalyBoxNumber(unsigned long);
+    NSValueConditionalyBoxNumber(unsigned long long);
     
-    NSValueConditionalyReturnNumber(float);
-    NSValueConditionalyReturnNumber(double);
+    NSValueConditionalyBoxNumber(float);
+    NSValueConditionalyBoxNumber(double);
     
-    NSValueConditionalyReturnNumber(_Bool);
+    NSValueConditionalyBoxNumber(_Bool);
     
     return [NSValue valueWithBytes:buffer objCType:type];
     
-#undef NSValueConditionalyReturnNumber
+#undef NSValueConditionalyBoxNumber
 }
 
 
@@ -87,6 +90,28 @@ NSValueConditional(TYPE) { \
     return NO;
     
 #undef NSValueConditionalyUnboxNumber
+}
+
+
++ (BOOL)objCTypeIsNumeric:(const char *)type {
+    NSValueConditional(char) return YES;
+    NSValueConditional(short) return YES;
+    NSValueConditional(int) return YES;
+    NSValueConditional(long) return YES;
+    NSValueConditional(long long) return YES;
+    
+    NSValueConditional(unsigned char) return YES;
+    NSValueConditional(unsigned short) return YES;
+    NSValueConditional(unsigned int) return YES;
+    NSValueConditional(unsigned long) return YES;
+    NSValueConditional(unsigned long long) return YES;
+    
+    NSValueConditional(float) return YES;
+    NSValueConditional(double) return YES;
+    
+    NSValueConditional(_Bool) return YES;
+    
+    return NO;
 }
 
 

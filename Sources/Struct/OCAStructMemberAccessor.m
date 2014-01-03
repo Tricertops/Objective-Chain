@@ -36,18 +36,19 @@
 
 - (instancetype)initWithStructType:(const char *)structType
                         memberType:(const char *)memberType
-                        memberPath:(NSString *)memberPath
-                          isNumeric:(BOOL)isNumeric
                           getBlock:(NSValue *(^)(NSValue *structValue))getBlock
                           setBlock:(NSValue *(^)(NSValue *structValue, NSValue *memberValue))setBlock {
     self = [super init];
     if (self) {
-        //TODO: Assertions
-        //TODO: Check structType to be really struct
+        OCAAssert( ! [NSValue objCTypeIsNumeric:structType], @"This is not a struct! Don't play with types or bad things will happen!") return nil;
+        OCAAssert(getBlock != nil, @"Missing get block.");
+        OCAAssert(setBlock != nil, @"Missing set block.");
+        
         self->_structType = structType;
         self->_memberType = memberType;
-        self->_memberPath = memberPath;
-        self->_isNumeric = isNumeric;
+        
+        self->_isNumeric = [NSValue objCTypeIsNumeric:memberType];
+        
         self->_getBlock = getBlock;
         self->_setBlock = setBlock;
     }
@@ -78,11 +79,6 @@
     }
     // What can pass here: nil, NSNumber (only if the member is numeric), NSValue (only if member is non-numeric)
     return self.setBlock(structValue, memberValue);
-}
-
-
-+ (BOOL)isNumericType:(const char *)type {
-    return (strlen(type) == 1 && strchr("cCsSiIlLqQfd", type[0]) != NULL);
 }
 
 
