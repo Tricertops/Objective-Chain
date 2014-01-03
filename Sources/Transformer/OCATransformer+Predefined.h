@@ -26,9 +26,11 @@
 + (OCATransformer *)copy;
 + (OCATransformer *)mutableCopy;
 
-+ (OCATransformer *)if:(NSPredicate *)predicate then:(OCATransformer *)thenTransformer else:(OCATransformer *)elseTransformer;
++ (OCATransformer *)if:(NSPredicate *)predicate then:(NSValueTransformer *)thenTransformer else:(NSValueTransformer *)elseTransformer;
 + (OCATransformer *)traverseKeyPath:(NSString *)keypath;
 //TODO: +property:(OCAProperty *)property, that knows input and output classes
+//TODO: +accessStructure:
+//TODO: +setStructureMember: value:
 + (OCATransformer *)replaceWith:(id)replacement;
 + (OCATransformer *)map:(NSDictionary *)dictionary;
 + (OCATransformer *)mapFromTable:(NSMapTable *)mapTable;

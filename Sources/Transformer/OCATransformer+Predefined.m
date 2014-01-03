@@ -32,20 +32,22 @@
     if ( ! transformers.count) return [self pass];
     transformers = [transformers copy];
     
-    OCATransformer *firstTransformer = transformers.firstObject;
-    OCATransformer *lastTransformer = transformers.lastObject;
+    NSValueTransformer *firstTransformer = transformers.firstObject;
+    NSValueTransformer *lastTransformer = transformers.lastObject;
     
     BOOL areReversible = YES;
     NSMutableArray *descriptions = [[NSMutableArray alloc] init];
     NSMutableArray *reverseDescriptions = [[NSMutableArray alloc] init];
     
-    for (OCATransformer *t in transformers) {
+    Class previousOutputClass = nil;
+    for (NSValueTransformer *t in transformers) {
         areReversible &= [t.class allowsReverseTransformation];
         [descriptions addObject:t.description ?: @"unknown"];
-        [reverseDescriptions addObject:t.reverseDescription ?: @"unknown"];
+        [reverseDescriptions addObject:t.reversed.description ?: @"unknown"];
+        
+        OCAAssert(previousOutputClass && ! [[t.class valueClass] isSubclassOfClass:previousOutputClass], @"Classes of transformers in sequence are incompatible.") return [OCATransformer null];
+        previousOutputClass = [t.class transformedValueClass];
     }
-    //TODO: Class check
-    
     return [[OCATransformer fromClass:[firstTransformer.class valueClass]
                               toClass:[lastTransformer.class transformedValueClass]
                             transform:^id(id input) {
@@ -70,7 +72,7 @@
     NSMapTable *byInputClass = [NSMapTable strongToStrongObjectsMapTable];
     NSMapTable *byOutputClass = [NSMapTable strongToStrongObjectsMapTable];
     NSMutableSet *inputClasses = [[NSMutableSet alloc] init];
-    for (OCATransformer *t in transformers) {
+    for (NSValueTransformer *t in transformers) {
         //TODO: Warn about multiple matches.
         Class inputClass = [t.class valueClass] ?: [NSObject class];
         Class outputClass = [t.class transformedValueClass] ?: [NSObject class];
@@ -86,7 +88,7 @@
     return [[OCATransformer fromClass:nil toClass:finalClass transform:^id(id input) {
         Class class = [input class];
         while (class) {
-            OCATransformer *t = [byInputClass objectForKey:class];
+            NSValueTransformer *t = [byInputClass objectForKey:class];
             if (t) return [t transformedValue:input];
             class = class.superclass;
         }
@@ -95,7 +97,7 @@
         // Reverse is basically undefined, but this should do it. Using first most concrete transformer.
         Class class = [input class];
         while (class) {
-            OCATransformer *t = [byOutputClass objectForKey:class];
+            NSValueTransformer *t = [byOutputClass objectForKey:class];
             if (t) return [t reverseTransformedValue:input];
             class = class.superclass;
         }
@@ -145,7 +147,7 @@
 }
 
 
-+ (OCATransformer *)if:(NSPredicate *)predicate then:(OCATransformer *)thenTransformer else:(OCATransformer *)elseTransformer {
++ (OCATransformer *)if:(NSPredicate *)predicate then:(NSValueTransformer *)thenTransformer else:(NSValueTransformer *)elseTransformer {
     Class inputClass = [self valueClassForClasses:@[ [thenTransformer.class valueClass],
                                                      [elseTransformer.class valueClass] ]];
     Class outputClass = [self valueClassForClasses:@[ [thenTransformer.class transformedValueClass],
