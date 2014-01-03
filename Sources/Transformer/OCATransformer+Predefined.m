@@ -23,6 +23,11 @@
 }
 
 
++ (OCATransformer *)null {
+    return [[OCATransformer fromClass:nil toClass:nil symetric:OCATransformationNil] describe:@"null"];
+}
+
+
 + (OCATransformer *)sequence:(NSArray *)transformers {
     if ( ! transformers.count) return [self pass];
     transformers = [transformers copy];
@@ -98,6 +103,29 @@
     }]
             describe:[NSString stringWithFormat:@"convert { %@ } to %@", inputClassesString, finalClass]
             reverse:[NSString stringWithFormat:@"convert %@ to undefined { %@ }", finalClass, inputClassesString]];
+}
+
+
++ (OCATransformer *)repeat:(NSUInteger)count transformer:(NSValueTransformer *)transformer {
+    Class inputClass = [transformer.class valueClass];
+    Class outputClass = [transformer.class transformedValueClass];
+    OCAAssert([inputClass isSubclassOfClass:outputClass], @"") return [OCATransformer null];
+    
+    return [[OCATransformer fromClass:inputClass toClass:outputClass transform:^id(id input) {
+        id value = input;
+        for (NSUInteger iteration = 0; iteration < count; iteration++) {
+            value = [transformer transformedValue:value];
+        }
+        return value;
+    } reverse:^id(id input) {
+        id value = input;
+        for (NSUInteger iteration = 0; iteration < count; iteration++) {
+            value = [transformer reverseTransformedValue:value];
+        }
+        return value;
+    }]
+            describe:[NSString stringWithFormat:@"%@ times %@", @(count), transformer]
+            reverse:[NSString stringWithFormat:@"%@ times %@", @(count), [transformer reversed]]];
 }
 
 

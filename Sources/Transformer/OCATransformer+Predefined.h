@@ -17,9 +17,11 @@
 
 
 + (OCATransformer *)pass;
++ (OCATransformer *)null;
 
 + (OCATransformer *)sequence:(NSArray *)transformers;
 + (OCATransformer *)convertTo:(Class)finalClass using:(NSArray *)transformers;
++ (OCATransformer *)repeat:(NSUInteger)count transformer:(NSValueTransformer *)transformer;
 
 + (OCATransformer *)copy;
 + (OCATransformer *)mutableCopy;

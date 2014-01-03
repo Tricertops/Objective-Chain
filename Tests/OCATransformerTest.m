@@ -180,6 +180,34 @@
 }
 
 
+- (void)test_predefinedRepeat_transformRequiredNumerOfTimes {
+    OCATransformer *appendExclamation = [[OCATransformer fromClass:[NSString class] toClass:[NSString class]
+                                                          transform:^NSString *(NSString *input) {
+                                                              return [input stringByAppendingString:@"!"];
+                                                          } reverse:^NSString *(NSString *input) {
+                                                              if ([input hasSuffix:@"!"]) return [input substringToIndex:input.length-1];
+                                                              else return input;
+                                                          }] describe:@"append “!”" reverse:@"remove appended “!”"];
+    OCATransformer *t = [OCATransformer repeat:5 transformer:appendExclamation];
+    
+    XCTAssertEqualObjects([t transformedValue:@"Hello"], @"Hello!!!!!");
+    XCTAssertEqualObjects([t reverseTransformedValue:@"Hello!!!"], @"Hello");
+}
+
+
+- (void)test_predefinedRepeat {
+    OCATransformer *toWords = [[OCATransformer fromClass:[NSString class] toClass:[NSArray class]
+                                               transform:^NSArray *(NSString *input) {
+                                                   NSCharacterSet *whitespace = [NSCharacterSet whitespaceAndNewlineCharacterSet];
+                                                   return [input componentsSeparatedByCharactersInSet:whitespace];
+                                               } reverse:^NSString *(NSArray *input) {
+                                                   return [input componentsJoinedByString:@" "];
+                                               }] describe:@"split words" reverse:@"join words"];
+    OCATransformer *t = [OCATransformer repeat:10 transformer:toWords];
+    XCTAssertNil([t transformedValue:@"Hello World!"], @"Incompatible transformer should be replaced by null.");
+}
+
+
 - (void)test_predefinedCopy_returnCopyIfCopiable {
     OCATransformer *t = [OCATransformer copy];
     NSMutableString *s = [@"test" mutableCopy];
