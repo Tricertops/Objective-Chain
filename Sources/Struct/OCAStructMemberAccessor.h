@@ -27,6 +27,10 @@
 
 @property (OCA_atomic, readonly, assign) BOOL isNumeric;
 
+@property (OCA_atomic, readonly, assign) NSString *structureDescription;
+@property (OCA_atomic, readonly, assign) NSString *memberDescription;
+- (instancetype)describeStructure:(NSString *)structure member:(NSString *)member;
+
 
 - (NSValue *)memberFromStructure:(NSValue *)structValue;
 - (NSValue *)setMember:(NSValue *)memberValue toStructure:(NSValue *)structValue;
@@ -60,7 +64,7 @@
         if ( ! memberUnboxed) return nil; \
         structure.MEMBER = member; \
         return [NSValue valueWithBytes:&structure objCType:structType]; \
-    }]; \
+    }] describeStructure:@#STRUCT member:@#MEMBER]; \
 }) \
 
 

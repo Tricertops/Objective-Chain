@@ -10,6 +10,8 @@
 
 
 
+
+
 @interface OCAStructMemberAccessor ()
 
 
@@ -34,6 +36,9 @@
 
 
 
+#pragma mark Creating Struct Member Accessor
+
+
 - (instancetype)initWithStructType:(const char *)structType
                         memberType:(const char *)memberType
                           getBlock:(NSValue *(^)(NSValue *structValue))getBlock
@@ -51,9 +56,41 @@
         
         self->_getBlock = getBlock;
         self->_setBlock = setBlock;
+        
+        [self describeStructure:[NSString stringWithUTF8String:structType]
+                         member:[NSString stringWithUTF8String:memberType]];
     }
     return self;
 }
+
+
+
+
+
+#pragma mark Describing Struct Member Accessors
+
+
+- (NSString *)description {
+    return [NSString stringWithFormat:@"%@.%@", self.structureDescription, self.memberDescription];
+}
+
+
+- (NSString *)debugDescription {
+    return [NSString stringWithFormat:@"<%@ %p; structType = %s; memberType = %s; %@>", self.class, self, self.structType, self.memberType, self.description];
+}
+
+
+- (instancetype)describeStructure:(NSString *)structure member:(NSString *)member {
+    self->_structureDescription = structure;
+    self->_memberDescription = member;
+    return self;
+}
+
+
+
+
+
+#pragma mark Using Struct Member Accessor
 
 
 - (NSValue *)memberFromStructure:(NSValue *)structValue {
@@ -86,3 +123,5 @@
 
 
 @end
+
+
