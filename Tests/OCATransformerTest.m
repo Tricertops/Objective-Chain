@@ -291,10 +291,11 @@
 
 
 - (void)test_predefinedKindOfClass {
-    OCATransformer *t = [OCATransformer ofClass:[NSString class] or:[@"" mutableCopy]];
+    OCATransformer *t = [OCATransformer ofClass:[NSString class] or:[@"a" mutableCopy]];
     XCTAssertEqualObjects([t.class transformedValueClass], [NSString class], @"Output class should be detected.");
     XCTAssertEqualObjects([t transformedValue:@"test"], @"test");
-    XCTAssertEqualObjects([t transformedValue:@42], @"");
+    XCTAssertEqualObjects([t transformedValue:@42], @"a");
+    XCTAssertNil([t transformedValue:nil]);
 }
 
 
