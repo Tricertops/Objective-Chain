@@ -48,7 +48,7 @@
 
 
 + (OCATransformer *)replaceWith:(id)replacement {
-    return [[OCATransformer fromClass:nil toClass:[replacement class] transform:^id(id input) {
+    return [[OCATransformer fromClass:nil toClass:[replacement classForKeyedArchiver] transform:^id(id input) {
         return replacement;
     } reverse:OCATransformationPass]
             describe:[NSString stringWithFormat:@"replace with %@", replacement]];
@@ -254,7 +254,7 @@
 
 
 + (OCATransformer *)ofClass:(Class)class or:(id)replacement {
-    Class commonClass = [replacement class];
+    Class commonClass = [replacement classForKeyedArchiver];
     while (commonClass) {
         if ([class isSubclassOfClass:commonClass]) break;
         commonClass = [commonClass superclass];

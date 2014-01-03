@@ -256,6 +256,7 @@
 - (void)test_predefinedReplace {
     OCATransformer *t = [OCATransformer replaceWith:@"A"];
     XCTAssertEqualObjects([t transformedValue:@"B"], @"A");
+    XCTAssertEqualObjects([t.class transformedValueClass], [NSString class], @"Must not declare private subclasses.");
 }
 
 
