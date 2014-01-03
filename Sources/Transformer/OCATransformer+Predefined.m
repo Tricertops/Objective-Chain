@@ -225,6 +225,19 @@
 #pragma mark Collections
 
 
++ (OCATransformer *)branch:(NSArray *)transformers {
+    return [OCATransformer fromClass:nil toClass:[NSArray class] asymetric:^id(id input) {
+        NSMutableArray *array = [[NSMutableArray alloc] init];
+        
+        for (id transformer in transformers) {
+            id object = [transformer transformedValue:input];
+            [array addObject:object ?: [NSNull null]];
+        }
+        return array;
+    }];
+}
+
+
 + (OCATransformer *)enumerate:(NSValueTransformer *)transformer nullReplacement:(id)nullReplacement {
     return [OCATransformer fromClass:nil toClass:nil asymetric:^id(NSObject<NSFastEnumeration> *collection) {
         if ( ! collection) return nil;

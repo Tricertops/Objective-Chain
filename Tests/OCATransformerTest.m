@@ -379,6 +379,17 @@
 }
 
 
+- (void)test_predefinedBranch {
+    OCATransformer *t = [OCATransformer branch:@[
+                                                 [OCATransformer traverseKeyPath:OCAKeypathUnsafe(uppercaseString)],
+                                                 [OCATransformer traverseKeyPath:OCAKeypathUnsafe(lowercaseString)],
+                                                 [OCATransformer traverseKeyPath:OCAKeypathUnsafe(capitalizedString)],
+                                                 ]];
+    NSArray *result = @[ @"HELLO", @"hello", @"Hello" ];
+    XCTAssertEqualObjects([t transformedValue:@"heLLo"], result);
+}
+
+
 
 
 
