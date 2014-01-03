@@ -66,6 +66,18 @@
 }
 
 
+- (void)test_trigonometry {
+    OCATransformer *t = [OCATransformer sequence:@[
+                                                   [OCAMath toRadians],
+                                                   [OCAMath sine],
+                                                   [OCAMath powerBy:2],
+                                                   ]];
+    const OCAReal accuracy = 1e-14; // May need increase for more lossy calculations.
+    XCTAssertEqualWithAccuracy([[t transformedValue:@45] doubleValue], 0.5, accuracy);
+    XCTAssertEqualWithAccuracy([[t reverseTransformedValue:@0.5] doubleValue], 45, accuracy);
+}
+
+
 
 
 
