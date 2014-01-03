@@ -45,7 +45,7 @@
         [descriptions addObject:t.description ?: @"unknown"];
         [reverseDescriptions addObject:t.reversed.description ?: @"unknown"];
         
-        OCAAssert(previousOutputClass && ! [[t.class valueClass] isSubclassOfClass:previousOutputClass], @"Classes of transformers in sequence are incompatible.") return [OCATransformer null];
+        OCAAssert(previousOutputClass == Nil || [t.class valueClass] == Nil || [[t.class valueClass] isSubclassOfClass:previousOutputClass], @"Classes of transformers in sequence are incompatible.") return [OCATransformer null];
         previousOutputClass = [t.class transformedValueClass];
     }
     return [[OCATransformer fromClass:[firstTransformer.class valueClass]
