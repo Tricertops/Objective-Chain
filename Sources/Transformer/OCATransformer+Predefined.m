@@ -193,7 +193,7 @@
 }
 
 
-+ (OCATransformer *)accessStruct:(OCAStructMemberAccessor *)structAccessor {
++ (OCATransformer *)accessStruct:(OCAStructureAccessor *)structAccessor {
     return [[OCATransformer fromClass:[NSValue class]
                              toClass:(structAccessor.isNumeric? [NSNumber class] : [NSValue class])
                            asymetric:^NSValue *(NSValue *input) {
@@ -202,7 +202,7 @@
 }
 
 
-+ (OCATransformer *)modifyStruct:(OCAStructMemberAccessor *)structAccessor value:(NSValue *)memberValue {
++ (OCATransformer *)modifyStruct:(OCAStructureAccessor *)structAccessor value:(NSValue *)memberValue {
     return [[OCATransformer fromClass:[NSValue class] toClass:[NSValue class] symetric:^NSValue *(NSValue *structValue) {
         return [structAccessor setMember:memberValue toStructure:structValue];
     }] describe:[NSString stringWithFormat:@"%@ = %@", structAccessor, memberValue]];

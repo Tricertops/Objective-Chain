@@ -1,18 +1,18 @@
 //
-//  OCAStructMemberAccessor.m
+//  OCAStructureAccessor.m
 //  Objective-Chain
 //
 //  Created by Martin Kiss on 3.1.14.
 //  Copyright (c) 2014 Martin Kiss. All rights reserved.
 //
 
-#import "OCAStructMemberAccessor.h"
+#import "OCAStructureAccessor.h"
 
 
 
 
 
-@interface OCAStructMemberAccessor ()
+@interface OCAStructureAccessor ()
 
 
 @property (OCA_atomic, readonly, copy) NSValue *(^getBlock)(NSValue *);
@@ -30,7 +30,7 @@
 
 
 
-@implementation OCAStructMemberAccessor
+@implementation OCAStructureAccessor
 
 
 

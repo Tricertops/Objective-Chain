@@ -7,7 +7,7 @@
 //
 
 #import "OCATransformer.h"
-#import "OCAStructMemberAccessor.h"
+#import "OCAStructureAccessor.h"
 
 
 
@@ -37,8 +37,8 @@
 #pragma mark Access Members
 
 + (OCATransformer *)traverseKeyPath:(NSString *)keypath;
-+ (OCATransformer *)accessStruct:(OCAStructMemberAccessor *)structAccessor;
-+ (OCATransformer *)modifyStruct:(OCAStructMemberAccessor *)structAccessor value:(NSValue *)value;
++ (OCATransformer *)accessStruct:(OCAStructureAccessor *)structAccessor;
++ (OCATransformer *)modifyStruct:(OCAStructureAccessor *)structAccessor value:(NSValue *)value;
 
 
 #pragma mark Other

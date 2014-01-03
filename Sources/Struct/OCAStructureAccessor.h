@@ -1,5 +1,5 @@
 //
-//  OCAStructMemberAccessor.h
+//  OCAStructureAccessor.h
 //  Objective-Chain
 //
 //  Created by Martin Kiss on 3.1.14.
@@ -13,7 +13,7 @@
 
 
 
-@interface OCAStructMemberAccessor : OCAObject
+@interface OCAStructureAccessor : OCAObject
 
 
 
@@ -45,11 +45,11 @@
 
 #define OCAStruct(STRUCT, MEMBER) \
 \
-(OCAStructMemberAccessor *)({ \
+(OCAStructureAccessor *)({ \
     STRUCT s; \
     const char *structType = @encode(STRUCT); \
     const char *memberType = @encode(typeof(s.MEMBER)); \
-    [[[OCAStructMemberAccessor alloc] initWithStructType:structType memberType:memberType getBlock:^NSValue *(NSValue *structValue) { \
+    [[[OCAStructureAccessor alloc] initWithStructType:structType memberType:memberType getBlock:^NSValue *(NSValue *structValue) { \
         typeof(s) structure; \
         BOOL unboxed = [structValue unboxValue:&structure objCType:structType]; \
         if ( ! unboxed) return nil; \
@@ -68,7 +68,7 @@
 }) \
 
 
-inline NSValue *_OCAStructMemberAccessorGetBlockExample(NSValue *structValue) {
+inline NSValue *_OCAStructureAccessorGetBlockExample(NSValue *structValue) {
     CGRect s;
     const char *structType = @encode(typeof(s));
     const char *memberType = @encode(typeof(s.origin.x));
@@ -83,7 +83,7 @@ inline NSValue *_OCAStructMemberAccessorGetBlockExample(NSValue *structValue) {
 }
 
 
-inline NSValue *_OCAStructMemberAccessorSetBlockExample(NSValue *structValue, NSValue *memberValue) {
+inline NSValue *_OCAStructureAccessorSetBlockExample(NSValue *structValue, NSValue *memberValue) {
     CGRect s;
     const char *structType = @encode(typeof(s));
     const char *memberType = @encode(typeof(s.origin.x));

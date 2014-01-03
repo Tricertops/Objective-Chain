@@ -19,4 +19,4 @@
 #import "OCATransformer+Predefined.h"
 #import "OCATransformer+Math.h"
 
-#import "OCAStructMemberAccessor.h"
+#import "OCAStructureAccessor.h"
