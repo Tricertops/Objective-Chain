@@ -222,6 +222,44 @@
 
 
 
+#pragma mark Collections
+
+
++ (OCATransformer *)enumerate:(NSValueTransformer *)transformer nullReplacement:(id)nullReplacement {
+    return [OCATransformer fromClass:nil toClass:nil asymetric:^id(NSObject<NSFastEnumeration> *collection) {
+        if ( ! collection) return nil;
+        if ( ! [collection conformsToProtocol:@protocol(NSFastEnumeration)]) return nil;
+        
+        BOOL conformsToMutableCopying = [collection conformsToProtocol:@protocol(NSMutableCopying)]; // NSArray, NSSet, NSOrderedSet
+        BOOL isHashTable = [collection isKindOfClass:[NSHashTable class]]; // NSHashTable
+        
+        if ( ! conformsToMutableCopying && ! isHashTable) return nil;
+        
+        // I will goto hell because of this...
+        id mutableCollection = nil;
+        if (conformsToMutableCopying) {
+            mutableCollection = [[[[collection classForKeyedArchiver] alloc] init] mutableCopy];
+        }
+        else if (isHashTable) {
+            NSHashTable *hashTable = (typeof(hashTable))collection;
+            mutableCollection = [[NSHashTable alloc] initWithPointerFunctions:[hashTable.pointerFunctions copy] capacity:hashTable.count];
+        }
+        OCAAssert([mutableCollection respondsToSelector:@selector(addObject:)], @"Creating mutable colelction failed.") return [OCATransformer null];
+        
+        for (id object in collection) {
+            id transformed = [transformer transformedValue:object] ?: nullReplacement;
+            if (transformed) {
+                [mutableCollection addObject:transformed];
+            }
+        }
+        return mutableCollection;
+    }];
+}
+
+
+
+
+
 #pragma mark Other
 
 

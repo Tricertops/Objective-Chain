@@ -42,6 +42,11 @@
 + (OCATransformer *)modifyStruct:(OCAStructureAccessor *)structAccessor value:(NSValue *)value;
 
 
+#pragma mark Collections
+
++ (OCATransformer *)enumerate:(NSValueTransformer *)transformer nullReplacement:(id)nullReplacement;
+
+
 #pragma mark Other
 
 + (OCATransformer *)map:(NSDictionary *)dictionary;

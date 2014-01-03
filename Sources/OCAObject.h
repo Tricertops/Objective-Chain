@@ -53,6 +53,10 @@
 
 
 
+#define OCAKeypathUnsafe(KEYPATH)   NSStringFromSelector(@selector(KEYPATH))
+
+
+
 
 
 @interface OCAObject : NSObject
