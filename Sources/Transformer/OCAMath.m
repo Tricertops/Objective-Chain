@@ -126,10 +126,9 @@
     return [[self transform:^OCAReal(OCAReal x) {
         return ABS(x);
     } reverse:^OCAReal(OCAReal y) {
-        return y;
+        return ABS(y);
     }]
-            describe:@"absolute value"
-            reverse:@"pass number"];
+            describe:@"absolute value"];
 }
 
 

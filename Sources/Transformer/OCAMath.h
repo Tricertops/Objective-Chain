@@ -77,10 +77,10 @@ typedef OCAReal(^OCARealTransformBlock)(OCAReal x);
 + (OCATransformer *)arcSine;
 + (OCATransformer *)arcCosine;
 + (OCATransformer *)arcTangent;
-+ (OCATransformer *)arcTangentOfTwo;
 
 + (OCATransformer *)toDegrees;
 + (OCATransformer *)toRadians;
+
 
 
 @end
