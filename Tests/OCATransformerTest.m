@@ -260,6 +260,13 @@
 }
 
 
+- (void)test_predefinedNonNull {
+    OCATransformer *t = [OCATransformer nonNull:@"A"];
+    XCTAssertEqualObjects([t transformedValue:@"B"], @"B");
+    XCTAssertNotNil([t transformedValue:nil]);
+}
+
+
 - (void)test_predefinedMap_NSDictionary {
     OCATransformer *t = [OCATransformer map:@{
                                               @"A": @1,

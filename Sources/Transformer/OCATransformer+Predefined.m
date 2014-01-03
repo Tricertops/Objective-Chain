@@ -31,6 +31,16 @@
 }
 
 
++ (OCATransformer *)nonNull:(id)replacement {
+    OCAAssert(replacement != nil, @"Are you kidding me?");
+    
+    return [[OCATransformer fromClass:nil toClass:nil transform:^id(id input) {
+        return input ?: replacement;
+    } reverse:OCATransformationPass]
+            describe:[NSString stringWithFormat:@"replace nil by %@", replacement]];
+}
+
+
 + (OCATransformer *)copy {
     return [[OCATransformer fromClass:nil toClass:nil transform:^id(id input) {
         if ([input conformsToProtocol:@protocol(NSCopying)]) return [input copy];

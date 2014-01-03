@@ -21,6 +21,7 @@
 
 + (OCATransformer *)pass;
 + (OCATransformer *)null;
++ (OCATransformer *)nonNull:(id)replacement;
 + (OCATransformer *)copy;
 + (OCATransformer *)mutableCopy;
 + (OCATransformer *)replaceWith:(id)replacement;
