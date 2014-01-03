@@ -87,14 +87,14 @@ typedef struct {
 
 
 - (void)test_memberAccess_setValue {
-//    OCATestLink link;
-//    self.link = link;
-//    
-//    OCAStructMemberAccessor *accessLinkURLLocation = OCAStruct(OCATestLink, URL);
-//    NSValue *modifiedLinkValue = [accessLinkURLLocation setMember:[NSValue valueWithRange:NSMakeRange(1, 2)]
-//                                                      toStructure:[self valueForKey:@"link"]];
-//    [self setValue:modifiedLinkValue forKey:@"link"];
-//    XCTAssertTrue(self.link.URL.location == 1, @"Failed to set sub-struc member.");
+    OCATestLink link;
+    self.link = link;
+    
+    OCAStructMemberAccessor *accessLinkURLLocation = OCAStruct(OCATestLink, URL);
+    NSValue *modifiedLinkValue = [accessLinkURLLocation setMember:[NSValue valueWithRange:NSMakeRange(1, 2)]
+                                                      toStructure:[self valueForKey:@"link"]];
+    [self setValue:modifiedLinkValue forKey:@"link"];
+    XCTAssertTrue(self.link.URL.location == 1, @"Failed to set sub-struc member.");
 }
 
 

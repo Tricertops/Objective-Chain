@@ -45,26 +45,26 @@
     STRUCT s; \
     const char *structType = @encode(STRUCT); \
     const char *memberType = @encode(typeof(s.MEMBER)); \
-    [[OCAStructMemberAccessor alloc] initWithStructType:structType memberType:memberType getBlock:^NSValue *(NSValue *structValue) { \
+    [[[OCAStructMemberAccessor alloc] initWithStructType:structType memberType:memberType getBlock:^NSValue *(NSValue *structValue) { \
         typeof(s) structure; \
         BOOL unboxed = [structValue unboxValue:&structure objCType:structType]; \
         if ( ! unboxed) return nil; \
-        typeof(s.origin.x) member = structure.origin.x; \
+        typeof(s.MEMBER) member = structure.MEMBER; \
         return [NSValue boxValue:&member objCType:memberType]; \
     } setBlock:^NSValue *(NSValue *structValue, NSValue *memberValue) { \
         typeof(s) structure; \
         BOOL structUnboxed = [structValue unboxValue:&structure objCType:structType]; \
         if ( ! structUnboxed) return nil; \
-        typeof(s.origin.x) member; \
+        typeof(s.MEMBER) member; \
         BOOL memberUnboxed = [memberValue unboxValue:&member objCType:memberType]; \
         if ( ! memberUnboxed) return nil; \
-        structure.origin.x = member; \
+        structure.MEMBER = member; \
         return [NSValue valueWithBytes:&structure objCType:structType]; \
     }]; \
 }) \
 
 
-inline NSValue *OCAStructMemberAccessorGetBlockExample(NSValue *structValue) {
+inline NSValue *_OCAStructMemberAccessorGetBlockExample(NSValue *structValue) {
     CGRect s;
     const char *structType = @encode(typeof(s));
     const char *memberType = @encode(typeof(s.origin.x));
@@ -79,7 +79,7 @@ inline NSValue *OCAStructMemberAccessorGetBlockExample(NSValue *structValue) {
 }
 
 
-inline NSValue *OCAStructMemberAccessorSetBlockExample(NSValue *structValue, NSValue *memberValue) {
+inline NSValue *_OCAStructMemberAccessorSetBlockExample(NSValue *structValue, NSValue *memberValue) {
     CGRect s;
     const char *structType = @encode(typeof(s));
     const char *memberType = @encode(typeof(s.origin.x));
