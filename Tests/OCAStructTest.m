@@ -37,6 +37,28 @@ typedef struct {
 
 
 
+- (void)test_boxing_numeric {
+    NSNumber *numeric = OCABox(5);
+    XCTAssertTrue([numeric isKindOfClass:[NSNumber class]], @"Primitive numeric type must box into NSNumer.");
+    NSUInteger integer = OCAUnbox(numeric, NSUInteger, 0);
+    XCTAssertTrue(integer == 5);
+    
+    NSRange range = OCAUnbox(numeric, NSRange, NSMakeRange(NSNotFound, NSNotFound));
+    XCTAssertTrue(range.location == NSNotFound, @"Mismatched type must use replacement.");
+}
+
+
+- (void)test_boxing_structure {
+    NSValue *structure = OCABox(NSMakeRange(4, 39));
+    XCTAssertFalse([structure isKindOfClass:[NSNumber class]], @"Non-numeric primitive type must NOT box into NSNumer.");
+    NSRange range = OCAUnbox(structure, NSRange, NSMakeRange(NSNotFound, NSNotFound));
+    XCTAssertTrue(range.location == 4);
+    
+    NSUInteger integer = OCAUnbox(structure, NSUInteger, 42);
+    XCTAssertTrue(integer == 42);
+}
+
+
 - (void)test_memberAccess_getNumeric {
     OCAStructMemberAccessor *accessRangeLocation = OCAStruct(NSRange, location);
     NSValue *range = [NSValue valueWithRange:NSMakeRange(2, 5)];
