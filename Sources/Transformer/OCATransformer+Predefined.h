@@ -45,6 +45,7 @@
 #pragma mark Collections
 
 + (OCATransformer *)enumerate:(NSValueTransformer *)transformer nullReplacement:(id)nullReplacement;
++ (OCATransformer *)pickIndexes:(NSIndexSet *)indexes;
 
 
 #pragma mark Other

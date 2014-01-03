@@ -363,6 +363,22 @@
 }
 
 
+- (void)test_predefinedPick_inRange {
+    OCATransformer *t = [OCATransformer pickIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(1, 2)]];
+    NSArray *abcd = @[ @"a", @"b", @"c", @"d" ];
+    NSArray *bc = @[ @"b", @"c" ];
+    XCTAssertEqualObjects([t transformedValue:abcd], bc);
+}
+
+
+- (void)test_predefinedPick_outOfRange {
+    OCATransformer *t = [OCATransformer pickIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(2, 6)]];
+    NSArray *abcd = @[ @"a", @"b", @"c", @"d" ];
+    NSArray *cd = @[ @"c", @"d" ];
+    XCTAssertEqualObjects([t transformedValue:abcd], cd);
+}
+
+
 
 
 

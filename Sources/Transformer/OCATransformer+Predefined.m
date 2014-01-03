@@ -257,6 +257,20 @@
 }
 
 
++ (OCATransformer *)pickIndexes:(NSIndexSet *)indexes {
+    return [OCATransformer fromClass:nil toClass:nil asymetric:^id(id collection) {
+        if ( ! collection) return nil;
+        if ( ! [collection respondsToSelector:@selector(count)]) return nil;
+        if ( ! [collection respondsToSelector:@selector(objectsAtIndexes:)]) return nil;
+        
+        NSIndexSet *safeIndexes = [indexes indexesPassingTest:^BOOL(NSUInteger index, BOOL *stop) {
+            return (index < [collection count]);
+        }];
+        return [collection objectsAtIndexes:safeIndexes];
+    }];
+}
+
+
 
 
 
