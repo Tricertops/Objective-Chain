@@ -39,8 +39,8 @@ typedef struct {
 
 - (void)test_memberAccess_getNumeric {
     OCAStructMemberAccessor *accessRangeLocation = OCAStruct(NSRange, location);
-    NSValue *point = [NSValue valueWithRange:NSMakeRange(2, 5)];
-    XCTAssertEqualObjects([accessRangeLocation memberFromStructure:point], @2, @"Failed to get numeric structure member.");
+    NSValue *range = [NSValue valueWithRange:NSMakeRange(2, 5)];
+    XCTAssertEqualObjects([accessRangeLocation memberFromStructure:range], @2, @"Failed to get numeric structure member.");
 }
 
 
@@ -62,6 +62,21 @@ typedef struct {
     NSRange range = [rangeValue rangeValue];
     XCTAssertTrue(range.length == 4, @"Failed to set numeric structure member");
 }
+
+
+- (void)test_memberAccess_setValue {
+//    OCATestLink link;
+//    self.link = link;
+//    
+//    OCAStructMemberAccessor *accessLinkURLLocation = OCAStruct(OCATestLink, URL);
+//    NSValue *modifiedLinkValue = [accessLinkURLLocation setMember:[NSValue valueWithRange:NSMakeRange(1, 2)]
+//                                                      toStructure:[self valueForKey:@"link"]];
+//    [self setValue:modifiedLinkValue forKey:@"link"];
+//    XCTAssertTrue(self.link.URL.location == 1, @"Failed to set sub-struc member.");
+}
+
+
+
 
 
 

@@ -39,13 +39,14 @@
 
 
 
+
+
 #define OCAStruct(STRUCT, MEMBER) \
 ({ \
     STRUCT s; \
     const char *structType = @encode(STRUCT); \
     const char *memberType = @encode(typeof(s.MEMBER)); \
-    BOOL isNumericMember = (strlen(memberType) == 1 \
-                            && strchr("cCsSiIlLqQfd", memberType[0]) != NULL); \
+    BOOL isNumericMember = [OCAStructMemberAccessor isNumericType:memberType]; \
     [[OCAStructMemberAccessor alloc] initWithStructType:structType \
                                              memberType:memberType \
                                              memberPath:@#MEMBER \
