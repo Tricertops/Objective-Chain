@@ -59,6 +59,7 @@ typedef id (^OCATransformerBlock)(id input);
 #pragma mark Deriving Transformers
 
 - (OCATransformer *)reversed;
+- (OCATransformer *)specializeFromClass:(Class)fromClass toClass:(Class)toClass;
 
 
 

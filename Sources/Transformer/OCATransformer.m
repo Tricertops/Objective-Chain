@@ -147,6 +147,17 @@
 }
 
 
+- (OCATransformer *)specializeFromClass:(Class)fromClass toClass:(Class)toClass {
+    Class class = [OCATransformer subclassForInputClass:fromClass
+                                            outputClass:toClass
+                                             reversible:[self.class allowsReverseTransformation]];
+    
+    OCATransformer *reverse = [[class alloc] initWithBlock:self.transformationBlock
+                                              reverseBlock:self.reverseTransformationBlock];
+    return [reverse describe:self.description reverse:self.reverseDescription];
+}
+
+
 
 
 
