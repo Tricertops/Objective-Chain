@@ -7,7 +7,7 @@
 //
 
 #import "OCAObject.h"
-#import "OCAConsumer+Protocol.h"
+#import "OCAConsumer.h"
 #import "OCAProducer.h"
 
 

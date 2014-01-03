@@ -7,4 +7,16 @@
 //
 
 #import "OCAConnection.h"
+
 #import "OCAProducer.h"
+#import "OCACommand.h"
+#import "OCATimer.h"
+
+#import "OCAConsumer.h"
+#import "OCASubscriber.h"
+
+#import "OCATransformer.h"
+#import "OCATransformer+Predefined.h"
+#import "OCATransformer+Math.h"
+
+#import "OCAStructMemberAccessor.h"

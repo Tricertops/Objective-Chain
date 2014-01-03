@@ -1,5 +1,5 @@
 //
-//  OCAMath.h
+//  OCATransformer+Math.h
 //  Objective-Chain
 //
 //  Created by Martin Kiss on 2.1.14.
