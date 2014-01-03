@@ -297,6 +297,24 @@
 }
 
 
+- (void)test_predefinedAccessStruct {
+    OCATransformer *t = [OCATransformer accessStruct:OCAStruct(NSRange, location)];
+    NSValue *rangeValue = OCABox(NSMakeRange(2, 6));
+    XCTAssertEqualObjects([t transformedValue:rangeValue], @2);
+    XCTAssertNil([t transformedValue:OCABox(5)], @"Must return nil for anything incompatible.");
+}
+
+
+- (void)test_predefinedModifyStruct {
+    OCATransformer *t = [OCATransformer modifyStruct:OCAStruct(NSRange, location) value:@8];
+    NSValue *rangeValue = [t transformedValue:OCABox(NSMakeRange(2, 6))];
+    NSRange range = OCAUnbox(rangeValue, NSRange, NSMakeRange(NSNotFound, 0));
+    
+    XCTAssertTrue(range.location == 8);
+    XCTAssertNil([t transformedValue:OCABox(5)], @"Must return nil for anything incompatible.");
+}
+
+
 
 
 

@@ -7,6 +7,7 @@
 //
 
 #import "OCATransformer.h"
+#import "OCAStructMemberAccessor.h"
 
 
 
@@ -16,26 +17,40 @@
 
 
 
+#pragma mark Basic
+
 + (OCATransformer *)pass;
 + (OCATransformer *)null;
++ (OCATransformer *)copy;
++ (OCATransformer *)mutableCopy;
++ (OCATransformer *)replaceWith:(id)replacement;
+
+
+#pragma mark Control Flow
 
 + (OCATransformer *)sequence:(NSArray *)transformers;
 + (OCATransformer *)convertTo:(Class)finalClass using:(NSArray *)transformers;
 + (OCATransformer *)repeat:(NSUInteger)count transformer:(NSValueTransformer *)transformer;
-
-+ (OCATransformer *)copy;
-+ (OCATransformer *)mutableCopy;
-
 + (OCATransformer *)if:(NSPredicate *)predicate then:(NSValueTransformer *)thenTransformer else:(NSValueTransformer *)elseTransformer;
+
+
+#pragma mark Access Members
+
 + (OCATransformer *)traverseKeyPath:(NSString *)keypath;
-//TODO: +property:(OCAProperty *)property, that knows input and output classes
-//TODO: +accessStructure:
-//TODO: +setStructureMember: value:
-+ (OCATransformer *)replaceWith:(id)replacement;
++ (OCATransformer *)accessStruct:(OCAStructMemberAccessor *)structAccessor;
++ (OCATransformer *)modifyStruct:(OCAStructMemberAccessor *)structAccessor value:(NSValue *)value;
+
+
+#pragma mark Other
+
 + (OCATransformer *)map:(NSDictionary *)dictionary;
 + (OCATransformer *)mapFromTable:(NSMapTable *)mapTable;
 + (OCATransformer *)ofClass:(Class)class or:(id)replacement;
 
+
+#pragma mark Side Effects
+
++ (OCATransformer *)sideEffect:(void(^)(id value))block;
 + (OCATransformer *)debugPrintWithMarker:(NSString *)marker;
 
 

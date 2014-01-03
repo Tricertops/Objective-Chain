@@ -18,6 +18,9 @@
 
 
 
+#pragma mark Basic
+
+
 + (OCATransformer *)pass {
     return [[OCATransformer fromClass:nil toClass:nil symetric:OCATransformationPass] describe:@"pass"];
 }
@@ -26,6 +29,36 @@
 + (OCATransformer *)null {
     return [[OCATransformer fromClass:nil toClass:nil symetric:OCATransformationNil] describe:@"null"];
 }
+
+
++ (OCATransformer *)copy {
+    return [[OCATransformer fromClass:nil toClass:nil transform:^id(id input) {
+        if ([input conformsToProtocol:@protocol(NSCopying)]) return [input copy];
+        else return input;
+    } reverse:OCATransformationPass] describe:@"copy" reverse:@"pass"];
+}
+
+
++ (OCATransformer *)mutableCopy {
+    return [[OCATransformer fromClass:nil toClass:nil transform:^id(id input) {
+        if ([input conformsToProtocol:@protocol(NSMutableCopying)]) return [input mutableCopy];
+        else return input;
+    } reverse:OCATransformationPass] describe:@"mutable copy" reverse:@"pass"];
+}
+
+
++ (OCATransformer *)replaceWith:(id)replacement {
+    return [[OCATransformer fromClass:nil toClass:[replacement class] transform:^id(id input) {
+        return replacement;
+    } reverse:OCATransformationPass]
+            describe:[NSString stringWithFormat:@"replace with %@", replacement]];
+}
+
+
+
+
+
+#pragma mark Control Flow
 
 
 + (OCATransformer *)sequence:(NSArray *)transformers {
@@ -131,22 +164,6 @@
 }
 
 
-+ (OCATransformer *)copy {
-    return [[OCATransformer fromClass:nil toClass:nil transform:^id(id input) {
-        if ([input conformsToProtocol:@protocol(NSCopying)]) return [input copy];
-        else return input;
-    } reverse:OCATransformationPass] describe:@"copy" reverse:@"pass"];
-}
-
-
-+ (OCATransformer *)mutableCopy {
-    return [[OCATransformer fromClass:nil toClass:nil transform:^id(id input) {
-        if ([input conformsToProtocol:@protocol(NSMutableCopying)]) return [input mutableCopy];
-        else return input;
-    } reverse:OCATransformationPass] describe:@"mutable copy" reverse:@"pass"];
-}
-
-
 + (OCATransformer *)if:(NSPredicate *)predicate then:(NSValueTransformer *)thenTransformer else:(NSValueTransformer *)elseTransformer {
     Class inputClass = [self valueClassForClasses:@[ [thenTransformer.class valueClass],
                                                      [elseTransformer.class valueClass] ]];
@@ -163,6 +180,12 @@
 }
 
 
+
+
+
+#pragma mark Access Members
+
+
 + (OCATransformer *)traverseKeyPath:(NSString *)keypath {
     return [[OCATransformer fromClass:nil toClass:nil asymetric:^id(id input) {
         return [input valueForKeyPath:keypath];
@@ -170,12 +193,26 @@
 }
 
 
-+ (OCATransformer *)replaceWith:(id)replacement {
-    return [[OCATransformer fromClass:nil toClass:[replacement class] transform:^id(id input) {
-        return replacement;
-    } reverse:OCATransformationPass]
-            describe:[NSString stringWithFormat:@"replace with %@", replacement]];
++ (OCATransformer *)accessStruct:(OCAStructMemberAccessor *)structAccessor {
+    return [[OCATransformer fromClass:[NSValue class]
+                             toClass:(structAccessor.isNumeric? [NSNumber class] : [NSValue class])
+                           asymetric:^NSValue *(NSValue *input) {
+                               return [structAccessor memberFromStructure:input];
+                           }] describe:structAccessor.description];
 }
+
+
++ (OCATransformer *)modifyStruct:(OCAStructMemberAccessor *)structAccessor value:(NSValue *)memberValue {
+    return [[OCATransformer fromClass:[NSValue class] toClass:[NSValue class] symetric:^NSValue *(NSValue *structValue) {
+        return [structAccessor setMember:memberValue toStructure:structValue];
+    }] describe:[NSString stringWithFormat:@"%@ = %@", structAccessor, memberValue]];
+}
+
+
+
+
+
+#pragma mark Other
 
 
 + (OCATransformer *)map:(NSDictionary *)dictionary {
@@ -229,10 +266,23 @@
 }
 
 
-+ (OCATransformer *)debugPrintWithMarker:(NSString *)marker {
+
+
+
+#pragma mark Side Effects
+
+
++ (OCATransformer *)sideEffect:(void(^)(id value))block {
     return [[OCATransformer fromClass:nil toClass:nil symetric:^id(id input) {
-        NSLog(@"%@: %@", marker ?: @"Debug", input);
+        if (block) block(input);
         return input;
+    }] describe:@"side effect"];
+}
+
+
++ (OCATransformer *)debugPrintWithMarker:(NSString *)marker {
+    return [[OCATransformer sideEffect:^(id value) {
+        NSLog(@"%@: %@", marker ?: @"Debug", value);
     }] describe:[NSString stringWithFormat:@"debug print “%@”", marker]];
 }
 
