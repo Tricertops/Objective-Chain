@@ -273,6 +273,27 @@
 }
 
 
++ (OCATransformer *)filter:(NSPredicate *)predicate {
+    return [OCATransformer fromClass:[NSArray class] toClass:[NSArray class] symetric:^NSArray *(NSArray *input) {
+        return [input filteredArrayUsingPredicate:predicate];
+    }];
+}
+
+
++ (OCATransformer *)removeNulls {
+    return [OCATransformer filter:[NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
+        return (evaluatedObject && ! [evaluatedObject isKindOfClass:[NSNull class]]);
+    }]];
+}
+
+
++ (OCATransformer *)sort:(NSArray *)descriptors {
+    return [OCATransformer fromClass:[NSArray class] toClass:[NSArray class] symetric:^NSArray *(NSArray *input) {
+        return [input sortedArrayUsingDescriptors:descriptors];
+    }];
+}
+
+
 
 
 

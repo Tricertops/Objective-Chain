@@ -45,8 +45,11 @@
 #pragma mark Array
 
 + (OCATransformer *)branch:(NSArray *)transformers;
-+ (OCATransformer *)enumerate:(NSValueTransformer *)transformer;
 + (OCATransformer *)pickIndexes:(NSIndexSet *)indexes;
++ (OCATransformer *)enumerate:(NSValueTransformer *)transformer;
++ (OCATransformer *)filter:(NSPredicate *)predicate;
++ (OCATransformer *)removeNulls;
++ (OCATransformer *)sort:(NSArray *)descriptors;
 
 
 #pragma mark Other
