@@ -313,11 +313,22 @@ OCATransformerBlock const OCATransformationPass = ^id(id x) {
 
 
 
-@implementation NSValueTransformer (valueClass)
+@implementation NSValueTransformer (OCATransformerCompatibility)
 
 
 + (Class)valueClass {
     return nil;
+}
+
+
+- (NSValueTransformer *)reversed {
+    return [[OCATransformer fromClass:[self.class transformedValueClass] toClass:[self.class valueClass] transform:^id(id input) {
+        return [self reverseTransformedValue:input];
+    } reverse:^id(id input) {
+        return [self transformedValue:input];
+    }]
+            describe:[NSString stringWithFormat:@"reverse of %@", self]
+            reverse:self.description];
 }
 
 

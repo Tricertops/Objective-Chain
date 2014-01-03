@@ -16,9 +16,11 @@ typedef id (^OCATransformerBlock)(id input);
 
 
 
-@interface NSValueTransformer (valueClass)
+@interface NSValueTransformer (OCATransformerCompatibility)
 
 + (Class)valueClass;
+
+- (NSValueTransformer *)reversed;
 
 @end
 
