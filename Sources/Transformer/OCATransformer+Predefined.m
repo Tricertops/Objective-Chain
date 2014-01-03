@@ -261,7 +261,7 @@
     }
     
     return [[OCATransformer fromClass:nil toClass:commonClass asymetric:^id(id input) {
-        return ([input isKindOfClass:class]? input : replacement);
+        return ( ! input || [input isKindOfClass:class]? input : replacement);
     }] describe:[NSString stringWithFormat:@"kind of %@ or %@", class, replacement]];
 }
 
