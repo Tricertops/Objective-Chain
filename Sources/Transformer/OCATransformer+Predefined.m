@@ -227,60 +227,49 @@
 
 + (OCATransformer *)branch:(NSArray *)transformers {
     return [OCATransformer fromClass:nil toClass:[NSArray class] asymetric:^id(id input) {
-        NSMutableArray *array = [[NSMutableArray alloc] init];
+        NSMutableArray *output = [[NSMutableArray alloc] init];
         
         for (id transformer in transformers) {
             id object = [transformer transformedValue:input];
-            [array addObject:object ?: [NSNull null]];
+            [output addObject:object ?: [NSNull null]];
         }
-        return array;
+        return output;
     }];
 }
 
 
-+ (OCATransformer *)enumerate:(NSValueTransformer *)transformer nullReplacement:(id)nullReplacement {
-    return [OCATransformer fromClass:nil toClass:nil asymetric:^id(NSObject<NSFastEnumeration> *collection) {
-        if ( ! collection) return nil;
-        if ( ! [collection conformsToProtocol:@protocol(NSFastEnumeration)]) return nil;
++ (OCATransformer *)enumerate:(NSValueTransformer *)transformer {
+    return [OCATransformer fromClass:[NSArray class] toClass:[NSArray class] transform:^NSArray *(NSArray *input) {
+        if ( ! input) return nil;
+        NSMutableArray *output = [[NSMutableArray alloc] init];
         
-        BOOL conformsToMutableCopying = [collection conformsToProtocol:@protocol(NSMutableCopying)]; // NSArray, NSSet, NSOrderedSet
-        BOOL isHashTable = [collection isKindOfClass:[NSHashTable class]]; // NSHashTable
-        
-        if ( ! conformsToMutableCopying && ! isHashTable) return nil;
-        
-        // I will goto hell because of this...
-        id mutableCollection = nil;
-        if (conformsToMutableCopying) {
-            mutableCollection = [[[[collection classForKeyedArchiver] alloc] init] mutableCopy];
+        for (id object in input) {
+            id transformed = [transformer transformedValue:object];
+            [output addObject:transformed ?: [NSNull null]];
         }
-        else if (isHashTable) {
-            NSHashTable *hashTable = (typeof(hashTable))collection;
-            mutableCollection = [[NSHashTable alloc] initWithPointerFunctions:[hashTable.pointerFunctions copy] capacity:hashTable.count];
-        }
-        OCAAssert([mutableCollection respondsToSelector:@selector(addObject:)], @"Creating mutable colelction failed.") return [OCATransformer null];
+        return output;
         
-        for (id object in collection) {
-            id transformed = [transformer transformedValue:object] ?: nullReplacement;
-            if (transformed) {
-                [mutableCollection addObject:transformed];
-            }
+    } reverse:^NSArray *(NSArray *input) {
+        if ( ! input) return nil;
+        NSMutableArray *output = [[NSMutableArray alloc] init];
+        
+        for (id object in input) {
+            id transformed = [transformer reverseTransformedValue:object];
+            [output addObject:transformed ?: [NSNull null]];
         }
-        return mutableCollection;
+        return output;
     }];
 }
 
 
 + (OCATransformer *)pickIndexes:(NSIndexSet *)indexes {
-    return [OCATransformer fromClass:nil toClass:nil asymetric:^id(id collection) {
-        if ( ! collection) return nil;
-        if ( ! [collection respondsToSelector:@selector(count)]) return nil;
-        if ( ! [collection respondsToSelector:@selector(objectsAtIndexes:)]) return nil;
-        
+    return [OCATransformer fromClass:[NSArray class] toClass:[NSArray class] transform:^NSArray *(NSArray *input) {
+        if ( ! input) return nil;
         NSIndexSet *safeIndexes = [indexes indexesPassingTest:^BOOL(NSUInteger index, BOOL *stop) {
-            return (index < [collection count]);
+            return (index < [input count]);
         }];
-        return [collection objectsAtIndexes:safeIndexes];
-    }];
+        return [input objectsAtIndexes:safeIndexes];
+    } reverse:OCATransformationPass];
 }
 
 

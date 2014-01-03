@@ -324,44 +324,13 @@
 }
 
 
-- (void)test_predefinedEnumerate_NSArray {
-    OCATransformer *t = [OCATransformer enumerate:[OCATransformer traverseKeyPath:OCAKeypathUnsafe(uppercaseString)] nullReplacement:@""];
+- (void)test_predefinedEnumerate {
+    OCATransformer *t = [OCATransformer enumerate:[OCATransformer traverseKeyPath:OCAKeypathUnsafe(uppercaseString)]];
     NSArray *ab = @[ @"a", @"b" ];
     NSArray *AB = @[ @"A", @"B" ];
     XCTAssertEqualObjects([t transformedValue:ab], AB);
     XCTAssertEqualObjects([t transformedValue:[ab mutableCopy]], AB);
 }
-
-
-- (void)test_predefinedEnumerate_NSSet {
-    OCATransformer *t = [OCATransformer enumerate:[OCATransformer traverseKeyPath:OCAKeypathUnsafe(uppercaseString)] nullReplacement:@""];
-    NSSet *ab = [NSSet setWithObjects:@"a", @"b", nil];
-    NSSet *AB = [NSSet setWithObjects:@"A", @"B", nil];
-    XCTAssertEqualObjects([t transformedValue:ab], AB);
-    XCTAssertEqualObjects([t transformedValue:[ab mutableCopy]], AB);
-}
-
-
-- (void)test_predefinedEnumerate_NSOrderedSet {
-    OCATransformer *t = [OCATransformer enumerate:[OCATransformer traverseKeyPath:OCAKeypathUnsafe(uppercaseString)] nullReplacement:@""];
-    NSOrderedSet *ab = [NSOrderedSet orderedSetWithObjects:@"a", @"b", nil];
-    NSOrderedSet *AB = [NSOrderedSet orderedSetWithObjects:@"A", @"B", nil];
-    XCTAssertEqualObjects([t transformedValue:ab], AB);
-    XCTAssertEqualObjects([t transformedValue:[ab mutableCopy]], AB);
-}
-
-
-- (void)test_predefinedEnumerate_NSHashTable {
-    OCATransformer *t = [OCATransformer enumerate:[OCATransformer traverseKeyPath:OCAKeypathUnsafe(uppercaseString)] nullReplacement:@""];
-    NSHashTable *ab = [NSHashTable hashTableWithOptions:NSPointerFunctionsStrongMemory];
-    [ab addObject:@"a"];
-    [ab addObject:@"b"];
-    NSHashTable *AB = [NSHashTable hashTableWithOptions:NSPointerFunctionsStrongMemory];
-    [AB addObject:@"A"];
-    [AB addObject:@"B"];
-    XCTAssertEqualObjects([t transformedValue:ab], AB);
-}
-
 
 - (void)test_predefinedPick_inRange {
     OCATransformer *t = [OCATransformer pickIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(1, 2)]];
