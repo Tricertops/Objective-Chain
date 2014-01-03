@@ -254,8 +254,50 @@
 
 
 
+#pragma mark Trigonometry
 
-//TODO: Implement operations.
+
++ (OCATransformer *)sine {
+    return [[OCAMath function:&sin reverse:&asin] describe:@"sine" reverse:@"arc sine"];
+}
+
+
++ (OCATransformer *)cosine {
+    return [[OCAMath function:&cos reverse:&acos] describe:@"cosine" reverse:@"arc cosine"];
+}
+
+
++ (OCATransformer *)tangent {
+    return [[OCAMath function:&tan reverse:&atan] describe:@"tangent" reverse:@"arc tangent"];
+}
+
+
++ (OCATransformer *)arcSine {
+    return [[OCAMath sine] reversed];
+}
+
+
++ (OCATransformer *)arcCosine {
+    return [[OCAMath cosine] reversed];
+}
+
+
++ (OCATransformer *)arcTangent {
+    return [[OCAMath tangent] reversed];
+}
+
+
++ (OCATransformer *)toDegrees {
+    return [[OCATransformer sequence:@[ [OCAMath divideBy:M_PI],
+                                        [OCAMath multiplyBy:180] ]]
+            describe:@"to degrees" reverse:@"to radians"];
+}
+
+
++ (OCATransformer *)toRadians {
+    return [[OCAMath toDegrees] reversed];
+}
+
 
 
 
