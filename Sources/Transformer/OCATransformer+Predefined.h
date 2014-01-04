@@ -23,9 +23,8 @@
 + (OCATransformer *)null;
 + (OCATransformer *)nonNull:(id)replacement;
 + (OCATransformer *)copy;
-+ (OCATransformer *)mutableCopy;
++ (OCATransformer *)mutableCopy; //TODO: Useless
 + (OCATransformer *)replaceWith:(id)replacement;
-//TODO: passPredicate:
 
 
 #pragma mark Control Flow
@@ -49,7 +48,7 @@
 + (OCATransformer *)branch:(NSArray *)transformers;
 + (OCATransformer *)pickIndexes:(NSIndexSet *)indexes;
 + (OCATransformer *)enumerate:(NSValueTransformer *)transformer;
-+ (OCATransformer *)filter:(NSPredicate *)predicate;
++ (OCATransformer *)filter:(NSPredicate *)predicate; //TODO: replacement
 + (OCATransformer *)removeNulls;
 + (OCATransformer *)sort:(NSArray *)descriptors;
 
@@ -57,7 +56,7 @@
 #pragma mark Other
 
 + (OCATransformer *)map:(NSDictionary *)dictionary;
-+ (OCATransformer *)mapFromTable:(NSMapTable *)mapTable;
++ (OCATransformer *)mapFromTable:(NSMapTable *)mapTable; //TODO: Useless
 + (OCATransformer *)ofClass:(Class)class or:(id)replacement;
 
 

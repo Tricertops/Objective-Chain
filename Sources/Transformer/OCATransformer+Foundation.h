@@ -15,310 +15,203 @@
 @interface OCAFoundation : OCAObject
 
 
+#pragma mark Foundation
+
 //TODO: count
 //TODO: length
 //TODO: copy
-
 //TODO: valueOfProperty:
-//TODO: branchProperty:transformer:
 //TODO: setValue:ofProperty:
-
 //TODO: valueForKeyPath:
-//TODO: valuesForKeyPaths:
 //TODO: setValue:forKeyPath:
-//TODO: setValuesForKeyPaths:
 
 
 #pragma mark NSArray
 
-//TODO: arrayFromSet
-//TODO: arrayFromOrderedSet
-//TODO: arrayFromIndexSet
-//TODO: arrayFromIndexPath
-//TODO: arrayFromHashTable
-//TODO: branchArray:
-//TODO: objectAtIndex:
+/// Constructors
+//TODO: branchArray: (transformers; create array)
+//TODO: wrapObject
+//TODO: arrayFromFile
+
+/// Transformators
 //TODO: objectsAtIndexes:
-//TODO: arrayFromPath
-//TODO: arrayFromURL
-//TODO: joinWithString:
-//TODO: joinWithString:last:
-//TODO: subarrayToIndex:
+//TODO: subarrayToIndex: (also negative)
 //TODO: subarrayFromIndex: (also negative)
 //TODO: subarrayWithRange:
-//TODO: indexOfObject:identical:
-//TODO: filter:
-//TODO: filterSubarray:count:
-//TODO: sort:
-//TODO: transform:
-//TODO: addObject:
-//TODO: removeObject:
-//TODO: addObjects:
-//TODO: removeObjects:
-//TODO: wrapInArray
+//TODO: filterArray: (predicate)
+//TODO: sortArray:
+//TODO: transformArray: (transformer)
 //TODO: flattenArray
-//TODO: mutateArray:(block)
+//TODO: randomizeArray
+//TODO: enumerateArray: (block with index)
+//TODO: removeDuplicates
+//TODO: mutateArray: (block)
 
+/// Destructors
+//TODO: objectAtIndex:
+//TODO: joinWithString:
+//TODO: joinWithString:last:
+//TODO: histogram (dictionary, object to its count)
 
 
 #pragma mark NSAttributedString
 
+/// Constructors
 //TODO: stringWithAttributes:
-//TODO: enumerateAttribute:inRange:transformer:
+
+/// Transformators
+//TODO: setAttributes:
+//TODO: transformAttribute:transformer:
 //TODO: appendAttributedString:
 //TODO: attributedSubstringInRange:
 //TODO: addAttributes:range:
 //TODO: mutateAttributedString:(block)
 
 
-#pragma mark NSCharacterSet
+#pragma mark NSCoding
 
-//TODO: characterSetFromString
-//TODO: NSString trimCharactersInSet:
-//TODO: NSString removeCharactersInSet:
+/// Utilities
+//TODO: archive
+//TODO: archiveUsingXML
+//TODO: unarchive
 
-
-#pragma mark NSCountedSet
-
-//TODO: dictionaryFromCountedSet
-//TODO: countedSetFromArray
 
 #pragma mark NSData
 
-//TODO: dataFromPath
-//TODO: dataFromURL
-//TODO: dataFromStringUsingEncoding:
+/// Constructors
+//TODO: dataFromFile
 //TODO: dataFromString
-//TODO: decodeBase64Data
-//TODO: decodeFromBase64String
-//TODO: encodeBase64Data
 //TODO: encodeBase64String
-//TODO: subdataInRange:
+//TODO: decodeBase64String
 
-
-#pragma mark NSDataDetector
-
-//TODO: detectDataTypes:
-//TODO: detectDatesInString
-//TODO: detectURLsInString
-//TODO: detectAddressesInString
-//TODO: detectPhoneNumbersInString
-//TODO: detectTransitInformationsInString
+/// Transformators
+//TODO: decodeBase64Data
+//TODO: encodeBase64Data
+//TODO: subdataWithRange:
 
 
 #pragma mark NSDate
 
+/// Constructors
 //TODO: dateFromTimeInterval
-//TODO: dateFromTimeIntervalSince1970
+//TODO: dateFromUNIXTimeInterval
+//TODO: dateWithFormatter:
+//TODO: dateFromStringFormat:
+
+/// Transformators
 //TODO: earlierDate:
 //TODO: laterDate:
+//TODO: addTimeInterval:
+//TODO: addDateComponents:
+//TODO: subtractDateComponents:
+
+/// Destructors
 //TODO: timeInterval
 //TODO: timeIntervalSinceNow
-//TODO: timeIntervalSince1970
+//TODO: UNIXTimeInterval
 //TODO: timeIntervalSinceDate:
-//TODO: addTimeInterval:
+//TODO: stringWithDateFormatter:
+//TODO: stringWithDateFormat:
+//TODO: stringWithDateStyle:timeStyle:
 
 
 #pragma mark NSDateComponents
 
+/// Constructors
 //TODO: dateComponents:
 //TODO: dateComponents:sinceDate:
-//TODO: addDateComponents:wrap:
-//TODO: subtractDateComponents:wrap:
-
-
-#pragma mark NSDateFormatter
-
-//TODO: stringWithDateFormatter:
-//TODO: dateWithFormatter:
-//TODO: stringWithDateFormat:
-//TODO: stringWithDateStyle:timeStyle:
-//TODO: dateFromStringFormat:
 
 
 #pragma mark NSDictionary
 
-//TODO: dictionaryFromPath
-//TODO: dictionaryFromURL
-//TODO: dictionaryFromMapTable
-//TODO: translateDictionary:
-//TODO: joinPairsWithString:
-//TODO: dictionaryFromArrayUsing:(transformer)
-//TODO: dictionaryWithValuesForKeyPaths:
-//TODO: allKeys
-//TODO: allValues
-//TODO: objectForKey:
-//TODO: keysForObject:
-//TODO: transformObjects:
-//TODO: transformKeys:
-//TODO: sortedKeysByValues:(sort descriptors)
+/// Constructors
+//TODO: dictionaryFromFile
+//TODO: mappedArray: (transformer)
+//TODO: namedArray: (array of names)
+//TODO: dictionaryFromProperties:
+
+/// Transformators
 //TODO: filteredDictionary:
-//TODO: namedArray: (create dictionary from array by naming the elements)
-//TODO: mutateDictionary:(block)
+//TODO: mutateDictionary: (block)
 
+/// Utilities
+//TODO: map:
 
-#pragma mark NSExpression
-
-//TODO: evaluateExpression:
-
-
-#pragma mark NSHashTable
-
-
-//TODO: weakHashTableFromArray
-//TODO: weakHashTableFromSet
-//TODO: weakHashTableFromOrderedSet
+/// Destructors
+//TODO: joinPairsWithString:
+//TODO: keysForValue:
+//TODO: transformValues:
+//TODO: sortedKeysByValues:
 
 
 #pragma mark NSIndexPath
 
+/// Constructors
 //TODO: indexPathFromArray
-//TODO: indexPathWithFirstIndex:
-//TODO: indexAtPosition:
-//TODO: indexPathSection
-//TODO: indexPathRow
-//TODO: indexPathItem
+//TODO: indexPathWithSection:
 
 
 #pragma mark NSIndexSet
 
+/// Constructors
 //TODO: indexSetFromArray
-//TODO: indexSetFromSet
-//TODO: indexSetFromIndex
-//TODO: indexSetFromRange
-//TODO: lowestIndexInSet
-//TODO: highestIndexInSet
-//TODO: mutateIndexSet:(block)
+//TODO: wrapIndex
+//TODO: wrapRange
+
+/// Destructors
+//TODO: lowestIndex
+//TODO: highestIndex
 
 
-#pragma mark NSKeyedArchiver
+#pragma mark NSNumber
 
-//TODO: archiveObject
-//TODO: archiveObjectUsingXML
-
-
-#pragma mark NSKeyedUnarchiver
-
-//TODO: unarchiveObject
-
-
-#pragma mark NSLocale
-
-//TODO: localeFromIdentifier
-//TODO: localeLanguageCode
-//TODO: localeCountryCode
-//TODO: calendarFromLocale
-
-
-#pragma mark NSMapTable
-
-//TODO: weakToWeakMapTableFromDictionary
-//TODO: weakToStrongMapTableFromDictionary
-//TODO: strongToWeakMapTableFromDictionary
-//TODO: strongToStrongMapTableFromDictionary
-
-
-#pragma mark NSNull
-
-//TODO: replaceNilsWithNulls
-//TODO: replaceNullsWithNils
-
-
-#pragma mark NSNumberFormatter
-
-//TODO: stringWithNumberFormatter:
+/// Constructors
 //TODO: numberWithFormatter:
+
+/// Destructors
+//TODO: stringWithNumberFormatter:
 //TODO: stringWithNumberStyle:
-
-
-#pragma mark NSOrderedSet
-
-//TODO: orderedSetFromArray
-//TODO: orderedSetFromSet
-//TODO: orderedSetFromHashTable
-//TODO: mutateOrderedSet:(block)
-
-
-#pragma mark NSPredicate
-
-//TODO: filter:replacement:
-
-
-#pragma mark NSPropertyListSerialization
-
-//TODO: serializePropertyList
-//TODO: deserializePropertyList
-//TODO: deserializeMutablePropertyList
-
-
-#pragma mark NSRegularExpression
-
-//TODO: numberOfRegexMatchesInString
-//TODO: regexMatchesInString
-//TODO: firstRegexMatchInString
-
-
-#pragma mark NSSet
-
-//TODO: setFromArray
-//TODO: setFromOrderedSet
-//TODO: setFromHashTable
 
 
 #pragma mark NSString
 
-//TODO: stringFromDataUsingEncoding:
+/// Constructors
 //TODO: stringFromData
-//TODO: stringFromNumber
-//TODO: stringWithFormat: (simply replaces %@ with the value)
-//TODO: stringFromPath
-//TODO: stringFromURL
+//TODO: formatString: (simply replaces %@ with the value)
+//TODO: stringFromFile
+
+/// Transformators
 //TODO: appendString:
-//TODO: appendToString:
-//TODO: splitByString:
-//TODO: splitByCharacters:
-//TODO: splitWords
-//TODO: trimCharacters:
-//TODO: substringToIndex:
-//TODO: substringFromIndex: (with negative)
+//TODO: substringToIndex: (also negative)
+//TODO: substringFromIndex: (also negative)
 //TODO: substringWithRange:
 //TODO: replaceString:withString:
-//TODO: transformSubstringInRange:transformer:
-//TODO: numberFromString
-//TODO: pathFromComponents
-//TODO: appendPathComponent:
-//TODO: appendPathExtension:
-//TODO: deleteLastPathComponent
-//TODO: deletePathExtension
-//TODO: appendPaths:
+
+/// Destructors
+//TODO: splitString:
+//TODO: splitWords
 
 
 #pragma mark NSURL
 
+/// Constructors
 //TODO: URLFromString
 //TODO: fileURLFromPath
-//TODO: URLFromComponents
 //TODO: URLWithBaseURL:
 
-
-#pragma mark NSURLComponents
-
-//TODO: componentsFromURL
-//TODO: componentsFromURLString
-
-
-#pragma mark NSUUID
-
-//TODO: UUIDFromString
+/// Destructors
+//TODO: URLComponents
 
 
 #pragma mark NSParagraphStyle
 
-//TODO: mutateParagraphStyle:(block)
+/// Transformators
+//TODO: mutateParagraphStyle: (block)
 
 
 #pragma mark NSJSONSerialization
 
+/// Utilities
 //TODO: serializeJSONPrettyPrinted:
 //TODO: deserializeJSON
 //TODO: deserializeMutableJSON
@@ -326,9 +219,11 @@
 
 #pragma mark NSByteCountFormatter
 
+/// Utilities
 //TODO: stringWithByteCountFormatter:
 //TODO: stringWithMemoryByteCount
 //TODO: stringWithFileByteCount
+
 
 
 
