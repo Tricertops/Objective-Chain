@@ -25,6 +25,7 @@
 + (OCATransformer *)copy;
 + (OCATransformer *)mutableCopy;
 + (OCATransformer *)replaceWith:(id)replacement;
+//TODO: passPredicate:
 
 
 #pragma mark Control Flow
