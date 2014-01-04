@@ -147,11 +147,14 @@
 }
 
 
-- (OCATransformer *)specializeFromClass:(Class)fromClass toClass:(Class)toClass {
-    //TODO: Must use subclasses of existing.
+- (OCATransformer *)specializeFromClass:(Class)inputClass toClass:(Class)outputClass {
+    Class existingInputClass = [self.class valueClass];
+    Class existingOutputClass = [self.class transformedValueClass];
+    OCAAssert(existingInputClass == nil || [inputClass isSubclassOfClass:existingInputClass], @"Must provide a subclass.") return self;
+    OCAAssert(existingOutputClass == nil || [outputClass isSubclassOfClass:existingOutputClass], @"Must provide a subclass.") return self;
     
-    Class class = [OCATransformer subclassForInputClass:fromClass
-                                            outputClass:toClass
+    Class class = [OCATransformer subclassForInputClass:inputClass
+                                            outputClass:outputClass
                                              reversible:[self.class allowsReverseTransformation]];
     
     OCATransformer *reverse = [[class alloc] initWithBlock:self.transformationBlock

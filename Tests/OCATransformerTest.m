@@ -119,6 +119,16 @@
 }
 
 
+- (void)test_specialization {
+    OCATransformer *t = [[OCATransformer pass] specializeFromClass:[NSString class] toClass:[NSString class]];
+    XCTAssertEqualObjects([t transformedValue:@"A"], @"A");
+    XCTAssertNil([t transformedValue:@4], @"Should pass only strings.");
+    
+    OCATransformer *generalized = [t specializeFromClass:[NSNumber class] toClass:[NSObject class]];
+    XCTAssertNil([generalized transformedValue:@4], @"Generalization is not possible, still returns nils.");
+}
+
+
 
 
 
