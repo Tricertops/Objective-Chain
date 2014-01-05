@@ -44,19 +44,19 @@
 
 
 - (void)sendValue:(id)value {
-    [super produceValue:value];
+    [self produceValue:value];
 }
 
 
 - (void)sendValues:(NSArray *)values {
     for (id object in values) {
-        [self sendValue:object];
+        [self produceValue:object];
     }
 }
 
 
 - (void)finishWithError:(NSError *)error {
-    [super finishProducingWithError:error];
+    [self finishProducingWithError:error];
 }
 
 
