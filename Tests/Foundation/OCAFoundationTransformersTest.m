@@ -23,6 +23,8 @@
 
 
 
+
+
 - (void)test_branchArray {
     OCATransformer *t = [OCAFoundation branchArray:@[
                                                      [OCATransformer accessKeyPath:OCAKeypath(NSString, uppercaseString)],
@@ -81,6 +83,34 @@
     NSArray *expected = @[  @"BE", @"DE" ];
     XCTAssertEqualObjects([array transform:t], expected);
 }
+
+
+- (void)test_flattenArray {
+    NSArray *array3D = @[@[@[ @"A", @"B" ], @[ @"C", @"D" ]], @[@[ @"E", @"F" ], @[ @"G", @"H" ]]];
+    NSArray *array2D = @[@[ @"A", @"B" ], @[ @"C", @"D" ], @[ @"E", @"F" ], @[ @"G", @"H" ]];
+    NSArray *array1D = @[ @"A", @"B", @"C", @"D", @"E", @"F", @"G", @"H" ];
+    XCTAssertEqualObjects([array3D transform:[OCAFoundation flattenArrayRecursively:NO]], array2D);
+    XCTAssertEqualObjects([array3D transform:[OCAFoundation flattenArrayRecursively:YES]], array1D);
+}
+
+
+- (void)test_randomizeArray {
+    NSArray *array = @[ @"A", @"B", @"C", @"D", @"E", @"F", @"G", @"H" ];
+    XCTAssertNotEqualObjects([array transform:[OCAFoundation randomizeArray]], array, @"Array must not be the same after randomization.");
+}
+
+
+- (void)test_mutateArray {
+    NSArray *array = @[ @"D", @"A", @"C", @"A", @"B" ];
+    OCATransformer *t = [OCAFoundation mutateArray:^(NSMutableArray *array) {
+        [array removeObjectIdenticalTo:@"A"];
+        [array sortUsingSelector:@selector(compare:)];
+    }];
+    NSArray *expected = @[ @"B", @"C", @"D" ];
+    XCTAssertEqualObjects([array transform:t], expected);
+}
+
+
 
 
 

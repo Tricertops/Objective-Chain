@@ -20,12 +20,12 @@
 
 #pragma mark NSArray
 
-/// Constructors
+/// Creating Array
 + (OCATransformer *)branchArray:(NSArray *)transformers;
 + (OCATransformer *)wrapInArray;
 + (OCATransformer *)arrayFromFile;
 
-/// Transformators
+/// Transforming Array
 + (OCATransformer *)objectsAtIndexes:(NSIndexSet *)indexes;
 + (OCATransformer *)subarrayToIndex:(NSInteger)index;
 + (OCATransformer *)subarrayFromIndex:(NSInteger)index;
@@ -33,13 +33,12 @@
 + (OCATransformer *)transformArray:(NSValueTransformer *)transformer;
 + (OCATransformer *)filterArray:(NSPredicate *)predicate;
 + (OCATransformer *)sortArray:(NSArray *)sortDescriptors;
++ (OCATransformer *)flattenArrayRecursively:(BOOL)recursively;
++ (OCATransformer *)randomizeArray;
++ (OCATransformer *)removeNullsFromArray;
++ (OCATransformer *)mutateArray:(void(^)(NSMutableArray *array))block;
 
-//TODO: flattenArray
-//TODO: randomizeArray
-//TODO: removeNullsFromArray
-//TODO: mutateArray: (block)
-
-/// Destructors
+/// Destroying Array
 //TODO: objectAtIndex:
 //TODO: joinWithString:
 //TODO: joinWithString:last:

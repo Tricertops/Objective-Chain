@@ -159,6 +159,71 @@
 }
 
 
++ (OCATransformer *)flattenArrayRecursively:(BOOL)recursively {
+    return [[OCATransformer fromClass:[NSArray class] toClass:[NSArray class] asymetric:^id(id input) {
+        if ( ! input) return nil;
+        NSMutableArray *output = [[NSMutableArray alloc] init];
+        NSMutableArray *stack = [NSMutableArray arrayWithArray:input];
+        
+        while (stack.count) {
+            id object = [stack objectAtIndex:0];
+            [stack removeObjectAtIndex:0];
+            
+            BOOL isSubarray = [object isKindOfClass:[NSArray class]];
+            if (isSubarray) {
+                NSArray *subarray = (NSArray *)object;
+                if (recursively) {
+                    NSIndexSet *indexes = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, subarray.count)];
+                    [stack insertObjects:subarray atIndexes:indexes];
+                }
+                else {
+                    [output addObjectsFromArray:subarray];
+                }
+            }
+            else {
+                [output addObject:object];
+            }
+        }
+        
+        return output;
+    }]
+            describe:(recursively? @"flatten recursively" : @"flatten")];
+}
+
+
++ (OCATransformer *)randomizeArray {
+    return [[OCATransformer fromClass:[NSArray class] toClass:[NSArray class] symetric:^NSArray *(NSArray *input) {
+        NSMutableArray *output = [NSMutableArray arrayWithArray:input];
+        
+        for (NSUInteger sourceIndex = 1; sourceIndex < input.count; sourceIndex++) {
+            NSUInteger destinationRange = input.count - sourceIndex;
+            NSUInteger destinationIndex = arc4random_uniform((u_int32_t)destinationRange + 1);
+            [output exchangeObjectAtIndex:sourceIndex withObjectAtIndex:destinationIndex];
+        }
+        return output;
+    }]
+            describe:@"randomize order"];
+}
+
+
++ (OCATransformer *)removeNullsFromArray {
+    return [[OCAFoundation mutateArray:^(NSMutableArray *array) {
+        [array removeObjectIdenticalTo:[NSNull null]];
+    }]
+            describe:@"remove nulls from array"];
+}
+
+
++ (OCATransformer *)mutateArray:(void(^)(NSMutableArray *array))block {
+    return [[OCATransformer fromClass:[NSArray class] toClass:[NSArray class] asymetric:^NSArray *(NSArray *input) {
+        NSMutableArray *output = [NSMutableArray arrayWithArray:input];
+        block(output);
+        return output;
+    }]
+            describe:@"mutate array"];
+}
+
+
 
 
 
