@@ -79,13 +79,13 @@ OCALazyGetter(id, lazyProperty) {
 
 
 
-- (void)test_OCAValidateClass_nilAlwaysPasses {
+- (void)test_validateClass_nilAlwaysPasses {
     id object = nil;
-    XCTAssertTrue(OCAValidateClass(object, [NSMetadataQueryAttributeValueTuple class]), @"Nil must pass any class validation.");
-    XCTAssertTrue(OCAValidateClass(object, Nil), @"Nil must pass any class validation.");
+    XCTAssertTrue([OCAObject validateObject:&object ofClass:[NSMetadataQueryAttributeValueTuple class]], @"Nil must pass any class validation.");
+    XCTAssertTrue([OCAObject validateObject:&object ofClass:nil], @"Nil must pass any class validation.");
     object = @"test";
-    XCTAssertTrue(OCAValidateClass(object, [NSString class]));
-    XCTAssertTrue(OCAValidateClass(object, Nil), @"Anything must pass for Nil class validation.");
+    XCTAssertTrue([OCAObject validateObject:&object ofClass:[NSString class]]);
+    XCTAssertTrue([OCAObject validateObject:&object ofClass:nil], @"Anything must pass for Nil class validation.");
 }
 
 

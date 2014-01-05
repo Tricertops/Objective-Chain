@@ -41,15 +41,6 @@
 #endif
 
 
-#define OCAValidateClass(VARIABLE, CLASS) \
-(BOOL)({ \
-    Class class = (CLASS); \
-    BOOL isKindOfClass = ( ! class || ! VARIABLE || [VARIABLE isKindOfClass:class]); \
-    OCAAssert(isKindOfClass, @"Expected %@ class of '" # VARIABLE "', but got %@.", class, [VARIABLE class]) { \
-        VARIABLE = nil; \
-    } \
-    isKindOfClass; \
-}) \
 
 
 
@@ -79,6 +70,9 @@
 
 + (Class)valueClassForClasses:(NSArray *)classes;
 - (Class)valueClassForClasses:(NSArray *)classes;
+
++ (BOOL)validateObject:(id *)object ofClass:(Class)class;
+- (BOOL)validateObject:(id *)object ofClass:(Class)class;
 
 
 

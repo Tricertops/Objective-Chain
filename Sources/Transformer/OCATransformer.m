@@ -64,14 +64,14 @@
 
 
 - (id)transformedValue:(id)value {
-    BOOL validInput = OCAValidateClass(value, [self.class valueClass]);
+    BOOL validInput = [OCAObject validateObject:&value ofClass:[self.class valueClass]];
     if ( ! validInput) return nil;
     
     id transformedValue = (self->_transformationBlock
                            ? self->_transformationBlock(value)
                            : nil);
     
-    BOOL validOutput = OCAValidateClass(transformedValue, [self.class transformedValueClass]);
+    BOOL validOutput = [OCAObject validateObject:&transformedValue ofClass:[self.class transformedValueClass]];
     if ( ! validOutput) return nil;
     
     return transformedValue;
@@ -80,14 +80,14 @@
 
 - (id)reverseTransformedValue:(id)value {
     if ([self.class allowsReverseTransformation]) {
-        BOOL validInput = OCAValidateClass(value, [self.class transformedValueClass]);
+        BOOL validInput = [OCAObject validateObject:&value ofClass:[self.class transformedValueClass]];
         if ( ! validInput) return nil;
         
         id transformedValue = (self->_reverseTransformationBlock
                                ? self->_reverseTransformationBlock(value)
                                : nil);
         
-        BOOL validOutput = OCAValidateClass(transformedValue, [self.class valueClass]);
+        BOOL validOutput = [OCAObject validateObject:&transformedValue ofClass:[self.class valueClass]];
         if ( ! validOutput) return nil;
         
         return transformedValue;

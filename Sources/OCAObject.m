@@ -49,6 +49,31 @@
 }
 
 
++ (BOOL)validateObject:(__autoreleasing id *)objectPtr ofClass:(id)class {
+    if ( ! class) return YES;
+    
+    id object = *objectPtr;
+    if ( ! object) return YES;
+    
+    if ([object isKindOfClass:[NSNull class]]) {
+        *objectPtr = nil;
+        return YES;
+    }
+    
+    OCAAssert([object isKindOfClass:class], @"Expected %@ class, but got %@.", class, [object class]) {
+        *objectPtr = nil;
+        return NO;
+    }
+    
+    return YES;
+}
+
+
+- (BOOL)validateObject:(__autoreleasing id *)objectPtr ofClass:(id)class {
+    return [self.class validateObject:objectPtr ofClass:class];
+}
+
+
 
 
 
