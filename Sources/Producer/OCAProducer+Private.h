@@ -19,8 +19,8 @@
 
 
 
-- (void)sendValue:(id)value NS_REQUIRES_SUPER;
-- (void)finishWithError:(NSError *)error NS_REQUIRES_SUPER;
+- (void)produceValue:(id)value NS_REQUIRES_SUPER;
+- (void)finishProducingWithError:(NSError *)error NS_REQUIRES_SUPER;
 
 - (void)addConnection:(OCAConnection *)connection;
 - (void)removeConnection:(OCAConnection *)connection;

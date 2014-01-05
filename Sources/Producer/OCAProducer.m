@@ -99,7 +99,7 @@ OCALazyGetter(NSMutableArray *, mutableConnections) {
 #pragma mark Lifetime of Producer
 
 
-- (void)sendValue:(id)value {
+- (void)produceValue:(id)value {
     if (self.finished) return;
     self->_lastValue = value;
     
@@ -109,7 +109,7 @@ OCALazyGetter(NSMutableArray *, mutableConnections) {
 }
 
 
-- (void)finishWithError:(NSError *)error {
+- (void)finishProducingWithError:(NSError *)error {
     if (self.finished) return;
     
     self->_finished = YES;

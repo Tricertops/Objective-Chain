@@ -85,13 +85,13 @@
     BOOL passes = ( ! self.predicate || [self.predicate evaluateWithObject:transformedValue]);
     
     if (passes) {
-        [self.consumer receiveValue:transformedValue];
+        [self.consumer consumeValue:transformedValue];
     }
 }
 
 
 - (void)producerDidFinishWithError:(NSError *)error {
-    [self.consumer finishWithError:error];
+    [self.consumer finishConsumingWithError:error];
     [self close];
 }
 

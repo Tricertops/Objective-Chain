@@ -63,12 +63,12 @@
         tick ++;
         NSLog(@"Tick %lu", (unsigned long)tick);
         NSDate *date = [NSDate date];
-        [self sendValue:date];
+        [self produceValue:date];
         
         if (tick >= self->_count) {
             dispatch_source_cancel(timer);
             NSLog(@"Finished");
-            [self finishWithError:nil];
+            [self finishProducingWithError:nil];
         }
     });
     

@@ -25,12 +25,12 @@
 
 
 - (void)sendValue:(id)value {
-    [super sendValue:value];
+    [super produceValue:value];
 }
 
 
 - (void)finishWithError:(NSError *)error {
-    [super finishWithError:error];
+    [super finishProducingWithError:error];
 }
 
 

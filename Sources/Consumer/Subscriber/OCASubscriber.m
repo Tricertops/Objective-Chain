@@ -70,12 +70,12 @@
 #pragma mark Lifetime of Subscriber
 
 
-- (void)receiveValue:(id)value {
+- (void)consumeValue:(id)value {
     if (self->_valueHandler) self->_valueHandler(value);
 }
 
 
-- (void)finishWithError:(NSError *)error {
+- (void)finishConsumingWithError:(NSError *)error {
     if (self->_finishHandler) self->_finishHandler(error);
 }
 

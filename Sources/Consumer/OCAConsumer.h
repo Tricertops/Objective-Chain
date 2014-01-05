@@ -17,8 +17,8 @@
 
 
 
-- (void)receiveValue:(id)value;
-- (void)finishWithError:(NSError *)error;
+- (void)consumeValue:(id)value;
+- (void)finishConsumingWithError:(NSError *)error;
 
 
 
