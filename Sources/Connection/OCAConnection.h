@@ -22,7 +22,10 @@
 
 #pragma mark Creating Conenction
 
-- (instancetype)initWithProducer:(OCAProducer *)producer consumer:(id<OCAConsumer>)consumer;
+- (instancetype)initWithProducer:(OCAProducer *)producer
+                          filter:(NSPredicate *)predicate
+                       transform:(NSValueTransformer *)transformer
+                        consumer:(id<OCAConsumer>)consumer;
 
 
 #pragma mark Endpoints of Connection
@@ -34,16 +37,15 @@
 #pragma mark Controlling Connection
 
 @property (OCA_atomic, readwrite, assign) BOOL enabled; //TODO: Remotely check for enabled?
+@property (OCA_atomic, readwrite, strong) NSPredicate *filter;
+@property (OCA_atomic, readwrite, strong) NSValueTransformer *transformer;
+
 @property (OCA_atomic, readonly, assign) BOOL closed;
 - (void)close;
 
 
 //TODO: Queues
 //TODO: Behavior
-
-
-@property (OCA_atomic, readwrite, strong) NSValueTransformer *transformer;
-@property (OCA_atomic, readwrite, strong) NSPredicate *predicate;
 
 
 

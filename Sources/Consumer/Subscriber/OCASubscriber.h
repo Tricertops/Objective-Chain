@@ -26,8 +26,8 @@ typedef void(^OCASubscriberFinishHandler)(NSError *error);
 
 - (instancetype)initWithValueHandler:(OCASubscriberValueHandler)valueHandler finishHandler:(OCASubscriberFinishHandler)finishHandler;
 
-+ (instancetype)value:(OCASubscriberValueHandler)valueHandler;
-+ (instancetype)value:(OCASubscriberValueHandler)valueHandler finish:(OCASubscriberFinishHandler)finishHandler;
++ (instancetype)subscribe:(OCASubscriberValueHandler)valueHandler;
++ (instancetype)subscribe:(OCASubscriberValueHandler)valueHandler finish:(OCASubscriberFinishHandler)finishHandler;
 
 
 

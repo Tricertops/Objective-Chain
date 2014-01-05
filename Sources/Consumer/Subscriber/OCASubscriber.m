@@ -54,12 +54,12 @@
 }
 
 
-+ (instancetype)value:(OCASubscriberValueHandler)valueHandler {
++ (instancetype)subscribe:(OCASubscriberValueHandler)valueHandler {
     return [[self alloc] initWithValueHandler:valueHandler finishHandler:nil];
 }
 
 
-+ (instancetype)value:(OCASubscriberValueHandler)valueHandler finish:(OCASubscriberFinishHandler)finishHandler {
++ (instancetype)subscribe:(OCASubscriberValueHandler)valueHandler finish:(OCASubscriberFinishHandler)finishHandler {
     return [[self alloc] initWithValueHandler:valueHandler finishHandler:finishHandler];
 }
 
@@ -99,12 +99,12 @@
 
 
 - (OCAConnection *)subscribe:(OCASubscriberValueHandler)valueHandler {
-    return [self connectTo:[OCASubscriber value:valueHandler]];
+    return [self connectTo:[OCASubscriber subscribe:valueHandler]];
 }
 
 
 - (OCAConnection *)subscribe:(OCASubscriberValueHandler)valueHandler finish:(OCASubscriberFinishHandler)finishHandler {
-    return [self connectTo:[OCASubscriber value:valueHandler finish:finishHandler]];
+    return [self connectTo:[OCASubscriber subscribe:valueHandler finish:finishHandler]];
 }
 
 

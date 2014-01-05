@@ -12,6 +12,8 @@
 #import "OCABridge.h"
 #import "OCAHub.h"
 #import "OCASubscriber.h"
+#import "OCATransformer.h"
+#import "OCATransformer+Predefined.h"
 #import "OCASemaphore.h"
 
 
@@ -46,9 +48,9 @@
     __block id receivedValue = @"Received";
     
     OCACommand *command = [OCACommand new];
-    [command connectTo:[OCASubscriber value:^(id value) {
+    [command subscribe:^(id value) {
         receivedValue = value;
-    }]];
+    }];
     
     [command sendValue:sentValue];
     
@@ -87,6 +89,28 @@
     
     NSArray *expected = @[ @"A", @"C" ];
     XCTAssertEqualObjects(received, expected, @"Should not receive while connection is disabled.");
+}
+
+
+- (void)test_simpleConnection_withFilterAndTransform {
+    OCACommand *command = [OCACommand new];
+    NSMutableArray *received = [[NSMutableArray alloc] init];
+    
+    [command connectWithFilter:[NSPredicate predicateWithFormat:@"self BEGINSWITH[c] 'a'"]
+                     transform:[OCATransformer accessKeyPath:OCAKeypath(NSString, uppercaseString)]
+                            to:[OCASubscriber subscribe:
+                                ^(id value) {
+                                    [received addObject:value];
+                                }]];
+    
+    [command sendValue:@"Auto"];
+    [command sendValue:@"Magic"];
+    [command sendValue:@"All"];
+    [command sendValue:@"Every"];
+    [command sendValue:@"Alien"];
+    
+    NSArray *expected = @[ @"AUTO", @"ALL", @"ALIEN" ];
+    XCTAssertEqualObjects(received, expected, @"Should receive uppercase string that begins with A.");
 }
 
 

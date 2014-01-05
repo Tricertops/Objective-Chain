@@ -36,7 +36,7 @@
 #pragma mark Creating Connection
 
 
-- (instancetype)initWithProducer:(OCAProducer *)producer consumer:(id<OCAConsumer>)consumer {
+- (instancetype)initWithProducer:(OCAProducer *)producer filter:(NSPredicate *)predicate transform:(NSValueTransformer *)transformer consumer:(id<OCAConsumer>)consumer {
     self = [super init];
     if (self) {
         OCAAssert(producer != nil, @"Missing producer!") return nil;
@@ -46,7 +46,10 @@
         self->_enabled = YES;
         
         self->_producer = producer;
+        self->_filter = predicate;
+        self->_transformer = transformer;
         self->_consumer = consumer;
+        
         [producer addConnection:self];
     }
     return self;
@@ -71,7 +74,7 @@
     self->_consumer = nil;
     
     self.transformer = nil;
-    self.predicate = nil;
+    self.filter = nil;
 }
 
 
@@ -90,7 +93,7 @@
     if (self.closed) return;
     if ( ! self.enabled) return;
     
-    BOOL passes = ( ! self.predicate || [self.predicate evaluateWithObject:value]);
+    BOOL passes = ( ! self.filter || [self.filter evaluateWithObject:value]);
     if ( ! passes) return;
     
     id transformedValue = (self.transformer

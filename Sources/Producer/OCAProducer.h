@@ -20,12 +20,22 @@
 
 
 
+#pragma mark Getting State of Producer
+
 @property (OCA_atomic, readonly, strong) id lastValue;
 @property (OCA_atomic, readonly, assign) BOOL finished;
 @property (OCA_atomic, readonly, strong) NSError *error;
 
 
+#pragma mark Connecting to Producer
+
 - (OCAConnection *)connectTo:(id<OCAConsumer>)consumer;
+- (OCAConnection *)connectWithTransform:(NSValueTransformer *)transformer to:(id<OCAConsumer>)consumer;
+- (OCAConnection *)connectWithFilter:(NSPredicate *)predicate to:(id<OCAConsumer>)consumer;
+- (OCAConnection *)connectWithFilter:(NSPredicate *)predicate transform:(NSValueTransformer *)transformer to:(id<OCAConsumer>)consumer;
+
+
+#pragma mark Inspecting Connections of Producer
 
 @property (OCA_atomic, readonly, strong) NSArray *connections;
 

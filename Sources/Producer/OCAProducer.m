@@ -102,8 +102,22 @@ OCALazyGetter(NSMutableArray *, mutableConnections) {
 
 
 - (OCAConnection *)connectTo:(id<OCAConsumer>)consumer {
-    OCAConnection *connection = [[OCAConnection alloc] initWithProducer:self consumer:consumer];
-    return connection;
+    return [self connectWithFilter:nil transform:nil to:consumer];
+}
+
+
+- (OCAConnection *)connectWithTransform:(NSValueTransformer *)transformer to:(id<OCAConsumer>)consumer {
+    return [self connectWithFilter:nil transform:transformer to:consumer];
+}
+
+
+- (OCAConnection *)connectWithFilter:(NSPredicate *)predicate to:(id<OCAConsumer>)consumer {
+    return [self connectWithFilter:predicate transform:nil to:consumer];
+}
+
+
+- (OCAConnection *)connectWithFilter:(NSPredicate *)predicate transform:(NSValueTransformer *)transformer to:(id<OCAConsumer>)consumer {
+    return [[OCAConnection alloc] initWithProducer:self filter:predicate transform:transformer consumer:consumer];
 }
 
 
