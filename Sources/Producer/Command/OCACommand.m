@@ -24,6 +24,25 @@
 
 
 
+#pragma mark Creating Command
+
+
+- (instancetype)init {
+    return [super init];
+}
+
+
++ (instancetype)command {
+    return [[self alloc] init];
+}
+
+
+
+
+
+#pragma mark Using Command
+
+
 - (void)sendValue:(id)value {
     [super produceValue:value];
 }
@@ -38,3 +57,5 @@
 
 
 @end
+
+

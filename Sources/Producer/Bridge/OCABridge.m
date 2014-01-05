@@ -24,6 +24,25 @@
 
 
 
+#pragma mark Creating Bridge
+
+
+- (instancetype)init {
+    return [super init];
+}
+
+
++ (instancetype)bridge {
+    return [[self alloc] init];
+}
+
+
+
+
+
+#pragma mark Lifetime of Bridge
+
+
 - (void)consumeValue:(id)value {
     [self produceValue:value];
 }
@@ -38,3 +57,5 @@
 
 
 @end
+
+

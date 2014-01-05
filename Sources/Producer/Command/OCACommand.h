@@ -17,9 +17,19 @@
 
 
 
+#pragma mark Creating Command
+
+- (instancetype)init;
++ (instancetype)command;
+
+
+#pragma mark Using Command
+
 - (void)sendValue:(id)value;
 - (void)finishWithError:(NSError *)error;
 
 
 
 @end
+
+

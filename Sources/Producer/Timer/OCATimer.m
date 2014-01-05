@@ -27,6 +27,16 @@
 #pragma mark Creating Timer
 
 
+- (instancetype)init {
+    return [self initWithDelay:0 interval:0 leeway:0 count:0];
+}
+
+
+- (instancetype)initWithInterval:(NSTimeInterval)interval {
+    return [self initWithDelay:0 interval:interval leeway:0 count:0];
+}
+
+
 - (instancetype)initWithDelay:(NSTimeInterval)delay interval:(NSTimeInterval)interval leeway:(NSTimeInterval)leeway count:(NSUInteger)count {
     self = [super init];
     if (self) {
@@ -43,6 +53,22 @@
     }
     return self;
 }
+
+
++ (instancetype)timerWithInterval:(NSTimeInterval)interval {
+    return [[self alloc] initWithInterval:interval];
+}
+
+
++ (instancetype)timerWithDelay:(NSTimeInterval)delay interval:(NSTimeInterval)interval leeway:(NSTimeInterval)leeway count:(NSUInteger)count {
+    return [[self alloc] initWithDelay:delay interval:interval leeway:leeway count:count];
+}
+
+
+
+
+
+#pragma mark Lifetime of Timer
 
 
 - (void)start {
