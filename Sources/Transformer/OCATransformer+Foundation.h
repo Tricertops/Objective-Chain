@@ -30,13 +30,13 @@
 + (OCATransformer *)subarrayToIndex:(NSInteger)index;
 + (OCATransformer *)subarrayFromIndex:(NSInteger)index;
 + (OCATransformer *)subarrayWithRange:(NSRange)range;
-//TODO: filterArray: (predicate)
-//TODO: sortArray:
-//TODO: transformArray: (transformer)
++ (OCATransformer *)transformArray:(NSValueTransformer *)transformer;
++ (OCATransformer *)filterArray:(NSPredicate *)predicate;
++ (OCATransformer *)sortArray:(NSArray *)sortDescriptors;
+
 //TODO: flattenArray
 //TODO: randomizeArray
-//TODO: enumerateArray: (block with index)
-//TODO: removeDuplicates
+//TODO: removeNullsFromArray
 //TODO: mutateArray: (block)
 
 /// Destructors

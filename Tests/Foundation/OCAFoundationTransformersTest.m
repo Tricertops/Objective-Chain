@@ -25,9 +25,9 @@
 
 - (void)test_branchArray {
     OCATransformer *t = [OCAFoundation branchArray:@[
-                                                     [OCATransformer accessKeyPath:OCAKeypathClass(NSString, uppercaseString)],
-                                                     [OCATransformer accessKeyPath:OCAKeypathClass(NSString, lowercaseString)],
-                                                     [OCATransformer accessKeyPath:OCAKeypathClass(NSString, capitalizedString)],
+                                                     [OCATransformer accessKeyPath:OCAKeypath(NSString, uppercaseString)],
+                                                     [OCATransformer accessKeyPath:OCAKeypath(NSString, lowercaseString)],
+                                                     [OCATransformer accessKeyPath:OCAKeypath(NSString, capitalizedString)],
                                                      ]];
     NSArray *expected = @[ @"HELLO", @"hello", @"Hello" ];
     XCTAssertEqualObjects([t transformedValue:@"heLLo"], expected);
@@ -37,6 +37,13 @@
 - (void)test_wrapInArray {
     XCTAssertEqualObjects([@"A" transform:[OCAFoundation wrapInArray]], @[@"A"]);
     XCTAssertNil([[OCAFoundation wrapInArray] transformedValue:nil]);
+}
+
+
+- (void)test_objectAtIndexes {
+    NSIndexSet *indexes = [[NSIndexSet alloc] initWithIndex:1];
+    NSArray *array = @[ @"A", @"B", @"C" ];
+    XCTAssertEqualObjects([array transform:[OCAFoundation objectsAtIndexes:indexes]], @[ @"B" ]);
 }
 
 
@@ -56,6 +63,23 @@
     XCTAssertEqualObjects([array transform:[OCAFoundation subarrayWithRange:NSMakeRange(1, 3)]], [@"B-C-D" componentsSeparatedByString:@"-"]);
     XCTAssertEqualObjects([array transform:[OCAFoundation subarrayWithRange:NSMakeRange(3, 8)]], [@"D-E" componentsSeparatedByString:@"-"]);
     XCTAssertEqualObjects([array transform:[OCAFoundation subarrayWithRange:NSMakeRange(6, 2)]], @[]);
+}
+
+
+- (void)test_arrayTransformation {
+    NSArray *array = @[  @"de", @"ca", @"au", @"be" ];
+    
+    NSPredicate *endsWithE = [NSPredicate predicateWithFormat:@"self ENDSWITH[c] 'e'"];
+    OCATransformer *uppercase = [OCATransformer accessKeyPath:OCAKeypath(NSString, uppercaseString)];
+    NSSortDescriptor *alphabet = [NSSortDescriptor sortDescriptorWithKey:@"self" ascending:YES];
+    
+    OCATransformer *t = [OCATransformer sequence:@[
+                                                   [OCAFoundation filterArray:endsWithE],
+                                                   [OCAFoundation transformArray:uppercase],
+                                                   [OCAFoundation sortArray:@[ alphabet ]],
+                                                   ]];
+    NSArray *expected = @[  @"BE", @"DE" ];
+    XCTAssertEqualObjects([array transform:t], expected);
 }
 
 

@@ -294,50 +294,11 @@
 #pragma mark Collections
 
 
-+ (OCATransformer *)enumerate:(NSValueTransformer *)transformer {
-    return [OCATransformer fromClass:[NSArray class] toClass:[NSArray class] transform:^NSArray *(NSArray *input) {
-        if ( ! input) return nil;
-        NSMutableArray *output = [[NSMutableArray alloc] init];
-        
-        for (id object in input) {
-            id transformed = [transformer transformedValue:object];
-            [output addObject:transformed ?: [NSNull null]];
-        }
-        return output;
-        
-    } reverse:^NSArray *(NSArray *input) {
-        if ( ! input) return nil;
-        NSMutableArray *output = [[NSMutableArray alloc] init];
-        
-        for (id object in input) {
-            id transformed = [transformer reverseTransformedValue:object];
-            [output addObject:transformed ?: [NSNull null]];
-        }
-        return output;
-    }];
-}
-
-
-+ (OCATransformer *)filter:(NSPredicate *)predicate {
-    return [OCATransformer fromClass:[NSArray class] toClass:[NSArray class] symetric:^NSArray *(NSArray *input) {
-        return [input filteredArrayUsingPredicate:predicate];
-    }];
-}
-
-
-+ (OCATransformer *)removeNulls {
-    return [OCATransformer filter:[NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
-        return (evaluatedObject && ! [evaluatedObject isKindOfClass:[NSNull class]]);
-    }]];
-}
-
-
-+ (OCATransformer *)sort:(NSArray *)descriptors {
-    return [OCATransformer fromClass:[NSArray class] toClass:[NSArray class] symetric:^NSArray *(NSArray *input) {
-        return [input sortedArrayUsingDescriptors:descriptors];
-    }];
-}
-
+//+ (OCATransformer *)removeNulls {
+//    return [OCATransformer filter:[NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
+//        return (evaluatedObject && ! [evaluatedObject isKindOfClass:[NSNull class]]);
+//    }]];
+//}
 
 
 

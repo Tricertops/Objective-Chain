@@ -54,8 +54,8 @@
 
 
 #define OCAKeypathUnsafe(KEYPATH)           NSStringFromSelector(@selector(KEYPATH))
-#define OCAKeypath(OBJECT, KEYPATH)         @(((void)(NO && ((void)OBJECT.KEYPATH, NO)), # KEYPATH))
-#define OCAKeypathClass(CLASS, KEYPATH)     OCAKeypath(CLASS.new, KEYPATH)
+#define OCAKeypathObject(OBJECT, KEYPATH)   @(((void)(NO && ((void)OBJECT.KEYPATH, NO)), # KEYPATH))
+#define OCAKeypath(CLASS, KEYPATH)          OCAKeypathObject(CLASS.new, KEYPATH)
 
 
 #define CLAMP(MIN, VALUE, MAX) \

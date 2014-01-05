@@ -117,6 +117,48 @@
 }
 
 
++ (OCATransformer *)transformArray:(NSValueTransformer *)transformer {
+    return [[OCATransformer fromClass:[NSArray class] toClass:[NSArray class] transform:^NSArray *(NSArray *input) {
+        if ( ! input) return nil;
+        NSMutableArray *output = [[NSMutableArray alloc] init];
+        
+        for (id object in input) {
+            id transformed = [transformer transformedValue:object];
+            [output addObject:transformed ?: [NSNull null]];
+        }
+        return output;
+        
+    } reverse:^NSArray *(NSArray *input) {
+        if ( ! input) return nil;
+        NSMutableArray *output = [[NSMutableArray alloc] init];
+        
+        for (id object in input) {
+            id transformed = [transformer reverseTransformedValue:object];
+            [output addObject:transformed ?: [NSNull null]];
+        }
+        return output;
+    }]
+            describe:[NSString stringWithFormat:@"for each %@", transformer]
+            reverse:[NSString stringWithFormat:@"for each %@", [transformer reversed]]];
+}
+
+
++ (OCATransformer *)filterArray:(NSPredicate *)predicate {
+    return [[OCATransformer fromClass:[NSArray class] toClass:[NSArray class] symetric:^NSArray *(NSArray *input) {
+        return [input filteredArrayUsingPredicate:predicate];
+    }]
+            describe:[NSString stringWithFormat:@"filter (%@)", predicate]];
+}
+
+
++ (OCATransformer *)sortArray:(NSArray *)sortDescriptors {
+    return [[OCATransformer fromClass:[NSArray class] toClass:[NSArray class] symetric:^NSArray *(NSArray *input) {
+        return [input sortedArrayUsingDescriptors:sortDescriptors];
+    }]
+            describe:[NSString stringWithFormat:@"sort by (%@)", [sortDescriptors componentsJoinedByString:@", "]]];
+}
+
+
 
 
 
