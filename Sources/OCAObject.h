@@ -53,7 +53,9 @@
 
 
 
-#define OCAKeypathUnsafe(KEYPATH)   NSStringFromSelector(@selector(KEYPATH))
+#define OCAKeypathUnsafe(KEYPATH)           NSStringFromSelector(@selector(KEYPATH))
+#define OCAKeypath(OBJECT, KEYPATH)         @(((void)(NO && ((void)OBJECT.KEYPATH, NO)), # KEYPATH))
+#define OCAKeypathClass(CLASS, KEYPATH)     OCAKeypath(CLASS.new, KEYPATH)
 
 
 

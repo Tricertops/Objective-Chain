@@ -29,6 +29,8 @@
 		5BB6C4B118781BED008D1587 /* OCATransformer+Foundation.h in Headers */ = {isa = PBXBuildFile; fileRef = 5BB6C4AF18781BED008D1587 /* OCATransformer+Foundation.h */; };
 		5BB6C4B218781BED008D1587 /* OCATransformer+Foundation.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BB6C4B018781BED008D1587 /* OCATransformer+Foundation.m */; };
 		5BB6C4B318781BED008D1587 /* OCATransformer+Foundation.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BB6C4B018781BED008D1587 /* OCATransformer+Foundation.m */; };
+		5BB7CD1A187996D1006916AB /* OCAFoundationTransformersTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BB7CD19187996D1006916AB /* OCAFoundationTransformersTest.m */; };
+		5BB7CD1B187996D1006916AB /* OCAFoundationTransformersTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BB7CD19187996D1006916AB /* OCAFoundationTransformersTest.m */; };
 		5BD8AE9E1876AD5600EE2029 /* OCAStructureAccessor.h in Headers */ = {isa = PBXBuildFile; fileRef = 5BD8AE9C1876AD5600EE2029 /* OCAStructureAccessor.h */; };
 		5BD8AE9F1876AD5600EE2029 /* OCAStructureAccessor.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BD8AE9D1876AD5600EE2029 /* OCAStructureAccessor.m */; };
 		5BD8AEA01876AD5600EE2029 /* OCAStructureAccessor.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BD8AE9D1876AD5600EE2029 /* OCAStructureAccessor.m */; };
@@ -112,6 +114,7 @@
 		5BA8A6441875BD950012BA5D /* OCAMathTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCAMathTest.m; sourceTree = "<group>"; };
 		5BB6C4AF18781BED008D1587 /* OCATransformer+Foundation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "OCATransformer+Foundation.h"; sourceTree = "<group>"; };
 		5BB6C4B018781BED008D1587 /* OCATransformer+Foundation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "OCATransformer+Foundation.m"; sourceTree = "<group>"; };
+		5BB7CD19187996D1006916AB /* OCAFoundationTransformersTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCAFoundationTransformersTest.m; sourceTree = "<group>"; };
 		5BD8AE9C1876AD5600EE2029 /* OCAStructureAccessor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCAStructureAccessor.h; sourceTree = "<group>"; };
 		5BD8AE9D1876AD5600EE2029 /* OCAStructureAccessor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCAStructureAccessor.m; sourceTree = "<group>"; };
 		5BD8AEA11876B41200EE2029 /* OCAStructTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCAStructTest.m; sourceTree = "<group>"; };
@@ -259,8 +262,17 @@
 				5BD9ED0C1873351C0069044C /* OCATransformerTest.m */,
 				5BA8A6441875BD950012BA5D /* OCAMathTest.m */,
 				5BD8AEA11876B41200EE2029 /* OCAStructTest.m */,
+				5BB7CD18187996B6006916AB /* Foundation */,
 			);
 			path = Tests;
+			sourceTree = "<group>";
+		};
+		5BB7CD18187996B6006916AB /* Foundation */ = {
+			isa = PBXGroup;
+			children = (
+				5BB7CD19187996D1006916AB /* OCAFoundationTransformersTest.m */,
+			);
+			path = Foundation;
 			sourceTree = "<group>";
 		};
 		5BD8AE9B1876AD2900EE2029 /* Struct */ = {
@@ -500,6 +512,7 @@
 				5BD9ED0E1873351C0069044C /* OCATransformerTest.m in Sources */,
 				5BA8A6461875BD950012BA5D /* OCAMathTest.m in Sources */,
 				5B097E601871BED0006240D8 /* OCAObjectTest.m in Sources */,
+				5BB7CD1B187996D1006916AB /* OCAFoundationTransformersTest.m in Sources */,
 				5BD9ECEE1871E1370069044C /* OCAConnectionTest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -532,6 +545,7 @@
 				5BD9ED0D1873351C0069044C /* OCATransformerTest.m in Sources */,
 				5BA8A6451875BD950012BA5D /* OCAMathTest.m in Sources */,
 				5B097E5F1871BED0006240D8 /* OCAObjectTest.m in Sources */,
+				5BB7CD1A187996D1006916AB /* OCAFoundationTransformersTest.m in Sources */,
 				5BD9ECED1871E1370069044C /* OCAConnectionTest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

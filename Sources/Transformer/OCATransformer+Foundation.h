@@ -21,9 +21,9 @@
 #pragma mark NSArray
 
 /// Constructors
-//TODO: branchArray: (transformers; create array)
-//TODO: wrapObject
-//TODO: arrayFromFile
++ (OCATransformer *)branchArray:(NSArray *)transformers;
++ (OCATransformer *)wrapInArray;
++ (OCATransformer *)arrayFromFile;
 
 /// Transformators
 //TODO: objectsAtIndexes:
