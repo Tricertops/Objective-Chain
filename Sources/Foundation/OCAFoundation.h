@@ -15,6 +15,8 @@
 
 @interface OCAFoundation : OCAObject
 
+//TODO: Register default transformers on class basis?
+
 
 
 
