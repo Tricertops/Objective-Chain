@@ -23,8 +23,11 @@
 + (OCATransformer *)null;
 + (OCATransformer *)nonNull:(id)replacement;
 + (OCATransformer *)copy;
-+ (OCATransformer *)mutableCopy; //TODO: Useless
+//TODO: count
+//TODO: length
 + (OCATransformer *)replaceWith:(id)replacement;
++ (OCATransformer *)map:(NSDictionary *)dictionary;
++ (OCATransformer *)ofClass:(Class)class or:(id)replacement;
 
 
 #pragma mark Control Flow
@@ -38,11 +41,16 @@
 #pragma mark Access Members
 
 + (OCATransformer *)traverseKeyPath:(NSString *)keypath;
+//TODO: valueOfProperty:
+//TODO: setValue:ofProperty:
+//TODO: valueForKeyPath:
+//TODO: setValue:forKeyPath:
 + (OCATransformer *)accessStruct:(OCAStructureAccessor *)structAccessor;
 + (OCATransformer *)modifyStruct:(OCAStructureAccessor *)structAccessor value:(NSValue *)value;
 
 
 #pragma mark Array
+//TODO: Move to Foundation
 
 + (OCATransformer *)count;
 + (OCATransformer *)branch:(NSArray *)transformers;
@@ -55,9 +63,8 @@
 
 #pragma mark Other
 
-+ (OCATransformer *)map:(NSDictionary *)dictionary;
++ (OCATransformer *)mutableCopy; //TODO: Useless
 + (OCATransformer *)mapFromTable:(NSMapTable *)mapTable; //TODO: Useless
-+ (OCATransformer *)ofClass:(Class)class or:(id)replacement;
 
 
 #pragma mark Side Effects

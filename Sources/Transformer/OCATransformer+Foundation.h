@@ -15,15 +15,7 @@
 @interface OCAFoundation : OCAObject
 
 
-#pragma mark Foundation
 
-//TODO: count
-//TODO: length
-//TODO: copy
-//TODO: valueOfProperty:
-//TODO: setValue:ofProperty:
-//TODO: valueForKeyPath:
-//TODO: setValue:forKeyPath:
 
 
 #pragma mark NSArray
@@ -68,14 +60,6 @@
 //TODO: mutateAttributedString:(block)
 
 
-#pragma mark NSCoding
-
-/// Utilities
-//TODO: archive
-//TODO: archiveUsingXML
-//TODO: unarchive
-
-
 #pragma mark NSData
 
 /// Constructors
@@ -83,11 +67,19 @@
 //TODO: dataFromString
 //TODO: encodeBase64String
 //TODO: decodeBase64String
+//TODO: archiveBinary:
+//TODO: serializePropertyListBinary:
+//TODO: serializeJSONPrettyPrinted:
 
 /// Transformators
 //TODO: decodeBase64Data
 //TODO: encodeBase64Data
 //TODO: subdataWithRange:
+
+/// Destructors
+//TODO: unarchive
+//TODO: deserializePropertyListMutable:
+//TODO: deserializeJSONMutable:
 
 
 #pragma mark NSDate
@@ -134,9 +126,6 @@
 //TODO: filteredDictionary:
 //TODO: mutateDictionary: (block)
 
-/// Utilities
-//TODO: map:
-
 /// Destructors
 //TODO: joinPairsWithString:
 //TODO: keysForValue:
@@ -171,6 +160,9 @@
 /// Destructors
 //TODO: stringWithNumberFormatter:
 //TODO: stringWithNumberStyle:
+//TODO: stringWithByteCountFormatter:
+//TODO: stringWithMemoryByteCount
+//TODO: stringWithFileByteCount
 
 
 #pragma mark NSString
@@ -207,22 +199,6 @@
 
 /// Transformators
 //TODO: mutateParagraphStyle: (block)
-
-
-#pragma mark NSJSONSerialization
-
-/// Utilities
-//TODO: serializeJSONPrettyPrinted:
-//TODO: deserializeJSON
-//TODO: deserializeMutableJSON
-
-
-#pragma mark NSByteCountFormatter
-
-/// Utilities
-//TODO: stringWithByteCountFormatter:
-//TODO: stringWithMemoryByteCount
-//TODO: stringWithFileByteCount
 
 
 
