@@ -17,6 +17,8 @@
 
 #import "OCATransformer.h"
 #import "OCATransformer+Predefined.h"
-#import "OCATransformer+Math.h"
+
+#import "OCAFoundation.h"
+#import "OCAMath.h"
 
 #import "OCAStructureAccessor.h"
