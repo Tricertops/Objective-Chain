@@ -27,7 +27,6 @@
 
 #pragma mark Attributes of Timer
 
-- (Class)valueClass;
 @property (OCA_atomic, readonly, assign) NSTimeInterval delay;
 @property (OCA_atomic, readonly, assign) NSTimeInterval interval;
 @property (OCA_atomic, readonly, assign) NSTimeInterval leeway;

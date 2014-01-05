@@ -73,6 +73,15 @@
 
 @interface OCAObject : NSObject
 
+
+
+#pragma mark Class Checking
+
++ (Class)valueClassForClasses:(NSArray *)classes;
+- (Class)valueClassForClasses:(NSArray *)classes;
+
+
+
 @end
 
 

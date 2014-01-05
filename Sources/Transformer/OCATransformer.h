@@ -73,9 +73,6 @@ typedef id (^OCATransformerBlock)(id input);
 + (OCATransformer *)fromClass:(Class)fromClass toClass:(Class)toClass transform:(OCATransformerBlock)transform reverse:(OCATransformerBlock)reverse;
 
 
-+ (Class)valueClassForClasses:(NSArray *)classes;
-
-
 
 @end
 

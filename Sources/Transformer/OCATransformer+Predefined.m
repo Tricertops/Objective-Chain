@@ -95,8 +95,8 @@
 
 + (OCATransformer *)map:(NSDictionary *)dictionary {
     // Using classForKeyedArchiver, because __NSCFString is not very friendly class.
-    Class inputClass = [OCATransformer valueClassForClasses:[dictionary.allKeys valueForKey:OCAKeypathUnsafe(classForKeyedArchiver)]];
-    Class outputClass = [OCATransformer valueClassForClasses:[dictionary.allValues valueForKey:OCAKeypathUnsafe(classForKeyedArchiver)]];
+    Class inputClass = [OCAObject valueClassForClasses:[dictionary.allKeys valueForKey:OCAKeypathUnsafe(classForKeyedArchiver)]];
+    Class outputClass = [OCAObject valueClassForClasses:[dictionary.allValues valueForKey:OCAKeypathUnsafe(classForKeyedArchiver)]];
     
     return [[OCATransformer fromClass:inputClass toClass:outputClass transform:^id(id input) {
         return [dictionary objectForKey:input];
@@ -219,9 +219,9 @@
 
 
 + (OCATransformer *)if:(NSPredicate *)predicate then:(NSValueTransformer *)thenTransformer else:(NSValueTransformer *)elseTransformer {
-    Class inputClass = [self valueClassForClasses:@[ [thenTransformer.class valueClass],
+    Class inputClass = [OCAObject valueClassForClasses:@[ [thenTransformer.class valueClass],
                                                      [elseTransformer.class valueClass] ]];
-    Class outputClass = [self valueClassForClasses:@[ [thenTransformer.class transformedValueClass],
+    Class outputClass = [OCAObject valueClassForClasses:@[ [thenTransformer.class transformedValueClass],
                                                       [elseTransformer.class transformedValueClass] ]];
     
     return [[OCATransformer fromClass:inputClass toClass:outputClass asymetric:^id(id input) {

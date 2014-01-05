@@ -113,12 +113,6 @@
 }
 
 
-- (void)test_findingCommonClass {
-    NSArray *classes = @[ NSString.class, NSMutableString.class, NSObject.class, NSNull.null, NSString.class ];
-    XCTAssertEqualObjects([OCATransformer valueClassForClasses:classes], NSString.class, @"Should be highest of all concrete classes.");
-}
-
-
 - (void)test_specialization {
     OCATransformer *t = [[OCATransformer pass] specializeFromClass:[NSString class] toClass:[NSString class]];
     XCTAssertEqualObjects([t transformedValue:@"A"], @"A");

@@ -44,7 +44,7 @@
 - (instancetype)initWithType:(OCAHubType)type producers:(NSArray *)producers {
     Class valueClass = nil;
     if (type == OCAHubTypeMerge) {
-        valueClass = [OCATransformer valueClassForClasses:[producers valueForKeyPath:OCAKeypath(OCAProducer, valueClass)]];
+        valueClass = [self valueClassForClasses:[producers valueForKeyPath:OCAKeypath(OCAProducer, valueClass)]];
     }
     else if (type == OCAHubTypeCombine) {
         valueClass = [NSArray class];
