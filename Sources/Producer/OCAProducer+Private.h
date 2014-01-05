@@ -19,6 +19,8 @@
 
 
 
+- (instancetype)initWithValueClass:(Class)valueClass;
+
 - (void)produceValue:(id)value NS_REQUIRES_SUPER;
 - (void)finishProducingWithError:(NSError *)error NS_REQUIRES_SUPER;
 

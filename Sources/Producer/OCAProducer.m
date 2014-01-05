@@ -38,11 +38,17 @@
 
 #pragma mark Creating Producer
 
-
 - (instancetype)init {
+    return [self initWithValueClass:nil];
+}
+
+
+- (instancetype)initWithValueClass:(Class)valueClass {
     self = [super init];
     if (self) {
         OCAAssert(self.class != [OCAProducer class], @"Cannot instantinate abstract class.") return nil;
+        
+        self->_valueClass = valueClass;
     }
     return self;
 }

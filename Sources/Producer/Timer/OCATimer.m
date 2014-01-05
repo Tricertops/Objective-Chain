@@ -38,7 +38,7 @@
 
 
 - (instancetype)initWithDelay:(NSTimeInterval)delay interval:(NSTimeInterval)interval leeway:(NSTimeInterval)leeway count:(NSUInteger)count {
-    self = [super init];
+    self = [super initWithValueClass:[NSDate class]];
     if (self) {
         OCAAssert(delay >= 0, @"Works only with non-negative delay.") return nil;
         OCAAssert(interval > 0, @"Works only with positive intervals.") return nil;

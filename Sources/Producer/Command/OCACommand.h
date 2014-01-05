@@ -19,8 +19,8 @@
 
 #pragma mark Creating Command
 
-- (instancetype)init;
 + (instancetype)command;
++ (instancetype)commandForClass:(Class)valueClass;
 
 
 #pragma mark Using Command

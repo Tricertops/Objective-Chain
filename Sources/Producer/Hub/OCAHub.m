@@ -9,6 +9,7 @@
 #import "OCAHub.h"
 #import "OCAProducer+Private.h"
 #import "OCAConsumer.h"
+#import "OCATransformer.h"
 
 
 
@@ -41,7 +42,15 @@
 
 
 - (instancetype)initWithType:(OCAHubType)type producers:(NSArray *)producers {
-    self = [super init];
+    Class valueClass = nil;
+    if (type == OCAHubTypeMerge) {
+        valueClass = [OCATransformer valueClassForClasses:[producers valueForKeyPath:OCAKeypath(OCAProducer, valueClass)]];
+    }
+    else if (type == OCAHubTypeCombine) {
+        valueClass = [NSArray class];
+    }
+    
+    self = [super initWithValueClass:valueClass];
     if (self) {
         self->_type = type;
         self->_mutableProducers = [producers mutableCopy];
@@ -60,6 +69,7 @@
 + (instancetype)combine:(NSArray *)producers {
     return [[self alloc] initWithType:OCAHubTypeCombine producers:producers];
 }
+
 
 
 
@@ -107,7 +117,6 @@
         }
     }
 }
-
 
 
 

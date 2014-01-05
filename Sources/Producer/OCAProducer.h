@@ -22,6 +22,7 @@
 
 #pragma mark Getting State of Producer
 
+@property (OCA_atomic, readonly, strong) Class valueClass;
 @property (OCA_atomic, readonly, strong) id lastValue;
 @property (OCA_atomic, readonly, assign) BOOL finished;
 @property (OCA_atomic, readonly, strong) NSError *error;

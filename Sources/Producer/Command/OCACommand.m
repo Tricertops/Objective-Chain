@@ -27,13 +27,12 @@
 #pragma mark Creating Command
 
 
-- (instancetype)init {
-    return [super init];
-}
-
-
 + (instancetype)command {
     return [[self alloc] init];
+}
+
++ (instancetype)commandForClass:(Class)valueClass {
+    return [[self alloc] initWithValueClass:valueClass];
 }
 
 
