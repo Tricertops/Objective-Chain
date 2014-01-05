@@ -24,10 +24,17 @@ typedef void(^OCASubscriberFinishHandler)(NSError *error);
 
 
 
-- (instancetype)initWithValueHandler:(OCASubscriberValueHandler)valueHandler finishHandler:(OCASubscriberFinishHandler)finishHandler;
+#pragma mark Creating Subscriber
 
-+ (instancetype)subscribe:(OCASubscriberValueHandler)valueHandler;
-+ (instancetype)subscribe:(OCASubscriberValueHandler)valueHandler finish:(OCASubscriberFinishHandler)finishHandler;
+- (instancetype)initWithValueClass:(Class)valueClass valueHandler:(OCASubscriberValueHandler)valueHandler finishHandler:(OCASubscriberFinishHandler)finishHandler;
+
++ (instancetype)subscribeClass:(Class)valueClass handler:(OCASubscriberValueHandler)valueHandler;
++ (instancetype)subscribeClass:(Class)valueClass handler:(OCASubscriberValueHandler)valueHandler finish:(OCASubscriberFinishHandler)finishHandler;
+
+
+#pragma mark Attributes of Subscriber
+
+@property (OCA_atomic, readonly, strong) Class valueClass;
 
 
 
@@ -41,8 +48,8 @@ typedef void(^OCASubscriberFinishHandler)(NSError *error);
 @interface OCAProducer (OCASubscriber)
 
 
-- (OCAConnection *)subscribe:(OCASubscriberValueHandler)valueHandler;
-- (OCAConnection *)subscribe:(OCASubscriberValueHandler)valueHandler finish:(OCASubscriberFinishHandler)finishHandler;
+- (OCAConnection *)subscribeClass:(Class)valueClass handler:(OCASubscriberValueHandler)valueHandler;
+- (OCAConnection *)subscribeClass:(Class)valueClass handler:(OCASubscriberValueHandler)valueHandler finish:(OCASubscriberFinishHandler)finishHandler;
 
 
 @end

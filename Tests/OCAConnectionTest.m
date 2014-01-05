@@ -48,7 +48,7 @@
     __block id receivedValue = @"Received";
     
     OCACommand *command = [OCACommand commandForClass:[NSString class]];
-    [command subscribe:^(id value) {
+    [command subscribeClass:[NSString class] handler:^(id value) {
         receivedValue = value;
     }];
     
@@ -63,9 +63,7 @@
     [command finishWithError:nil];
     
     __block BOOL finished = NO;
-    [command subscribe:^(id value) {
-        
-    } finish:^(NSError *error) {
+    [command subscribeClass:nil handler:nil finish:^(NSError *error) {
         finished = YES;
     }];
     
@@ -77,7 +75,7 @@
     OCACommand *command = [OCACommand commandForClass:[NSString class]];
     
     NSMutableArray *received = [[NSMutableArray alloc] init];
-    OCAConnection *connection = [command subscribe:^(id value) {
+    OCAConnection *connection = [command subscribeClass:nil handler:^(id value) {
         [received addObject:value];
     }];
     
@@ -98,7 +96,7 @@
     
     [command connectWithFilter:[NSPredicate predicateWithFormat:@"self BEGINSWITH[c] 'a'"]
                      transform:[OCATransformer accessKeyPath:OCAKeypath(NSString, uppercaseString)]
-                            to:[OCASubscriber subscribe:
+                            to:[OCASubscriber subscribeClass:[NSString class] handler:
                                 ^(id value) {
                                     [received addObject:value];
                                 }]];
@@ -114,7 +112,7 @@
     OCASemaphore *semaphore = [[OCASemaphore alloc] init];
     __block NSUInteger tickCount = 0;
     
-    [timer subscribe:^(id value) {
+    [timer subscribeClass:[NSDate class] handler:^(id value) {
         NSLog(@"Start");
         tickCount ++;
         NSLog(@"End %lu", (unsigned long)tickCount);
@@ -142,15 +140,15 @@
     [producer connectTo:bridge];
     
     __block BOOL consumer1 = NO;
-    [bridge subscribe:^(id value) {
+    [bridge subscribeClass:[NSString class] handler:^(id value) {
         consumer1 = (value == hello);
     }];
     __block BOOL consumer2 = NO;
-    [bridge subscribe:^(id value) {
+    [bridge subscribeClass:[NSString class] handler:^(id value) {
         consumer2 = (value == hello);
     }];
     __block BOOL consumer3 = NO;
-    [bridge subscribe:^(id value) {
+    [bridge subscribeClass:[NSString class] handler:^(id value) {
         consumer3 = (value == hello);
     }];
     
@@ -177,12 +175,12 @@
     XCTAssertEqualObjects(hubCombine.valueClass, [NSArray class], @"Combining hub must produce arrays.");
     
     NSMutableArray *merged = [NSMutableArray array];
-    [hubMerge subscribe:^(id value) {
+    [hubMerge subscribeClass:[NSString class] handler:^(id value) {
         [merged addObject:value];
     }];
     
     NSMutableArray *combined = [NSMutableArray array];
-    [hubCombine subscribe:^(NSArray *value) {
+    [hubCombine subscribeClass:[NSArray class] handler:^(NSArray *value) {
         [combined setArray:value];
     }];
     
@@ -200,7 +198,7 @@
     OCACommand *command = [OCACommand commandForClass:[NSString class]];
     
     NSMutableArray *received = [[NSMutableArray alloc] init];
-    [command subscribe:^(id value) {
+    [command subscribeClass:[NSString class] handler:^(id value) {
         [received addObject:value];
     }];
     

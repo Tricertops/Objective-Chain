@@ -40,13 +40,14 @@
 
 
 - (instancetype)init {
-    return [self initWithValueHandler:nil finishHandler:nil];
+    return [self initWithValueClass:nil valueHandler:nil finishHandler:nil];
 }
 
 
-- (instancetype)initWithValueHandler:(OCASubscriberValueHandler)valueHandler finishHandler:(OCASubscriberFinishHandler)finishHandler {
+- (instancetype)initWithValueClass:(Class)valueClass valueHandler:(OCASubscriberValueHandler)valueHandler finishHandler:(OCASubscriberFinishHandler)finishHandler {
     self = [super init];
     if (self) {
+        self->_valueClass = valueClass;
         self->_valueHandler = valueHandler;
         self->_finishHandler = finishHandler;
     }
@@ -54,13 +55,13 @@
 }
 
 
-+ (instancetype)subscribe:(OCASubscriberValueHandler)valueHandler {
-    return [[self alloc] initWithValueHandler:valueHandler finishHandler:nil];
++ (instancetype)subscribeClass:(Class)valueClass handler:(OCASubscriberValueHandler)valueHandler {
+    return [[self alloc] initWithValueClass:valueClass valueHandler:valueHandler finishHandler:nil];
 }
 
 
-+ (instancetype)subscribe:(OCASubscriberValueHandler)valueHandler finish:(OCASubscriberFinishHandler)finishHandler {
-    return [[self alloc] initWithValueHandler:valueHandler finishHandler:finishHandler];
++ (instancetype)subscribeClass:(Class)valueClass handler:(OCASubscriberValueHandler)valueHandler finish:(OCASubscriberFinishHandler)finishHandler {
+    return [[self alloc] initWithValueClass:valueClass valueHandler:valueHandler finishHandler:finishHandler];
 }
 
 
@@ -71,6 +72,9 @@
 
 
 - (void)consumeValue:(id)value {
+    BOOL valid = [self validateObject:&value ofClass:self.valueClass];
+    if ( ! valid) return;
+    
     if (self->_valueHandler) self->_valueHandler(value);
 }
 
@@ -98,13 +102,13 @@
 
 
 
-- (OCAConnection *)subscribe:(OCASubscriberValueHandler)valueHandler {
-    return [self connectTo:[OCASubscriber subscribe:valueHandler]];
+- (OCAConnection *)subscribeClass:(Class)valueClass handler:(OCASubscriberValueHandler)valueHandler {
+    return [self connectTo:[OCASubscriber subscribeClass:valueClass handler:valueHandler]];
 }
 
 
-- (OCAConnection *)subscribe:(OCASubscriberValueHandler)valueHandler finish:(OCASubscriberFinishHandler)finishHandler {
-    return [self connectTo:[OCASubscriber subscribe:valueHandler finish:finishHandler]];
+- (OCAConnection *)subscribeClass:(Class)valueClass handler:(OCASubscriberValueHandler)valueHandler finish:(OCASubscriberFinishHandler)finishHandler {
+    return [self connectTo:[OCASubscriber subscribeClass:valueClass handler:valueHandler finish:finishHandler]];
 }
 
 
