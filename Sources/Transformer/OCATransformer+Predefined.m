@@ -291,19 +291,6 @@
 
 
 
-#pragma mark Collections
-
-
-//+ (OCATransformer *)removeNulls {
-//    return [OCATransformer filter:[NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
-//        return (evaluatedObject && ! [evaluatedObject isKindOfClass:[NSNull class]]);
-//    }]];
-//}
-
-
-
-
-
 #pragma mark Side Effects
 
 

@@ -25,6 +25,9 @@
 
 
 
+#pragma mark NSArray
+
+
 - (void)test_branchArray {
     OCATransformer *t = [OCAFoundation branchArray:@[
                                                      [OCATransformer accessKeyPath:OCAKeypath(NSString, uppercaseString)],
@@ -108,6 +111,21 @@
     }];
     NSArray *expected = @[ @"B", @"C", @"D" ];
     XCTAssertEqualObjects([array transform:t], expected);
+}
+
+
+- (void)test_objectAtIndex {
+    NSArray *array = @[ @"A", @"B", @"C" ];
+    XCTAssertEqualObjects([array transform:[OCAFoundation objectAtIndex:1]], @"B");
+    XCTAssertEqualObjects([array transform:[OCAFoundation objectAtIndex:-1]], @"C");
+    XCTAssertNil([array transform:[OCAFoundation objectAtIndex:5]]);
+}
+
+
+- (void)test_joinWithString {
+    NSArray *array = @[ @"A", @"B", @"C", @"D" ];
+    XCTAssertEqualObjects([array transform:[OCAFoundation joinWithString:@", "]], @"A, B, C, D");
+    XCTAssertEqualObjects([array transform:[OCAFoundation joinWithString:@", " last:@" & "]], @"A, B, C & D");
 }
 
 

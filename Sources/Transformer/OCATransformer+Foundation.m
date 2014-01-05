@@ -210,7 +210,7 @@
     return [[OCAFoundation mutateArray:^(NSMutableArray *array) {
         [array removeObjectIdenticalTo:[NSNull null]];
     }]
-            describe:@"remove nulls from array"];
+            describe:@"remove nulls"];
 }
 
 
@@ -221,6 +221,40 @@
         return output;
     }]
             describe:@"mutate array"];
+}
+
+
++ (OCATransformer *)objectAtIndex:(NSInteger)index {
+    return [[OCATransformer fromClass:[NSArray class] toClass:nil asymetric:^id(NSArray *input) {
+        
+        NSInteger realIndex = (index < 0? input.count + index : index);
+        if (realIndex < 0 || realIndex >= input.count) return nil;
+        
+        return [input objectAtIndex:realIndex];
+    }]
+            describe:[NSString stringWithFormat:@"index %@", @(index)]];
+}
+
+
++ (OCATransformer *)joinWithString:(NSString *)string {
+    return [[OCATransformer fromClass:[NSArray class] toClass:[NSString class] asymetric:^NSString *(NSArray *input) {
+        return [input componentsJoinedByString:string];
+    }]
+            describe:[NSString stringWithFormat:@"join “%@”", string]];
+}
+
+
++ (OCATransformer *)joinWithString:(NSString *)string last:(NSString *)lastString {
+    return [[OCATransformer fromClass:[NSArray class] toClass:[NSString class] asymetric:^NSString *(NSArray *input) {
+        if (input.count > 1) {
+            NSArray *inputWithoutLast = [input subarrayWithRange:NSMakeRange(0, input.count - 1)];
+            return [NSString stringWithFormat:@"%@%@%@", [inputWithoutLast componentsJoinedByString:string], lastString, input.lastObject];
+        }
+        else {
+            return [input componentsJoinedByString:lastString];
+        }
+    }]
+            describe:[NSString stringWithFormat:@"join “%@” last “%@”", string, lastString]];
 }
 
 

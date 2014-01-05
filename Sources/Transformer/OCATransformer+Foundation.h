@@ -39,10 +39,9 @@
 + (OCATransformer *)mutateArray:(void(^)(NSMutableArray *array))block;
 
 /// Destroying Array
-//TODO: objectAtIndex:
-//TODO: joinWithString:
-//TODO: joinWithString:last:
-//TODO: histogram (dictionary, object to its count)
++ (OCATransformer *)objectAtIndex:(NSInteger)index;
++ (OCATransformer *)joinWithString:(NSString *)string;
++ (OCATransformer *)joinWithString:(NSString *)string last:(NSString *)lastString;
 
 
 #pragma mark NSAttributedString
