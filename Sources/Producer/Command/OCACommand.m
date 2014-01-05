@@ -48,6 +48,13 @@
 }
 
 
+- (void)sendValues:(NSArray *)values {
+    for (id object in values) {
+        [self sendValue:object];
+    }
+}
+
+
 - (void)finishWithError:(NSError *)error {
     [super finishProducingWithError:error];
 }

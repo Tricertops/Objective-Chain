@@ -103,13 +103,8 @@
                                     [received addObject:value];
                                 }]];
     
-    [command sendValue:@"Auto"];
-    [command sendValue:@"Magic"];
-    [command sendValue:@"All"];
-    [command sendValue:@"Every"];
-    [command sendValue:@"Alien"];
-    
-    NSArray *expected = @[ @"AUTO", @"ALL", @"ALIEN" ];
+    [command sendValues:@[ @"Auto", @"Magic", @"All", @"Every", @"Alien" ]];
+    NSArray *expected = @[ @"AUTO",           @"ALL",           @"ALIEN" ];
     XCTAssertEqualObjects(received, expected, @"Should receive uppercase string that begins with A.");
 }
 

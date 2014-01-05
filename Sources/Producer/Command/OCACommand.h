@@ -26,6 +26,7 @@
 #pragma mark Using Command
 
 - (void)sendValue:(id)value;
+- (void)sendValues:(NSArray *)values;
 - (void)finishWithError:(NSError *)error;
 
 
