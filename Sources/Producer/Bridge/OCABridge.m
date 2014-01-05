@@ -56,6 +56,24 @@
 
 
 
+#pragma mark Describing Bridge
+
+
+- (NSString *)description {
+    NSString *adjective = (self.finished? @"finished " : @"");
+    return [NSString stringWithFormat:@"%@bridge for %@", adjective, self.valueClass ?: @"anything"];
+}
+
+
+- (NSString *)debugDescription {
+    return [NSString stringWithFormat:@"<%@ %p; valueClass = %@; lastValue = %@; finished = %@; error = %@>", self.class, self, self.valueClass, self.lastValue, (self.finished? @"YES" : @"NO"), self.error];
+}
+
+
+
+
+
+
 @end
 
 

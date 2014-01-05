@@ -113,6 +113,23 @@
 
 
 
+#pragma mark Describing Connection
+
+
+- (NSString *)description {
+    NSString *adjective = (self.closed? @"closed " : (self.enabled? @"" : @"disabled "));
+    return [NSString stringWithFormat:@"%@connection from %@, filter (%@), transform %@, to %@", adjective, self.producer, self.filter, self.transformer, self.consumer];
+}
+
+
+- (NSString *)debugDescription {
+    return [NSString stringWithFormat:@"<%@ %p; producer = %@; filter = %@; transformer = %@; consumer = %@; enabled = %@; closed = %@>", self.class, self, self.producer.debugDescription, self.filter.debugDescription, self.transformer.debugDescription, [self.consumer debugDescription], (self.enabled? @"YES" : @"NO"), (self.closed? @"YES" : @"NO")];
+}
+
+
+
+
+
 @end
 
 

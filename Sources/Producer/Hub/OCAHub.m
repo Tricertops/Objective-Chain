@@ -122,6 +122,26 @@
 
 
 
+#pragma mark Describing Hub
+
+
+- (NSString *)description {
+    NSString *adjective = (self.finished? @"finished " : @"");
+    NSString *verb = (self.type == OCAHubTypeMerge? @"merge" : (self.type == OCAHubTypeCombine? @"combination" : @"[hub]"));
+    return [NSString stringWithFormat:@"%@%@ of { %@ }", adjective, verb, [self.producers valueForKeyPath:OCAKeypath(OCAProducer, description)]];
+}
+
+
+- (NSString *)debugDescription {
+    NSString *type = (self.type == OCAHubTypeMerge? @"OCAHubTypeMerge" : (self.type == OCAHubTypeCombine? @"OCAHubTypeMerge" : @"???"));
+    return [NSString stringWithFormat:@"<%@ %p; type = %@; producers = %@; lastValue = %@; finished = %@; error = %@>", self.class, self, type, [self.producers debugDescription], self.lastValue, (self.finished? @"YES" : @"NO"), self.error];
+}
+
+
+
+
+
+
 @end
 
 

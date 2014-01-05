@@ -87,6 +87,23 @@
 
 
 
+#pragma mark Describing Subscriber
+
+
+- (NSString *)description {
+    return [NSString stringWithFormat:@"subscriber for %@", self.valueClass ?: @"anything"];
+}
+
+
+- (NSString *)debugDescription {
+    return [NSString stringWithFormat:@"<%@ %p; valueClass = %@", self.class, self, self.valueClass];
+}
+
+
+
+
+
+
 @end
 
 
