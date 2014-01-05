@@ -22,38 +22,14 @@
 
 
 + (OCATransformer *)pass {
-    return [[OCATransformer fromClass:nil toClass:nil symetric:OCATransformationPass] describe:@"pass"];
+    return [[OCATransformer fromClass:nil toClass:nil symetric:OCATransformationPass]
+            describe:@"pass"];
 }
 
 
 + (OCATransformer *)null {
-    return [[OCATransformer fromClass:nil toClass:nil symetric:OCATransformationNil] describe:@"null"];
-}
-
-
-+ (OCATransformer *)nonNull:(id)replacement {
-    OCAAssert(replacement != nil, @"Are you kidding me?");
-    
-    return [[OCATransformer fromClass:nil toClass:nil transform:^id(id input) {
-        return input ?: replacement;
-    } reverse:OCATransformationPass]
-            describe:[NSString stringWithFormat:@"replace nil by %@", replacement]];
-}
-
-
-+ (OCATransformer *)copy {
-    return [[OCATransformer fromClass:nil toClass:nil transform:^id(id input) {
-        if ([input conformsToProtocol:@protocol(NSCopying)]) return [input copy];
-        else return input;
-    } reverse:OCATransformationPass] describe:@"copy" reverse:@"pass"];
-}
-
-
-+ (OCATransformer *)mutableCopy {
-    return [[OCATransformer fromClass:nil toClass:nil transform:^id(id input) {
-        if ([input conformsToProtocol:@protocol(NSMutableCopying)]) return [input mutableCopy];
-        else return input;
-    } reverse:OCATransformationPass] describe:@"mutable copy" reverse:@"pass"];
+    return [[OCATransformer fromClass:nil toClass:nil symetric:OCATransformationNil]
+            describe:@"nil"];
 }
 
 
@@ -63,6 +39,59 @@
     } reverse:OCATransformationPass]
             describe:[NSString stringWithFormat:@"replace with %@", replacement]];
 }
+
+
++ (OCATransformer *)ifNull:(id)replacement {
+    OCAAssert(replacement != nil, @"Are you kidding me?");
+    
+    return [[OCATransformer fromClass:nil toClass:nil transform:^id(id input) {
+        return input ?: replacement;
+    } reverse:OCATransformationPass]
+            describe:[NSString stringWithFormat:@"replace nil by %@", replacement]];
+}
+
+
++ (OCATransformer *)kindOfClass:(Class)class or:(id)replacement {
+    Class commonClass = [replacement classForKeyedArchiver];
+    while (commonClass) {
+        if ([class isSubclassOfClass:commonClass]) break;
+        commonClass = [commonClass superclass];
+    }
+    
+    return [[OCATransformer fromClass:nil toClass:commonClass asymetric:^id(id input) {
+        return ( ! input || [input isKindOfClass:class]? input : replacement);
+    }] describe:[NSString stringWithFormat:@"kind of %@ or %@", class, replacement]];
+}
+
+
++ (OCATransformer *)passes:(NSPredicate *)predicate or:(id)replacement {
+    return [[OCATransformer if:predicate then:[OCATransformer pass] else:[OCATransformer replaceWith:replacement]]
+            describe:[NSString stringWithFormat:@"pass if (%@) else nil", predicate]];
+}
+
+
++ (OCATransformer *)count {
+    return [[OCATransformer fromClass:nil toClass:[NSNumber class] asymetric:^id(id input) {
+        if ([input respondsToSelector:@selector(count)]) return @([input count]);
+        else return nil;
+    }] describe:@"count of"];
+}
+
+
++ (OCATransformer *)map:(NSDictionary *)dictionary {
+    // Using classForKeyedArchiver, because __NSCFString is not very friendly class.
+    Class inputClass = [OCATransformer valueClassForClasses:[dictionary.allKeys valueForKey:OCAKeypathUnsafe(classForKeyedArchiver)]];
+    Class outputClass = [OCATransformer valueClassForClasses:[dictionary.allValues valueForKey:OCAKeypathUnsafe(classForKeyedArchiver)]];
+    
+    return [[OCATransformer fromClass:inputClass toClass:outputClass transform:^id(id input) {
+        return [dictionary objectForKey:input];
+    } reverse:^id(id input){
+        return [[dictionary allKeysForObject:input] firstObject];
+    }]
+            describe:[NSString stringWithFormat:@"map %@ pairs from %@ to %@", @(dictionary.count), inputClass ?: @"various", outputClass ?: @"various"]
+            reverse:[NSString stringWithFormat:@"map %@ pairs from %@ to %@", @(dictionary.count), outputClass ?: @"various", inputClass ?: @"various"]];
+}
+
 
 
 
@@ -154,7 +183,7 @@
 + (OCATransformer *)repeat:(NSUInteger)count transformer:(NSValueTransformer *)transformer {
     Class inputClass = [transformer.class valueClass];
     Class outputClass = [transformer.class transformedValueClass];
-    OCAAssert([inputClass isSubclassOfClass:outputClass], @"") return [OCATransformer null];
+    OCAAssert(inputClass == Nil || outputClass == Nil || [inputClass isSubclassOfClass:outputClass], @"Transformer cannot be repeated.") return [OCATransformer null];
     
     return [[OCATransformer fromClass:inputClass toClass:outputClass transform:^id(id input) {
         id value = input;
@@ -193,14 +222,54 @@
 
 
 
-#pragma mark Access Members
+#pragma mark Key-Value Coding
 
 
-+ (OCATransformer *)traverseKeyPath:(NSString *)keypath {
++ (OCATransformer *)accessKeyPath:(NSString *)keypath {
     return [[OCATransformer fromClass:nil toClass:nil asymetric:^id(id input) {
         return [input valueForKeyPath:keypath];
-    }] describe:[NSString stringWithFormat:@"key-path %@", keypath]];
+    }] describe:[NSString stringWithFormat:@".%@", keypath]];
 }
+
+
++ (OCATransformer *)modifyKeyPath:(NSString *)keypath value:(id)value {
+    return [[OCATransformer sideEffect:^(id input) {
+        [input setValue:value forKeyPath:keypath];
+    }] describe:[NSString stringWithFormat:@".%@ = %@", keypath, value]];
+}
+
+
++ (OCATransformer *)transformKeyPath:(NSString *)keypath transformer:(NSValueTransformer *)transformer {
+    Class inputClass = [transformer.class valueClass];
+    Class outputClass = [transformer.class transformedValueClass];
+    OCAAssert(inputClass == Nil || outputClass == Nil || [outputClass isSubclassOfClass:inputClass], @"Transformer should return what he gets.") return [OCATransformer null];
+    
+    return [[OCATransformer fromClass:nil toClass:nil transform:^id(id input) {
+        if ( ! input) return nil;
+        
+        id value = [input valueForKeyPath:keypath];
+        value = [transformer transformedValue:value];
+        [input setValue:value forKeyPath:keypath];
+        
+        return input;
+    } reverse:^id(id input) {
+        if ( ! input) return nil;
+        
+        id value = [input valueForKeyPath:keypath];
+        value = [transformer reverseTransformedValue:value];
+        [input setValue:value forKeyPath:keypath];
+        
+        return input;
+    }]
+            describe:[NSString stringWithFormat:@"transform .%@ using %@", keypath, transformer]
+            reverse:[NSString stringWithFormat:@"transform .%@ using %@", keypath, [transformer reversed]]];
+}
+
+
+
+
+
+#pragma mark Struct Accessors
 
 
 + (OCATransformer *)accessStruct:(OCAStructureAccessor *)structAccessor {
@@ -223,14 +292,6 @@
 
 
 #pragma mark Collections
-
-
-+ (OCATransformer *)count {
-    return [OCATransformer fromClass:nil toClass:[NSNumber class] asymetric:^NSNumber *(id input) {
-        if ([input respondsToSelector:@selector(count)]) return @([input count]);
-        return nil;
-    }];
-}
 
 
 + (OCATransformer *)branch:(NSArray *)transformers {
@@ -305,62 +366,6 @@
 
 
 
-#pragma mark Other
-
-
-+ (OCATransformer *)map:(NSDictionary *)dictionary {
-    // Using classForKeyedArchiver, because __NSCFString is not very friendly class.
-    Class inputClass = [OCATransformer valueClassForClasses:[dictionary.allKeys valueForKey:@"classForKeyedArchiver"]];
-    Class outputClass = [OCATransformer valueClassForClasses:[dictionary.allValues valueForKey:@"classForKeyedArchiver"]];
-    
-    return [[OCATransformer fromClass:inputClass toClass:outputClass transform:^id(id input) {
-        return [dictionary objectForKey:input];
-    } reverse:^id(id input){
-        return [[dictionary allKeysForObject:input] firstObject];
-    }]
-            describe:[NSString stringWithFormat:@"map %@ pairs from %@ to %@", @(dictionary.count), inputClass ?: @"various", outputClass ?: @"various"]
-            reverse:[NSString stringWithFormat:@"map %@ pairs from %@ to %@", @(dictionary.count), outputClass ?: @"various", inputClass ?: @"various"]];
-}
-
-
-+ (OCATransformer *)mapFromTable:(NSMapTable *)mapTable {
-    // Using classForKeyedArchiver, because __NSCFString is not very friendly class.
-    Class inputClass = [OCATransformer valueClassForClasses:[mapTable.keyEnumerator.allObjects valueForKey:@"classForKeyedArchiver"]];
-    Class outputClass = [OCATransformer valueClassForClasses:[mapTable.objectEnumerator.allObjects valueForKey:@"classForKeyedArchiver"]];
-    
-    return [[OCATransformer fromClass:inputClass toClass:outputClass transform:^id(id input) {
-        return [mapTable objectForKey:input];
-    } reverse:^id(id input){
-        if ( ! input) return nil;
-        
-        for (id key in mapTable) {
-            id value = [mapTable objectForKey:key];
-            if ([value isEqualTo:input]) {
-                return key;
-            }
-        }
-        return nil;
-    }]
-            describe:[NSString stringWithFormat:@"map %@ pairs from %@ to %@", @(mapTable.count), inputClass ?: @"various", outputClass ?: @"various"]
-            reverse:[NSString stringWithFormat:@"map %@ pairs from %@ to %@", @(mapTable.count), outputClass ?: @"various", inputClass ?: @"various"]];
-}
-
-
-+ (OCATransformer *)ofClass:(Class)class or:(id)replacement {
-    Class commonClass = [replacement classForKeyedArchiver];
-    while (commonClass) {
-        if ([class isSubclassOfClass:commonClass]) break;
-        commonClass = [commonClass superclass];
-    }
-    
-    return [[OCATransformer fromClass:nil toClass:commonClass asymetric:^id(id input) {
-        return ( ! input || [input isKindOfClass:class]? input : replacement);
-    }] describe:[NSString stringWithFormat:@"kind of %@ or %@", class, replacement]];
-}
-
-
-
-
 
 #pragma mark Side Effects
 
@@ -369,14 +374,14 @@
     return [[OCATransformer fromClass:nil toClass:nil symetric:^id(id input) {
         if (block) block(input);
         return input;
-    }] describe:@"side effect"];
+    }] describe:@"[side effect]"];
 }
 
 
 + (OCATransformer *)debugPrintWithMarker:(NSString *)marker {
     return [[OCATransformer sideEffect:^(id value) {
         NSLog(@"%@: %@", marker ?: @"Debug", value);
-    }] describe:[NSString stringWithFormat:@"debug print “%@”", marker]];
+    }] describe:[NSString stringWithFormat:@"[debug print “%@”]", marker]];
 }
 
 

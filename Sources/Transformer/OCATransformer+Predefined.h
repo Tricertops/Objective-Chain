@@ -20,14 +20,15 @@
 #pragma mark Basic
 
 + (OCATransformer *)pass;
+
 + (OCATransformer *)null;
-+ (OCATransformer *)nonNull:(id)replacement;
-+ (OCATransformer *)copy;
-//TODO: count
-//TODO: length
 + (OCATransformer *)replaceWith:(id)replacement;
++ (OCATransformer *)ifNull:(id)replacement;
++ (OCATransformer *)kindOfClass:(Class)class or:(id)replacement;
++ (OCATransformer *)passes:(NSPredicate *)predicate or:(id)replacement;
+
++ (OCATransformer *)count;
 + (OCATransformer *)map:(NSDictionary *)dictionary;
-+ (OCATransformer *)ofClass:(Class)class or:(id)replacement;
 
 
 #pragma mark Control Flow
@@ -38,33 +39,17 @@
 + (OCATransformer *)if:(NSPredicate *)predicate then:(NSValueTransformer *)thenTransformer else:(NSValueTransformer *)elseTransformer;
 
 
-#pragma mark Access Members
+#pragma mark Key-Value Coding
 
-+ (OCATransformer *)traverseKeyPath:(NSString *)keypath;
-//TODO: valueOfProperty:
-//TODO: setValue:ofProperty:
-//TODO: valueForKeyPath:
-//TODO: setValue:forKeyPath:
++ (OCATransformer *)accessKeyPath:(NSString *)keypath;
++ (OCATransformer *)modifyKeyPath:(NSString *)keypath value:(id)value;
++ (OCATransformer *)transformKeyPath:(NSString *)keypath transformer:(NSValueTransformer *)transformer;
+
+
+#pragma mark Struct Accessors
+
 + (OCATransformer *)accessStruct:(OCAStructureAccessor *)structAccessor;
 + (OCATransformer *)modifyStruct:(OCAStructureAccessor *)structAccessor value:(NSValue *)value;
-
-
-#pragma mark Array
-//TODO: Move to Foundation
-
-+ (OCATransformer *)count;
-+ (OCATransformer *)branch:(NSArray *)transformers;
-+ (OCATransformer *)pickIndexes:(NSIndexSet *)indexes;
-+ (OCATransformer *)enumerate:(NSValueTransformer *)transformer;
-+ (OCATransformer *)filter:(NSPredicate *)predicate; //TODO: replacement
-+ (OCATransformer *)removeNulls;
-+ (OCATransformer *)sort:(NSArray *)descriptors;
-
-
-#pragma mark Other
-
-+ (OCATransformer *)mutableCopy; //TODO: Useless
-+ (OCATransformer *)mapFromTable:(NSMapTable *)mapTable; //TODO: Useless
 
 
 #pragma mark Side Effects

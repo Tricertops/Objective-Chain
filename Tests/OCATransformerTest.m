@@ -212,25 +212,6 @@
 }
 
 
-- (void)test_predefinedCopy_returnCopyIfCopiable {
-    OCATransformer *t = [OCATransformer copy];
-    NSMutableString *s = [@"test" mutableCopy];
-    XCTAssertEqualObjects([t transformedValue:s], s);
-    XCTAssertFalse([t transformedValue:s] == s, @"Returned the same, didn't copy.");
-    XCTAssertTrue([t transformedValue:self] == self, @"Non-copiable objects should just pass.");
-}
-
-
-- (void)test_predefinedMutableCopy_returnCopyIfCopiable {
-    OCATransformer *t = [OCATransformer mutableCopy];
-    NSMutableString *s = [@"test" mutableCopy];
-    XCTAssertEqualObjects([t transformedValue:s], s);
-    XCTAssertNoThrow([[t transformedValue:s] appendString:@"test"], @"Transformed string is not mutable.");
-    XCTAssertFalse([t transformedValue:s] == s, @"Returned the same, didn't copy.");
-    XCTAssertTrue([t transformedValue:self] == self, @"Non-copiable objects should just pass.");
-}
-
-
 - (void)test_predefinedIfThenElse {
     NSPredicate *condition = [NSPredicate predicateWithFormat:@"self BEGINSWITH 'A'"];
     OCATransformer *appendExclamation = [[OCATransformer fromClass:[NSString class] toClass:[NSString class]
@@ -252,7 +233,7 @@
 
 
 - (void)test_predefinedTraverseKeyPath {
-    OCATransformer *t = [OCATransformer traverseKeyPath:@"length"];
+    OCATransformer *t = [OCATransformer accessKeyPath:@"length"];
     XCTAssertEqualObjects([t transformedValue:@"123456"], @6);
 }
 
@@ -265,7 +246,7 @@
 
 
 - (void)test_predefinedNonNull {
-    OCATransformer *t = [OCATransformer nonNull:@"A"];
+    OCATransformer *t = [OCATransformer ifNull:@"A"];
     XCTAssertEqualObjects([t transformedValue:@"B"], @"B");
     XCTAssertNotNil([t transformedValue:nil]);
 }
@@ -286,23 +267,8 @@
 }
 
 
-- (void)test_predefinedMap_NSMapTable {
-    NSMapTable *table = [NSMapTable strongToStrongObjectsMapTable];
-    [table setObject:@1 forKey:@"A"];
-    [table setObject:@4 forKey:@"B"];
-    [table setObject:@8 forKey:@"C"];
-    OCATransformer *t = [OCATransformer mapFromTable:table];
-    XCTAssertEqualObjects([t.class valueClass], [NSString class], @"Key classes are consistent NSStrings.");
-    XCTAssertEqualObjects([t.class transformedValueClass], [NSNumber class], @"Object classes are consistent NSNumbers.");
-    XCTAssertEqualObjects([t transformedValue:@"C"], @8);
-    XCTAssertNil([t transformedValue:@"D"]);
-    XCTAssertEqualObjects([t reverseTransformedValue:@1], @"A");
-    XCTAssertNil([t reverseTransformedValue:@100]);
-}
-
-
 - (void)test_predefinedKindOfClass {
-    OCATransformer *t = [OCATransformer ofClass:[NSString class] or:[@"a" mutableCopy]];
+    OCATransformer *t = [OCATransformer kindOfClass:[NSString class] or:[@"a" mutableCopy]];
     XCTAssertEqualObjects([t.class transformedValueClass], [NSString class], @"Output class should be detected.");
     XCTAssertEqualObjects([t transformedValue:@"test"], @"test");
     XCTAssertEqualObjects([t transformedValue:@42], @"a");
@@ -328,39 +294,39 @@
 }
 
 
-- (void)test_predefinedEnumerate {
-    OCATransformer *t = [OCATransformer enumerate:[OCATransformer traverseKeyPath:OCAKeypathUnsafe(uppercaseString)]];
-    NSArray *ab = @[ @"a", @"b" ];
-    NSArray *AB = @[ @"A", @"B" ];
-    XCTAssertEqualObjects([t transformedValue:ab], AB);
-    XCTAssertEqualObjects([t transformedValue:[ab mutableCopy]], AB);
-}
-
-- (void)test_predefinedPick_inRange {
-    OCATransformer *t = [OCATransformer pickIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(1, 2)]];
-    NSArray *abcd = @[ @"a", @"b", @"c", @"d" ];
-    NSArray *bc = @[ @"b", @"c" ];
-    XCTAssertEqualObjects([t transformedValue:abcd], bc);
-}
-
-
-- (void)test_predefinedPick_outOfRange {
-    OCATransformer *t = [OCATransformer pickIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(2, 6)]];
-    NSArray *abcd = @[ @"a", @"b", @"c", @"d" ];
-    NSArray *cd = @[ @"c", @"d" ];
-    XCTAssertEqualObjects([t transformedValue:abcd], cd);
-}
-
-
-- (void)test_predefinedBranch {
-    OCATransformer *t = [OCATransformer branch:@[
-                                                 [OCATransformer traverseKeyPath:OCAKeypathUnsafe(uppercaseString)],
-                                                 [OCATransformer traverseKeyPath:OCAKeypathUnsafe(lowercaseString)],
-                                                 [OCATransformer traverseKeyPath:OCAKeypathUnsafe(capitalizedString)],
-                                                 ]];
-    NSArray *result = @[ @"HELLO", @"hello", @"Hello" ];
-    XCTAssertEqualObjects([t transformedValue:@"heLLo"], result);
-}
+//- (void)test_predefinedEnumerate {
+//    OCATransformer *t = [OCATransformer enumerate:[OCATransformer accessKeyPath:OCAKeypathUnsafe(uppercaseString)]];
+//    NSArray *ab = @[ @"a", @"b" ];
+//    NSArray *AB = @[ @"A", @"B" ];
+//    XCTAssertEqualObjects([t transformedValue:ab], AB);
+//    XCTAssertEqualObjects([t transformedValue:[ab mutableCopy]], AB);
+//}
+//
+//- (void)test_predefinedPick_inRange {
+//    OCATransformer *t = [OCATransformer pickIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(1, 2)]];
+//    NSArray *abcd = @[ @"a", @"b", @"c", @"d" ];
+//    NSArray *bc = @[ @"b", @"c" ];
+//    XCTAssertEqualObjects([t transformedValue:abcd], bc);
+//}
+//
+//
+//- (void)test_predefinedPick_outOfRange {
+//    OCATransformer *t = [OCATransformer pickIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(2, 6)]];
+//    NSArray *abcd = @[ @"a", @"b", @"c", @"d" ];
+//    NSArray *cd = @[ @"c", @"d" ];
+//    XCTAssertEqualObjects([t transformedValue:abcd], cd);
+//}
+//
+//
+//- (void)test_predefinedBranch {
+//    OCATransformer *t = [OCATransformer branch:@[
+//                                                 [OCATransformer traverseKeyPath:OCAKeypathUnsafe(uppercaseString)],
+//                                                 [OCATransformer traverseKeyPath:OCAKeypathUnsafe(lowercaseString)],
+//                                                 [OCATransformer traverseKeyPath:OCAKeypathUnsafe(capitalizedString)],
+//                                                 ]];
+//    NSArray *result = @[ @"HELLO", @"hello", @"Hello" ];
+//    XCTAssertEqualObjects([t transformedValue:@"heLLo"], result);
+//}
 
 
 
