@@ -28,6 +28,8 @@
 + (OCATransformer *)ifNull:(id)replacement;
 + (OCATransformer *)kindOfClass:(Class)class or:(id)replacement;
 + (OCATransformer *)passes:(NSPredicate *)predicate or:(id)replacement;
++ (OCATransformer *)test:(NSPredicate *)predicate;
++ (OCATransformer *)not;
 
 + (OCATransformer *)count;
 + (OCATransformer *)map:(NSDictionary *)dictionary;

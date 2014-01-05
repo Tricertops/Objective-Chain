@@ -70,11 +70,26 @@
 }
 
 
++ (OCATransformer *)test:(NSPredicate *)predicate {
+    return [[OCATransformer if:predicate then:[OCATransformer replaceWith:@YES] else:[OCATransformer replaceWith:@NO]]
+            describe:predicate.description];
+}
+
+
++ (OCATransformer *)not {
+    return [[OCATransformer fromClass:[NSNumber class] toClass:[NSNumber class] symetric:^NSNumber *(NSNumber *input) {
+        if ( ! input) return nil;
+        return @( ! input.boolValue);
+    }]
+            describe:@"not"];
+}
+
+
 + (OCATransformer *)count {
     return [[OCATransformer fromClass:nil toClass:[NSNumber class] asymetric:^id(id input) {
         if ([input respondsToSelector:@selector(count)]) return @([input count]);
         else return nil;
-    }] describe:@"count of"];
+    }] describe:@"count"];
 }
 
 
