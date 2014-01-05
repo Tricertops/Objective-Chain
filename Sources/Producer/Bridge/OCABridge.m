@@ -27,13 +27,13 @@
 #pragma mark Creating Bridge
 
 
-- (instancetype)init {
-    return [super init];
++ (instancetype)bridge {
+    return [[self alloc] init];
 }
 
 
-+ (instancetype)bridge {
-    return [[self alloc] init];
++ (instancetype)bridgeForClass:(Class)class {
+    return [[self alloc] initWithValueClass:class];
 }
 
 

@@ -47,7 +47,7 @@
     id sentValue = @"Sent";
     __block id receivedValue = @"Received";
     
-    OCACommand *command = [OCACommand new];
+    OCACommand *command = [OCACommand commandForClass:[NSString class]];
     [command subscribe:^(id value) {
         receivedValue = value;
     }];
@@ -59,7 +59,7 @@
 
 
 - (void)test_simpleConnection_connectingToFinishedProducer {
-    OCACommand *command = [OCACommand new];
+    OCACommand *command = [OCACommand command];
     [command finishWithError:nil];
     
     __block BOOL finished = NO;
@@ -74,7 +74,7 @@
 
 
 - (void)test_simpleConnection_disabled {
-    OCACommand *command = [OCACommand new];
+    OCACommand *command = [OCACommand commandForClass:[NSString class]];
     
     NSMutableArray *received = [[NSMutableArray alloc] init];
     OCAConnection *connection = [command subscribe:^(id value) {
@@ -93,7 +93,7 @@
 
 
 - (void)test_simpleConnection_withFilterAndTransform {
-    OCACommand *command = [OCACommand new];
+    OCACommand *command = [OCACommand commandForClass:[NSString class]];
     NSMutableArray *received = [[NSMutableArray alloc] init];
     
     [command connectWithFilter:[NSPredicate predicateWithFormat:@"self BEGINSWITH[c] 'a'"]
@@ -137,8 +137,8 @@
      */
     
     NSString *hello = @"Hello";
-    OCACommand *producer = [OCACommand new];
-    OCABridge *bridge = [OCABridge new];
+    OCACommand *producer = [OCACommand commandForClass:[NSString class]];
+    OCABridge *bridge = [OCABridge bridgeForClass:[NSString class]];
     [producer connectTo:bridge];
     
     __block BOOL consumer1 = NO;
@@ -167,12 +167,14 @@
         P3-'
      */
     
-    OCACommand *producer1 = [OCACommand new];
-    OCACommand *producer2 = [OCACommand new];
-    OCACommand *producer3 = [OCACommand new];
+    OCACommand *producer1 = [OCACommand commandForClass:[NSString class]];
+    OCACommand *producer2 = [OCACommand commandForClass:[NSString class]];
+    OCACommand *producer3 = [OCACommand commandForClass:[NSString class]];
     NSArray *producers = @[ producer1, producer2, producer3 ];
     OCAHub *hubMerge = [OCAHub merge:producers];
+    XCTAssertEqualObjects(hubMerge.valueClass, [NSString class], @"Merging hub should know class.");
     OCAHub *hubCombine = [OCAHub combine:producers];
+    XCTAssertEqualObjects(hubCombine.valueClass, [NSArray class], @"Combining hub must produce arrays.");
     
     NSMutableArray *merged = [NSMutableArray array];
     [hubMerge subscribe:^(id value) {
@@ -191,6 +193,21 @@
     NSArray *expected = @[ @"A", @"B", @"C" ];
     XCTAssertEqualObjects(merged, expected, @"Objects received one after another.");
     XCTAssertEqualObjects(combined, expected, @"Objects received at once");
+}
+
+
+- (void)test_classValidation_sendWrongClass {
+    OCACommand *command = [OCACommand commandForClass:[NSString class]];
+    
+    NSMutableArray *received = [[NSMutableArray alloc] init];
+    [command subscribe:^(id value) {
+        [received addObject:value];
+    }];
+    
+    [command sendValue:@"A"];
+    [command sendValue:@4];
+    
+    XCTAssertEqualObjects(received, @[ @"A" ], @"Should not receive while connection is disabled.");
 }
 
 

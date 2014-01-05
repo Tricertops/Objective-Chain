@@ -134,6 +134,9 @@ OCALazyGetter(NSMutableArray *, mutableConnections) {
 
 
 - (void)produceValue:(id)value {
+    BOOL valid = [self validateObject:&value ofClass:self.valueClass];
+    if ( ! valid) return;
+    
     if (self.finished) return;
     self->_lastValue = value;
     

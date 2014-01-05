@@ -20,8 +20,8 @@
 
 #pragma mark Creating Bridge
 
-- (instancetype)init;
 + (instancetype)bridge;
++ (instancetype)bridgeForClass:(Class)class;
 
 
 
