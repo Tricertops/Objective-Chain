@@ -98,12 +98,12 @@
 
 
 
-- (OCAConnection *)subscribeValues:(OCASubscriberValueHandler)valueHandler {
+- (OCAConnection *)subscribe:(OCASubscriberValueHandler)valueHandler {
     return [self connectTo:[OCASubscriber value:valueHandler]];
 }
 
 
-- (OCAConnection *)subscribeValues:(OCASubscriberValueHandler)valueHandler finish:(OCASubscriberFinishHandler)finishHandler {
+- (OCAConnection *)subscribe:(OCASubscriberValueHandler)valueHandler finish:(OCASubscriberFinishHandler)finishHandler {
     return [self connectTo:[OCASubscriber value:valueHandler finish:finishHandler]];
 }
 

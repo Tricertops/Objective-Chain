@@ -11,6 +11,7 @@
 #import "OCAProducer.h"
 #import "OCACommand.h"
 #import "OCATimer.h"
+#import "OCABridge.h"
 
 #import "OCAConsumer.h"
 #import "OCASubscriber.h"

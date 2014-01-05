@@ -9,6 +9,8 @@
 #import "OCAConnection.h"
 #import "OCACommand.h"
 #import "OCATimer.h"
+#import "OCABridge.h"
+#import "OCAHub.h"
 #import "OCASubscriber.h"
 #import "OCASemaphore.h"
 
@@ -59,7 +61,7 @@
     OCASemaphore *semaphore = [[OCASemaphore alloc] init];
     __block NSUInteger tickCount = 0;
     
-    [timer subscribeValues:^(id value) {
+    [timer subscribe:^(id value) {
         NSLog(@"Start");
         tickCount ++;
         NSLog(@"End %lu", (unsigned long)tickCount);
@@ -70,6 +72,72 @@
     BOOL signaled = [semaphore waitFor:10];
     XCTAssertTrue(signaled, @"Timer didn't end in given time.");
     XCTAssertEqual(tickCount, timer.count, @"Timer didn't fire required number of times.");
+}
+
+
+- (void)test_OCABridge_splitConsumers {
+    /*     ,-C1
+          /
+     P---B---C2
+          \
+           '-C3
+     */
+    
+    NSString *hello = @"Hello";
+    OCACommand *producer = [OCACommand new];
+    OCABridge *bridge = [OCABridge new];
+    [producer connectTo:bridge];
+    
+    __block BOOL consumer1 = NO;
+    [bridge subscribe:^(id value) {
+        consumer1 = (value == hello);
+    }];
+    __block BOOL consumer2 = NO;
+    [bridge subscribe:^(id value) {
+        consumer2 = (value == hello);
+    }];
+    __block BOOL consumer3 = NO;
+    [bridge subscribe:^(id value) {
+        consumer3 = (value == hello);
+    }];
+    
+    [producer sendValue:hello];
+    XCTAssertTrue(consumer1 && consumer2 && consumer3, @"All three consumers must receive the original object.");
+}
+
+
+- (void)test_OCAHub_joinProducers {
+    /*  P1-,
+            \
+        P2---H---C
+            /
+        P3-'
+     */
+    
+    OCACommand *producer1 = [OCACommand new];
+    OCACommand *producer2 = [OCACommand new];
+    OCACommand *producer3 = [OCACommand new];
+    NSArray *producers = @[ producer1, producer2, producer3 ];
+    OCAHub *hubMerge = [OCAHub merge:producers];
+    OCAHub *hubCombine = [OCAHub combine:producers];
+    
+    NSMutableArray *merged = [NSMutableArray array];
+    [hubMerge subscribe:^(id value) {
+        [merged addObject:value];
+    }];
+    
+    NSMutableArray *combined = [NSMutableArray array];
+    [hubCombine subscribe:^(NSArray *value) {
+        [combined setArray:value];
+    }];
+    
+    [producer1 sendValue:@"A"];
+    [producer2 sendValue:@"B"];
+    [producer3 sendValue:@"C"];
+    
+    NSArray *expected = @[ @"A", @"B", @"C" ];
+    XCTAssertEqualObjects(merged, expected, @"Objects received one after another.");
+    XCTAssertEqualObjects(combined, expected, @"Objects received at once");
 }
 
 

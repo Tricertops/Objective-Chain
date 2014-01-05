@@ -34,6 +34,9 @@
 		5BB7CD381879D183006916AB /* OCABridge.h in Headers */ = {isa = PBXBuildFile; fileRef = 5BB7CD361879D183006916AB /* OCABridge.h */; };
 		5BB7CD391879D183006916AB /* OCABridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BB7CD371879D183006916AB /* OCABridge.m */; };
 		5BB7CD3A1879D183006916AB /* OCABridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BB7CD371879D183006916AB /* OCABridge.m */; };
+		5BB7CD3E1879D745006916AB /* OCAHub.h in Headers */ = {isa = PBXBuildFile; fileRef = 5BB7CD3C1879D745006916AB /* OCAHub.h */; };
+		5BB7CD3F1879D745006916AB /* OCAHub.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BB7CD3D1879D745006916AB /* OCAHub.m */; };
+		5BB7CD401879D745006916AB /* OCAHub.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BB7CD3D1879D745006916AB /* OCAHub.m */; };
 		5BD8AE9E1876AD5600EE2029 /* OCAStructureAccessor.h in Headers */ = {isa = PBXBuildFile; fileRef = 5BD8AE9C1876AD5600EE2029 /* OCAStructureAccessor.h */; };
 		5BD8AE9F1876AD5600EE2029 /* OCAStructureAccessor.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BD8AE9D1876AD5600EE2029 /* OCAStructureAccessor.m */; };
 		5BD8AEA01876AD5600EE2029 /* OCAStructureAccessor.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BD8AE9D1876AD5600EE2029 /* OCAStructureAccessor.m */; };
@@ -120,6 +123,8 @@
 		5BB7CD321879BE51006916AB /* OCAFoundationTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCAFoundationTest.m; sourceTree = "<group>"; };
 		5BB7CD361879D183006916AB /* OCABridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCABridge.h; sourceTree = "<group>"; };
 		5BB7CD371879D183006916AB /* OCABridge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCABridge.m; sourceTree = "<group>"; };
+		5BB7CD3C1879D745006916AB /* OCAHub.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCAHub.h; sourceTree = "<group>"; };
+		5BB7CD3D1879D745006916AB /* OCAHub.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCAHub.m; sourceTree = "<group>"; };
 		5BD8AE9C1876AD5600EE2029 /* OCAStructureAccessor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCAStructureAccessor.h; sourceTree = "<group>"; };
 		5BD8AE9D1876AD5600EE2029 /* OCAStructureAccessor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCAStructureAccessor.m; sourceTree = "<group>"; };
 		5BD8AEA11876B41200EE2029 /* OCAStructTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCAStructTest.m; sourceTree = "<group>"; };
@@ -208,6 +213,7 @@
 				5BD9ECE01871D8160069044C /* Command */,
 				5BD9ECFA1872D6000069044C /* Timer */,
 				5BB7CD351879D16B006916AB /* Bridge */,
+				5BB7CD3B1879D70A006916AB /* Hub */,
 			);
 			path = Producer;
 			sourceTree = "<group>";
@@ -294,6 +300,15 @@
 			path = Bridge;
 			sourceTree = "<group>";
 		};
+		5BB7CD3B1879D70A006916AB /* Hub */ = {
+			isa = PBXGroup;
+			children = (
+				5BB7CD3C1879D745006916AB /* OCAHub.h */,
+				5BB7CD3D1879D745006916AB /* OCAHub.m */,
+			);
+			path = Hub;
+			sourceTree = "<group>";
+		};
 		5BD8AE9B1876AD2900EE2029 /* Struct */ = {
 			isa = PBXGroup;
 			children = (
@@ -361,6 +376,7 @@
 			files = (
 				5BD8AE9E1876AD5600EE2029 /* OCAStructureAccessor.h in Headers */,
 				5BB7CD2F1879BCC8006916AB /* OCAFoundation.h in Headers */,
+				5BB7CD3E1879D745006916AB /* OCAHub.h in Headers */,
 				5BD9ED1118733A350069044C /* OCATransformer+Predefined.h in Headers */,
 				5BD8AEA61877070600EE2029 /* NSValue+Boxing.h in Headers */,
 				5BB7CD2A1879BCB3006916AB /* OCAMath.h in Headers */,
@@ -516,6 +532,7 @@
 				5BD9ED1318733A350069044C /* OCATransformer+Predefined.m in Sources */,
 				5BD8AEA01876AD5600EE2029 /* OCAStructureAccessor.m in Sources */,
 				5BD9ECF91871E9F30069044C /* OCASubscriber.m in Sources */,
+				5BB7CD401879D745006916AB /* OCAHub.m in Sources */,
 				5BD9ED05187300B80069044C /* OCASemaphore.m in Sources */,
 				5B097E591871BEA1006240D8 /* OCAProducer.m in Sources */,
 			);
@@ -550,6 +567,7 @@
 				5BD9ED1218733A350069044C /* OCATransformer+Predefined.m in Sources */,
 				5BD8AE9F1876AD5600EE2029 /* OCAStructureAccessor.m in Sources */,
 				5BD9ECF81871E9F20069044C /* OCASubscriber.m in Sources */,
+				5BB7CD3F1879D745006916AB /* OCAHub.m in Sources */,
 				5BD9ED04187300B70069044C /* OCASemaphore.m in Sources */,
 				5B097E221871AE6D006240D8 /* OCAConnection.m in Sources */,
 			);
