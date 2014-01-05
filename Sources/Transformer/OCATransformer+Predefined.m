@@ -294,19 +294,6 @@
 #pragma mark Collections
 
 
-+ (OCATransformer *)branch:(NSArray *)transformers {
-    return [OCATransformer fromClass:nil toClass:[NSArray class] asymetric:^id(id input) {
-        NSMutableArray *output = [[NSMutableArray alloc] init];
-        
-        for (id transformer in transformers) {
-            id object = [transformer transformedValue:input];
-            [output addObject:object ?: [NSNull null]];
-        }
-        return output;
-    }];
-}
-
-
 + (OCATransformer *)enumerate:(NSValueTransformer *)transformer {
     return [OCATransformer fromClass:[NSArray class] toClass:[NSArray class] transform:^NSArray *(NSArray *input) {
         if ( ! input) return nil;
@@ -328,17 +315,6 @@
         }
         return output;
     }];
-}
-
-
-+ (OCATransformer *)pickIndexes:(NSIndexSet *)indexes {
-    return [OCATransformer fromClass:[NSArray class] toClass:[NSArray class] transform:^NSArray *(NSArray *input) {
-        if ( ! input) return nil;
-        NSIndexSet *safeIndexes = [indexes indexesPassingTest:^BOOL(NSUInteger index, BOOL *stop) {
-            return (index < [input count]);
-        }];
-        return [input objectsAtIndexes:safeIndexes];
-    } reverse:OCATransformationPass];
 }
 
 

@@ -35,8 +35,27 @@
 
 
 - (void)test_wrapInArray {
-    XCTAssertEqualObjects([[OCAFoundation wrapInArray] transformedValue:@"A"], @[@"A"]);
+    XCTAssertEqualObjects([@"A" transform:[OCAFoundation wrapInArray]], @[@"A"]);
     XCTAssertNil([[OCAFoundation wrapInArray] transformedValue:nil]);
+}
+
+
+- (void)test_subarraying {
+    NSArray *array =  [@"A-B-C-D-E" componentsSeparatedByString:@"-"];
+    
+    XCTAssertEqualObjects([array transform:[OCAFoundation subarrayToIndex:2]], [@"A-B" componentsSeparatedByString:@"-"]);
+    XCTAssertEqualObjects([array transform:[OCAFoundation subarrayToIndex:8]], array);
+    XCTAssertEqualObjects([array transform:[OCAFoundation subarrayToIndex:-1]], [@"A-B-C-D" componentsSeparatedByString:@"-"]);
+    XCTAssertEqualObjects([array transform:[OCAFoundation subarrayToIndex:-6]], @[]);
+    
+    XCTAssertEqualObjects([array transform:[OCAFoundation subarrayFromIndex:2]], [@"C-D-E" componentsSeparatedByString:@"-"]);
+    XCTAssertEqualObjects([array transform:[OCAFoundation subarrayFromIndex:8]], @[]);
+    XCTAssertEqualObjects([array transform:[OCAFoundation subarrayFromIndex:-1]], @[@"E"]);
+    XCTAssertEqualObjects([array transform:[OCAFoundation subarrayFromIndex:-6]], array);
+    
+    XCTAssertEqualObjects([array transform:[OCAFoundation subarrayWithRange:NSMakeRange(1, 3)]], [@"B-C-D" componentsSeparatedByString:@"-"]);
+    XCTAssertEqualObjects([array transform:[OCAFoundation subarrayWithRange:NSMakeRange(3, 8)]], [@"D-E" componentsSeparatedByString:@"-"]);
+    XCTAssertEqualObjects([array transform:[OCAFoundation subarrayWithRange:NSMakeRange(6, 2)]], @[]);
 }
 
 

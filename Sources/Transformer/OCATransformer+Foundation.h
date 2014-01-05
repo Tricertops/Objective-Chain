@@ -26,10 +26,10 @@
 + (OCATransformer *)arrayFromFile;
 
 /// Transformators
-//TODO: objectsAtIndexes:
-//TODO: subarrayToIndex: (also negative)
-//TODO: subarrayFromIndex: (also negative)
-//TODO: subarrayWithRange:
++ (OCATransformer *)objectsAtIndexes:(NSIndexSet *)indexes;
++ (OCATransformer *)subarrayToIndex:(NSInteger)index;
++ (OCATransformer *)subarrayFromIndex:(NSInteger)index;
++ (OCATransformer *)subarrayWithRange:(NSRange)range;
 //TODO: filterArray: (predicate)
 //TODO: sortArray:
 //TODO: transformArray: (transformer)

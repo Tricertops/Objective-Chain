@@ -58,6 +58,16 @@
 #define OCAKeypathClass(CLASS, KEYPATH)     OCAKeypath(CLASS.new, KEYPATH)
 
 
+#define CLAMP(MIN, VALUE, MAX) \
+({ \
+    typeof(VALUE) __min = (MIN); \
+    typeof(VALUE) __value = (VALUE); \
+    typeof(VALUE) __max = (MAX); \
+    (__value > __max ? __max : (__value < __min ? __min : __value)); \
+})
+
+
+
 
 
 

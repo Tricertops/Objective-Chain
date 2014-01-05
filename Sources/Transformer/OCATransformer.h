@@ -82,8 +82,18 @@ typedef id (^OCATransformerBlock)(id input);
 
 
 
+
 extern OCATransformerBlock const OCATransformationNil;
 extern OCATransformerBlock const OCATransformationPass;
+
+
+
+
+@interface NSObject (NSValueTransformer)
+
+- (id)transform:(NSValueTransformer *)transformer;
+
+@end
 
 
 

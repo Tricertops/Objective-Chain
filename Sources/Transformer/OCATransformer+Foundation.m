@@ -32,7 +32,7 @@
         
         for (NSValueTransformer *t in transformers) {
             id transformed = [t transformedValue:input];
-            [output addObject:transformed];
+            [output addObject:transformed ?: [NSNull null]];
         }
         
         return output;
@@ -56,6 +56,64 @@
         return (input.length? [NSArray arrayWithContentsOfFile:input] : nil);
     }]
             describe:@"array from file"];
+}
+
+
++ (OCATransformer *)objectsAtIndexes:(NSIndexSet *)indexes {
+    return [[OCATransformer fromClass:[NSArray class] toClass:[NSArray class] transform:^NSArray *(NSArray *input) {
+        if ( ! input) return nil;
+        
+        NSIndexSet *safeIndexes = [indexes indexesPassingTest:^BOOL(NSUInteger index, BOOL *stop) {
+            return (index < [input count]);
+        }];
+        return [input objectsAtIndexes:safeIndexes];
+        
+    } reverse:OCATransformationPass]
+            describe:[NSString stringWithFormat:@"objects at indexes %@", indexes]
+            reverse:@"pass"];
+}
+
+
+
++ (OCATransformer *)subarrayToIndex:(NSInteger)index {
+    return [[OCATransformer fromClass:[NSArray class] toClass:[NSArray class] transform:^NSArray *(NSArray *input) {
+        if ( ! input) return nil;
+        
+        NSInteger length = (index < 0? input.count + index : index);
+        length = CLAMP(0, length, input.count);
+        return [input subarrayWithRange:NSMakeRange(0, length)];
+        
+    } reverse:OCATransformationPass]
+            describe:[NSString stringWithFormat:@"subarray to index %@", @(index)]
+            reverse:@"pass"];
+}
+
+
++ (OCATransformer *)subarrayFromIndex:(NSInteger)index {
+    return [[OCATransformer fromClass:[NSArray class] toClass:[NSArray class] transform:^NSArray *(NSArray *input) {
+        if ( ! input) return nil;
+        
+        NSInteger location = (index < 0? input.count + index : index);
+        location = CLAMP(0, location, input.count);
+        return [input subarrayWithRange:NSMakeRange(location, input.count - location)];
+        
+    } reverse:OCATransformationPass]
+            describe:[NSString stringWithFormat:@"subarray from index %@", @(index)]
+            reverse:@"pass"];
+}
+
+
++ (OCATransformer *)subarrayWithRange:(NSRange)range {
+    return [[OCATransformer fromClass:[NSArray class] toClass:[NSArray class] transform:^NSArray *(NSArray *input) {
+        if ( ! input) return nil;
+        
+        NSUInteger location = CLAMP(0, range.location, input.count);
+        NSUInteger length = CLAMP(0, range.length, input.count - location);
+        return [input subarrayWithRange:NSMakeRange(location, length)];
+        
+    } reverse:OCATransformationPass]
+            describe:[NSString stringWithFormat:@"subarray with range %@", NSStringFromRange(range)]
+            reverse:@"pass"];
 }
 
 

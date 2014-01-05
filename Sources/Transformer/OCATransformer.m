@@ -353,3 +353,19 @@ OCATransformerBlock const OCATransformationPass = ^id(id x) {
 
 
 
+
+
+
+
+
+@implementation NSObject (NSValueTransformer)
+
+- (id)transform:(NSValueTransformer *)transformer {
+    return [transformer transformedValue:self];
+}
+
+@end
+
+
+
+
