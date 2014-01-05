@@ -69,34 +69,34 @@
 
 
 inline NSValue *_OCAStructureAccessorGetBlockExample(NSValue *structValue) {
-    CGRect s;
+    NSRange s;
     const char *structType = @encode(typeof(s));
-    const char *memberType = @encode(typeof(s.origin.x));
+    const char *memberType = @encode(typeof(s.location));
     
     
     typeof(s) structure;
     BOOL unboxed = [structValue unboxValue:&structure objCType:structType];
     if ( ! unboxed) return nil;
     
-    typeof(s.origin.x) member = structure.origin.x;
+    typeof(s.location) member = structure.location;
     return [NSValue boxValue:&member objCType:memberType];
 }
 
 
 inline NSValue *_OCAStructureAccessorSetBlockExample(NSValue *structValue, NSValue *memberValue) {
-    CGRect s;
+    NSRange s;
     const char *structType = @encode(typeof(s));
-    const char *memberType = @encode(typeof(s.origin.x));
+    const char *memberType = @encode(typeof(s.location));
     
     
     typeof(s) structure;
     BOOL structUnboxed = [structValue unboxValue:&structure objCType:structType];
     if ( ! structUnboxed) return nil;
     
-    typeof(s.origin.x) member;
+    typeof(s.location) member;
     BOOL memberUnboxed = [memberValue unboxValue:&member objCType:memberType];
     if ( ! memberUnboxed) return nil;
-    structure.origin.x = member;
+    structure.location = member;
     return [NSValue valueWithBytes:&structure objCType:structType];
 }
 
