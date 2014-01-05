@@ -19,9 +19,8 @@
 
 #pragma mark Creating Timer
 
-- (instancetype)initWithInterval:(NSTimeInterval)interval;
 - (instancetype)initWithDelay:(NSTimeInterval)delay interval:(NSTimeInterval)interval leeway:(NSTimeInterval)leeway count:(NSUInteger)count;
-+ (instancetype)timerWithInterval:(NSTimeInterval)interval;
++ (instancetype)timerWithInterval:(NSTimeInterval)interval count:(NSUInteger)count;
 + (instancetype)timerWithDelay:(NSTimeInterval)delay interval:(NSTimeInterval)interval leeway:(NSTimeInterval)leeway count:(NSUInteger)count;
 
 

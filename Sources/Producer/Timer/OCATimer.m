@@ -32,11 +32,6 @@
 }
 
 
-- (instancetype)initWithInterval:(NSTimeInterval)interval {
-    return [self initWithDelay:0 interval:interval leeway:0 count:0];
-}
-
-
 - (instancetype)initWithDelay:(NSTimeInterval)delay interval:(NSTimeInterval)interval leeway:(NSTimeInterval)leeway count:(NSUInteger)count {
     self = [super initWithValueClass:[NSDate class]];
     if (self) {
@@ -56,7 +51,12 @@
 
 
 + (instancetype)timerWithInterval:(NSTimeInterval)interval {
-    return [[self alloc] initWithInterval:interval];
+    return [[self alloc] initWithDelay:0 interval:interval leeway:0 count:0];
+}
+
+
++ (instancetype)timerWithInterval:(NSTimeInterval)interval count:(NSUInteger)count {
+    return [[self alloc] initWithDelay:0 interval:interval leeway:0 count:count];
 }
 
 
