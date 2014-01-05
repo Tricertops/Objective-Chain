@@ -36,12 +36,15 @@
 #pragma mark Creating Connection
 
 
-- (instancetype)initWithProducer:(OCAProducer *)producer {
+- (instancetype)initWithProducer:(OCAProducer *)producer consumer:(id<OCAConsumer>)consumer {
     self = [super init];
     if (self) {
         OCAAssert(producer != nil, @"Missing producer!") return nil;
+        OCAAssert(consumer != nil, @"Missing consumer!") return nil;
+        OCAAssert(producer != consumer, @"Forbidden to connect object to itself!") return nil;
         
         self->_producer = producer;
+        self->_consumer = consumer;
         [producer addConnection:self];
     }
     return self;
@@ -58,10 +61,10 @@
     self->_closed = YES;
     [self->_producer removeConnection:self];
     self->_producer = nil;
+    self->_consumer = nil;
     
     self.transformer = nil;
     self.predicate = nil;
-    self.consumer = nil;
 }
 
 

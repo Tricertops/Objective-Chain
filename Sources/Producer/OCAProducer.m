@@ -68,15 +68,30 @@ OCALazyGetter(NSMutableArray *, mutableConnections) {
     NSMutableArray *connections = self.mutableConnections;
     @synchronized(connections) {
         [connections addObject:connection];
+        
+        [self didAddConnection:connection];
+    }
+}
+
+
+- (void)didAddConnection:(OCAConnection *)connection {
+    if (self.finished) {
+        [connection producerDidFinishWithError:self.error];
     }
 }
 
 
 - (void)removeConnection:(OCAConnection *)connection {
+    [self willRemoveConnection:connection];
+    
     NSMutableArray *connections = self.mutableConnections;
     @synchronized(connections) {
         [connections removeObjectIdenticalTo:connection];
     }
+}
+
+
+- (void)willRemoveConnection:(OCAConnection *)connection {
 }
 
 
@@ -87,8 +102,7 @@ OCALazyGetter(NSMutableArray *, mutableConnections) {
 
 
 - (OCAConnection *)connectTo:(id<OCAConsumer>)consumer {
-    OCAConnection *connection = [[OCAConnection alloc] initWithProducer:self];
-    connection.consumer = consumer;
+    OCAConnection *connection = [[OCAConnection alloc] initWithProducer:self consumer:consumer];
     return connection;
 }
 

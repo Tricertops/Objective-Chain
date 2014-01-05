@@ -56,6 +56,21 @@
 }
 
 
+- (void)test_simpleConnection_connectingToFinishedProducer {
+    OCACommand *command = [OCACommand new];
+    [command finishWithError:nil];
+    
+    __block BOOL finished = NO;
+    [command subscribe:^(id value) {
+        
+    } finish:^(NSError *error) {
+        finished = YES;
+    }];
+    
+    XCTAssertTrue(finished, @"Connection immediately closed.");
+}
+
+
 - (void)test_OCATimer_periodicProductionOfDatesOfLimitedCount {
     OCATimer *timer = [[OCATimer alloc] initWithDelay:0 interval:0.01 leeway:0 count:10];
     OCASemaphore *semaphore = [[OCASemaphore alloc] init];

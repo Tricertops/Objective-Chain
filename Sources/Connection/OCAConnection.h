@@ -20,8 +20,10 @@
 
 
 
-- (instancetype)initWithProducer:(OCAProducer *)producer;
+- (instancetype)initWithProducer:(OCAProducer *)producer consumer:(id<OCAConsumer>)consumer;
+
 @property (OCA_atomic, readonly, weak) OCAProducer *producer;
+@property (OCA_atomic, readonly, strong) id<OCAConsumer> consumer;
 
 
 @property (OCA_atomic, readonly, assign) BOOL closed;
@@ -38,7 +40,6 @@
 @property (OCA_atomic, readwrite, strong) NSPredicate *predicate;
 
 
-@property (OCA_atomic, readwrite, strong) id<OCAConsumer> consumer;
 
 
 

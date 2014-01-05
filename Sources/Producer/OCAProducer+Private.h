@@ -23,6 +23,9 @@
 - (void)finishProducingWithError:(NSError *)error NS_REQUIRES_SUPER;
 
 - (void)addConnection:(OCAConnection *)connection;
+- (void)didAddConnection:(OCAConnection *)connection;
+
+- (void)willRemoveConnection:(OCAConnection *)connection;
 - (void)removeConnection:(OCAConnection *)connection;
 
 
