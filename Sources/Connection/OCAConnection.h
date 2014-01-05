@@ -20,18 +20,24 @@
 
 
 
+#pragma mark Creating Conenction
+
 - (instancetype)initWithProducer:(OCAProducer *)producer consumer:(id<OCAConsumer>)consumer;
+
+
+#pragma mark Endpoints of Connection
 
 @property (OCA_atomic, readonly, weak) OCAProducer *producer;
 @property (OCA_atomic, readonly, strong) id<OCAConsumer> consumer;
 
 
+#pragma mark Controlling Connection
+
+@property (OCA_atomic, readwrite, assign) BOOL enabled; //TODO: Remotely check for enabled?
 @property (OCA_atomic, readonly, assign) BOOL closed;
 - (void)close;
 
 
-//TODO: Enabled
-//TODO: Enabled Property object
 //TODO: Queues
 //TODO: Behavior
 

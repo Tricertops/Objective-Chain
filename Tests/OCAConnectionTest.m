@@ -71,6 +71,25 @@
 }
 
 
+- (void)test_simpleConnection_disabled {
+    OCACommand *command = [OCACommand new];
+    
+    NSMutableArray *received = [[NSMutableArray alloc] init];
+    OCAConnection *connection = [command subscribe:^(id value) {
+        [received addObject:value];
+    }];
+    
+    [command sendValue:@"A"];
+    connection.enabled = NO;
+    [command sendValue:@"B"];
+    connection.enabled = YES;
+    [command sendValue:@"C"];
+    
+    NSArray *expected = @[ @"A", @"C" ];
+    XCTAssertEqualObjects(received, expected, @"Should not receive while connection is disabled.");
+}
+
+
 - (void)test_OCATimer_periodicProductionOfDatesOfLimitedCount {
     OCATimer *timer = [[OCATimer alloc] initWithDelay:0 interval:0.01 leeway:0 count:10];
     OCASemaphore *semaphore = [[OCASemaphore alloc] init];

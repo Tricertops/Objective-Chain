@@ -43,6 +43,8 @@
         OCAAssert(consumer != nil, @"Missing consumer!") return nil;
         OCAAssert(producer != consumer, @"Forbidden to connect object to itself!") return nil;
         
+        self->_enabled = YES;
+        
         self->_producer = producer;
         self->_consumer = consumer;
         [producer addConnection:self];
@@ -58,7 +60,12 @@
 
 
 - (void)close {
+    [self willChangeValueForKey:@"closed"];
     self->_closed = YES;
+    [self didChangeValueForKey:@"closed"];
+    
+    self.enabled = NO;
+    
     [self->_producer removeConnection:self];
     self->_producer = nil;
     self->_consumer = nil;
@@ -81,15 +88,16 @@
 
 - (void)producerDidProduceValue:(id)value {
     if (self.closed) return;
+    if ( ! self.enabled) return;
+    
+    BOOL passes = ( ! self.predicate || [self.predicate evaluateWithObject:value]);
+    if ( ! passes) return;
     
     id transformedValue = (self.transformer
                            ? [self.transformer transformedValue:value]
                            : value);
-    BOOL passes = ( ! self.predicate || [self.predicate evaluateWithObject:transformedValue]);
     
-    if (passes) {
-        [self.consumer consumeValue:transformedValue];
-    }
+    [self.consumer consumeValue:transformedValue];
 }
 
 
