@@ -50,7 +50,7 @@
 
 
 #define CLAMP(MIN, VALUE, MAX) \
-({ \
+(typeof(VALUE))({ \
     typeof(VALUE) __min = (MIN); \
     typeof(VALUE) __value = (VALUE); \
     typeof(VALUE) __max = (MAX); \
