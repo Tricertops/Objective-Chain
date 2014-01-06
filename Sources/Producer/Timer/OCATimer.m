@@ -108,14 +108,19 @@
 #pragma mark Describing Timer
 
 
-- (NSString *)description {
-    NSString *adjective = (self.finished? @"finished " : @"");
-    return [NSString stringWithFormat:@"%@timer at %@ s with %@ ticks", adjective, @(self.interval), (self.count == NSUIntegerMax? @"infinity" : @(self.count))];
+- (NSString *)descriptionName {
+    return @"Timer";
 }
 
 
-- (NSString *)debugDescription {
-    return [NSString stringWithFormat:@"<%@ %p; delay = %@; interval = %@; leeway = %@; count = %@; finished = %@>", self.class, self, @(self.delay), @(self.interval), @(self.leeway), @(self.count), (self.finished? @"YES" : @"NO")];
+- (NSDictionary *)debugDescriptionValues {
+    return @{
+             @"delay": @(self.delay),
+             @"interval": @(self.interval),
+             @"leeway": @(self.leeway),
+             @"count": @(self.count),
+             @"connections": @(self.connections.count),
+             };
 }
 
 

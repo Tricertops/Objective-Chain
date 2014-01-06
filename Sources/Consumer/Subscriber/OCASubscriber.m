@@ -96,12 +96,13 @@
 
 
 - (NSString *)description {
-    return [NSString stringWithFormat:@"subscriber for %@", self.valueClass ?: @"anything"];
+    return [NSString stringWithFormat:@"Subscriber for %@",
+            [[self.valueClass description] stringByAppendingString:@"s"] ?: @"anything"];
 }
 
 
 - (NSString *)debugDescription {
-    return [NSString stringWithFormat:@"<%@ %p; valueClass = %@", self.class, self, self.valueClass];
+    return [NSString stringWithFormat:@"<%@ %p; consumedValueClass = %@>", self.class, self, self.valueClass];
 }
 
 

@@ -41,5 +41,11 @@
 @property (OCA_atomic, readonly, strong) NSArray *connections;
 
 
+#pragma mark Describing Producer
+
+- (NSString *)descriptionName;
+- (NSDictionary *)debugDescriptionValues;
+
+
 
 @end

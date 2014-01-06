@@ -65,14 +65,8 @@
 #pragma mark Describing Command
 
 
-- (NSString *)description {
-    NSString *adjective = (self.finished? @"finished " : @"");
-    return [NSString stringWithFormat:@"%@command for %@", adjective, self.valueClass ?: @"anything"];
-}
-
-
-- (NSString *)debugDescription {
-    return [NSString stringWithFormat:@"<%@ %p; valueClass = %@; lastValue = %@; finished = %@; error = %@>", self.class, self, self.valueClass, self.lastValue, (self.finished? @"YES" : @"NO"), self.error];
+- (NSString *)descriptionName {
+    return @"Command";
 }
 
 
