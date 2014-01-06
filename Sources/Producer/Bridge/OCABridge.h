@@ -28,3 +28,17 @@
 @end
 
 
+
+
+
+@interface OCAProducer (OCABridge)
+
+
+- (OCABridge *)bridgeWithFilter:(NSPredicate *)filter;
+- (OCABridge *)bridgeWithTransform:(NSValueTransformer *)transformer;
+- (OCABridge *)bridgeWithFilter:(NSPredicate *)filter transform:(NSValueTransformer *)transformer;
+
+
+@end
+
+

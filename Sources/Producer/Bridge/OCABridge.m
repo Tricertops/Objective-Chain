@@ -8,6 +8,7 @@
 
 #import "OCABridge.h"
 #import "OCAProducer+Private.h"
+#import "OCATransformer.h"
 
 
 
@@ -69,6 +70,44 @@
     return [NSString stringWithFormat:@"<%@ %p; valueClass = %@; lastValue = %@; finished = %@; error = %@>", self.class, self, self.valueClass, self.lastValue, (self.finished? @"YES" : @"NO"), self.error];
 }
 
+
+
+
+
+
+@end
+
+
+
+
+
+
+
+
+
+
+@implementation OCAProducer (OCABridge)
+
+
+
+
+
+- (OCABridge *)bridgeWithFilter:(NSPredicate *)filter {
+    return [self bridgeWithFilter:filter transform:nil];
+}
+
+
+- (OCABridge *)bridgeWithTransform:(NSValueTransformer *)transformer {
+    return [self bridgeWithFilter:nil transform:transformer];
+}
+
+
+- (OCABridge *)bridgeWithFilter:(NSPredicate *)filter transform:(NSValueTransformer *)transformer {
+    Class class = (transformer? [transformer.class valueClass] : self.valueClass);
+    OCABridge *bridge = [OCABridge bridgeForClass:class];
+    [self connectWithFilter:filter transform:transformer to:bridge];
+    return bridge;
+}
 
 
 

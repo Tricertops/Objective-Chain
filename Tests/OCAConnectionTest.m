@@ -209,6 +209,27 @@
 }
 
 
+- (void)test_simpleHubWithBridge {
+    OCACommand *stringCommand = [OCACommand commandForClass:[NSString class]];
+    OCACommand *numberCommand = [OCACommand commandForClass:[NSNumber class]];
+    OCAHub *hub = [OCAHub merge:@[
+                                  [stringCommand bridgeWithTransform:[OCATransformer accessKeyPath:OCAKeypath(NSString, length)]],
+                                  numberCommand,
+                                  ]];
+    
+    NSMutableArray *received = [[NSMutableArray alloc] init];
+    [hub subscribeClass:[NSNumber class] handler:^(NSNumber *value) {
+        [received addObject:value];
+    }];
+    
+    [stringCommand sendValue:@"12345"];
+    [numberCommand sendValue:@5];
+    
+    NSArray *expected = @[ @5, @5 ];
+    XCTAssertEqualObjects(received, expected, @"Expected transformed merged values.");
+}
+
+
 
 
 
