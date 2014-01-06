@@ -77,6 +77,11 @@
 #pragma mark Lifetime of Hub
 
 
+- (Class)consumedValueClass {
+    return self.valueClass;
+}
+
+
 - (NSArray *)producers {
     return [self.mutableProducers copy];
 }

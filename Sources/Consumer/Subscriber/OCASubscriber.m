@@ -71,6 +71,11 @@
 #pragma mark Lifetime of Subscriber
 
 
+- (Class)consumedValueClass {
+    return self.valueClass;
+}
+
+
 - (void)consumeValue:(id)value {
     BOOL valid = [self validateObject:&value ofClass:self.valueClass];
     if ( ! valid) return;

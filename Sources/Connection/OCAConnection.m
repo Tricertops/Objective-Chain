@@ -100,6 +100,9 @@
                            ? [self.transformer transformedValue:value]
                            : value);
     
+    BOOL outputValid = [self validateObject:&transformedValue ofClass:[self.consumer consumedValueClass]];
+    if ( ! outputValid) return;
+    
     [self.consumer consumeValue:transformedValue];
 }
 

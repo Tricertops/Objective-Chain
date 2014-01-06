@@ -17,6 +17,7 @@
 
 
 
+- (Class)consumedValueClass;
 - (void)consumeValue:(id)value;
 - (void)finishConsumingWithError:(NSError *)error;
 

@@ -44,6 +44,11 @@
 #pragma mark Lifetime of Bridge
 
 
+- (Class)consumedValueClass {
+    return self.valueClass;
+}
+
+
 - (void)consumeValue:(id)value {
     [self produceValue:value];
 }
