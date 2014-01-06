@@ -114,13 +114,74 @@
 }
 
 
-- (void)test_main_barrierSync {
-    OCAQueue *queue = [[OCAQueue alloc] initWithName:@"Testing" concurrent:YES targetQueue:[OCAQueue main]];
-    __block BOOL passed = NO;
-    [queue performBarrierBlockAndWait:^{
-        passed = YES;
+- (void)test_mutualSync {
+    OCAQueue *A = [[OCAQueue alloc] initWithName:@"A" concurrent:NO targetQueue:[OCAQueue background]];
+    OCAQueue *B = [[OCAQueue alloc] initWithName:@"B" concurrent:NO targetQueue:[OCAQueue background]];
+    
+    [A performBlock:^{
+        
+        [B performBlockAndWait:^{
+            [A performBlockAndWait:^{
+                [B performBlockAndWait:^{
+                    [self.semaphore signal];
+                }];
+            }];
+        }];
+        
     }];
-    XCTAssertTrue(passed, @"Waiting for Main queue while running on it should work.");
+    
+    BOOL signaled = [self.semaphore waitFor:10];
+    XCTAssertTrue(signaled, @"Mutual sync should not cause deadlock");
+}
+
+
+- (void)test_waiting_forwardTargetDown {
+    OCAQueue *C = [[OCAQueue alloc] initWithName:@"C" concurrent:NO targetQueue:[OCAQueue background]];
+    OCAQueue *B = [[OCAQueue alloc] initWithName:@"B" concurrent:NO targetQueue:[OCAQueue background]];
+    OCAQueue *A = [[OCAQueue alloc] initWithName:@"A" concurrent:NO targetQueue:B];
+    
+    [A performBlock:^{
+        
+        [C performBlockAndWait:^{
+            [B performBlockAndWait:^{
+                [self.semaphore signal];
+            }];
+        }];
+        
+    }];
+    
+    BOOL signaled = [self.semaphore waitFor:10];
+    XCTAssertTrue(signaled, @"Mutual sync should not cause deadlock");
+}
+
+
+- (void)test_waiting_forwardTargetUp {
+    OCAQueue *C = [[OCAQueue alloc] initWithName:@"C" concurrent:NO targetQueue:[OCAQueue background]];
+    OCAQueue *B = [[OCAQueue alloc] initWithName:@"B" concurrent:NO targetQueue:[OCAQueue background]];
+    OCAQueue *A = [[OCAQueue alloc] initWithName:@"A" concurrent:NO targetQueue:B];
+    
+    [B performBlock:^{
+        
+        [C performBlockAndWait:^{
+            [A performBlockAndWait:^{
+                [self.semaphore signal];
+            }];
+        }];
+        
+    }];
+    
+    BOOL signaled = [self.semaphore waitFor:10];
+    XCTAssertTrue(signaled, @"Mutual sync should not cause deadlock");
+}
+
+
+- (void)test_main_barrierSync {
+//    OCAQueue *queue = [[OCAQueue alloc] initWithName:@"Testing" concurrent:YES targetQueue:[OCAQueue main]];
+//    __block BOOL passed = NO;
+//    [queue performBarrierBlockAndWait:^{
+//        passed = YES;
+//    }];
+//    XCTAssertTrue(passed, @"Waiting for Main queue while running on it should work.");
 }
 
 

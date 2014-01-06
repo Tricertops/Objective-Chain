@@ -20,7 +20,7 @@ static void * OCAQueueSpecificKey = &OCAQueueSpecificKey;
 @interface OCAQueue ()
 
 
-@property (OCA_atomic, readwrite, assign) BOOL isWaiting;
+@property (nonatomic, readwrite, weak) OCAQueue *waitingForQueue;
 
 
 @end
@@ -155,16 +155,18 @@ static void * OCAQueueSpecificKey = &OCAQueueSpecificKey;
     OCAQueue *current = [OCAQueue current];
     OCAQueue *main = [OCAQueue main];
     
-    BOOL mainToMain = ([self isTargetedTo:main] && [current isTargetedTo:main]);
+    BOOL isTargetedToMain = [self isTargetedTo:main];
+    BOOL runningOnMain = [current isTargetedTo:main];
+    BOOL mainToMain = (isTargetedToMain && runningOnMain);
     
-    if (self == current || mainToMain) {
-        NSLog(@"Objective-Chain: Notice: Preventing deadlock in -[OCAQueue performBlockAndWait:] by invoking block directly");
+    if (self == current || mainToMain || [self isWaitingFor:current]) {
+        NSLog(@"Objective-Chain: Notice: Preventing deadlock in -[OCAQueue performBlockAndWait:] by invoking block directly.");
         block();
     }
     else {
-        [self markWaiting:YES];
+        [current markWaitingFor:self];
         dispatch_sync(self->_dispatchQueue, block);
-        [self markWaiting:NO];
+        [current markWaitingFor:nil];
     }
 }
 
@@ -228,13 +230,36 @@ static void * OCAQueueSpecificKey = &OCAQueueSpecificKey;
 }
 
 
-- (void)markWaiting:(BOOL)isWaiting {
+@synthesize waitingForQueue = _waitingForQueue;
+
+
+- (OCAQueue *)waitingForQueue {
+    return self->_waitingForQueue ?: self.targetQueue.waitingForQueue;
+}
+
+
+- (void)setWaitingForQueue:(OCAQueue *)waitingForQueue {
+    self->_waitingForQueue = (self.isConcurrent? nil : waitingForQueue);
+}
+
+
+- (void)markWaitingFor:(OCAQueue *)waitedFor {
     OCAQueue *queue = self;
     while (queue) {
         if (queue.isConcurrent) break;
-        queue.isWaiting = isWaiting;
+        queue.waitingForQueue = waitedFor;
         queue = queue.targetQueue;
     }
+}
+
+
+- (BOOL)isWaitingFor:(OCAQueue *)destinationQueue {
+    OCAQueue *waitingFor = self;
+    while (waitingFor) {
+        if (waitingFor == destinationQueue) return YES;
+        waitingFor = waitingFor.waitingForQueue;
+    }
+    return NO;
 }
 
 
