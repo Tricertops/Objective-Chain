@@ -236,17 +236,15 @@
     NSMutableArray *receivedStrings = [[NSMutableArray alloc] init];
     NSMutableArray *receivedNumbers = [[NSMutableArray alloc] init];
     
-    [command connectTo:[[OCAMulticast alloc] initWithConsumers:@[
-                                                                 [OCASubscriber subscribeClass:[NSString class] handler:
-                                                                  ^(NSString *value) {
-                                                                      [receivedStrings addObject:value];
-                                                                  }],
-                                                                 [OCASubscriber subscribeClass:[NSNumber class] handler:
-                                                                  ^(NSNumber *value) {
-                                                                      [receivedNumbers addObject:value];
-                                                                  }],
-                                                                 ]]];
-    
+    [command multicast:
+     [OCASubscriber subscribeClass:[NSString class] handler:
+      ^(NSString *value) {
+          [receivedStrings addObject:value];
+      }],
+     [OCASubscriber subscribeClass:[NSNumber class] handler:
+      ^(NSNumber *value) {
+          [receivedNumbers addObject:value];
+      }], nil];
     
     [command sendValue:@"5"];
     [command sendValue:@5];

@@ -48,6 +48,11 @@
 }
 
 
++ (instancetype)multicast:(NSArray *)consumers {
+    return [[self alloc] initWithConsumers:consumers];
+}
+
+
 
 
 
@@ -96,6 +101,33 @@
 
 - (NSString *)debugDescription {
     return [NSString stringWithFormat:@"<%@ %p; consumedValueClass = %@; consumers = %@>", self.class, self, self.consumedValueClass, self.consumers];
+}
+
+
+
+
+
+@end
+
+
+
+
+
+
+
+
+
+
+@implementation OCAProducer (OCAMulticast)
+
+
+
+
+
+- (OCAMulticast *)multicast:(id<OCAConsumer>)consumer, ... NS_REQUIRES_NIL_TERMINATION {
+    OCAMulticast *multicast = [[OCAMulticast alloc] initWithConsumers:NSArrayFromVariadicArguments(consumer)];
+    [self connectTo:multicast];
+    return multicast;
 }
 
 
