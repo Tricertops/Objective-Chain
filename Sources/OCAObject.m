@@ -49,7 +49,7 @@
 }
 
 
-+ (BOOL)validateObject:(__autoreleasing id *)objectPtr ofClass:(id)class {
++ (BOOL)validateObject:(__autoreleasing id *)objectPtr ofClass:(Class)class {
     if ( ! class) return YES;
     
     id object = *objectPtr;
@@ -69,7 +69,7 @@
 }
 
 
-- (BOOL)validateObject:(__autoreleasing id *)objectPtr ofClass:(id)class {
+- (BOOL)validateObject:(__autoreleasing id *)objectPtr ofClass:(Class)class {
     return [self.class validateObject:objectPtr ofClass:class];
 }
 

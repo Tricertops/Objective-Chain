@@ -18,6 +18,7 @@
 @interface OCAHub () < OCAConsumer >
 
 
+@property (OCA_atomic, readonly, strong) Class consumedValueClass;
 @property (OCA_atomic, readonly, strong) NSMutableArray *mutableProducers;
 
 
@@ -43,8 +44,10 @@
 
 - (instancetype)initWithType:(OCAHubType)type producers:(NSArray *)producers {
     Class valueClass = nil;
+    Class consumedValueClass = [self valueClassForClasses:[producers valueForKeyPath:OCAKeypath(OCAProducer, valueClass)]];
+    
     if (type == OCAHubTypeMerge) {
-        valueClass = [self valueClassForClasses:[producers valueForKeyPath:OCAKeypath(OCAProducer, valueClass)]];
+        valueClass = consumedValueClass;
     }
     else if (type == OCAHubTypeCombine) {
         valueClass = [NSArray class];
@@ -54,6 +57,7 @@
     if (self) {
         self->_type = type;
         self->_mutableProducers = [producers mutableCopy];
+        self->_consumedValueClass = consumedValueClass;
         
         [self openConnections];
     }
@@ -75,11 +79,6 @@
 
 
 #pragma mark Lifetime of Hub
-
-
-- (Class)consumedValueClass {
-    return self.valueClass;
-}
 
 
 - (NSArray *)producers {
