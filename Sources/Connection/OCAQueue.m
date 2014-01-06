@@ -140,8 +140,20 @@ static void * OCAQueueSpecificKey = &OCAQueueSpecificKey;
 - (void)performBlockAndWait:(OCAQueueBlock)block {
     OCAAssert(block != nil, @"No block.") return;
     
-    //TODO: Handle deadlocks.
-    dispatch_sync(self->_dispatchQueue, block);
+    OCAQueue *current = [OCAQueue current];
+    OCAQueue *main = [OCAQueue main];
+    
+    BOOL targettingToMain = [self isTargetedTo:main];
+    BOOL runningOnMain = [current isTargetedTo:main];
+    
+    if (self == current) {
+    } else if (targettingToMain && runningOnMain) {
+        NSLog(@"Objective-Chain: Notice: Preventing deadlock in -[OCAQueue performBlockAndWait:] by invoking block directly");
+        block();
+    }
+    else {
+        dispatch_sync(self->_dispatchQueue, block);
+    }
 }
 
 

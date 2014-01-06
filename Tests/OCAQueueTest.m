@@ -96,6 +96,16 @@
 }
 
 
+- (void)test_main_sync {
+    OCAQueue *queue = [[OCAQueue alloc] initWithName:@"Testing" concurrent:YES targetQueue:[OCAQueue main]];
+    __block BOOL passed = NO;
+    [queue performBlockAndWait:^{
+        passed = YES;
+    }];
+    XCTAssertTrue(passed, @"Waiting for Main queue while running on it should work.");
+}
+
+
 
 
 
