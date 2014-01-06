@@ -7,6 +7,7 @@
 //
 
 #import "OCAConnection.h"
+#import "OCAQueue.h"
 
 #import "OCAProducer.h"
 #import "OCACommand.h"
