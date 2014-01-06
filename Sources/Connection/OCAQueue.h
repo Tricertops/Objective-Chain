@@ -24,11 +24,19 @@ typedef void (^OCAQueueBlock)(void);
 
 + (instancetype)main;
 + (instancetype)background;
++ (instancetype)current;
 
 
 #pragma mark Creating Queues
 
 - (instancetype)initWithName:(NSString *)name concurrent:(BOOL)isConcurrent targetQueue:(OCAQueue *)targetQueue;
+
+
+#pragma mark Attributes of Queue
+
+@property (OCA_atomic, readonly, copy) NSString *name;
+@property (OCA_atomic, readonly, assign) BOOL isConcurrent;
+@property (OCA_atomic, readonly, strong) dispatch_queue_t dispatchQueue;
 
 
 #pragma mark Working with Queues
@@ -39,9 +47,14 @@ typedef void (^OCAQueueBlock)(void);
 - (void)performBarrierBlockAndWait:(OCAQueueBlock)block;
 - (void)performAfter:(NSTimeInterval)delay block:(OCAQueueBlock)block;
 
-@property (OCA_atomic, readonly, strong) dispatch_queue_t dispatchQueue;
+
+#pragma mark Accessing Target Queue
+
 @property (OCA_atomic, readonly, strong) OCAQueue *targetQueue;
+- (BOOL)isTargetedTo:(OCAQueue *)queue;
 
 
 
 @end
+
+

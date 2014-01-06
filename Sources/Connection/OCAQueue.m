@@ -32,6 +32,8 @@
     dispatch_set_target_queue(dispatchQueue, realTargetQueue.dispatchQueue);
     self = [self initWithDispatchQueue:dispatchQueue];
     if (self) {
+        self->_name = [name copy];
+        self->_isConcurrent = isConcurrent;
         self->_targetQueue = realTargetQueue;
     }
     return self;
@@ -54,11 +56,17 @@
 #pragma mark Getting Shared Queues
 
 
+static void * OCAQueueSpecificKey = &OCAQueueSpecificKey;
+static void * OCAQueueSpecificMain = &OCAQueueSpecificMain;
+static void * OCAQueueSpecificBackground = &OCAQueueSpecificBackground;
+
+
 + (instancetype)main {
     static OCAQueue *mainQueue = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         mainQueue = [[OCAQueue alloc] initWithDispatchQueue:dispatch_get_main_queue()];
+        dispatch_queue_set_specific(mainQueue.dispatchQueue, OCAQueueSpecificKey, OCAQueueSpecificMain, nil);
     });
     return mainQueue;
 }
@@ -69,8 +77,26 @@
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         backgroundQueue = [[OCAQueue alloc] initWithDispatchQueue:dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)];
+        dispatch_queue_set_specific(backgroundQueue.dispatchQueue, OCAQueueSpecificKey, OCAQueueSpecificBackground, nil);
     });
     return backgroundQueue;
+}
+
+
+
+
+
+#pragma mark Accessing Current Queue
+
++ (instancetype)current {
+    void *context = dispatch_get_specific(OCAQueueSpecificKey);
+    if (context == OCAQueueSpecificMain) {
+        return [OCAQueue main];
+    }
+    else if (context == OCAQueueSpecificBackground) {
+        return [OCAQueue background];
+    }
+    return nil;
 }
 
 
@@ -88,7 +114,12 @@
 
 - (void)performBlockAndWait:(OCAQueueBlock)block {
     OCAAssert(block != nil, @"No block.") return;
-    //TODO: Check for deadlock.
+    
+    OCAAssert( ! [self isTargetedTo:[OCAQueue current]], @"Cannot wait for at current queue. I call it deadlock!") {
+        block();
+        return;
+    }
+    
     dispatch_sync(self->_dispatchQueue, block);
 }
 
@@ -101,6 +132,12 @@
 
 - (void)performBarrierBlockAndWait:(OCAQueueBlock)block {
     OCAAssert(block != nil, @"No block.") return;
+    
+    OCAAssert( ! [self isTargetedTo:[OCAQueue current]], @"Cannot wait for at current queue. I call it deadlock!") {
+        block();
+        return;
+    }
+    
     dispatch_barrier_sync(self->_dispatchQueue, block);
 }
 
@@ -111,6 +148,21 @@
     
     dispatch_time_t time = dispatch_time(DISPATCH_TIME_NOW, (delay * NSEC_PER_SEC));
     dispatch_after(time, self->_dispatchQueue, block);
+}
+
+
+
+
+
+#pragma mark Accessing Target Queue
+
+- (BOOL)isTargetedTo:(OCAQueue *)targetQueue {
+    OCAQueue *queue = self;
+    while (queue) {
+        if (queue == targetQueue) return YES;
+        queue = queue.targetQueue;
+    }
+    return NO;
 }
 
 
