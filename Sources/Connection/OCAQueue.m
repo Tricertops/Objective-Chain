@@ -26,6 +26,15 @@
 #pragma mark Creating Queues
 
 
++ (void)initialize {
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        [self main];
+        [self background];
+    });
+}
+
+
 - (instancetype)initWithName:(NSString *)name concurrent:(BOOL)isConcurrent targetQueue:(OCAQueue *)targetQueue {
     targetQueue = targetQueue ?: [OCAQueue background];
     isConcurrent = (isConcurrent && targetQueue.isConcurrent);
@@ -123,11 +132,7 @@ static void * OCAQueueSpecificBackground = &OCAQueueSpecificBackground;
 - (void)performBlockAndWait:(OCAQueueBlock)block {
     OCAAssert(block != nil, @"No block.") return;
     
-    OCAAssert( ! [self isTargetedTo:[OCAQueue current]], @"Cannot wait for at current queue. I call it deadlock!") {
-        block();
-        return;
-    }
-    
+    //TODO: Handle deadlocks.
     dispatch_sync(self->_dispatchQueue, block);
 }
 
@@ -141,11 +146,7 @@ static void * OCAQueueSpecificBackground = &OCAQueueSpecificBackground;
 - (void)performBarrierBlockAndWait:(OCAQueueBlock)block {
     OCAAssert(block != nil, @"No block.") return;
     
-    OCAAssert( ! [self isTargetedTo:[OCAQueue current]], @"Cannot wait for at current queue. I call it deadlock!") {
-        block();
-        return;
-    }
-    
+    //TODO: Handle deadlocks.
     dispatch_barrier_sync(self->_dispatchQueue, block);
 }
 
