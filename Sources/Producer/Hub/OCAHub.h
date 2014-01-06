@@ -38,3 +38,18 @@ typedef enum : NSInteger {
 
 
 @end
+
+
+
+
+
+@interface OCAProducer (OCAHub)
+
+
+- (OCAHub *)mergeWith:(OCAProducer *)producer;
+- (OCAHub *)combineWith:(OCAProducer *)producer;
+
+
+@end
+
+

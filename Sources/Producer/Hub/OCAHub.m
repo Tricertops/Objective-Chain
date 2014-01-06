@@ -145,3 +145,32 @@
 @end
 
 
+
+
+
+
+
+
+
+@implementation OCAProducer (OCAHub)
+
+
+
+
+
+- (OCAHub *)mergeWith:(OCAProducer *)producer {
+    return [[OCAHub alloc] initWithType:OCAHubTypeMerge producers:@[ self, producer ]];
+}
+
+
+- (OCAHub *)combineWith:(OCAProducer *)producer {
+    return [[OCAHub alloc] initWithType:OCAHubTypeCombine producers:@[ self, producer ]];
+}
+
+
+
+
+
+@end
+
+
