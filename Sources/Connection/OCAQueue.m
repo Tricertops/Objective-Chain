@@ -10,6 +10,10 @@
 
 
 
+static void * OCAQueueSpecificKey = &OCAQueueSpecificKey;
+
+
+
 
 
 
@@ -58,6 +62,10 @@
     if (self) {
         OCAAssert(dispatchQueue != nil, @"Need a dispatch_queue_t!") return nil;
         self->_dispatchQueue = dispatchQueue;
+        
+        NSHashTable *weak = [NSHashTable weakObjectsHashTable];
+        [weak addObject:self];
+        dispatch_queue_set_specific(dispatchQueue, OCAQueueSpecificKey, (__bridge_retained void *)weak, nil);
     }
     return self;
 }
@@ -69,17 +77,11 @@
 #pragma mark Getting Shared Queues
 
 
-static void * OCAQueueSpecificKey = &OCAQueueSpecificKey;
-static void * OCAQueueSpecificMain = &OCAQueueSpecificMain;
-static void * OCAQueueSpecificBackground = &OCAQueueSpecificBackground;
-
-
 + (instancetype)main {
     static OCAQueue *mainQueue = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         mainQueue = [[OCAQueue alloc] initWithDispatchQueue:dispatch_get_main_queue()];
-        dispatch_queue_set_specific(mainQueue.dispatchQueue, OCAQueueSpecificKey, OCAQueueSpecificMain, nil);
         mainQueue->_name = @"Main";
         mainQueue->_isConcurrent = NO;
     });
@@ -92,7 +94,6 @@ static void * OCAQueueSpecificBackground = &OCAQueueSpecificBackground;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         backgroundQueue = [[OCAQueue alloc] initWithDispatchQueue:dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)];
-        dispatch_queue_set_specific(backgroundQueue.dispatchQueue, OCAQueueSpecificKey, OCAQueueSpecificBackground, nil);
         backgroundQueue->_name = @"Background";
         backgroundQueue->_isConcurrent = YES;
     });
@@ -105,15 +106,12 @@ static void * OCAQueueSpecificBackground = &OCAQueueSpecificBackground;
 
 #pragma mark Accessing Current Queue
 
+
 + (instancetype)current {
-    void *context = dispatch_get_specific(OCAQueueSpecificKey);
-    if (context == OCAQueueSpecificMain) {
-        return [OCAQueue main];
-    }
-    else if (context == OCAQueueSpecificBackground) {
-        return [OCAQueue background];
-    }
-    return nil;
+    void *specific = dispatch_get_specific(OCAQueueSpecificKey);
+    NSHashTable *weak = (__bridge_transfer NSHashTable *)specific;
+    OCAQueue *queue = [weak anyObject];
+    return queue;
 }
 
 
