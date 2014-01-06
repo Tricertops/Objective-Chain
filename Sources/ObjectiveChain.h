@@ -16,6 +16,7 @@
 
 #import "OCAConsumer.h"
 #import "OCASubscriber.h"
+#import "OCAMulticast.h"
 
 #import "OCATransformer.h"
 #import "OCATransformer+Predefined.h"

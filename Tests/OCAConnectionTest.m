@@ -12,6 +12,7 @@
 #import "OCABridge.h"
 #import "OCAHub.h"
 #import "OCASubscriber.h"
+#import "OCAMulticast.h"
 #import "OCATransformer.h"
 #import "OCATransformer+Predefined.h"
 #import "OCASemaphore.h"
@@ -226,6 +227,32 @@
     
     NSArray *expected = @[ @5, @5 ];
     XCTAssertEqualObjects(received, expected, @"Expected transformed merged values.");
+}
+
+
+- (void)test_multicast {
+    OCACommand *command = [OCACommand command];
+    
+    NSMutableArray *receivedStrings = [[NSMutableArray alloc] init];
+    NSMutableArray *receivedNumbers = [[NSMutableArray alloc] init];
+    
+    [command connectTo:[[OCAMulticast alloc] initWithConsumers:@[
+                                                                 [OCASubscriber subscribeClass:[NSString class] handler:
+                                                                  ^(NSString *value) {
+                                                                      [receivedStrings addObject:value];
+                                                                  }],
+                                                                 [OCASubscriber subscribeClass:[NSNumber class] handler:
+                                                                  ^(NSNumber *value) {
+                                                                      [receivedNumbers addObject:value];
+                                                                  }],
+                                                                 ]]];
+    
+    
+    [command sendValue:@"5"];
+    [command sendValue:@5];
+    
+    XCTAssertEqualObjects(receivedStrings, @[ @"5" ], @"Expected only strings.");
+    XCTAssertEqualObjects(receivedNumbers, @[ @5 ], @"Expected only numbers.");
 }
 
 
