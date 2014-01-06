@@ -7,6 +7,7 @@
 //
 
 #import "OCAQueue.h"
+#import "NSValue+Boxing.h"
 
 
 
@@ -41,6 +42,7 @@ static void * OCAQueueSpecificKey = &OCAQueueSpecificKey;
 
 - (instancetype)initWithName:(NSString *)name concurrent:(BOOL)isConcurrent targetQueue:(OCAQueue *)targetQueue {
     targetQueue = targetQueue ?: [OCAQueue background];
+    if (isConcurrent && ! targetQueue.isConcurrent) NSLog(@"Objective-Chain: Warning: Couldn't create concurrent queue while targetting serial queue.");
     isConcurrent = (isConcurrent && targetQueue.isConcurrent);
     
     NSString *label = [NSString stringWithFormat:@"com.ObjectiveChain.queue.%@", name];
@@ -63,9 +65,9 @@ static void * OCAQueueSpecificKey = &OCAQueueSpecificKey;
         OCAAssert(dispatchQueue != nil, @"Need a dispatch_queue_t!") return nil;
         self->_dispatchQueue = dispatchQueue;
         
-        NSHashTable *weak = [NSHashTable weakObjectsHashTable];
-        [weak addObject:self];
-        dispatch_queue_set_specific(dispatchQueue, OCAQueueSpecificKey, (__bridge_retained void *)weak, nil);
+        void *specific = (__bridge void *)self;
+        [[self.class sharedQueueTable] setObject:self forKey:OCABox(specific)];
+        dispatch_queue_set_specific(dispatchQueue, OCAQueueSpecificKey, specific, nil);
     }
     return self;
 }
@@ -101,6 +103,16 @@ static void * OCAQueueSpecificKey = &OCAQueueSpecificKey;
 }
 
 
++ (NSMapTable *)sharedQueueTable {
+    static NSMapTable *table = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        table = [NSMapTable strongToWeakObjectsMapTable];
+    });
+    return table;
+}
+
+
 
 
 
@@ -109,9 +121,7 @@ static void * OCAQueueSpecificKey = &OCAQueueSpecificKey;
 
 + (instancetype)current {
     void *specific = dispatch_get_specific(OCAQueueSpecificKey);
-    NSHashTable *weak = (__bridge_transfer NSHashTable *)specific;
-    OCAQueue *queue = [weak anyObject];
-    return queue;
+    return  [[self sharedQueueTable] objectForKey:OCABox(specific)];
 }
 
 
