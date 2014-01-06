@@ -17,18 +17,6 @@ static void * OCAQueueSpecificKey = &OCAQueueSpecificKey;
 
 
 
-@interface OCAQueue ()
-
-
-@property (nonatomic, readwrite, weak) OCAQueue *waitingForQueue;
-
-
-@end
-
-
-
-
-
 
 
 
@@ -159,14 +147,12 @@ static void * OCAQueueSpecificKey = &OCAQueueSpecificKey;
     BOOL runningOnMain = [current isTargetedTo:main];
     BOOL mainToMain = (isTargetedToMain && runningOnMain);
     
-    if (self == current || mainToMain || [self isWaitingFor:current]) {
+    if (self == current || mainToMain) {
         NSLog(@"Objective-Chain: Notice: Preventing deadlock in -[OCAQueue performBlockAndWait:] by invoking block directly.");
         block();
     }
     else {
-        [current markWaitingFor:self];
         dispatch_sync(self->_dispatchQueue, block);
-        [current markWaitingFor:nil];
     }
 }
 
@@ -206,14 +192,12 @@ static void * OCAQueueSpecificKey = &OCAQueueSpecificKey;
     BOOL runningOnMain = [current isTargetedTo:main];
     BOOL mainToMain = (isTargetedToMain && runningOnMain);
     
-    if (self == current || mainToMain || [self isWaitingFor:current]) {
+    if (self == current || mainToMain) {
         NSLog(@"Objective-Chain: Notice: Preventing deadlock in -[OCAQueue performBarrierBlockAndWait:] by invoking block directly.");
         block();
     }
     else {
-        [current markWaitingFor:self];
         dispatch_barrier_sync(self->_dispatchQueue, block);
-        [current markWaitingFor:nil];
     }
 }
 
@@ -224,6 +208,13 @@ static void * OCAQueueSpecificKey = &OCAQueueSpecificKey;
     
     dispatch_time_t time = dispatch_time(DISPATCH_TIME_NOW, (delay * NSEC_PER_SEC));
     dispatch_after(time, self->_dispatchQueue, block);
+}
+
+
+- (void)performMultiple:(NSUInteger)count blocks:(void(^)(NSUInteger i))block {
+    OCAAssert(block != nil, @"No block.") return;
+    
+    dispatch_apply(count, self->_dispatchQueue, block);
 }
 
 
@@ -240,40 +231,6 @@ static void * OCAQueueSpecificKey = &OCAQueueSpecificKey;
     while (queue) {
         if (queue == targetQueue) return YES;
         queue = queue.targetQueue;
-    }
-    return NO;
-}
-
-
-- (OCAQueue *)waitingForQueue {
-    // My own or target's waiting. Recursively until root.
-    return self->_waitingForQueue ?: self.targetQueue.waitingForQueue;
-}
-
-
-- (void)markWaitingFor:(OCAQueue *)waitedFor {
-    if (self.isConcurrent) {
-        // Only self is waiting.
-        self.waitingForQueue = waitedFor;
-    }
-    else {
-        // All serial targets are waiting.
-        OCAQueue *queue = self;
-        while (queue) {
-            if (queue.isConcurrent) break;
-            queue.waitingForQueue = waitedFor;
-            queue = queue.targetQueue;
-        }
-    }
-}
-
-
-- (BOOL)isWaitingFor:(OCAQueue *)destinationQueue {
-    // Traverse waiting relationship.
-    OCAQueue *waitingFor = self;
-    while (waitingFor) {
-        if (waitingFor == destinationQueue) return YES;
-        waitingFor = waitingFor.waitingForQueue;
     }
     return NO;
 }

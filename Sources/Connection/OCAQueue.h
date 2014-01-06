@@ -42,8 +42,6 @@ typedef void (^OCAQueueBlock)(void);
 @property (OCA_atomic, readonly, assign) BOOL isConcurrent;
 @property (OCA_atomic, readonly, strong) dispatch_queue_t dispatchQueue;
 
-@property (nonatomic, readonly, weak) OCAQueue *waitingForQueue;
-
 
 #pragma mark Adding Blocks to Queue
 
@@ -52,6 +50,7 @@ typedef void (^OCAQueueBlock)(void);
 - (void)performBarrierBlock:(OCAQueueBlock)block;
 - (void)performBarrierBlockAndWait:(OCAQueueBlock)block;
 - (void)performAfter:(NSTimeInterval)delay block:(OCAQueueBlock)block;
+- (void)performMultiple:(NSUInteger)count blocks:(void(^)(NSUInteger i))block;
 
 
 #pragma mark Accessing Target Queue

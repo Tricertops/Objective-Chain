@@ -36,6 +36,11 @@
 }
 
 
+- (void)heavyTask {
+    for (NSUInteger i = 0; i < 100; i++) (void)[[NSDateFormatter alloc] init];
+}
+
+
 
 
 
@@ -114,67 +119,6 @@
 }
 
 
-- (void)test_mutualSync {
-    OCAQueue *A = [[OCAQueue alloc] initWithName:@"A" concurrent:NO targetQueue:[OCAQueue background]];
-    OCAQueue *B = [[OCAQueue alloc] initWithName:@"B" concurrent:NO targetQueue:[OCAQueue background]];
-    
-    [A performBlock:^{
-        
-        [B performBlockAndWait:^{
-            [A performBlockAndWait:^{
-                [B performBlockAndWait:^{
-                    [self.semaphore signal];
-                }];
-            }];
-        }];
-        
-    }];
-    
-    BOOL signaled = [self.semaphore waitFor:10];
-    XCTAssertTrue(signaled, @"Mutual sync should not cause deadlock");
-}
-
-
-- (void)test_waiting_forwardTargetDown {
-    OCAQueue *C = [[OCAQueue alloc] initWithName:@"C" concurrent:NO targetQueue:[OCAQueue background]];
-    OCAQueue *B = [[OCAQueue alloc] initWithName:@"B" concurrent:NO targetQueue:[OCAQueue background]];
-    OCAQueue *A = [[OCAQueue alloc] initWithName:@"A" concurrent:NO targetQueue:B];
-    
-    [A performBlock:^{
-        
-        [C performBlockAndWait:^{
-            [B performBlockAndWait:^{
-                [self.semaphore signal];
-            }];
-        }];
-        
-    }];
-    
-    BOOL signaled = [self.semaphore waitFor:10];
-    XCTAssertTrue(signaled, @"Mutual sync should not cause deadlock");
-}
-
-
-- (void)test_waiting_forwardTargetUp {
-    OCAQueue *C = [[OCAQueue alloc] initWithName:@"C" concurrent:NO targetQueue:[OCAQueue background]];
-    OCAQueue *B = [[OCAQueue alloc] initWithName:@"B" concurrent:NO targetQueue:[OCAQueue background]];
-    OCAQueue *A = [[OCAQueue alloc] initWithName:@"A" concurrent:NO targetQueue:B];
-    
-    [B performBlock:^{
-        
-        [C performBlockAndWait:^{
-            [A performBlockAndWait:^{
-                [self.semaphore signal];
-            }];
-        }];
-        
-    }];
-    
-    BOOL signaled = [self.semaphore waitFor:10];
-    XCTAssertTrue(signaled, @"Mutual sync should not cause deadlock");
-}
-
-
 - (void)test_main_barrierSync {
     OCAQueue *queue = [[OCAQueue alloc] initWithName:@"Testing" concurrent:YES targetQueue:[OCAQueue main]];
     __block BOOL passed = NO;
@@ -182,6 +126,45 @@
         passed = YES;
     }];
     XCTAssertTrue(passed, @"Waiting for Main queue while running on it should work.");
+}
+
+
+- (void)test_readerWriter {
+    NSCountedSet *resource = [[NSCountedSet alloc] init];
+    OCAQueue *queue = [[OCAQueue alloc] initWithName:@"test_readerWriter.queue" concurrent:YES targetQueue:[OCAQueue background]];
+    OCAQueue *resourceQueue = [[OCAQueue alloc] initWithName:@"test_readerWriter.resourceQueue" concurrent:YES targetQueue:[OCAQueue background]];
+    
+    NSUInteger count = 1000;
+    NSArray *elements = @[ @"A", @"B", @"C", @"D", @"E", @"F", @"G", @"H" ];
+    [queue performMultiple:count blocks:^(NSUInteger i) {
+        
+        [resourceQueue performBlockAndWait:^{
+            [self heavyTask];
+        }];
+        
+        [self heavyTask];
+        id element = [elements objectAtIndex:(i % elements.count)];
+        
+        [resourceQueue performBarrierBlock:^{
+            [resource addObject:element];
+        }];
+    }];
+    
+    [queue performBarrierBlockAndWait:^{
+        [resourceQueue performBarrierBlockAndWait:^{
+            [self.semaphore signal];
+        }];
+    }];
+    BOOL signaled = [self.semaphore waitFor:10];
+    XCTAssertTrue(signaled, @"Didn't pass the test.");
+    
+    NSUInteger finalCount = 0;
+    for (id object in resource) {
+        finalCount += [resource countForObject:object];
+    }
+    
+    XCTAssertEqualObjects([NSSet setWithArray:elements], [NSSet setWithSet:resource], @"Two sets have the same elements");
+    XCTAssertEqual(count, finalCount, @"Resource should contain all objects.");
 }
 
 
