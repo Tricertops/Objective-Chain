@@ -92,6 +92,12 @@
 - (void)test_current {
     [[OCAQueue background] performBlockAndWait:^{
         XCTAssertEqualObjects([OCAQueue background], [OCAQueue current], @"Running on background, current must be background.");
+        
+        __block BOOL passed = NO;
+        [[OCAQueue background] performBlockAndWait:^{
+            passed = YES;
+        }];
+        XCTAssertTrue(passed, @"Waiting for current should not result in deadlock");
     }];
 }
 
@@ -100,6 +106,18 @@
     OCAQueue *queue = [[OCAQueue alloc] initWithName:@"Testing" concurrent:YES targetQueue:[OCAQueue main]];
     __block BOOL passed = NO;
     [queue performBlockAndWait:^{
+        [[OCAQueue main] performBlockAndWait:^{
+            passed = YES;
+        }];
+    }];
+    XCTAssertTrue(passed, @"Waiting for Main queue while running on it should work.");
+}
+
+
+- (void)test_main_barrierSync {
+    OCAQueue *queue = [[OCAQueue alloc] initWithName:@"Testing" concurrent:YES targetQueue:[OCAQueue main]];
+    __block BOOL passed = NO;
+    [queue performBarrierBlockAndWait:^{
         passed = YES;
     }];
     XCTAssertTrue(passed, @"Waiting for Main queue while running on it should work.");

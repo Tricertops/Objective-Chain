@@ -17,6 +17,18 @@ static void * OCAQueueSpecificKey = &OCAQueueSpecificKey;
 
 
 
+@interface OCAQueue ()
+
+
+@property (OCA_atomic, readwrite, assign) BOOL isWaiting;
+
+
+@end
+
+
+
+
+
 
 
 
@@ -128,7 +140,7 @@ static void * OCAQueueSpecificKey = &OCAQueueSpecificKey;
 
 
 
-#pragma mark Working with Queues
+#pragma mark Adding Blocks to Queue
 
 
 - (void)performBlock:(OCAQueueBlock)block {
@@ -143,16 +155,16 @@ static void * OCAQueueSpecificKey = &OCAQueueSpecificKey;
     OCAQueue *current = [OCAQueue current];
     OCAQueue *main = [OCAQueue main];
     
-    BOOL targettingToMain = [self isTargetedTo:main];
-    BOOL runningOnMain = [current isTargetedTo:main];
+    BOOL mainToMain = ([self isTargetedTo:main] && [current isTargetedTo:main]);
     
-    if (self == current) {
-    } else if (targettingToMain && runningOnMain) {
+    if (self == current || mainToMain) {
         NSLog(@"Objective-Chain: Notice: Preventing deadlock in -[OCAQueue performBlockAndWait:] by invoking block directly");
         block();
     }
     else {
+        [self markWaiting:YES];
         dispatch_sync(self->_dispatchQueue, block);
+        [self markWaiting:NO];
     }
 }
 
@@ -175,6 +187,15 @@ static void * OCAQueueSpecificKey = &OCAQueueSpecificKey;
 
 - (void)performBarrierBlockAndWait:(OCAQueueBlock)block {
     OCAAssert(block != nil, @"No block.") return;
+    
+    OCAAssert(self != [OCAQueue background], @"Cannot perform barriers directly on shared Background queue."){
+        [self performBlockAndWait:block];
+        return;
+    }
+    OCAAssert(self != [OCAQueue main], @"Cannot perform barriers directly on Main queue.") {
+        [self performBlockAndWait:block];
+        return;
+    }
     
     //TODO: Handle deadlocks.
     dispatch_barrier_sync(self->_dispatchQueue, block);
@@ -204,6 +225,16 @@ static void * OCAQueueSpecificKey = &OCAQueueSpecificKey;
         queue = queue.targetQueue;
     }
     return NO;
+}
+
+
+- (void)markWaiting:(BOOL)isWaiting {
+    OCAQueue *queue = self;
+    while (queue) {
+        if (queue.isConcurrent) break;
+        queue.isWaiting = isWaiting;
+        queue = queue.targetQueue;
+    }
 }
 
 

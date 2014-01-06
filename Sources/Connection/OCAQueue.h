@@ -42,6 +42,8 @@ typedef void (^OCAQueueBlock)(void);
 @property (OCA_atomic, readonly, assign) BOOL isConcurrent;
 @property (OCA_atomic, readonly, strong) dispatch_queue_t dispatchQueue;
 
+@property (OCA_atomic, readonly, assign) BOOL isWaiting;
+
 
 #pragma mark Adding Blocks to Queue
 
