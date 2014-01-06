@@ -43,7 +43,7 @@ typedef void (^OCAQueueBlock)(void);
 @property (OCA_atomic, readonly, strong) dispatch_queue_t dispatchQueue;
 
 
-#pragma mark Working with Queues
+#pragma mark Adding Blocks to Queue
 
 - (void)performBlock:(OCAQueueBlock)block;
 - (void)performBlockAndWait:(OCAQueueBlock)block;

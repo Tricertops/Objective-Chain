@@ -147,6 +147,16 @@ static void * OCAQueueSpecificKey = &OCAQueueSpecificKey;
 
 - (void)performBarrierBlock:(OCAQueueBlock)block {
     OCAAssert(block != nil, @"No block.") return;
+    
+    OCAAssert(self != [OCAQueue background], @"Cannot perform barriers directly on shared Background queue."){
+        [self performBlock:block];
+        return;
+    }
+    OCAAssert(self != [OCAQueue main], @"Cannot perform barriers directly on Main queue.") {
+        [self performBlock:block];
+        return;
+    }
+    
     dispatch_barrier_async(self->_dispatchQueue, block);
 }
 
@@ -192,12 +202,14 @@ static void * OCAQueueSpecificKey = &OCAQueueSpecificKey;
 
 
 - (NSString *)description {
+    if (self == [OCAQueue main]) return @"Main Serial Queue";
+    if (self == [OCAQueue background]) return @"Background Concurrent Queue";
     return [NSString stringWithFormat:@"%@ queue %@%@%@", (self->_isConcurrent? @"Concurrent" : @"Serial"), self->_name, (self.targetQueue? @" –> " : @""), self.targetQueue ?: @""];
 }
 
 
 - (NSString *)debugDescription {
-    return [NSString stringWithFormat:@"<%@ %p; name = %@; isConcurrent = %@; targetQueue = %@>",
+    return [NSString stringWithFormat:@"<%@ %p; name = \"%@\"; isConcurrent = %@; targetQueue = %@>",
             self.class, self, self->_name, (self->_isConcurrent? @"YES" : @"NO"), self.targetQueue.debugDescription];
 }
 
