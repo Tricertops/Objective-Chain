@@ -27,14 +27,18 @@
 
 
 - (instancetype)initWithName:(NSString *)name concurrent:(BOOL)isConcurrent targetQueue:(OCAQueue *)targetQueue {
-    dispatch_queue_t dispatchQueue = dispatch_queue_create(name.UTF8String, (isConcurrent? DISPATCH_QUEUE_CONCURRENT : DISPATCH_QUEUE_SERIAL));
-    OCAQueue *realTargetQueue = targetQueue ?: [OCAQueue background];
-    dispatch_set_target_queue(dispatchQueue, realTargetQueue.dispatchQueue);
+    targetQueue = targetQueue ?: [OCAQueue background];
+    isConcurrent = (isConcurrent && targetQueue.isConcurrent);
+    
+    NSString *label = [NSString stringWithFormat:@"com.ObjectiveChain.queue.%@", name];
+    dispatch_queue_t dispatchQueue = dispatch_queue_create(label.UTF8String, (isConcurrent? DISPATCH_QUEUE_CONCURRENT : DISPATCH_QUEUE_SERIAL));
+    dispatch_set_target_queue(dispatchQueue, targetQueue.dispatchQueue);
+    
     self = [self initWithDispatchQueue:dispatchQueue];
     if (self) {
         self->_name = [name copy];
         self->_isConcurrent = isConcurrent;
-        self->_targetQueue = realTargetQueue;
+        self->_targetQueue = targetQueue;
     }
     return self;
 }
@@ -67,6 +71,8 @@ static void * OCAQueueSpecificBackground = &OCAQueueSpecificBackground;
     dispatch_once(&onceToken, ^{
         mainQueue = [[OCAQueue alloc] initWithDispatchQueue:dispatch_get_main_queue()];
         dispatch_queue_set_specific(mainQueue.dispatchQueue, OCAQueueSpecificKey, OCAQueueSpecificMain, nil);
+        mainQueue->_name = @"Main";
+        mainQueue->_isConcurrent = NO;
     });
     return mainQueue;
 }
@@ -78,6 +84,8 @@ static void * OCAQueueSpecificBackground = &OCAQueueSpecificBackground;
     dispatch_once(&onceToken, ^{
         backgroundQueue = [[OCAQueue alloc] initWithDispatchQueue:dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)];
         dispatch_queue_set_specific(backgroundQueue.dispatchQueue, OCAQueueSpecificKey, OCAQueueSpecificBackground, nil);
+        backgroundQueue->_name = @"Background";
+        backgroundQueue->_isConcurrent = YES;
     });
     return backgroundQueue;
 }
@@ -156,6 +164,8 @@ static void * OCAQueueSpecificBackground = &OCAQueueSpecificBackground;
 
 #pragma mark Accessing Target Queue
 
+
+
 - (BOOL)isTargetedTo:(OCAQueue *)targetQueue {
     OCAQueue *queue = self;
     while (queue) {
@@ -163,6 +173,23 @@ static void * OCAQueueSpecificBackground = &OCAQueueSpecificBackground;
         queue = queue.targetQueue;
     }
     return NO;
+}
+
+
+
+
+
+#pragma mark Describing Queue
+
+
+- (NSString *)description {
+    return [NSString stringWithFormat:@"%@ queue %@%@%@", (self->_isConcurrent? @"Concurrent" : @"Serial"), self->_name, (self.targetQueue? @" –> " : @""), self.targetQueue ?: @""];
+}
+
+
+- (NSString *)debugDescription {
+    return [NSString stringWithFormat:@"<%@ %p; name = %@; isConcurrent = %@; targetQueue = %@>",
+            self.class, self, self->_name, (self->_isConcurrent? @"YES" : @"NO"), self.targetQueue.debugDescription];
 }
 
 
