@@ -9,6 +9,7 @@
 #import "OCAConnection+Private.h"
 #import "OCAProducer+Private.h"
 #import "OCAConsumer.h"
+#import "OCATransformer.h"
 
 
 
@@ -43,6 +44,15 @@
         OCAAssert(consumer != nil, @"Missing consumer!") return nil;
         OCAAssert(producer != consumer, @"Forbidden to connect object to itself!") return nil;
         
+        //TODO: Infer default transformers for known classes.
+        if (transformer) {
+            OCAAssert([self isClass:producer.valueClass compatibleWithClass:[transformer.class valueClass]], @"Cannot create Connection with incompatible classes: producer of %@, transformer for %@.", producer.valueClass, [transformer.class valueClass]) return nil;
+            OCAAssert([self isClass:[transformer.class transformedValueClass] compatibleWithClass:[consumer consumedValueClass]], @"Cannot create Connection with incompatible classes: transformer of %@, consumer for %@.", [transformer.class transformedValueClass], [consumer consumedValueClass]) return nil;
+        }
+        else {
+            OCAAssert([self isClass:producer.valueClass compatibleWithClass:[consumer consumedValueClass]], @"Cannot create Connection with incompatible classes: producer of %@, consumer for %@.", producer.valueClass, [consumer consumedValueClass]) return nil;
+        }
+        
         self->_enabled = YES;
         
         self->_producer = producer;
@@ -73,8 +83,8 @@
     self->_producer = nil;
     self->_consumer = nil;
     
-    self.transformer = nil;
-    self.filter = nil;
+    self->_transformer = nil;
+    self->_filter = nil;
 }
 
 

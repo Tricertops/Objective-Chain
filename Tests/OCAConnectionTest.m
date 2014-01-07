@@ -195,6 +195,18 @@
 }
 
 
+- (void)test_classValidation_creatingIncompatible {
+    OCACommand *command = [OCACommand commandForClass:[NSString class]];
+    
+    OCAConnection *connection = [command subscribeClass:[NSNumber class] handler:nil];
+    XCTAssertNil(connection, @"Connection cannot be created with incompatible classes, yet.");
+    
+    OCATransformer *transformer = [[OCATransformer pass] specializeFromClass:[NSArray class] toClass:nil];
+    OCAConnection *transformedConnection = [command connectWithTransform:transformer to:[OCABridge bridge]];
+    XCTAssertNil(transformedConnection, @"Connection cannot be created with incompatible classes, yet.");
+}
+
+
 - (void)test_classValidation_sendWrongClass {
     OCACommand *command = [OCACommand commandForClass:[NSString class]];
     

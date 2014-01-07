@@ -88,6 +88,9 @@
 + (BOOL)validateObject:(id *)object ofClass:(Class)class;
 - (BOOL)validateObject:(id *)object ofClass:(Class)class;
 
++ (BOOL)isClass:(Class)class1 compatibleWithClass:(Class)class2;
+- (BOOL)isClass:(Class)class1 compatibleWithClass:(Class)class2;
+
 
 
 @end
