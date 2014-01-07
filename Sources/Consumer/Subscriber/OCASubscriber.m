@@ -95,14 +95,22 @@
 #pragma mark Describing Subscriber
 
 
-- (NSString *)description {
-    return [NSString stringWithFormat:@"Subscriber for %@",
-            [[self.valueClass description] stringByAppendingString:@"s"] ?: @"anything"];
+- (NSString *)descriptionName {
+    return @"Subscriber";
 }
 
 
-- (NSString *)debugDescription {
-    return [NSString stringWithFormat:@"<%@ %p; consumedValueClass = %@>", self.class, self, self.valueClass];
+- (NSString *)description {
+    NSString *className = [[self.valueClass description] stringByAppendingString:@"s"] ?: @"anything";
+    return [NSString stringWithFormat:@"%@ for %@", self.shortDescription, className];
+    // Subscriber for NSArrays
+}
+
+
+- (NSDictionary *)debugDescriptionValues {
+    return @{
+             @"consumedValueClass": self.valueClass,
+             };
 }
 
 

@@ -130,16 +130,26 @@
 
 
 - (NSString *)descriptionName {
-    return (self.type == OCAHubTypeMerge
-            ? @"Merge"
-            : (self.type == OCAHubTypeCombine
-               ? @"Combination"
-               : @"Hub"));
+    NSString *typeName = (self.type == OCAHubTypeMerge? @"Merge"
+                          : (self.type == OCAHubTypeCombine? @"Combination"
+                             : @"Unknown"));
+    return [typeName stringByAppendingString:@" Hub"];
 }
 
 
 - (NSString *)description {
-    return [[super description] stringByAppendingFormat:@" from { %@ }", [[self.producers valueForKeyPath:OCAKeypath(OCAProducer, description)] componentsJoinedByString:@", "]];
+    NSString *adjective = (self.finished? @"Finished " : @"");
+    NSString *d = [NSString stringWithFormat:@"%@%@", adjective, self.shortDescription];
+    
+    if (self.type == OCAHubTypeMerge) {
+        NSString *className = [[self.valueClass description] stringByAppendingString:@"s"] ?: @"something";
+        d = [d stringByAppendingFormat:@" of %@", className];
+    }
+    NSArray *producerShortDescriptions = [self.producers valueForKeyPath:OCAKeypath(OCAProducer, shortDescription)];
+    d = [d stringByAppendingFormat:@" from { %@ }", [producerShortDescriptions componentsJoinedByString:@", "]];
+    return d;
+    // Merge Hub (0x0) of NSStrings from { Command (0x0), Bridge of NSStrings (0x0) }
+    // Finished Combine Hub from { Finished Timer (0x0), Merge Hub (0x0) }
 }
 
 

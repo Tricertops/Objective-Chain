@@ -92,6 +92,17 @@
 - (BOOL)isClass:(Class)class1 compatibleWithClass:(Class)class2;
 
 
+#pragma mark Describing Objects
+
+
+- (NSString *)descriptionName;
+- (NSString *)description;
+- (NSString *)shortDescription;
+- (NSDictionary *)debugDescriptionValues;
+- (NSString *)debugDescription;
+- (NSString *)debugShortDescription;
+
+
 
 @end
 

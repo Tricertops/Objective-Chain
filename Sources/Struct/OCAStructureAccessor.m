@@ -70,13 +70,21 @@
 #pragma mark Describing Struct Member Accessors
 
 
-- (NSString *)description {
+- (NSString *)descriptionName {
     return [NSString stringWithFormat:@"%@.%@", self.structureDescription, self.memberDescription];
 }
 
 
-- (NSString *)debugDescription {
-    return [NSString stringWithFormat:@"<%@ %p; structType = %s; memberType = %s; %@>", self.class, self, self.structType, self.memberType, self.description];
+- (NSString *)shortDescription {
+    return self.descriptionName;
+}
+
+
+- (NSDictionary *)debugDescriptionValues {
+    return @{
+             @"structType": [NSString stringWithUTF8String:self.structType],
+             @"memberType": [NSString stringWithUTF8String:self.memberType],
+             };
 }
 
 

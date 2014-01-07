@@ -242,16 +242,31 @@ static void * OCAQueueSpecificKey = &OCAQueueSpecificKey;
 #pragma mark Describing Queue
 
 
-- (NSString *)description {
-    if (self == [OCAQueue main]) return @"Main Serial Queue";
-    if (self == [OCAQueue background]) return @"Background Concurrent Queue";
-    return [NSString stringWithFormat:@"%@ queue %@%@%@", (self->_isConcurrent? @"Concurrent" : @"Serial"), self->_name, (self.targetQueue? @" –> " : @""), self.targetQueue ?: @""];
+- (NSString *)descriptionName {
+    if (self == [OCAQueue main]) return @"Main Queue";
+    if (self == [OCAQueue background]) return @"Background Queue";
+    return self.name;
 }
 
 
-- (NSString *)debugDescription {
-    return [NSString stringWithFormat:@"<%@ %p; name = \"%@\"; isConcurrent = %@; targetQueue = %@>",
-            self.class, self, self->_name, (self->_isConcurrent? @"YES" : @"NO"), self.targetQueue.debugDescription];
+- (NSString *)description {
+    NSString *adjective = (self.isConcurrent? @"Concurrent" : @"Serial");
+    NSString *d = [NSString stringWithFormat:@"%@ %@", adjective, self.shortDescription];
+    if (self.targetQueue) {
+        d = [d stringByAppendingFormat:@" targeted to %@", self.targetQueue.shortDescription];
+    }
+    return d;
+    // Serial Main Queue (0x0)
+    // Concurrent Loading Queue (0x0) targeted to Background Queue (0x0)
+}
+
+
+- (NSDictionary *)debugDescriptionValues {
+    return @{
+             @"name": self.name,
+             @"concurrent": (self.isConcurrent? @"YES" : @"NO"),
+             @"target": self.targetQueue.debugShortDescription,
+             };
 }
 
 

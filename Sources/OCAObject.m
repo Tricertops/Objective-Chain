@@ -89,6 +89,52 @@
 
 
 
+#pragma mark Describing Objects
+
+
+- (NSString *)descriptionName {
+    return NSStringFromClass(self.class);
+}
+
+
+- (NSString *)description {
+    return self.shortDescription;
+    // OCAObject (0x0)
+}
+
+
+- (NSString *)shortDescription {
+    return [NSString stringWithFormat:@"%@ (%p)", self.descriptionName, self];
+}
+
+
+- (NSString *)debugDescription {
+    NSDictionary *descriptionValues = [self debugDescriptionValues];
+    NSMutableArray *valueStrings = [[NSMutableArray alloc] init];
+    [valueStrings addObject:@""];
+    [descriptionValues enumerateKeysAndObjectsUsingBlock:^(NSString *key, NSObject *value, BOOL *stop) {
+        [valueStrings addObject:[NSString stringWithFormat:@"%@ = %@", key, value]];
+    }];
+    
+    
+    return [NSString stringWithFormat:@"<%@ %p%@>",
+            self.class, self, [valueStrings componentsJoinedByString:@"; "]];
+}
+
+
+- (NSString *)debugShortDescription {
+    return [NSString stringWithFormat:@"<%@ %p>", self.class.description, self];
+}
+
+
+- (NSDictionary *)debugDescriptionValues {
+    return @{};
+}
+
+
+
+
+
 @end
 
 

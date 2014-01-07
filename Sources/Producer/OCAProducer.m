@@ -172,26 +172,11 @@ OCALazyGetter(NSMutableArray *, mutableConnections) {
 
 
 - (NSString *)description {
-    // Producer of NSStrings
-    // Finished producer of NSStrings
-    return [NSString stringWithFormat:@"%@%@ of %@",
-            (self.finished? @"Finished " : @""),
-            (self.finished? [self.descriptionName lowercaseString] : self.descriptionName),
-            [[self.valueClass description] stringByAppendingString:@"s"] ?: @"something"];
-}
-
-
-- (NSString *)debugDescription {
-    NSDictionary *descriptionValues = [self debugDescriptionValues];
-    NSMutableArray *valueStrings = [[NSMutableArray alloc] init];
-    [valueStrings addObject:@""];
-    [descriptionValues enumerateKeysAndObjectsUsingBlock:^(NSString *key, NSObject *value, BOOL *stop) {
-        [valueStrings addObject:[NSString stringWithFormat:@"%@ = %@", key, value]];
-    }];
-    
-    
-    return [NSString stringWithFormat:@"<%@ %p%@>",
-            self.class, self, [valueStrings componentsJoinedByString:@"; "]];
+    NSString *adjective = (self.finished? @"Finished " : @"");
+    NSString *className = [[self.valueClass description] stringByAppendingString:@"s"] ?: @"something";
+    return [NSString stringWithFormat:@"%@%@ of %@", adjective, self.shortDescription, className];
+    // Finished Producer of NSStrings
+    // Producer of something
 }
 
 

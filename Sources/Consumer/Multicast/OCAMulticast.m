@@ -92,15 +92,23 @@
 #pragma mark Describing Subscriber
 
 
-- (NSString *)description {
-    return [NSString stringWithFormat:@"Multicast for %@ to { %@ }",
-            [[self.consumedValueClass description] stringByAppendingString:@"s"] ?: @"anything",
-            [self.consumers valueForKeyPath:OCAKeypath(NSObject, description)]];
+- (NSString *)descriptionName {
+    return @"Multicast";
 }
 
 
-- (NSString *)debugDescription {
-    return [NSString stringWithFormat:@"<%@ %p; consumedValueClass = %@; consumers = %@>", self.class, self, self.consumedValueClass, self.consumers];
+- (NSString *)description {
+    NSString *className = [[self.consumedValueClass description] stringByAppendingString:@"s"] ?: @"anything";
+    return [NSString stringWithFormat:@"%@ for %@ to { %@ }", self.shortDescription, className, [self.consumers componentsJoinedByString:@", "]];
+    // Multicast (0x0) for NSStrings to { Subscriber (0x0) for NSStrings, Subscriber (0x0) for NSStrings }
+}
+
+
+- (NSDictionary *)debugDescriptionValues {
+    return @{
+             @"consumedValueClass": self.consumedValueClass,
+             @"consumers": self.consumers,
+             };
 }
 
 

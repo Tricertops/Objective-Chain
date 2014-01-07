@@ -109,6 +109,18 @@
 }
 
 
+- (NSString *)description {
+    NSString *adjective = (self.finished? @"Finished " : @"");
+    NSString *d = [NSString stringWithFormat:@"%@%@ at %@s", adjective, self.shortDescription, @(self.interval)];
+    if (self.count == NSUIntegerMax) {
+        d = [d stringByAppendingFormat:@" with %@ ticks", @(self.count)];
+    }
+    return d;
+    // Timer (0x0) for 0.1s
+    // Finished Timer (0x0) for 0.05s with 100 ticks
+}
+
+
 - (NSDictionary *)debugDescriptionValues {
     return @{
              @"delay": @(self.delay),

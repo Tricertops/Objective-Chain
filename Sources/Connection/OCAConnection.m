@@ -129,14 +129,37 @@
 #pragma mark Describing Connection
 
 
-- (NSString *)description {
-    NSString *adjective = (self.closed? @"closed " : (self.enabled? @"" : @"disabled "));
-    return [NSString stringWithFormat:@"%@connection from %@, filter (%@), transform %@, to %@", adjective, self.producer, self.filter, self.transformer, self.consumer];
+- (NSString *)descriptionName {
+    return @"Connection";
 }
 
 
-- (NSString *)debugDescription {
-    return [NSString stringWithFormat:@"<%@ %p; producer = %@; filter = %@; transformer = %@; consumer = %@; enabled = %@; closed = %@>", self.class, self, self.producer.debugDescription, self.filter.debugDescription, self.transformer.debugDescription, [self.consumer debugDescription], (self.enabled? @"YES" : @"NO"), (self.closed? @"YES" : @"NO")];
+- (NSString *)description {
+    NSMutableString *d = [[NSMutableString alloc] init];
+    [d appendString:(self.closed? @"Closed connection" : (self.enabled? @"Connection" : @"Disabled connection"))];
+    [d appendString:@"\n"];
+    [d appendFormat:@"Producer: %@\n", self.producer];
+    if (self.filter) [d appendFormat:@"Filter: %@\n", self.filter];
+    if (self.transformer) [d appendFormat:@"Transform: %@\n", self.transformer];
+    [d appendFormat:@"Consumer: %@", self.consumer];
+    if ([self.consumer isKindOfClass:[OCAProducer class]]) {
+        OCAProducer *bridge = self.consumer;
+        [d appendFormat:@" with %@ other connections", (bridge.connections.count ? @(bridge.connections.count) : @"no")];
+    }
+    [d appendString:@"\n"];
+    return d;
+}
+
+
+- (NSDictionary *)debugDescriptionValues {
+    return @{
+             @"producer": self.producer.debugDescription,
+             @"filter": self.filter.debugDescription,
+             @"transformer": self.transformer.debugDescription,
+             @"consumer": [self.consumer debugDescription],
+             @"enabled": (self.enabled? @"YES" : @"NO"),
+             @"closed": (self.closed? @"YES" : @"NO"),
+             };
 }
 
 
