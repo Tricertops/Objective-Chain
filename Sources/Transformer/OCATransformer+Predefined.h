@@ -7,7 +7,7 @@
 //
 
 #import "OCATransformer.h"
-#import "OCAStructureAccessor.h"
+#import "OCAAccessor.h"
 
 
 
@@ -50,10 +50,10 @@
 + (OCATransformer *)transformKeyPath:(NSString *)keypath transformer:(NSValueTransformer *)transformer;
 
 
-#pragma mark Struct Accessors
+#pragma mark Accessors
 
-+ (OCATransformer *)accessStruct:(OCAStructureAccessor *)structAccessor;
-+ (OCATransformer *)modifyStruct:(OCAStructureAccessor *)structAccessor value:(NSValue *)value;
++ (OCATransformer *)access:(OCAAccessor *)accessor;
++ (OCATransformer *)modify:(OCAAccessor *)accessor value:(id)value;
 
 
 #pragma mark Side Effects

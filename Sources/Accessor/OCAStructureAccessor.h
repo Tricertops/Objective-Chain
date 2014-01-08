@@ -6,14 +6,14 @@
 //  Copyright (c) 2014 Martin Kiss. All rights reserved.
 //
 
-#import "OCAObject.h"
+#import "OCAAccessor.h"
 #import "NSValue+Boxing.h"
 
 
 
 
 
-@interface OCAStructureAccessor : OCAObject
+@interface OCAStructureAccessor : OCAAccessor
 
 
 

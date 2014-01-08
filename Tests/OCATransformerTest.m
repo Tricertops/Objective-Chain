@@ -8,6 +8,7 @@
 
 #import "OCATransformer.h"
 #import "OCATransformer+Predefined.h"
+#import "OCAStructureAccessor.h"
 
 
 
@@ -271,7 +272,7 @@
 
 
 - (void)test_predefinedAccessStruct {
-    OCATransformer *t = [OCATransformer accessStruct:OCAStruct(NSRange, location)];
+    OCATransformer *t = [OCATransformer access:OCAStruct(NSRange, location)];
     NSValue *rangeValue = OCABox(NSMakeRange(2, 6));
     XCTAssertEqualObjects([t transformedValue:rangeValue], @2);
     XCTAssertNil([t transformedValue:OCABox(5)], @"Must return nil for anything incompatible.");
@@ -279,51 +280,13 @@
 
 
 - (void)test_predefinedModifyStruct {
-    OCATransformer *t = [OCATransformer modifyStruct:OCAStruct(NSRange, location) value:@8];
+    OCATransformer *t = [OCATransformer modify:OCAStruct(NSRange, location) value:@8];
     NSValue *rangeValue = [t transformedValue:OCABox(NSMakeRange(2, 6))];
     NSRange range = OCAUnbox(rangeValue, NSRange, NSMakeRange(NSNotFound, 0));
     
     XCTAssertTrue(range.location == 8);
     XCTAssertNil([t transformedValue:OCABox(5)], @"Must return nil for anything incompatible.");
 }
-
-
-//- (void)test_predefinedEnumerate {
-//    OCATransformer *t = [OCATransformer enumerate:[OCATransformer accessKeyPath:OCAKeypathUnsafe(uppercaseString)]];
-//    NSArray *ab = @[ @"a", @"b" ];
-//    NSArray *AB = @[ @"A", @"B" ];
-//    XCTAssertEqualObjects([t transformedValue:ab], AB);
-//    XCTAssertEqualObjects([t transformedValue:[ab mutableCopy]], AB);
-//}
-//
-//- (void)test_predefinedPick_inRange {
-//    OCATransformer *t = [OCATransformer pickIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(1, 2)]];
-//    NSArray *abcd = @[ @"a", @"b", @"c", @"d" ];
-//    NSArray *bc = @[ @"b", @"c" ];
-//    XCTAssertEqualObjects([t transformedValue:abcd], bc);
-//}
-//
-//
-//- (void)test_predefinedPick_outOfRange {
-//    OCATransformer *t = [OCATransformer pickIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(2, 6)]];
-//    NSArray *abcd = @[ @"a", @"b", @"c", @"d" ];
-//    NSArray *cd = @[ @"c", @"d" ];
-//    XCTAssertEqualObjects([t transformedValue:abcd], cd);
-//}
-//
-//
-//- (void)test_predefinedBranch {
-//    OCATransformer *t = [OCATransformer branch:@[
-//                                                 [OCATransformer traverseKeyPath:OCAKeypathUnsafe(uppercaseString)],
-//                                                 [OCATransformer traverseKeyPath:OCAKeypathUnsafe(lowercaseString)],
-//                                                 [OCATransformer traverseKeyPath:OCAKeypathUnsafe(capitalizedString)],
-//                                                 ]];
-//    NSArray *result = @[ @"HELLO", @"hello", @"Hello" ];
-//    XCTAssertEqualObjects([t transformedValue:@"heLLo"], result);
-//}
-
-
-
 
 
 

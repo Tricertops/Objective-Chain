@@ -287,19 +287,19 @@
 #pragma mark Struct Accessors
 
 
-+ (OCATransformer *)accessStruct:(OCAStructureAccessor *)structAccessor {
-    return [[OCATransformer fromClass:[NSValue class]
-                             toClass:(structAccessor.isNumeric? [NSNumber class] : [NSValue class])
-                           asymetric:^NSValue *(NSValue *input) {
-                               return [structAccessor memberFromStructure:input];
-                           }] describe:structAccessor.description];
++ (OCATransformer *)access:(OCAAccessor *)accessor {
+    return [[OCATransformer fromClass:accessor.objectClass toClass:accessor.valueClass asymetric:^id(id input) {
+        return [accessor accessObject:input];
+    }]
+            describe:accessor.description];
 }
 
 
-+ (OCATransformer *)modifyStruct:(OCAStructureAccessor *)structAccessor value:(NSValue *)memberValue {
-    return [[OCATransformer fromClass:[NSValue class] toClass:[NSValue class] symetric:^NSValue *(NSValue *structValue) {
-        return [structAccessor setMember:memberValue toStructure:structValue];
-    }] describe:[NSString stringWithFormat:@"%@ = %@", structAccessor, memberValue]];
++ (OCATransformer *)modify:(OCAAccessor *)accessor value:(id)value {
+    return [[OCATransformer fromClass:accessor.objectClass toClass:accessor.objectClass symetric:^id(id input) {
+        return [accessor modifyObject:input withValue:value];
+    }]
+            describe:[NSString stringWithFormat:@"%@ = %@", accessor, value]];
 }
 
 
