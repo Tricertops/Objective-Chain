@@ -15,7 +15,7 @@
 @interface OCAMulticast ()
 
 
-@property (OCA_atomic, readonly, strong) Class consumedValueClass;
+@property (atomic, readonly, strong) Class consumedValueClass;
 
 
 @end

@@ -15,8 +15,8 @@
 @interface OCAStructureAccessor ()
 
 
-@property (OCA_atomic, readonly, copy) NSValue *(^getBlock)(NSValue *);
-@property (OCA_atomic, readonly, copy) NSValue *(^setBlock)(NSValue *, NSValue *);
+@property (atomic, readonly, copy) NSValue *(^getBlock)(NSValue *);
+@property (atomic, readonly, copy) NSValue *(^setBlock)(NSValue *, NSValue *);
 
 
 @end

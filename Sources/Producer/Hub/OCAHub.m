@@ -18,8 +18,8 @@
 @interface OCAHub () < OCAConsumer >
 
 
-@property (OCA_atomic, readonly, strong) Class consumedValueClass;
-@property (OCA_atomic, readonly, strong) NSMutableArray *mutableProducers;
+@property (atomic, readonly, strong) Class consumedValueClass;
+@property (atomic, readonly, strong) NSMutableArray *mutableProducers;
 
 
 @end

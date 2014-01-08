@@ -27,7 +27,7 @@
 
 #pragma mark Accessing Consumers of Multicast
 
-@property (OCA_atomic, readonly, copy) NSArray *consumers;
+@property (atomic, readonly, copy) NSArray *consumers;
 
 
 

@@ -32,8 +32,8 @@ typedef enum : NSInteger {
 
 #pragma mark Attributes of Hub
 
-@property (OCA_atomic, readonly, assign) OCAHubType type;
-@property (OCA_atomic, readonly, copy) NSArray *producers;
+@property (atomic, readonly, assign) OCAHubType type;
+@property (atomic, readonly, copy) NSArray *producers;
 
 
 

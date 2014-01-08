@@ -36,12 +36,12 @@
 
 #pragma mark Attributes of Timer
 
-@property (OCA_atomic, readonly, strong) OCAQueue *queue;
+@property (atomic, readonly, strong) OCAQueue *queue;
 
-@property (OCA_atomic, readonly, assign) NSTimeInterval delay;
-@property (OCA_atomic, readonly, assign) NSTimeInterval interval;
-@property (OCA_atomic, readonly, assign) NSTimeInterval leeway;
-@property (OCA_atomic, readonly, assign) NSUInteger count;
+@property (atomic, readonly, assign) NSTimeInterval delay;
+@property (atomic, readonly, assign) NSTimeInterval interval;
+@property (atomic, readonly, assign) NSTimeInterval leeway;
+@property (atomic, readonly, assign) NSUInteger count;
 
 
 //TODO: Until date?

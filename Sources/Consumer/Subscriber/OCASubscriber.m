@@ -15,8 +15,8 @@
 @interface OCASubscriber ()
 
 
-@property (OCA_atomic, readonly, copy) OCASubscriberValueHandler valueHandler;
-@property (OCA_atomic, readonly, copy) OCASubscriberFinishHandler finishHandler;
+@property (atomic, readonly, copy) OCASubscriberValueHandler valueHandler;
+@property (atomic, readonly, copy) OCASubscriberFinishHandler finishHandler;
 
 
 @end

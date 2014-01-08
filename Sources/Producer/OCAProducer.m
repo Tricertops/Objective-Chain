@@ -16,7 +16,7 @@
 @interface OCAProducer ()
 
 
-@property (OCA_atomic, readonly, strong) NSMutableArray *mutableConnections;
+@property (atomic, readonly, strong) NSMutableArray *mutableConnections;
 
 
 @end

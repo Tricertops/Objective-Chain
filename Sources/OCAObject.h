@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 
 
-#define OCA_atomic  atomic
+
 
 
 #define OCALazyGetter(TYPE, PROPERTY) \

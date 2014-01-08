@@ -23,10 +23,10 @@
 
 #pragma mark Getting State of Producer
 
-@property (OCA_atomic, readonly, strong) Class valueClass;
-@property (OCA_atomic, readonly, strong) id lastValue;
-@property (OCA_atomic, readonly, assign) BOOL finished;
-@property (OCA_atomic, readonly, strong) NSError *error;
+@property (atomic, readonly, strong) Class valueClass;
+@property (atomic, readonly, strong) id lastValue;
+@property (atomic, readonly, assign) BOOL finished;
+@property (atomic, readonly, strong) NSError *error;
 
 
 #pragma mark Connecting to Producer
@@ -46,7 +46,7 @@
 
 #pragma mark Inspecting Connections of Producer
 
-@property (OCA_atomic, readonly, strong) NSArray *connections;
+@property (atomic, readonly, strong) NSArray *connections;
 
 
 #pragma mark Describing Producer

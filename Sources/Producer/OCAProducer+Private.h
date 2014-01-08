@@ -18,17 +18,25 @@
 @interface OCAProducer ()
 
 
+#pragma mark Creating Producer
 
 - (instancetype)initWithValueClass:(Class)valueClass;
 
-- (void)produceValue:(id)value NS_REQUIRES_SUPER;
-- (void)finishProducingWithError:(NSError *)error NS_REQUIRES_SUPER;
+
+#pragma mark Managing Connections
 
 - (void)addConnection:(OCAConnection *)connection;
 - (void)didAddConnection:(OCAConnection *)connection;
 
 - (void)willRemoveConnection:(OCAConnection *)connection;
 - (void)removeConnection:(OCAConnection *)connection;
+
+
+#pragma mark Lifetime of Producer
+
+- (void)produceValue:(id)value NS_REQUIRES_SUPER;
+- (void)finishProducingWithError:(NSError *)error NS_REQUIRES_SUPER;
+
 
 
 

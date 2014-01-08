@@ -7,6 +7,7 @@
 //
 
 #import "OCATransformer.h"
+#import "OCAObject.h"
 #import <objc/runtime.h>
 
 
@@ -16,11 +17,11 @@
 @interface OCATransformer ()
 
 
-@property (OCA_atomic, readonly, copy) OCATransformerBlock transformationBlock;
-@property (OCA_atomic, readonly, copy) OCATransformerBlock reverseTransformationBlock;
+@property (atomic, readonly, copy) OCATransformerBlock transformationBlock;
+@property (atomic, readonly, copy) OCATransformerBlock reverseTransformationBlock;
 
-@property (OCA_atomic, readwrite, copy) NSString *description;
-@property (OCA_atomic, readwrite, copy) NSString *reverseDescription;
+@property (atomic, readwrite, copy) NSString *description;
+@property (atomic, readwrite, copy) NSString *reverseDescription;
 
 
 @end
@@ -283,6 +284,11 @@
 
 
 @end
+
+
+
+
+
 
 
 

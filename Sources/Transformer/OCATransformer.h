@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "OCAObject.h"
+
 
 
 typedef id (^OCATransformerBlock)(id input);
@@ -49,8 +49,8 @@ typedef id (^OCATransformerBlock)(id input);
 
 #pragma mark Describing
 
-@property (OCA_atomic, readonly, copy) NSString *description;
-@property (OCA_atomic, readonly, copy) NSString *reverseDescription;
+@property (atomic, readonly, copy) NSString *description;
+@property (atomic, readonly, copy) NSString *reverseDescription;
 - (instancetype)describe:(NSString *)description;
 - (instancetype)describe:(NSString *)description reverse:(NSString *)reverseDescription;
 

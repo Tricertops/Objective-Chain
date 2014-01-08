@@ -34,7 +34,7 @@ typedef void(^OCASubscriberFinishHandler)(NSError *error);
 
 #pragma mark Attributes of Subscriber
 
-@property (OCA_atomic, readonly, strong) Class valueClass;
+@property (atomic, readonly, strong) Class valueClass;
 
 
 

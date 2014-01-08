@@ -22,13 +22,13 @@
                           getBlock:(NSValue *(^)(NSValue *structValue))getBlock
                           setBlock:(NSValue *(^)(NSValue *structValue, NSValue *memberValue))setBlock;
 
-@property (OCA_atomic, readonly, assign) const char *structType;
-@property (OCA_atomic, readonly, assign) const char *memberType;
+@property (atomic, readonly, assign) const char *structType;
+@property (atomic, readonly, assign) const char *memberType;
 
-@property (OCA_atomic, readonly, assign) BOOL isNumeric;
+@property (atomic, readonly, assign) BOOL isNumeric;
 
-@property (OCA_atomic, readonly, assign) NSString *structureDescription;
-@property (OCA_atomic, readonly, assign) NSString *memberDescription;
+@property (atomic, readonly, assign) NSString *structureDescription;
+@property (atomic, readonly, assign) NSString *memberDescription;
 - (instancetype)describeStructure:(NSString *)structure member:(NSString *)member;
 
 

@@ -41,9 +41,9 @@ typedef void (^OCAQueueBlock)(void);
 
 #pragma mark Attributes of Queue
 
-@property (OCA_atomic, readonly, copy) NSString *name;
-@property (OCA_atomic, readonly, assign) BOOL isConcurrent;
-@property (OCA_atomic, readonly, strong) dispatch_queue_t dispatchQueue;
+@property (atomic, readonly, copy) NSString *name;
+@property (atomic, readonly, assign) BOOL isConcurrent;
+@property (atomic, readonly, strong) dispatch_queue_t dispatchQueue;
 
 
 #pragma mark Adding Blocks to Queue
@@ -61,7 +61,7 @@ typedef void (^OCAQueueBlock)(void);
 
 #pragma mark Accessing Target Queue
 
-@property (OCA_atomic, readonly, strong) OCAQueue *targetQueue;
+@property (atomic, readonly, strong) OCAQueue *targetQueue;
 - (BOOL)isTargetedTo:(OCAQueue *)queue;
 
 
