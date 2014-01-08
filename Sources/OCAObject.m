@@ -77,7 +77,7 @@
 + (BOOL)isClass:(Class)class1 compatibleWithClass:(Class)class2 {
     if ( ! class1) return YES;
     if ( ! class2) return YES;
-    return [class2 isSubclassOfClass:class1];
+    return [class1 isSubclassOfClass:class2];
 }
 
 

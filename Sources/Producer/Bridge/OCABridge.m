@@ -101,7 +101,7 @@
 
 
 - (OCAProducer *)bridgeOn:(OCAQueue *)queue filter:(NSPredicate *)filter transform:(NSValueTransformer *)transformer {
-    Class class = (transformer? [transformer.class valueClass] : self.valueClass);
+    Class class = (transformer? [transformer.class transformedValueClass] : self.valueClass);
     OCABridge *bridge = [OCABridge bridgeForClass:class];
     [self connectOn:queue filter:filter transform:transformer to:bridge];
     return bridge;
