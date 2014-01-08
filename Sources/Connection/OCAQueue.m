@@ -134,6 +134,18 @@ static void * OCAQueueSpecificKey = &OCAQueueSpecificKey;
 }
 
 
+- (BOOL)shouldInvokeSynchronousBlocksDirectlyToAvoidDeadlock {
+    OCAQueue *current = [OCAQueue current];
+    if (self == current) return YES; // Definitely deadlocking!
+    
+    //TODO: Targetting to Main may have separate BOOL.
+    BOOL isTargetedToMain = [self isTargetedTo:[OCAQueue main]];
+    BOOL runningOnMain = [current isTargetedTo:[OCAQueue main]];
+    // If both Current and Self are targetted to Main, it would deadlock!
+    return (isTargetedToMain && runningOnMain);
+}
+
+
 
 
 
@@ -149,19 +161,24 @@ static void * OCAQueueSpecificKey = &OCAQueueSpecificKey;
 - (void)performBlockAndWait:(OCAQueueBlock)block {
     OCAAssert(block != nil, @"No block.") return;
     
-    OCAQueue *current = [OCAQueue current];
-    OCAQueue *main = [OCAQueue main];
-    
-    BOOL isTargetedToMain = [self isTargetedTo:main];
-    BOOL runningOnMain = [current isTargetedTo:main];
-    BOOL mainToMain = (isTargetedToMain && runningOnMain);
-    
-    if (self == current || mainToMain) {
+    if ([self shouldInvokeSynchronousBlocksDirectlyToAvoidDeadlock]) {
         NSLog(@"Objective-Chain: Notice: Preventing deadlock in -[OCAQueue performBlockAndWait:] by invoking block directly.");
         block();
     }
     else {
         dispatch_sync(self->_dispatchQueue, block);
+    }
+}
+
+
+- (void)performBlockAndTryWait:(OCAQueueBlock)block {
+    OCAAssert(block != nil, @"No block.") return;
+    
+    if ([self shouldInvokeSynchronousBlocksDirectlyToAvoidDeadlock]) {
+        block(); // No thread hop.
+    }
+    else {
+        dispatch_async(self->_dispatchQueue, block);
     }
 }
 

@@ -50,8 +50,11 @@ typedef void (^OCAQueueBlock)(void);
 
 - (void)performBlock:(OCAQueueBlock)block;
 - (void)performBlockAndWait:(OCAQueueBlock)block;
+- (void)performBlockAndTryWait:(OCAQueueBlock)block;
+
 - (void)performBarrierBlock:(OCAQueueBlock)block;
 - (void)performBarrierBlockAndWait:(OCAQueueBlock)block;
+
 - (void)performAfter:(NSTimeInterval)delay block:(OCAQueueBlock)block;
 - (void)performMultiple:(NSUInteger)count blocks:(void(^)(NSUInteger i))block;
 
