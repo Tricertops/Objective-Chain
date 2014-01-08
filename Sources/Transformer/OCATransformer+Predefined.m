@@ -289,6 +289,21 @@
 }
 
 
++ (OCATransformer *)modify:(OCAAccessor *)accessor transformer:(NSValueTransformer *)transformer {
+    return [[OCATransformer fromClass:accessor.objectClass toClass:accessor.objectClass transform:^id(id input) {
+        id value = [accessor accessObject:input];
+        value = [transformer transformedValue:value];
+        return [accessor modifyObject:input withValue:value];
+    } reverse:^id(id input) {
+        id value = [accessor accessObject:input];
+        value = [transformer reverseTransformedValue:value];
+        return [accessor modifyObject:input withValue:value];
+    }]
+            describe:[NSString stringWithFormat:@"transform %@ using %@", accessor, transformer]
+            reverse:[NSString stringWithFormat:@"transform %@ using %@", accessor, [transformer reversed]]];
+}
+
+
 
 
 

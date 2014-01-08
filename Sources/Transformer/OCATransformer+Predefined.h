@@ -48,8 +48,7 @@
 
 + (OCATransformer *)access:(OCAAccessor *)accessor;
 + (OCATransformer *)modify:(OCAAccessor *)accessor value:(id)value;
-
-+ (OCATransformer *)transformKeyPath:(NSString *)keypath transformer:(NSValueTransformer *)transformer;
++ (OCATransformer *)modify:(OCAAccessor *)accessor transformer:(NSValueTransformer *)transformer;
 
 
 #pragma mark Side Effects

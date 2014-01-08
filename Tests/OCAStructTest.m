@@ -8,6 +8,8 @@
 
 #import "OCAStructureAccessor.h"
 #import "OCAKeyPathAccessor.h"
+#import "OCATransformer+Predefined.h"
+#import "OCAMath.h"
 
 
 
@@ -137,6 +139,25 @@ typedef struct {
     [kpa modifyObject:self withValue:@10];
     XCTAssertTrue(self.link.title.length == 10);
     XCTAssertEqualObjects([kpa accessObject:self], @10);
+}
+
+
+- (void)test_modifyTransform {
+    OCATestLink link;
+    link.URL.location = 5;
+    self.link = link;
+    
+    OCATransformer *t = [OCATransformer modify:OCAKeyPathStruct(OCAStructTest, link, URL.location)
+                                   transformer:[OCAMath multiplyBy:5]];
+    
+    OCAStructTest *transformed = [t transformedValue:self];
+    XCTAssertTrue(transformed == self, @"It should return identical object.");
+    XCTAssertTrue(transformed.link.URL.location == 25);
+    
+    OCAStructTest *reverseTransformed = [t reverseTransformedValue:self];
+    XCTAssertTrue(reverseTransformed == self, @"It should return identical object.");
+    XCTAssertTrue(reverseTransformed.link.URL.location == 5);
+    
 }
 
 
