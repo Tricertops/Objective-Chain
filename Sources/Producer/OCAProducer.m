@@ -170,6 +170,11 @@
 }
 
 
+- (void)dealloc {
+    [self finishProducingWithError:nil];
+}
+
+
 
 
 
