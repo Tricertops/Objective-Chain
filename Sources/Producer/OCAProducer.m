@@ -16,6 +16,10 @@
 @interface OCAProducer ()
 
 
+@property (atomic, readwrite, strong) id lastValue;
+@property (atomic, readwrite, assign) BOOL finished;
+@property (atomic, readwrite, strong) NSError *error;
+
 @property (atomic, readonly, strong) NSMutableArray *mutableConnections;
 
 
@@ -144,7 +148,7 @@
     if ( ! valid) return;
     
     if (self.finished) return;
-    self->_lastValue = value;
+    self.lastValue = value;
     
     for (OCAConnection *connection in [self.mutableConnections copy]) {
         [connection producerDidProduceValue:value];
@@ -155,8 +159,8 @@
 - (void)finishProducingWithError:(NSError *)error {
     if (self.finished) return;
     
-    self->_finished = YES;
-    self->_error = error;
+    self.finished = YES;
+    self.error = error;
     
     for (OCAConnection *connection in [self.mutableConnections copy]) {
         [connection producerDidFinishWithError:error];

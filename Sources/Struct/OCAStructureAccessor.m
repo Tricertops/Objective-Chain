@@ -89,8 +89,8 @@
 
 
 - (instancetype)describeStructure:(NSString *)structure member:(NSString *)member {
-    self->_structureDescription = structure;
-    self->_memberDescription = member;
+    self.structureDescription = structure;
+    self.memberDescription = member;
     return self;
 }
 

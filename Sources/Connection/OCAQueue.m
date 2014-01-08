@@ -154,7 +154,7 @@ static void * OCAQueueSpecificKey = &OCAQueueSpecificKey;
 
 - (void)performBlock:(OCAQueueBlock)block {
     OCAAssert(block != nil, @"No block.") return;
-    dispatch_async(self->_dispatchQueue, block);
+    dispatch_async(self.dispatchQueue, block);
 }
 
 
@@ -166,7 +166,7 @@ static void * OCAQueueSpecificKey = &OCAQueueSpecificKey;
         block();
     }
     else {
-        dispatch_sync(self->_dispatchQueue, block);
+        dispatch_sync(self.dispatchQueue, block);
     }
 }
 
@@ -179,7 +179,7 @@ static void * OCAQueueSpecificKey = &OCAQueueSpecificKey;
     }
     else {
         // Asynchronous invocation when we are not on the same thread.
-        dispatch_async(self->_dispatchQueue, block);
+        dispatch_async(self.dispatchQueue, block);
     }
 }
 
@@ -196,7 +196,7 @@ static void * OCAQueueSpecificKey = &OCAQueueSpecificKey;
         return;
     }
     
-    dispatch_barrier_async(self->_dispatchQueue, block);
+    dispatch_barrier_async(self.dispatchQueue, block);
 }
 
 
@@ -224,7 +224,7 @@ static void * OCAQueueSpecificKey = &OCAQueueSpecificKey;
         block();
     }
     else {
-        dispatch_barrier_sync(self->_dispatchQueue, block);
+        dispatch_barrier_sync(self.dispatchQueue, block);
     }
 }
 
@@ -234,14 +234,14 @@ static void * OCAQueueSpecificKey = &OCAQueueSpecificKey;
     OCAAssert(delay >= 0, @"Negative delay? Oh, come on!") delay = 0;
     
     dispatch_time_t time = dispatch_time(DISPATCH_TIME_NOW, (delay * NSEC_PER_SEC));
-    dispatch_after(time, self->_dispatchQueue, block);
+    dispatch_after(time, self.dispatchQueue, block);
 }
 
 
 - (void)performMultiple:(NSUInteger)count blocks:(void(^)(NSUInteger i))block {
     OCAAssert(block != nil, @"No block.") return;
     
-    dispatch_apply(count, self->_dispatchQueue, block);
+    dispatch_apply(count, self.dispatchQueue, block);
 }
 
 

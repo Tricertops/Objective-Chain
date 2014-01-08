@@ -80,12 +80,14 @@
     BOOL valid = [self validateObject:&value ofClass:self.valueClass];
     if ( ! valid) return;
     
-    if (self->_valueHandler) self->_valueHandler(value);
+    OCASubscriberValueHandler handler = self.valueHandler;
+    if (handler) handler(value);
 }
 
 
 - (void)finishConsumingWithError:(NSError *)error {
-    if (self->_finishHandler) self->_finishHandler(error);
+    OCASubscriberFinishHandler handler = self.finishHandler;
+    if (handler) handler(error);
 }
 
 

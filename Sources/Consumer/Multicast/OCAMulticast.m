@@ -17,6 +17,8 @@
 
 @property (atomic, readonly, strong) Class consumedValueClass;
 
+@property (atomic, readwrite, copy) NSArray *consumers;
+
 
 @end
 
@@ -82,7 +84,7 @@
     for (id<OCAConsumer> consumer in self.consumers) {
         [consumer finishConsumingWithError:error];
     }
-    self->_consumers = nil;
+    self.consumers = nil;
 }
 
 

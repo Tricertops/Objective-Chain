@@ -50,18 +50,18 @@
 
 
 - (void)signal {
-    dispatch_semaphore_signal(self->_semaphore);
+    dispatch_semaphore_signal(self.semaphore);
 }
 
 
 - (void)wait {
-    dispatch_semaphore_wait(self->_semaphore, DISPATCH_TIME_FOREVER);
+    dispatch_semaphore_wait(self.semaphore, DISPATCH_TIME_FOREVER);
 }
 
 
 - (BOOL)waitFor:(NSTimeInterval)interval {
     dispatch_time_t time = dispatch_time(DISPATCH_TIME_NOW, interval * NSEC_PER_SEC);
-    long timedOut = dispatch_semaphore_wait(self->_semaphore, time);
+    long timedOut = dispatch_semaphore_wait(self.semaphore, time);
     return ! timedOut;
 }
 

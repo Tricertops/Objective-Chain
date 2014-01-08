@@ -16,6 +16,24 @@
 
 
 
+@interface OCAConnection ()
+
+
+@property (atomic, readwrite, weak) OCAProducer *producer;
+@property (atomic, readwrite, strong) OCAQueue *queue;
+@property (atomic, readwrite, strong) NSPredicate *filter;
+@property (atomic, readwrite, strong) NSValueTransformer *transformer;
+@property (atomic, readwrite, strong) id<OCAConsumer> consumer;
+
+@property (atomic, readwrite, assign) BOOL closed;
+
+
+@end
+
+
+
+
+
 
 
 
@@ -71,17 +89,14 @@
 
 
 - (void)close {
-    [self willChangeValueForKey:@"closed"];
-    self->_closed = YES;
-    [self didChangeValueForKey:@"closed"];
-    
+    self.closed = YES;
     self.enabled = NO;
     
-    [self->_producer removeConnection:self];
-    self->_producer = nil;
-    self->_transformer = nil;
-    self->_filter = nil;
-    self->_consumer = nil;
+    [self.producer removeConnection:self];
+    self.producer = nil;
+    self.transformer = nil;
+    self.filter = nil;
+    self.consumer = nil;
 }
 
 

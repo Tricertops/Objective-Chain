@@ -81,9 +81,10 @@
 
 - (void)start {
     dispatch_source_t timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, self.queue.dispatchQueue);
-    dispatch_time_t startTime = dispatch_time(DISPATCH_TIME_NOW, self->_delay * NSEC_PER_SEC);
-    dispatch_source_set_timer(timer, startTime, self->_interval * NSEC_PER_SEC, self->_leeway * NSEC_PER_SEC);
+    dispatch_time_t startTime = dispatch_time(DISPATCH_TIME_NOW, self.delay * NSEC_PER_SEC);
+    dispatch_source_set_timer(timer, startTime, self.interval * NSEC_PER_SEC, self.leeway * NSEC_PER_SEC);
     
+    NSUInteger count = self.count;
     __block NSUInteger tick = 0;
     dispatch_source_set_event_handler(timer, ^{
         tick ++;
@@ -91,7 +92,7 @@
         NSDate *date = [NSDate date];
         [self produceValue:date];
         
-        if (tick >= self->_count) {
+        if (tick >= count) {
             dispatch_source_cancel(timer);
             NSLog(@"Finished");
             [self finishProducingWithError:nil];

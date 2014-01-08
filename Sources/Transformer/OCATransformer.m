@@ -68,9 +68,8 @@
     BOOL validInput = [OCAObject validateObject:&value ofClass:[self.class valueClass]];
     if ( ! validInput) return nil;
     
-    id transformedValue = (self->_transformationBlock
-                           ? self->_transformationBlock(value)
-                           : nil);
+    OCATransformerBlock block = self.transformationBlock;
+    id transformedValue = (block? block(value) : nil);
     
     BOOL validOutput = [OCAObject validateObject:&transformedValue ofClass:[self.class transformedValueClass]];
     if ( ! validOutput) return nil;
@@ -84,9 +83,8 @@
         BOOL validInput = [OCAObject validateObject:&value ofClass:[self.class transformedValueClass]];
         if ( ! validInput) return nil;
         
-        id transformedValue = (self->_reverseTransformationBlock
-                               ? self->_reverseTransformationBlock(value)
-                               : nil);
+        OCATransformerBlock block = self.reverseTransformationBlock;
+        id transformedValue = (block? block(value) : nil);
         
         BOOL validOutput = [OCAObject validateObject:&transformedValue ofClass:[self.class valueClass]];
         if ( ! validOutput) return nil;

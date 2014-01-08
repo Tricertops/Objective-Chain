@@ -27,8 +27,8 @@
 
 @property (atomic, readonly, assign) BOOL isNumeric;
 
-@property (atomic, readonly, assign) NSString *structureDescription;
-@property (atomic, readonly, assign) NSString *memberDescription;
+@property (atomic, readwrite, assign) NSString *structureDescription;
+@property (atomic, readwrite, assign) NSString *memberDescription;
 - (instancetype)describeStructure:(NSString *)structure member:(NSString *)member;
 
 

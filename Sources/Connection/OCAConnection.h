@@ -33,7 +33,7 @@
 #pragma mark Endpoints of Connection
 
 @property (atomic, readonly, weak) OCAProducer *producer;
-@property (atomic, readwrite, strong) id<OCAConsumer> consumer;
+@property (atomic, readonly, strong) id<OCAConsumer> consumer;
 
 
 #pragma mark Controlling Connection
