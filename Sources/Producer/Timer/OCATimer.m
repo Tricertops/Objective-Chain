@@ -40,8 +40,7 @@
         OCAAssert(interval > 0, @"Works only with positive intervals.") return nil;
         OCAAssert(leeway >= 0, @"Works only with non-negative leeway.") return nil;
         
-        NSString *name = [NSString stringWithFormat:@"Timer:%p", self];
-        self->_queue = [[OCAQueue alloc] initWithName:name concurrent:NO targetQueue:targetQueue ?: [OCAQueue current]];
+        self->_queue = [[OCAQueue alloc] initWithName:@"Timer Queue" concurrent:NO targetQueue:targetQueue ?: [OCAQueue current]];
         
         self->_delay = delay;
         self->_interval = interval;

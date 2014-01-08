@@ -268,18 +268,21 @@
 
 
 - (void)test_OCATimer_withConnectionOnDifferentQueue {
-    OCATimer *timer = [OCATimer backgroundTimerWithInterval:0.01 count:10];
+    OCATimer *timer = [OCATimer backgroundTimerWithInterval:0.1 count:10];
     OCAQueue *queue = [OCAQueue serialQueue:@"Testing Queue"];
     OCASemaphore *semaphore = [[OCASemaphore alloc] init];
     __block NSUInteger tickCount = 0;
     
-    [timer subscribeOn:queue class:[NSDate class] handler:^(id value) {
-        NSLog(@"Start");
-        tickCount ++;
-        NSLog(@"End %lu", (unsigned long)tickCount);
-    } finish:^(NSError *error) {
-        [semaphore signal];
-    }];
+    [timer connectOn:queue
+              filter:[NSPredicate predicateWithValue:YES]
+           transform:[OCATransformer accessKeyPath:OCAKeypath(NSDate, timeIntervalSinceNow)]
+                  to:[OCASubscriber subscribeClass:[NSNumber class] handler:
+                      ^(NSNumber *timeInterval) {
+                          NSLog(@"Time is passing: %@", timeInterval);
+                          tickCount++;
+                      } finish:^(NSError *error) {
+                          [semaphore signal];
+                      }]];
     
     BOOL signaled = [semaphore waitFor:10];
     XCTAssertTrue(signaled, @"Timer didn't end in given time.");
