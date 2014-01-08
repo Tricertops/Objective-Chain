@@ -16,6 +16,7 @@
 #import "OCATransformer.h"
 #import "OCATransformer+Predefined.h"
 #import "OCASemaphore.h"
+#import "OCAQueue.h"
 
 
 
@@ -113,7 +114,7 @@
     OCASemaphore *semaphore = [[OCASemaphore alloc] init];
     __block NSUInteger tickCount = 0;
     
-    [timer subscribeClass:[NSDate class] handler:^(id value) {
+    [timer subscribeOn:timer.queue class:[NSDate class] handler:^(id value) {
         NSLog(@"Start");
         tickCount ++;
         NSLog(@"End %lu", (unsigned long)tickCount);
@@ -263,6 +264,26 @@
     
     XCTAssertEqualObjects(receivedStrings, @[ @"5" ], @"Expected only strings.");
     XCTAssertEqualObjects(receivedNumbers, @[ @5 ], @"Expected only numbers.");
+}
+
+
+- (void)test_OCATimer_withConnectionOnDifferentQueue {
+    OCATimer *timer = [OCATimer backgroundTimerWithInterval:0.01 count:10];
+    OCAQueue *queue = [OCAQueue serialQueue:@"Testing Queue"];
+    OCASemaphore *semaphore = [[OCASemaphore alloc] init];
+    __block NSUInteger tickCount = 0;
+    
+    [timer subscribeOn:queue class:[NSDate class] handler:^(id value) {
+        NSLog(@"Start");
+        tickCount ++;
+        NSLog(@"End %lu", (unsigned long)tickCount);
+    } finish:^(NSError *error) {
+        [semaphore signal];
+    }];
+    
+    BOOL signaled = [semaphore waitFor:10];
+    XCTAssertTrue(signaled, @"Timer didn't end in given time.");
+    XCTAssertEqual(tickCount, timer.count, @"Timer didn't fire required number of times.");
 }
 
 

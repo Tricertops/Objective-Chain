@@ -175,9 +175,10 @@ static void * OCAQueueSpecificKey = &OCAQueueSpecificKey;
     OCAAssert(block != nil, @"No block.") return;
     
     if ([self shouldInvokeSynchronousBlocksDirectlyToAvoidDeadlock]) {
-        block(); // No thread hop.
+        block(); // No thread hop, preserve stack trace.
     }
     else {
+        // Asynchronous invocation when we are not on the same thread.
         dispatch_async(self->_dispatchQueue, block);
     }
 }

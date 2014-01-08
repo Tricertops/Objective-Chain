@@ -8,8 +8,9 @@
 
 #import "OCAConnection+Private.h"
 #import "OCAProducer+Private.h"
-#import "OCAConsumer.h"
+#import "OCAQueue.h"
 #import "OCATransformer.h"
+#import "OCAConsumer.h"
 
 
 
@@ -58,9 +59,9 @@
             OCAAssert([self isClass:producer.valueClass compatibleWithClass:[consumer consumedValueClass]], @"Cannot create Connection with incompatible classes: producer of %@, consumer for %@.", producer.valueClass, [consumer consumedValueClass]) return nil;
         }
         
-        self->_enabled = YES;
-        self->_queue = queue;
         self->_producer = producer;
+        self->_enabled = YES;
+        self->_queue = queue ?: [OCAQueue current];
         self->_filter = predicate;
         self->_transformer = transformer;
         self->_consumer = consumer;
@@ -86,10 +87,9 @@
     
     [self->_producer removeConnection:self];
     self->_producer = nil;
-    self->_consumer = nil;
-    
     self->_transformer = nil;
     self->_filter = nil;
+    self->_consumer = nil;
 }
 
 
@@ -108,23 +108,30 @@
     if (self.closed) return;
     if ( ! self.enabled) return;
     
-    BOOL passes = ( ! self.filter || [self.filter evaluateWithObject:value]);
-    if ( ! passes) return;
-    
-    id transformedValue = (self.transformer
-                           ? [self.transformer transformedValue:value]
-                           : value);
-    
-    BOOL outputValid = [self validateObject:&transformedValue ofClass:[self.consumer consumedValueClass]];
-    if ( ! outputValid) return;
-    
-    [self.consumer consumeValue:transformedValue];
+    [self.queue performBlockAndTryWait:^{
+        
+        BOOL passes = ( ! self.filter || [self.filter evaluateWithObject:value]);
+        if ( ! passes) return;
+        
+        id transformedValue = (self.transformer ? [self.transformer transformedValue:value] : value);
+        
+        BOOL outputValid = [self validateObject:&transformedValue ofClass:[self.consumer consumedValueClass]];
+        if ( ! outputValid) return;
+        
+        [self.consumer consumeValue:transformedValue];
+    }];
 }
 
 
 - (void)producerDidFinishWithError:(NSError *)error {
-    [self.consumer finishConsumingWithError:error];
-    [self close];
+    if (self.closed) return;
+    if ( ! self.enabled) return;
+    
+    [self.queue performBlockAndTryWait:^{
+        
+        [self.consumer finishConsumingWithError:error];
+        [self close];
+    }];
 }
 
 
@@ -144,6 +151,7 @@
     [d appendString:(self.closed? @"Closed connection" : (self.enabled? @"Connection" : @"Disabled connection"))];
     [d appendString:@"\n"];
     [d appendFormat:@"Producer: %@\n", self.producer];
+    [d appendFormat:@"Queue: %@\n", self.queue];
     if (self.filter) [d appendFormat:@"Filter: %@\n", self.filter];
     if (self.transformer) [d appendFormat:@"Transform: %@\n", self.transformer];
     [d appendFormat:@"Consumer: %@", self.consumer];
@@ -159,6 +167,7 @@
 - (NSDictionary *)debugDescriptionValues {
     return @{
              @"producer": self.producer.debugDescription,
+             @"queue": self.queue.debugDescription,
              @"filter": self.filter.debugDescription,
              @"transformer": self.transformer.debugDescription,
              @"consumer": [self.consumer debugDescription],
