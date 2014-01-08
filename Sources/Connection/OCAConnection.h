@@ -9,6 +9,7 @@
 #import "OCAObject.h"
 
 @class OCAProducer;
+@class OCAQueue;
 @protocol OCAConsumer;
 
 
@@ -23,6 +24,7 @@
 #pragma mark Creating Conenction
 
 - (instancetype)initWithProducer:(OCAProducer *)producer
+                           queue:(OCAQueue *)queue
                           filter:(NSPredicate *)predicate
                        transform:(NSValueTransformer *)transformer
                         consumer:(id<OCAConsumer>)consumer;
@@ -37,16 +39,13 @@
 #pragma mark Controlling Connection
 
 @property (OCA_atomic, readwrite, assign) BOOL enabled; //TODO: Remotely check for enabled?
+
+@property (OCA_atomic, readonly, strong) OCAQueue *queue;
 @property (OCA_atomic, readonly, strong) NSPredicate *filter;
 @property (OCA_atomic, readonly, strong) NSValueTransformer *transformer;
 
 @property (OCA_atomic, readonly, assign) BOOL closed;
 - (void)close;
-
-
-//TODO: Queues
-
-
 
 
 

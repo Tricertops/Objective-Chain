@@ -9,6 +9,7 @@
 #import "OCAObject.h"
 
 @class OCAConnection;
+@class OCAQueue;
 @protocol OCAConsumer;
 
 
@@ -31,9 +32,16 @@
 #pragma mark Connecting to Producer
 
 - (OCAConnection *)connectTo:(id<OCAConsumer>)consumer;
+- (OCAConnection *)connectOn:(OCAQueue *)queue to:(id<OCAConsumer>)consumer;
+
 - (OCAConnection *)connectWithTransform:(NSValueTransformer *)transformer to:(id<OCAConsumer>)consumer;
-- (OCAConnection *)connectWithFilter:(NSPredicate *)predicate to:(id<OCAConsumer>)consumer;
+- (OCAConnection *)connectOn:(OCAQueue *)queue transform:(NSValueTransformer *)transformer to:(id<OCAConsumer>)consumer;
+
 - (OCAConnection *)connectWithFilter:(NSPredicate *)predicate transform:(NSValueTransformer *)transformer to:(id<OCAConsumer>)consumer;
+- (OCAConnection *)connectOn:(OCAQueue *)queue
+                      filter:(NSPredicate *)predicate
+                   transform:(NSValueTransformer *)transformer
+                          to:(id<OCAConsumer>)consumer;
 
 
 #pragma mark Inspecting Connections of Producer

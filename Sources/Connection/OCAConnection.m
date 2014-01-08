@@ -37,7 +37,12 @@
 #pragma mark Creating Connection
 
 
-- (instancetype)initWithProducer:(OCAProducer *)producer filter:(NSPredicate *)predicate transform:(NSValueTransformer *)transformer consumer:(id<OCAConsumer>)consumer {
+- (instancetype)init {
+    return [self initWithProducer:nil queue:nil filter:nil transform:nil consumer:nil];
+}
+
+
+- (instancetype)initWithProducer:(OCAProducer *)producer queue:(OCAQueue *)queue filter:(NSPredicate *)predicate transform:(NSValueTransformer *)transformer consumer:(id<OCAConsumer>)consumer {
     self = [super init];
     if (self) {
         OCAAssert(producer != nil, @"Missing producer!") return nil;
@@ -54,7 +59,7 @@
         }
         
         self->_enabled = YES;
-        
+        self->_queue = queue;
         self->_producer = producer;
         self->_filter = predicate;
         self->_transformer = transformer;
