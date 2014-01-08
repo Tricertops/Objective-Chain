@@ -133,6 +133,10 @@ typedef struct {
     XCTAssertEqualObjects(kpa.valueClass, [NSNumber class]);
     
     XCTAssertEqualObjects([kpa accessObject:self], @5);
+    
+    [kpa modifyObject:self withValue:@10];
+    XCTAssertTrue(self.link.title.length == 10);
+    XCTAssertEqualObjects([kpa accessObject:self], @10);
 }
 
 

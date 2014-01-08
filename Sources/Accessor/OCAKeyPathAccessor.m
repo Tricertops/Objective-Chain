@@ -86,9 +86,9 @@
     if ( ! object) return nil;
     
     if (self.structureAccessor) {
-        id structure = [object valueForKeyPath:self.keyPath];
-        [self.structureAccessor setMember:value toStructure:structure];
-        [object setValue:structure forKeyPath:self.keyPath];
+        NSValue *structure = [object valueForKeyPath:self.keyPath];
+        NSValue *modifiedStructure = [self.structureAccessor setMember:value toStructure:structure];
+        [object setValue:modifiedStructure forKeyPath:self.keyPath];
     }
     else {
         [object setValue:value forKeyPath:self.keyPath];
