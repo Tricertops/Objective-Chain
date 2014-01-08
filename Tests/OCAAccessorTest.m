@@ -1,5 +1,5 @@
 //
-//  OCAStructTest.m
+//  OCAAccessorTest.m
 //  Objective-Chain
 //
 //  Created by Martin Kiss on 3.1.14.
@@ -22,7 +22,7 @@ typedef struct {
 
 
 
-@interface OCAStructTest : XCTestCase
+@interface OCAAccessorTest : XCTestCase
 
 
 @property (nonatomic, readwrite, assign) OCATestLink link;
@@ -34,7 +34,7 @@ typedef struct {
 
 
 
-@implementation OCAStructTest
+@implementation OCAAccessorTest
 
 
 
@@ -128,9 +128,9 @@ typedef struct {
     OCATestLink link;
     link.title.length = 5;
     self.link = link;
-    OCAKeyPathAccessor *kpa = OCAKeyPathStruct(OCAStructTest, link, title.length);
+    OCAKeyPathAccessor *kpa = OCAKeyPathStruct(OCAAccessorTest, link, title.length);
     
-    XCTAssertEqualObjects(kpa.objectClass, [OCAStructTest class]);
+    XCTAssertEqualObjects(kpa.objectClass, [OCAAccessorTest class]);
     XCTAssertEqualObjects(kpa.keyPath, @"link");
     XCTAssertEqualObjects(kpa.valueClass, [NSNumber class]);
     
@@ -147,14 +147,14 @@ typedef struct {
     link.URL.location = 5;
     self.link = link;
     
-    OCATransformer *t = [OCATransformer modify:OCAKeyPathStruct(OCAStructTest, link, URL.location)
+    OCATransformer *t = [OCATransformer modify:OCAKeyPathStruct(OCAAccessorTest, link, URL.location)
                                    transformer:[OCAMath multiplyBy:5]];
     
-    OCAStructTest *transformed = [t transformedValue:self];
+    OCAAccessorTest *transformed = [t transformedValue:self];
     XCTAssertTrue(transformed == self, @"It should return identical object.");
     XCTAssertTrue(transformed.link.URL.location == 25);
     
-    OCAStructTest *reverseTransformed = [t reverseTransformedValue:self];
+    OCAAccessorTest *reverseTransformed = [t reverseTransformedValue:self];
     XCTAssertTrue(reverseTransformed == self, @"It should return identical object.");
     XCTAssertTrue(reverseTransformed.link.URL.location == 5);
     

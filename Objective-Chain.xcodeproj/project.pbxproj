@@ -57,8 +57,8 @@
 		5BB7CD58187B1122006916AB /* OCAQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BB7CD55187B1122006916AB /* OCAQueue.m */; };
 		5BB7CD5A187B397E006916AB /* OCAQueueTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BB7CD59187B397E006916AB /* OCAQueueTest.m */; };
 		5BB7CD5B187B397E006916AB /* OCAQueueTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BB7CD59187B397E006916AB /* OCAQueueTest.m */; };
-		5BD8AEA21876B41200EE2029 /* OCAStructTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BD8AEA11876B41200EE2029 /* OCAStructTest.m */; };
-		5BD8AEA31876B41200EE2029 /* OCAStructTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BD8AEA11876B41200EE2029 /* OCAStructTest.m */; };
+		5BD8AEA21876B41200EE2029 /* OCAAccessorTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BD8AEA11876B41200EE2029 /* OCAAccessorTest.m */; };
+		5BD8AEA31876B41200EE2029 /* OCAAccessorTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BD8AEA11876B41200EE2029 /* OCAAccessorTest.m */; };
 		5BD9ECE31871D82E0069044C /* OCACommand.h in Headers */ = {isa = PBXBuildFile; fileRef = 5BD9ECE11871D82E0069044C /* OCACommand.h */; };
 		5BD9ECE41871D82E0069044C /* OCACommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BD9ECE21871D82E0069044C /* OCACommand.m */; };
 		5BD9ECE51871D82E0069044C /* OCACommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BD9ECE21871D82E0069044C /* OCACommand.m */; };
@@ -152,7 +152,7 @@
 		5BB7CD54187B1122006916AB /* OCAQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCAQueue.h; sourceTree = "<group>"; };
 		5BB7CD55187B1122006916AB /* OCAQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCAQueue.m; sourceTree = "<group>"; };
 		5BB7CD59187B397E006916AB /* OCAQueueTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCAQueueTest.m; sourceTree = "<group>"; };
-		5BD8AEA11876B41200EE2029 /* OCAStructTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCAStructTest.m; sourceTree = "<group>"; };
+		5BD8AEA11876B41200EE2029 /* OCAAccessorTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCAAccessorTest.m; sourceTree = "<group>"; };
 		5BD9ECE11871D82E0069044C /* OCACommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCACommand.h; sourceTree = "<group>"; };
 		5BD9ECE21871D82E0069044C /* OCACommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCACommand.m; sourceTree = "<group>"; };
 		5BD9ECEB1871DFC70069044C /* OCAConsumer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OCAConsumer.h; sourceTree = "<group>"; };
@@ -301,7 +301,7 @@
 				5BD9ED0C1873351C0069044C /* OCATransformerTest.m */,
 				5BB7CD321879BE51006916AB /* OCAFoundationTest.m */,
 				5BA8A6441875BD950012BA5D /* OCAMathTest.m */,
-				5BD8AEA11876B41200EE2029 /* OCAStructTest.m */,
+				5BD8AEA11876B41200EE2029 /* OCAAccessorTest.m */,
 				5BB7CD59187B397E006916AB /* OCAQueueTest.m */,
 			);
 			path = Tests;
@@ -591,7 +591,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5BB7CD341879BE51006916AB /* OCAFoundationTest.m in Sources */,
-				5BD8AEA31876B41200EE2029 /* OCAStructTest.m in Sources */,
+				5BD8AEA31876B41200EE2029 /* OCAAccessorTest.m in Sources */,
 				5BB7CD5B187B397E006916AB /* OCAQueueTest.m in Sources */,
 				5BD9ED0E1873351C0069044C /* OCATransformerTest.m in Sources */,
 				5BA8A6461875BD950012BA5D /* OCAMathTest.m in Sources */,
@@ -631,7 +631,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5BB7CD331879BE51006916AB /* OCAFoundationTest.m in Sources */,
-				5BD8AEA21876B41200EE2029 /* OCAStructTest.m in Sources */,
+				5BD8AEA21876B41200EE2029 /* OCAAccessorTest.m in Sources */,
 				5BB7CD5A187B397E006916AB /* OCAQueueTest.m in Sources */,
 				5BD9ED0D1873351C0069044C /* OCATransformerTest.m in Sources */,
 				5BA8A6451875BD950012BA5D /* OCAMathTest.m in Sources */,
