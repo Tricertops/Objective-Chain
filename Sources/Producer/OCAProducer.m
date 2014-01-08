@@ -49,6 +49,7 @@
         OCAAssert(self.class != [OCAProducer class], @"Cannot instantinate abstract class.") return nil;
         
         self->_valueClass = valueClass;
+        self->_mutableConnections = [[NSMutableArray alloc] init];
     }
     return self;
 }
@@ -58,11 +59,6 @@
 
 
 #pragma mark Managing Connections
-
-
-OCALazyGetter(NSMutableArray *, mutableConnections) {
-    return [[NSMutableArray alloc] init];
-}
 
 
 - (NSArray *)connections {

@@ -42,24 +42,6 @@
 
 
 
-#pragma mark OCALazyGetter
-
-
-OCALazyGetter(id, lazyProperty) {
-    return @"Not nil!";
-}
-
-
-- (void)test_OCALazyGetter_neverReturnNil {
-    XCTAssertNotNil(self.lazyProperty, @"Didn't create lazy object on first access.");
-    self.lazyProperty = nil;
-    XCTAssertNotNil(self.lazyProperty, @"Didn't create lazy object after nullify.");
-}
-
-
-
-
-
 #pragma mark OCAssert
 
 

@@ -12,18 +12,6 @@
 
 
 
-#define OCALazyGetter(TYPE, PROPERTY) \
-@synthesize PROPERTY = _##PROPERTY; \
-- (TYPE)PROPERTY { \
-    if ( ! self->_##PROPERTY) { \
-        self->_##PROPERTY = [self oca_lazyGetter_##PROPERTY]; \
-    } \
-    return self->_##PROPERTY; \
-} \
-- (TYPE)oca_lazyGetter_##PROPERTY \
-
-
-
 #if !defined(NS_BLOCK_ASSERTIONS)
 
     #define OCAAssert(CONDITION, MESSAGE, ...) \
