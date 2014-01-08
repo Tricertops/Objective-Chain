@@ -8,6 +8,8 @@
 
 #import "OCAFoundation.h"
 #import "OCATransformer+Predefined.h"
+#import "OCASubscriber.h"
+#import "OCACommand.h"
 
 
 
@@ -20,6 +22,29 @@
 
 
 @implementation OCAFoundationTransformersTest
+
+
+
+
+#pragma mark Notifier
+
+
+- (void)test_notifications {
+    NSString *notificationName = @"notificationName";
+    OCANotifier *notifier = [OCANotifier notify:notificationName];
+    
+    __block BOOL passed = NO;
+    [notifier connectTo:[OCASubscriber subscribeClass:[NSNotification class] handler:
+                         ^(NSNotification *notification) {
+                             passed = [notification.name isEqualToString:notificationName] && notification.object == self;
+                         }]];
+    OCACommand *command = [OCACommand command];
+    [command connectTo:[OCANotifier postNotification:notificationName sender:self]];
+    
+    [command sendValue:nil];
+    
+    XCTAssertTrue(passed, @"Command must invoke notification, notification must invoke block.");
+}
 
 
 
