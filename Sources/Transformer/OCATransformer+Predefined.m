@@ -93,6 +93,14 @@
 }
 
 
++ (OCATransformer *)copy {
+    return [[OCATransformer fromClass:nil toClass:nil symetric:^id(id input) {
+        if ([input conformsToProtocol:@protocol(NSCopying)]) return [input copy];
+        else return nil;
+    }] describe:@"count"];
+}
+
+
 + (OCATransformer *)map:(NSDictionary *)dictionary {
     // Using classForKeyedArchiver, because __NSCFString is not very friendly class.
     Class inputClass = [OCAObject valueClassForClasses:[dictionary.allKeys valueForKey:OCAKP(NSObject, classForKeyedArchiver)]];
@@ -231,39 +239,6 @@
         else
             return (elseTransformer ? [elseTransformer transformedValue:input] : input);
     }] describe:[NSString stringWithFormat:@"if (%@) then %@ else %@", predicate, thenTransformer, elseTransformer ?: @"pass"]];
-}
-
-
-
-
-
-#pragma mark Key-Value Coding
-
-
-+ (OCATransformer *)transformKeyPath:(NSString *)keypath transformer:(NSValueTransformer *)transformer {
-    Class inputClass = [transformer.class valueClass];
-    Class outputClass = [transformer.class transformedValueClass];
-    OCAAssert(inputClass == Nil || outputClass == Nil || [outputClass isSubclassOfClass:inputClass], @"Transformer should return what he gets.") return [OCATransformer null];
-    
-    return [[OCATransformer fromClass:nil toClass:nil transform:^id(id input) {
-        if ( ! input) return nil;
-        
-        id value = [input valueForKeyPath:keypath];
-        value = [transformer transformedValue:value];
-        [input setValue:value forKeyPath:keypath];
-        
-        return input;
-    } reverse:^id(id input) {
-        if ( ! input) return nil;
-        
-        id value = [input valueForKeyPath:keypath];
-        value = [transformer reverseTransformedValue:value];
-        [input setValue:value forKeyPath:keypath];
-        
-        return input;
-    }]
-            describe:[NSString stringWithFormat:@"transform .%@ using %@", keypath, transformer]
-            reverse:[NSString stringWithFormat:@"transform .%@ using %@", keypath, [transformer reversed]]];
 }
 
 

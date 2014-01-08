@@ -33,6 +33,7 @@
 + (OCATransformer *)not;
 
 + (OCATransformer *)count;
++ (OCATransformer *)copy;
 + (OCATransformer *)map:(NSDictionary *)dictionary;
 
 
