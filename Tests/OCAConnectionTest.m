@@ -109,7 +109,7 @@
 
 
 - (void)test_OCATimer_periodicProductionOfDatesOfLimitedCount {
-    OCATimer *timer = [OCATimer timerWithInterval:0.01 count:10];
+    OCATimer *timer = [OCATimer backgroundTimerWithInterval:0.01 count:10];
     OCASemaphore *semaphore = [[OCASemaphore alloc] init];
     __block NSUInteger tickCount = 0;
     
@@ -226,7 +226,7 @@
     OCACommand *stringCommand = [OCACommand commandForClass:[NSString class]];
     OCACommand *numberCommand = [OCACommand commandForClass:[NSNumber class]];
     OCAHub *hub = [[stringCommand
-                    bridgeWithTransform:[OCATransformer accessKeyPath:OCAKeypath(NSString, length)]]
+                    bridgeWithFilter:nil transform:[OCATransformer accessKeyPath:OCAKeypath(NSString, length)]]
                    mergeWith:numberCommand];
     
     NSMutableArray *received = [[NSMutableArray alloc] init];

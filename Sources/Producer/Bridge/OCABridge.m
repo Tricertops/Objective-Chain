@@ -90,20 +90,20 @@
 
 
 
-- (OCABridge *)bridgeWithFilter:(NSPredicate *)filter {
-    return [self bridgeWithFilter:filter transform:nil];
+- (OCAProducer *)bridgeOn:(OCAQueue *)queue {
+    return [self bridgeOn:queue filter:nil transform:nil];
 }
 
 
-- (OCABridge *)bridgeWithTransform:(NSValueTransformer *)transformer {
-    return [self bridgeWithFilter:nil transform:transformer];
+- (OCAProducer *)bridgeWithFilter:(NSPredicate *)filter transform:(NSValueTransformer *)transformer {
+    return [self bridgeOn:nil filter:filter transform:transformer];
 }
 
 
-- (OCABridge *)bridgeWithFilter:(NSPredicate *)filter transform:(NSValueTransformer *)transformer {
+- (OCAProducer *)bridgeOn:(OCAQueue *)queue filter:(NSPredicate *)filter transform:(NSValueTransformer *)transformer {
     Class class = (transformer? [transformer.class valueClass] : self.valueClass);
     OCABridge *bridge = [OCABridge bridgeForClass:class];
-    [self connectWithFilter:filter transform:transformer to:bridge];
+    [self connectOn:queue filter:filter transform:transformer to:bridge];
     return bridge;
 }
 
