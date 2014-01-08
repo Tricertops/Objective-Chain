@@ -7,6 +7,7 @@
 //
 
 #import "OCAStructureAccessor.h"
+#import "OCAKeyPathAccessor.h"
 
 
 
@@ -95,6 +96,29 @@ typedef struct {
                                                       toStructure:[self valueForKey:@"link"]];
     [self setValue:modifiedLinkValue forKey:@"link"];
     XCTAssertTrue(self.link.URL.location == 1, @"Failed to set sub-struc member.");
+}
+
+
+- (void)test_keyPath_creation {
+    OCAKeyPathAccessor *kpa = OCAKeyPath(NSObject, description, NSString);
+    
+    XCTAssertEqualObjects(kpa.objectClass, [NSObject class]);
+    XCTAssertEqualObjects(kpa.keyPath, @"description");
+    XCTAssertEqualObjects(kpa.valueClass, [NSString class]);
+    
+    XCTAssertEqualObjects([kpa accessObject:@"ABC"], @"ABC");
+}
+
+
+- (void)test_keyPath_creatingPrimitive {
+    OCAKeyPathAccessor *kpa = OCAKeyPath(NSString, length, NSUInteger);
+    
+    XCTAssertEqualObjects(kpa.objectClass, [NSString class]);
+    XCTAssertEqualObjects(kpa.keyPath, @"length");
+    XCTAssertEqualObjects(kpa.valueClass, [NSNumber class]);
+    
+    NSNumber *length = [kpa accessObject:@"12345678"];
+    XCTAssertEqualObjects(length, @8);
 }
 
 

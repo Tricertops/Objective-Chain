@@ -95,8 +95,8 @@
 
 + (OCATransformer *)map:(NSDictionary *)dictionary {
     // Using classForKeyedArchiver, because __NSCFString is not very friendly class.
-    Class inputClass = [OCAObject valueClassForClasses:[dictionary.allKeys valueForKey:OCAKeypathUnsafe(classForKeyedArchiver)]];
-    Class outputClass = [OCAObject valueClassForClasses:[dictionary.allValues valueForKey:OCAKeypathUnsafe(classForKeyedArchiver)]];
+    Class inputClass = [OCAObject valueClassForClasses:[dictionary.allKeys valueForKey:OCAKP(NSObject, classForKeyedArchiver)]];
+    Class outputClass = [OCAObject valueClassForClasses:[dictionary.allValues valueForKey:OCAKP(NSObject, classForKeyedArchiver)]];
     
     return [[OCATransformer fromClass:inputClass toClass:outputClass transform:^id(id input) {
         return [dictionary objectForKey:input];

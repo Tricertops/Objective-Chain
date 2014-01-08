@@ -144,14 +144,11 @@
 
 
 - (id)accessObject:(id)object {
-    if ( ! [object isKindOfClass:[NSValue class]]) return nil;
     return [self memberFromStructure:object];
 }
 
 
 - (id)modifyObject:(id)object withValue:(id)value {
-    if ( ! [object isKindOfClass:[NSValue class]]) return nil;
-    if ([value isKindOfClass:[NSNumber class]] != self.isNumeric) return nil;
     return [self setMember:value toStructure:object];
 }
 

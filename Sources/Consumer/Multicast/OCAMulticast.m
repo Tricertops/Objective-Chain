@@ -44,7 +44,7 @@
     self = [super init];
     if (self) {
         self->_consumers = [consumers copy];
-        self->_consumedValueClass = [self valueClassForClasses:[self->_consumers valueForKeyPath:OCAKeypathUnsafe(consumedValueClass)]];
+        self->_consumedValueClass = [self valueClassForClasses:[self->_consumers valueForKeyPath:OCAKPUnsafe(consumedValueClass)]];
     }
     return self;
 }

@@ -10,9 +10,8 @@
 
 
 
-#define OCAKeypathUnsafe(KEYPATH)           NSStringFromSelector(@selector(KEYPATH))
-#define OCAKeypathObject(OBJECT, KEYPATH)   @(((void)(NO && ((void)OBJECT.KEYPATH, NO)), # KEYPATH))
-#define OCAKeypath(CLASS, KEYPATH)          OCAKeypathObject([CLASS new], KEYPATH)
+#define OCAKPUnsafe(KEYPATH)           NSStringFromSelector(@selector(KEYPATH))
+#define OCAKP(CLASS, KEYPATH)          ((NSString *)@(((void)(NO && ((void)[[CLASS new] KEYPATH], NO)), # KEYPATH)))
 
 
 

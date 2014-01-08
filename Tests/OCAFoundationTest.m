@@ -30,9 +30,9 @@
 
 - (void)test_branchArray {
     OCATransformer *t = [OCAFoundation branchArray:@[
-                                                     [OCATransformer accessKeyPath:OCAKeypath(NSString, uppercaseString)],
-                                                     [OCATransformer accessKeyPath:OCAKeypath(NSString, lowercaseString)],
-                                                     [OCATransformer accessKeyPath:OCAKeypath(NSString, capitalizedString)],
+                                                     [OCATransformer accessKeyPath:OCAKP(NSString, uppercaseString)],
+                                                     [OCATransformer accessKeyPath:OCAKP(NSString, lowercaseString)],
+                                                     [OCATransformer accessKeyPath:OCAKP(NSString, capitalizedString)],
                                                      ]];
     NSArray *expected = @[ @"HELLO", @"hello", @"Hello" ];
     XCTAssertEqualObjects([t transformedValue:@"heLLo"], expected);
@@ -75,7 +75,7 @@
     NSArray *array = @[  @"de", @"ca", @"au", @"be" ];
     
     NSPredicate *endsWithE = [NSPredicate predicateWithFormat:@"self ENDSWITH[c] 'e'"];
-    OCATransformer *uppercase = [OCATransformer accessKeyPath:OCAKeypath(NSString, uppercaseString)];
+    OCATransformer *uppercase = [OCATransformer accessKeyPath:OCAKP(NSString, uppercaseString)];
     NSSortDescriptor *alphabet = [NSSortDescriptor sortDescriptorWithKey:@"self" ascending:YES];
     
     OCATransformer *t = [OCATransformer sequence:@[

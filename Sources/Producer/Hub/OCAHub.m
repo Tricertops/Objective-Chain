@@ -44,7 +44,7 @@
 
 - (instancetype)initWithType:(OCAHubType)type producers:(NSArray *)producers {
     Class valueClass = nil;
-    Class consumedValueClass = [self valueClassForClasses:[producers valueForKeyPath:OCAKeypath(OCAProducer, valueClass)]];
+    Class consumedValueClass = [self valueClassForClasses:[producers valueForKeyPath:OCAKP(OCAProducer, valueClass)]];
     
     if (type == OCAHubTypeMerge) {
         valueClass = consumedValueClass;
@@ -100,7 +100,7 @@
         [self produceValue:value];
     }
     else if (self.type == OCAHubTypeCombine) {
-        NSArray *latestValues = [self.producers valueForKeyPath:OCAKeypath(OCAProducer, lastValue)];
+        NSArray *latestValues = [self.producers valueForKeyPath:OCAKP(OCAProducer, lastValue)];
         [self produceValue:latestValues];
     }
 }
@@ -145,7 +145,7 @@
         NSString *className = [[self.valueClass description] stringByAppendingString:@"s"] ?: @"something";
         d = [d stringByAppendingFormat:@" of %@", className];
     }
-    NSArray *producerShortDescriptions = [self.producers valueForKeyPath:OCAKeypath(OCAProducer, shortDescription)];
+    NSArray *producerShortDescriptions = [self.producers valueForKeyPath:OCAKP(OCAProducer, shortDescription)];
     d = [d stringByAppendingFormat:@" from { %@ }", [producerShortDescriptions componentsJoinedByString:@", "]];
     return d;
     // Merge Hub (0x0) of NSStrings from { Command (0x0), Bridge of NSStrings (0x0) }
