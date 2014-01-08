@@ -8,6 +8,8 @@
 
 #import "OCAProducer.h"
 
+@class OCAQueue;
+
 
 
 
@@ -19,18 +21,31 @@
 
 #pragma mark Creating Timer
 
-- (instancetype)initWithDelay:(NSTimeInterval)delay interval:(NSTimeInterval)interval leeway:(NSTimeInterval)leeway count:(NSUInteger)count;
+- (instancetype)initWithTarget:(OCAQueue *)targetQueue
+                         delay:(NSTimeInterval)delay
+                      interval:(NSTimeInterval)interval
+                        leeway:(NSTimeInterval)leeway
+                         count:(NSUInteger)count;
+
++ (instancetype)timerWithInterval:(NSTimeInterval)interval;
 + (instancetype)timerWithInterval:(NSTimeInterval)interval count:(NSUInteger)count;
-+ (instancetype)timerWithDelay:(NSTimeInterval)delay interval:(NSTimeInterval)interval leeway:(NSTimeInterval)leeway count:(NSUInteger)count;
+
++ (instancetype)backgroundTimerWithInterval:(NSTimeInterval)interval;
++ (instancetype)backgroundTimerWithInterval:(NSTimeInterval)interval count:(NSUInteger)count;
 
 
 #pragma mark Attributes of Timer
+
+@property (OCA_atomic, readonly, strong) OCAQueue *queue;
 
 @property (OCA_atomic, readonly, assign) NSTimeInterval delay;
 @property (OCA_atomic, readonly, assign) NSTimeInterval interval;
 @property (OCA_atomic, readonly, assign) NSTimeInterval leeway;
 @property (OCA_atomic, readonly, assign) NSUInteger count;
 
+
+//TODO: Until date?
+//TODO: Stop
 
 
 @end
