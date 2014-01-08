@@ -97,7 +97,7 @@
     NSMutableArray *received = [[NSMutableArray alloc] init];
     
     [command connectWithFilter:[NSPredicate predicateWithFormat:@"self BEGINSWITH[c] 'a'"]
-                     transform:[OCATransformer accessKeyPath:OCAKP(NSString, uppercaseString)]
+                     transform:[OCATransformer access:OCAKeyPath(NSString, uppercaseString, NSString)]
                             to:[OCASubscriber subscribeClass:[NSString class] handler:
                                 ^(id value) {
                                     [received addObject:value];
@@ -227,7 +227,8 @@
     OCACommand *stringCommand = [OCACommand commandForClass:[NSString class]];
     OCACommand *numberCommand = [OCACommand commandForClass:[NSNumber class]];
     OCAHub *hub = [[stringCommand
-                    bridgeWithFilter:nil transform:[OCATransformer accessKeyPath:OCAKP(NSString, length)]]
+                    bridgeWithFilter:nil
+                    transform:[OCATransformer access:OCAKeyPath(NSString, length, NSUInteger)]]
                    mergeWith:numberCommand];
     
     NSMutableArray *received = [[NSMutableArray alloc] init];
@@ -275,7 +276,7 @@
     
     [timer connectOn:queue
               filter:[NSPredicate predicateWithValue:YES]
-           transform:[OCATransformer accessKeyPath:OCAKP(NSDate, timeIntervalSinceNow)]
+           transform:[OCATransformer access:OCAKeyPath(NSDate, timeIntervalSinceNow, NSTimeInterval)]
                   to:[OCASubscriber subscribeClass:[NSNumber class] handler:
                       ^(NSNumber *timeInterval) {
                           NSLog(@"Time is passing: %@", timeInterval);

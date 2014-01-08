@@ -46,9 +46,11 @@
 
 
 
-inline void test() {
-    
-}
+
+#define OCAKeyPathUnsafe(KEYPATH) \
+(OCAKeyPathAccessor *)({ \
+    [[OCAKeyPathAccessor alloc] initWithObjectClass:nil keyPath:KEYPATH valueClass:nil]; \
+}) \
 
 
 

@@ -75,6 +75,30 @@
 
 
 
+#pragma mark Describing Key-Path Accessors
+
+
+- (NSString *)descriptionName {
+    return [NSString stringWithFormat:@"%@.%@", self.objectClass, self.keyPath];
+}
+
+
+- (NSString *)shortDescription {
+    return self.descriptionName;
+}
+
+
+- (NSDictionary *)debugDescriptionValues {
+    return @{
+             @"objectClass": self.objectClass,
+             @"keyPath": self.keyPath,
+             @"valueClass": self.valueClass,
+             };
+}
+
+
+
+
 
 @end
 

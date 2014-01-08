@@ -228,7 +228,7 @@
 
 
 - (void)test_predefinedTraverseKeyPath {
-    OCATransformer *t = [OCATransformer accessKeyPath:@"length"];
+    OCATransformer *t = [OCATransformer access:OCAKeyPath(NSString, length, NSUInteger)];
     XCTAssertEqualObjects([t transformedValue:@"123456"], @6);
 }
 

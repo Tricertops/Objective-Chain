@@ -7,7 +7,8 @@
 //
 
 #import "OCATransformer.h"
-#import "OCAAccessor.h"
+#import "OCAKeyPathAccessor.h"
+#import "OCAStructureAccessor.h"
 
 
 
@@ -43,17 +44,12 @@
 + (OCATransformer *)if:(NSPredicate *)predicate then:(NSValueTransformer *)thenTransformer else:(NSValueTransformer *)elseTransformer;
 
 
-#pragma mark Key-Value Coding
-
-+ (OCATransformer *)accessKeyPath:(NSString *)keypath;
-+ (OCATransformer *)modifyKeyPath:(NSString *)keypath value:(id)value;
-+ (OCATransformer *)transformKeyPath:(NSString *)keypath transformer:(NSValueTransformer *)transformer;
-
-
 #pragma mark Accessors
 
 + (OCATransformer *)access:(OCAAccessor *)accessor;
 + (OCATransformer *)modify:(OCAAccessor *)accessor value:(id)value;
+
++ (OCATransformer *)transformKeyPath:(NSString *)keypath transformer:(NSValueTransformer *)transformer;
 
 
 #pragma mark Side Effects

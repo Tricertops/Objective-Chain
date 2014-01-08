@@ -240,20 +240,6 @@
 #pragma mark Key-Value Coding
 
 
-+ (OCATransformer *)accessKeyPath:(NSString *)keypath {
-    return [[OCATransformer fromClass:nil toClass:nil asymetric:^id(id input) {
-        return [input valueForKeyPath:keypath];
-    }] describe:[NSString stringWithFormat:@".%@", keypath]];
-}
-
-
-+ (OCATransformer *)modifyKeyPath:(NSString *)keypath value:(id)value {
-    return [[OCATransformer sideEffect:^(id input) {
-        [input setValue:value forKeyPath:keypath];
-    }] describe:[NSString stringWithFormat:@".%@ = %@", keypath, value]];
-}
-
-
 + (OCATransformer *)transformKeyPath:(NSString *)keypath transformer:(NSValueTransformer *)transformer {
     Class inputClass = [transformer.class valueClass];
     Class outputClass = [transformer.class transformedValueClass];
