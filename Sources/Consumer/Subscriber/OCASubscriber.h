@@ -51,6 +51,11 @@ typedef void(^OCASubscriberFinishHandler)(NSError *error);
 - (OCAConnection *)subscribeClass:(Class)valueClass handler:(OCASubscriberValueHandler)valueHandler;
 - (OCAConnection *)subscribeClass:(Class)valueClass handler:(OCASubscriberValueHandler)valueHandler finish:(OCASubscriberFinishHandler)finishHandler;
 
+- (OCAConnection *)subscribeOn:(OCAQueue *)queue
+                         class:(Class)valueClass
+                       handler:(OCASubscriberValueHandler)valueHandler
+                        finish:(OCASubscriberFinishHandler)finishHandler;
+
 
 @end
 

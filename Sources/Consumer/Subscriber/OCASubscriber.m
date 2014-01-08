@@ -134,12 +134,20 @@
 
 
 - (OCAConnection *)subscribeClass:(Class)valueClass handler:(OCASubscriberValueHandler)valueHandler {
-    return [self connectTo:[OCASubscriber subscribeClass:valueClass handler:valueHandler]];
+    return [self subscribeOn:nil class:valueClass handler:valueHandler finish:nil];
 }
 
 
 - (OCAConnection *)subscribeClass:(Class)valueClass handler:(OCASubscriberValueHandler)valueHandler finish:(OCASubscriberFinishHandler)finishHandler {
-    return [self connectTo:[OCASubscriber subscribeClass:valueClass handler:valueHandler finish:finishHandler]];
+    return [self subscribeOn:nil class:valueClass handler:valueHandler finish:finishHandler];
+}
+
+
+- (OCAConnection *)subscribeOn:(OCAQueue *)queue
+                         class:(Class)valueClass
+                       handler:(OCASubscriberValueHandler)valueHandler
+                        finish:(OCASubscriberFinishHandler)finishHandler {
+    return [self connectOn:queue to:[OCASubscriber subscribeClass:valueClass handler:valueHandler finish:finishHandler]];
 }
 
 
