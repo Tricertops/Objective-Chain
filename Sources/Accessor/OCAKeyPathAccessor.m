@@ -7,6 +7,7 @@
 //
 
 #import "OCAKeyPathAccessor.h"
+#import "OCAStructureAccessor.h"
 
 
 
@@ -41,11 +42,23 @@
 - (instancetype)initWithObjectClass:(Class)objectClass keyPath:(NSString *)keyPath valueClass:(Class)valueClass {
     self = [super init];
     if (self) {
-        OCAAssert(keyPath.length > 0, @"Missing key-path.");
+        OCAAssert(keyPath.length > 0, @"Missing key-path.") return nil;
         
         self->_objectClass = objectClass;
         self->_keyPath = keyPath;
         self->_valueClass = valueClass;
+    }
+    return self;
+}
+
+
+- (instancetype)initWithObjectClass:(Class)objectClass keyPath:(NSString *)keyPath structureAccessor:(OCAStructureAccessor *)structureAccessor {
+    self = [self initWithObjectClass:objectClass keyPath:keyPath valueClass:[structureAccessor valueClass]];
+    if (self) {
+        OCAAssert(keyPath.length > 0, @"Missing key-path.") return nil;
+        OCAAssert(structureAccessor != nil, @"") return nil;
+        
+        self->_structureAccessor = structureAccessor;
     }
     return self;
 }
@@ -60,14 +73,26 @@
 - (id)accessObject:(id)object {
     if ( ! object) return nil;
     
-    return [object valueForKeyPath:self.keyPath];
+    id value = [object valueForKeyPath:self.keyPath];
+    
+    if (self.structureAccessor) {
+        value = [self.structureAccessor memberFromStructure:value];
+    }
+    return value;
 }
 
 
 - (id)modifyObject:(id)object withValue:(id)value {
     if ( ! object) return nil;
     
-    [object setValue:value forKeyPath:self.keyPath];
+    if (self.structureAccessor) {
+        id structure = [object valueForKeyPath:self.keyPath];
+        [self.structureAccessor setMember:value toStructure:structure];
+        [object setValue:structure forKeyPath:self.keyPath];
+    }
+    else {
+        [object setValue:value forKeyPath:self.keyPath];
+    }
     
     return object;
 }

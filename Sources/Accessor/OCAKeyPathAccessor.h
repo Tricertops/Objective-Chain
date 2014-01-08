@@ -7,6 +7,7 @@
 //
 
 #import "OCAAccessor.h"
+#import "OCAStructureAccessor.h"
 
 
 
@@ -18,12 +19,19 @@
 
 #pragma mark Creating Key-Path Accessor
 
-- (instancetype)initWithObjectClass:(Class)objectClass keyPath:(NSString *)keyPath valueClass:(Class)valueClass;
+- (instancetype)initWithObjectClass:(Class)objectClass
+                            keyPath:(NSString *)keyPath
+                         valueClass:(Class)valueClass;
+
+- (instancetype)initWithObjectClass:(Class)objectClass
+                            keyPath:(NSString *)keyPath
+                  structureAccessor:(OCAStructureAccessor *)structureAccessor;
 
 
 #pragma mark Attributes of Key-Path Accessor
 
 @property (atomic, readonly, copy) NSString *keyPath;
+@property (atomic, readonly, strong) OCAStructureAccessor *structureAccessor;
 
 
 
@@ -42,6 +50,18 @@
                                             keyPath:OCAKP(CLASS, KEYPATH) \
                                          valueClass:(isObject? NSClassFromString(@#TYPE) \
                                                      : (isNumeric? [NSNumber class] : [NSValue class]))]; \
+}) \
+
+
+
+
+#define OCAKeyPathStruct(CLASS, KEYPATH, MEMBER) \
+(OCAKeyPathAccessor *)({ \
+    CLASS *o; \
+    (void)o.KEYPATH.MEMBER; \
+    [[OCAKeyPathAccessor alloc] initWithObjectClass:[CLASS class] \
+                                            keyPath:OCAKP(CLASS, KEYPATH) \
+                                  structureAccessor:OCAStruct(o.KEYPATH, MEMBER)]; \
 }) \
 
 

@@ -122,6 +122,20 @@ typedef struct {
 }
 
 
+- (void)test_keyPathStruct {
+    OCATestLink link;
+    link.title.length = 5;
+    self.link = link;
+    OCAKeyPathAccessor *kpa = OCAKeyPathStruct(OCAStructTest, link, title.length);
+    
+    XCTAssertEqualObjects(kpa.objectClass, [OCAStructTest class]);
+    XCTAssertEqualObjects(kpa.keyPath, @"link");
+    XCTAssertEqualObjects(kpa.valueClass, [NSNumber class]);
+    
+    XCTAssertEqualObjects([kpa accessObject:self], @5);
+}
+
+
 
 
 

@@ -46,8 +46,8 @@
 #define OCAStruct(STRUCT, MEMBER) \
 \
 (OCAStructureAccessor *)({ \
-    STRUCT s; \
-    const char *structType = @encode(STRUCT); \
+    typeof(STRUCT) s; \
+    const char *structType = @encode(typeof(s)); \
     const char *memberType = @encode(typeof(s.MEMBER)); \
     [[[OCAStructureAccessor alloc] initWithStructType:structType memberType:memberType getBlock:^NSValue *(NSValue *structValue) { \
         typeof(s) structure; \
