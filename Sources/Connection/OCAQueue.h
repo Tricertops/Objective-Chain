@@ -35,6 +35,9 @@ typedef void (^OCAQueueBlock)(void);
 
 - (instancetype)initWithName:(NSString *)name concurrent:(BOOL)isConcurrent targetQueue:(OCAQueue *)targetQueue;
 
++ (instancetype)serialQueue:(NSString *)name;
++ (instancetype)concurrentQueue:(NSString *)name;
+
 
 #pragma mark Attributes of Queue
 

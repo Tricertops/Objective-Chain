@@ -59,6 +59,15 @@ static void * OCAQueueSpecificKey = &OCAQueueSpecificKey;
 }
 
 
++ (instancetype)serialQueue:(NSString *)name {
+    return [[self alloc] initWithName:name concurrent:NO targetQueue:nil];
+}
+
++ (instancetype)concurrentQueue:(NSString *)name {
+    return [[self alloc] initWithName:name concurrent:YES targetQueue:nil];
+}
+
+
 - (instancetype)initWithDispatchQueue:(dispatch_queue_t)dispatchQueue {
     self = [super init];
     if (self) {
