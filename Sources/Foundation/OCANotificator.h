@@ -1,5 +1,5 @@
 //
-//  OCANotifier.h
+//  OCANotificator.h
 //  Objective-Chain
 //
 //  Created by Martin Kiss on 8.1.14.
@@ -13,7 +13,7 @@
 
 
 
-@interface OCANotifier : OCAProducer
+@interface OCANotificator : OCAProducer
 
 
 

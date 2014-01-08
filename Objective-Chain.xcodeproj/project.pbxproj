@@ -33,9 +33,9 @@
 		5B8F4D9D187D887100D75EEE /* OCAKeyPathAccessor.h in Headers */ = {isa = PBXBuildFile; fileRef = 5B8F4D9B187D887100D75EEE /* OCAKeyPathAccessor.h */; };
 		5B8F4D9E187D887100D75EEE /* OCAKeyPathAccessor.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B8F4D9C187D887100D75EEE /* OCAKeyPathAccessor.m */; };
 		5B8F4D9F187D887100D75EEE /* OCAKeyPathAccessor.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B8F4D9C187D887100D75EEE /* OCAKeyPathAccessor.m */; };
-		5B8F4DA2187DAFD100D75EEE /* OCANotifier.h in Headers */ = {isa = PBXBuildFile; fileRef = 5B8F4DA0187DAFD100D75EEE /* OCANotifier.h */; };
-		5B8F4DA3187DAFD100D75EEE /* OCANotifier.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B8F4DA1187DAFD100D75EEE /* OCANotifier.m */; };
-		5B8F4DA4187DAFD100D75EEE /* OCANotifier.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B8F4DA1187DAFD100D75EEE /* OCANotifier.m */; };
+		5B8F4DA2187DAFD100D75EEE /* OCANotificator.h in Headers */ = {isa = PBXBuildFile; fileRef = 5B8F4DA0187DAFD100D75EEE /* OCANotificator.h */; };
+		5B8F4DA3187DAFD100D75EEE /* OCANotificator.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B8F4DA1187DAFD100D75EEE /* OCANotificator.m */; };
+		5B8F4DA4187DAFD100D75EEE /* OCANotificator.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B8F4DA1187DAFD100D75EEE /* OCANotificator.m */; };
 		5BA8A6451875BD950012BA5D /* OCAMathTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BA8A6441875BD950012BA5D /* OCAMathTest.m */; };
 		5BA8A6461875BD950012BA5D /* OCAMathTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BA8A6441875BD950012BA5D /* OCAMathTest.m */; };
 		5BB7CD2A1879BCB3006916AB /* OCAMath.h in Headers */ = {isa = PBXBuildFile; fileRef = 5BB7CD281879BCB3006916AB /* OCAMath.h */; };
@@ -140,8 +140,8 @@
 		5B8F4D97187D849800D75EEE /* OCAAccessor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCAAccessor.m; sourceTree = "<group>"; };
 		5B8F4D9B187D887100D75EEE /* OCAKeyPathAccessor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCAKeyPathAccessor.h; sourceTree = "<group>"; };
 		5B8F4D9C187D887100D75EEE /* OCAKeyPathAccessor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCAKeyPathAccessor.m; sourceTree = "<group>"; };
-		5B8F4DA0187DAFD100D75EEE /* OCANotifier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCANotifier.h; sourceTree = "<group>"; };
-		5B8F4DA1187DAFD100D75EEE /* OCANotifier.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCANotifier.m; sourceTree = "<group>"; };
+		5B8F4DA0187DAFD100D75EEE /* OCANotificator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCANotificator.h; sourceTree = "<group>"; };
+		5B8F4DA1187DAFD100D75EEE /* OCANotificator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCANotificator.m; sourceTree = "<group>"; };
 		5BA8A6441875BD950012BA5D /* OCAMathTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCAMathTest.m; sourceTree = "<group>"; };
 		5BB7CD281879BCB3006916AB /* OCAMath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCAMath.h; sourceTree = "<group>"; };
 		5BB7CD291879BCB3006916AB /* OCAMath.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCAMath.m; sourceTree = "<group>"; };
@@ -332,8 +332,8 @@
 				5BB7CD2E1879BCC8006916AB /* OCAFoundation.m */,
 				5BB7CD281879BCB3006916AB /* OCAMath.h */,
 				5BB7CD291879BCB3006916AB /* OCAMath.m */,
-				5B8F4DA0187DAFD100D75EEE /* OCANotifier.h */,
-				5B8F4DA1187DAFD100D75EEE /* OCANotifier.m */,
+				5B8F4DA0187DAFD100D75EEE /* OCANotificator.h */,
+				5B8F4DA1187DAFD100D75EEE /* OCANotificator.m */,
 			);
 			path = Foundation;
 			sourceTree = "<group>";
@@ -435,7 +435,7 @@
 				5BD9ED0918731B570069044C /* OCATransformer.h in Headers */,
 				5BD9ECE31871D82E0069044C /* OCACommand.h in Headers */,
 				5B8F4D8D187D838300D75EEE /* NSValue+Boxing.h in Headers */,
-				5B8F4DA2187DAFD100D75EEE /* OCANotifier.h in Headers */,
+				5B8F4DA2187DAFD100D75EEE /* OCANotificator.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -591,7 +591,7 @@
 				5BB7CD401879D745006916AB /* OCAHub.m in Sources */,
 				5BD9ED05187300B80069044C /* OCASemaphore.m in Sources */,
 				5B097E591871BEA1006240D8 /* OCAProducer.m in Sources */,
-				5B8F4DA4187DAFD100D75EEE /* OCANotifier.m in Sources */,
+				5B8F4DA4187DAFD100D75EEE /* OCANotificator.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -632,7 +632,7 @@
 				5BB7CD3F1879D745006916AB /* OCAHub.m in Sources */,
 				5BD9ED04187300B70069044C /* OCASemaphore.m in Sources */,
 				5B097E221871AE6D006240D8 /* OCAConnection.m in Sources */,
-				5B8F4DA3187DAFD100D75EEE /* OCANotifier.m in Sources */,
+				5B8F4DA3187DAFD100D75EEE /* OCANotificator.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

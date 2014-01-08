@@ -1,12 +1,12 @@
 //
-//  OCANotifier.m
+//  OCANotificator.m
 //  Objective-Chain
 //
 //  Created by Martin Kiss on 8.1.14.
 //  Copyright (c) 2014 Martin Kiss. All rights reserved.
 //
 
-#import "OCANotifier.h"
+#import "OCANotificator.h"
 #import "OCAProducer+Private.h"
 #import "OCABridge.h"
 #import "OCAHub.h"
@@ -37,7 +37,7 @@
 
 
 
-@implementation OCANotifier
+@implementation OCANotificator
 
 
 
@@ -111,7 +111,7 @@
 
 
 + (OCAProducer *)notify:(NSString *)name from:(id)sender transform:(NSValueTransformer *)transformer {
-    OCANotifier *notifier = [[self alloc] initWithCenter:nil name:name sender:sender];
+    OCANotificator *notifier = [[self alloc] initWithCenter:nil name:name sender:sender];
     return [notifier bridgeWithFilter:nil transform:transformer];
 }
 
@@ -119,7 +119,7 @@
 + (OCAProducer *)mergedNotify:(NSString *)name from:(NSArray *)senders {
     NSMutableArray *notifiers = [[NSMutableArray alloc] init];
     for (id sender in senders) {
-        OCANotifier *notifier = [[self alloc] initWithCenter:nil name:name sender:sender];
+        OCANotificator *notifier = [[self alloc] initWithCenter:nil name:name sender:sender];
         [notifiers addObject:notifier];
     }
     return [[OCAHub alloc] initWithType:OCAHubTypeMerge producers:notifiers];
