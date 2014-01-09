@@ -20,6 +20,8 @@
 
 #pragma mark Creating Bridge
 
+- (instancetype)initWithValueClass:(Class)valueClass;
+
 + (instancetype)bridge;
 + (instancetype)bridgeForClass:(Class)class;
 

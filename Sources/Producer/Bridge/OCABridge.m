@@ -28,6 +28,11 @@
 #pragma mark Creating Bridge
 
 
+- (instancetype)initWithValueClass:(Class)valueClass {
+    return [super initWithValueClass:valueClass];
+}
+
+
 + (instancetype)bridge {
     return [[self alloc] init];
 }

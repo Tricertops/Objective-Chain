@@ -19,6 +19,8 @@
 
 #pragma mark Creating Command
 
+- (instancetype)initWithValueClass:(Class)valueClass;
+
 + (instancetype)command;
 + (instancetype)commandForClass:(Class)valueClass;
 

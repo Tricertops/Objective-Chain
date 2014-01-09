@@ -27,6 +27,11 @@
 #pragma mark Creating Command
 
 
+- (instancetype)initWithValueClass:(Class)valueClass {
+    return [super initWithValueClass:valueClass];
+}
+
+
 + (instancetype)command {
     return [[self alloc] init];
 }
