@@ -122,7 +122,7 @@
 		5B097E231871AFA5006240D8 /* OCAConnection+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "OCAConnection+Private.h"; sourceTree = "<group>"; };
 		5B097E261871B0C1006240D8 /* OCAProducer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCAProducer.h; sourceTree = "<group>"; };
 		5B097E271871B0C1006240D8 /* OCAProducer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCAProducer.m; sourceTree = "<group>"; };
-		5B097E2A1871B14C006240D8 /* OCAProducer+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "OCAProducer+Private.h"; sourceTree = "<group>"; };
+		5B097E2A1871B14C006240D8 /* OCAProducer+Subclass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "OCAProducer+Subclass.h"; sourceTree = "<group>"; };
 		5B097E321871BE01006240D8 /* libObjectiveChain-OSX.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libObjectiveChain-OSX.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5B097E431871BE01006240D8 /* ObjectiveChain-OSX-Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "ObjectiveChain-OSX-Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5B097E5A1871BED0006240D8 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -244,7 +244,7 @@
 			isa = PBXGroup;
 			children = (
 				5B097E261871B0C1006240D8 /* OCAProducer.h */,
-				5B097E2A1871B14C006240D8 /* OCAProducer+Private.h */,
+				5B097E2A1871B14C006240D8 /* OCAProducer+Subclass.h */,
 				5B097E271871B0C1006240D8 /* OCAProducer.m */,
 				5BD9ECE01871D8160069044C /* Command */,
 				5BD9ECFA1872D6000069044C /* Timer */,

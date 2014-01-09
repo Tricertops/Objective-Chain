@@ -7,7 +7,7 @@
 //
 
 #import "OCANotificator.h"
-#import "OCAProducer+Private.h"
+#import "OCAProducer+Subclass.h"
 #import "OCABridge.h"
 #import "OCAHub.h"
 #import "OCATransformer+Predefined.h"

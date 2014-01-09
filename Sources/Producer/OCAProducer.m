@@ -6,7 +6,7 @@
 //  Copyright © 2014 Martin Kiss. All rights reserved.
 //
 
-#import "OCAProducer+Private.h"
+#import "OCAProducer+Subclass.h"
 #import "OCAConnection+Private.h"
 
 

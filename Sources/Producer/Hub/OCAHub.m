@@ -7,7 +7,7 @@
 //
 
 #import "OCAHub.h"
-#import "OCAProducer+Private.h"
+#import "OCAProducer+Subclass.h"
 #import "OCAConsumer.h"
 #import "OCATransformer.h"
 

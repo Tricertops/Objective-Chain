@@ -7,7 +7,7 @@
 //
 
 #import "OCATimer.h"
-#import "OCAProducer+Private.h"
+#import "OCAProducer+Subclass.h"
 #import "OCAQueue.h"
 
 
