@@ -25,13 +25,15 @@
                          delay:(NSTimeInterval)delay
                       interval:(NSTimeInterval)interval
                         leeway:(NSTimeInterval)leeway
-                         count:(NSUInteger)count;
+                     untilDate:(NSDate *)date;
 
 + (instancetype)timerWithInterval:(NSTimeInterval)interval;
-+ (instancetype)timerWithInterval:(NSTimeInterval)interval count:(NSUInteger)count;
++ (instancetype)timerWithInterval:(NSTimeInterval)interval until:(NSDate *)date;
+
++ (instancetype)timerAtDate:(NSDate *)date;
 
 + (instancetype)backgroundTimerWithInterval:(NSTimeInterval)interval;
-+ (instancetype)backgroundTimerWithInterval:(NSTimeInterval)interval count:(NSUInteger)count;
++ (instancetype)backgroundTimerWithInterval:(NSTimeInterval)interval until:(NSDate *)date;
 
 
 #pragma mark Attributes of Timer
@@ -41,11 +43,13 @@
 @property (atomic, readonly, assign) NSTimeInterval delay;
 @property (atomic, readonly, assign) NSTimeInterval interval;
 @property (atomic, readonly, assign) NSTimeInterval leeway;
-@property (atomic, readonly, assign) NSUInteger count;
+@property (atomic, readonly, copy) NSDate *date;
 
 
-//TODO: Until date?
-//TODO: Stop
+#pragma mark Stopping Timer
+
+- (void)stop;
+
 
 
 @end

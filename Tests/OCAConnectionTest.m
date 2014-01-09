@@ -110,21 +110,19 @@
 
 
 - (void)test_OCATimer_periodicProductionOfDatesOfLimitedCount {
-    OCATimer *timer = [OCATimer backgroundTimerWithInterval:0.01 count:10];
+    OCATimer *timer = [OCATimer backgroundTimerWithInterval:0.1 until:[NSDate dateWithTimeIntervalSinceNow:1.1]];
     OCASemaphore *semaphore = [[OCASemaphore alloc] init];
     __block NSUInteger tickCount = 0;
     
     [timer subscribeOn:timer.queue class:[NSDate class] handler:^(id value) {
-        NSLog(@"Start");
         tickCount ++;
-        NSLog(@"End %lu", (unsigned long)tickCount);
     } finish:^(NSError *error) {
         [semaphore signal];
     }];
     
-    BOOL signaled = [semaphore waitFor:10];
+    BOOL signaled = [semaphore waitFor:2];
     XCTAssertTrue(signaled, @"Timer didn't end in given time.");
-    XCTAssertEqual(tickCount, timer.count, @"Timer didn't fire required number of times.");
+    XCTAssertTrue(tickCount >= 10, @"Timer didn't fire required number of times.");
 }
 
 
@@ -269,7 +267,7 @@
 
 
 - (void)test_OCATimer_withConnectionOnDifferentQueue {
-    OCATimer *timer = [OCATimer backgroundTimerWithInterval:0.1 count:10];
+    OCATimer *timer = [OCATimer backgroundTimerWithInterval:0.1 until:[NSDate dateWithTimeIntervalSinceNow:1.1]];
     OCAQueue *queue = [OCAQueue serialQueue:@"Testing Queue"];
     OCASemaphore *semaphore = [[OCASemaphore alloc] init];
     __block NSUInteger tickCount = 0;
@@ -279,15 +277,14 @@
            transform:[OCATransformer access:OCAKeyPath(NSDate, timeIntervalSinceNow, NSTimeInterval)]
                   to:[OCASubscriber subscribeClass:[NSNumber class] handler:
                       ^(NSNumber *timeInterval) {
-                          NSLog(@"Time is passing: %@", timeInterval);
                           tickCount++;
                       } finish:^(NSError *error) {
                           [semaphore signal];
                       }]];
     
-    BOOL signaled = [semaphore waitFor:10];
+    BOOL signaled = [semaphore waitFor:2];
     XCTAssertTrue(signaled, @"Timer didn't end in given time.");
-    XCTAssertEqual(tickCount, timer.count, @"Timer didn't fire required number of times.");
+    XCTAssertTrue(tickCount >= 10, @"Timer didn't fire required number of times.");
 }
 
 

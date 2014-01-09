@@ -14,6 +14,18 @@
 
 
 
+@interface OCATimer ()
+
+
+@property (atomic, readwrite, strong) dispatch_source_t timer;
+
+
+@end
+
+
+
+
+
 
 
 
@@ -29,11 +41,11 @@
 
 
 - (instancetype)init {
-    return [self initWithTarget:nil delay:0 interval:0 leeway:0 count:0];
+    return [self initWithTarget:nil delay:0 interval:0 leeway:0 untilDate:nil];
 }
 
 
-- (instancetype)initWithTarget:(OCAQueue *)targetQueue delay:(NSTimeInterval)delay interval:(NSTimeInterval)interval leeway:(NSTimeInterval)leeway count:(NSUInteger)count {
+- (instancetype)initWithTarget:(OCAQueue *)targetQueue delay:(NSTimeInterval)delay interval:(NSTimeInterval)interval leeway:(NSTimeInterval)leeway untilDate:(NSDate *)date {
     self = [super initWithValueClass:[NSDate class]];
     if (self) {
         OCAAssert(delay >= 0, @"Works only with non-negative delay.") return nil;
@@ -44,7 +56,7 @@
         
         self->_delay = delay;
         self->_interval = interval;
-        self->_count = count ?: NSUIntegerMax;
+        self->_date = date;
         self->_leeway = leeway;
         
         [self start];
@@ -54,22 +66,27 @@
 
 
 + (instancetype)timerWithInterval:(NSTimeInterval)interval {
-    return [[self alloc] initWithTarget:nil delay:0 interval:interval leeway:0 count:0];
+    return [[self alloc] initWithTarget:nil delay:0 interval:interval leeway:0 untilDate:nil];
 }
 
 
-+ (instancetype)timerWithInterval:(NSTimeInterval)interval count:(NSUInteger)count {
-    return [[self alloc] initWithTarget:nil delay:0 interval:interval leeway:0 count:count];
++ (instancetype)timerWithInterval:(NSTimeInterval)interval until:(NSDate *)date {
+    return [[self alloc] initWithTarget:nil delay:0 interval:interval leeway:0 untilDate:date];
+}
+
+
++ (instancetype)timerAtDate:(NSDate *)date {
+    return [[self alloc] initWithTarget:nil delay:0 interval:date.timeIntervalSinceNow leeway:0 untilDate:date];
 }
 
 
 + (instancetype)backgroundTimerWithInterval:(NSTimeInterval)interval {
-    return [[self alloc] initWithTarget:[OCAQueue background] delay:0 interval:interval leeway:0 count:0];
+    return [[self alloc] initWithTarget:[OCAQueue background] delay:0 interval:interval leeway:0 untilDate:nil];
 }
 
 
-+ (instancetype)backgroundTimerWithInterval:(NSTimeInterval)interval count:(NSUInteger)count {
-    return [[self alloc] initWithTarget:[OCAQueue background] delay:0 interval:interval leeway:0 count:count];
++ (instancetype)backgroundTimerWithInterval:(NSTimeInterval)interval until:(NSDate *)date {
+    return [[self alloc] initWithTarget:[OCAQueue background] delay:0 interval:interval leeway:0 untilDate:date];
 }
 
 
@@ -80,26 +97,33 @@
 
 
 - (void)start {
-    dispatch_source_t timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, self.queue.dispatchQueue);
+    self.timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, self.queue.dispatchQueue);
     dispatch_time_t startTime = dispatch_time(DISPATCH_TIME_NOW, self.delay * NSEC_PER_SEC);
-    dispatch_source_set_timer(timer, startTime, self.interval * NSEC_PER_SEC, self.leeway * NSEC_PER_SEC);
+    dispatch_source_set_timer(self.timer, startTime, self.interval * NSEC_PER_SEC, self.leeway * NSEC_PER_SEC);
     
-    NSUInteger count = self.count;
     __block NSUInteger tick = 0;
-    dispatch_source_set_event_handler(timer, ^{
-        tick ++;
-        NSLog(@"Tick %lu", (unsigned long)tick);
-        NSDate *date = [NSDate date];
-        [self produceValue:date];
-        
-        if (tick >= count) {
-            dispatch_source_cancel(timer);
-            NSLog(@"Finished");
-            [self finishProducingWithError:nil];
+    dispatch_source_set_event_handler(self.timer, ^{
+        if (self.date.timeIntervalSinceNow < 0) {
+            [self stop];
+            return;
         }
+        
+        printf("Timer %lu\n", (unsigned long)tick);
+        [self produceValue:[NSDate date]];
     });
     
-    dispatch_resume(timer);
+    dispatch_source_set_cancel_handler(self.timer, ^{
+        NSLog(@"Finished");
+        [self finishProducingWithError:nil];
+    });
+    
+    dispatch_resume(self.timer);
+}
+
+
+- (void)stop {
+    dispatch_source_cancel(self.timer);
+    self.timer = nil;
 }
 
 
@@ -117,12 +141,12 @@
 - (NSString *)description {
     NSString *adjective = (self.finished? @"Finished " : @"");
     NSString *d = [NSString stringWithFormat:@"%@%@ at %@s on %@", adjective, self.shortDescription, @(self.interval), self.queue.shortDescription];
-    if (self.count == NSUIntegerMax) {
-        d = [d stringByAppendingFormat:@" with %@ ticks", @(self.count)];
+    if (self.date) {
+        d = [d stringByAppendingFormat:@" until %@", self.date];
     }
     return d;
     // Timer (0x0) for 0.1s
-    // Finished Timer (0x0) for 0.05s with 100 ticks
+    // Finished Timer (0x0) for 0.05s until 2014-01-09 13:11:13+0200
 }
 
 
@@ -131,7 +155,7 @@
              @"delay": @(self.delay),
              @"interval": @(self.interval),
              @"leeway": @(self.leeway),
-             @"count": @(self.count),
+             @"date": self.date,
              @"connections": @(self.connections.count),
              };
 }
