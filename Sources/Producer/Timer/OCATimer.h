@@ -30,8 +30,6 @@
 + (instancetype)timerWithInterval:(NSTimeInterval)interval;
 + (instancetype)timerWithInterval:(NSTimeInterval)interval until:(NSDate *)date;
 
-+ (instancetype)timerAtDate:(NSDate *)date;
-
 + (instancetype)backgroundTimerWithInterval:(NSTimeInterval)interval;
 + (instancetype)backgroundTimerWithInterval:(NSTimeInterval)interval until:(NSDate *)date;
 

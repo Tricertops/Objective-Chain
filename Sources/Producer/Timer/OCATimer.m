@@ -75,11 +75,6 @@
 }
 
 
-+ (instancetype)timerAtDate:(NSDate *)date {
-    return [[self alloc] initWithTarget:nil delay:0 interval:date.timeIntervalSinceNow leeway:0 untilDate:date];
-}
-
-
 + (instancetype)backgroundTimerWithInterval:(NSTimeInterval)interval {
     return [[self alloc] initWithTarget:[OCAQueue background] delay:0 interval:interval leeway:0 untilDate:nil];
 }
