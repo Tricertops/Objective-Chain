@@ -89,7 +89,7 @@
         
         passed = YES;
     }];
-    something = nil;
+    something = nil; // Should dealloc.
     
     XCTAssertTrue(passed, @"Block associated with decomposer should be invoked when owner is deallocated.");
 }

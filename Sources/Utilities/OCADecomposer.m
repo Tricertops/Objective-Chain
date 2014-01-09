@@ -154,8 +154,11 @@
 
 
 - (void)oca_dealloc {
+    // New implementation of `dealloc`
     NSLog(@"Decomposer: Custom dealloc <%@ %p>", self.class, self);
     [self.decomposer decompose];
+    
+    // Swizzled in runtime, so selector `oca_dealloc` will invoke `dealloc` implementation.
     [self oca_dealloc];
 }
 
