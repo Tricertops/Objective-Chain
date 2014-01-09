@@ -10,12 +10,18 @@
 #import "OCATransformer+Predefined.h"
 #import "OCASubscriber.h"
 #import "OCACommand.h"
+#import "OCADecomposer.h"
 
 
 
 @interface OCAFoundationTransformersTest : XCTestCase
 
 @end
+
+
+
+@interface OCATestObject : NSObject @end
+@implementation OCATestObject @end
 
 
 
@@ -31,16 +37,24 @@
 
 - (void)test_notifications {
     NSString *notificationName = @"notificationName";
-    OCANotificator *notifier = [OCANotificator notify:notificationName];
+    NSObject *object = [[OCATestObject alloc] init];
+    [object.decomposer addOwnedObject:self cleanup:nil];
+    
+    OCANotificator *notificator = [[OCANotificator alloc] initWithCenter:nil name:notificationName sender:object];
     
     __block BOOL passed = NO;
-    [notifier connectTo:[OCASubscriber subscribeClass:[NSNotification class] handler:
-                         ^(NSNotification *notification) {
-                             passed = [notification.name isEqualToString:notificationName] && notification.object == self;
-                         }]];
-    OCACommand *command = [OCACommand command];
-    [command connectTo:[OCANotificator postNotification:notificationName sender:self]];
+    __block BOOL finished = NO;
+    [notificator connectTo:[OCASubscriber subscribeClass:[NSNotification class] handler:
+                            ^(NSNotification *notification) {
+                                passed = [notification.name isEqualToString:notificationName];
+                            } finish:^(NSError *error) {
+                                finished = YES;
+                            }]];
+    [notificator.decomposer addOwnedObject:self cleanup:nil];
+    notificator = nil; // Releasing ownership of Notificator, but it should live until Object is deallocated.
     
+    OCACommand *command = [[OCACommand alloc] init];
+    [command connectTo:[OCANotificator postNotification:notificationName sender:object]];
     [command sendValue:nil];
     
     XCTAssertTrue(passed, @"Command must invoke notification, notification must invoke block.");

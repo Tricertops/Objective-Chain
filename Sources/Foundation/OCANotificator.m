@@ -11,6 +11,7 @@
 #import "OCABridge.h"
 #import "OCAHub.h"
 #import "OCATransformer+Predefined.h"
+#import "OCADecomposer.h"
 
 
 
@@ -19,10 +20,11 @@
 @interface OCANotificationPoster : OCAObject < OCAConsumer >
 
 
-- (instancetype)initWithName:(NSString *)name sender:(id)sender userInfoKey:(id)key;
+- (instancetype)initWithName:(NSString *)name sender:(NSObject *)sender userInfoKey:(id)key;
 
 @property (atomic, readonly, copy) NSString *name;
-@property (atomic, readonly, weak) id sender;
+@property (atomic, readonly, weak) NSObject *sender;
+@property (atomic, readonly, assign) BOOL usesValueAsSender;
 @property (atomic, readonly, strong) id userInfoKey;
 
 
@@ -46,20 +48,41 @@
 #pragma mark Creating Notifier
 
 
-- (instancetype)initWithCenter:(NSNotificationCenter *)center name:(NSString *)name sender:(id)sender {
+- (instancetype)initWithCenter:(NSNotificationCenter *)center name:(NSString *)name sender:(NSObject *)sender {
     self = [super initWithValueClass:[NSNotification class]];
     if (self) {
         OCAAssert(name.length > 0, @"Missing notification name.");
         
-        self->_notificationCenter = center ?: [NSNotificationCenter defaultCenter];
+        center = center ?: [NSNotificationCenter defaultCenter];
+        
+        self->_notificationCenter = center;
         self->_notificationName = name;
         self->_notificationSender = sender;
         
-        [self.notificationCenter addObserver:self selector:@selector(produceValue:) name:name object:sender];
+        [center addObserver:self selector:@selector(produceValue:) name:name object:sender];
         
-        //TODO: Attach to live.
+        OCAWeakify(self);
+        OCAWeakify(center);
+        OCAWeakify(sender);
+        
+        [center.decomposer addOwnedObject:self cleanup:^{
+            OCAStrongify(self);
+            OCAStrongify(sender);
+            [sender.decomposer removeOwnedObject:self];
+        }];
+        [sender.decomposer addOwnedObject:self cleanup:^{
+            OCAStrongify(self);
+            OCAStrongify(center);
+            [center.decomposer removeOwnedObject:self];
+            [center removeObserver:self];
+        }];
     }
     return self;
+}
+
+
+- (void)dealloc {
+    [self.notificationCenter removeObserver:self];
 }
 
 
@@ -70,7 +93,7 @@
 
 
 - (NSString *)descriptionName {
-    return @"Notifier";
+    return @"Notificator";
 }
 
 
@@ -105,12 +128,12 @@
 }
 
 
-+ (instancetype)notify:(NSString *)name from:(id)sender {
++ (instancetype)notify:(NSString *)name from:(NSObject *)sender {
     return [[self alloc] initWithCenter:nil name:name sender:sender];
 }
 
 
-+ (OCAProducer *)notify:(NSString *)name from:(id)sender transform:(NSValueTransformer *)transformer {
++ (OCAProducer *)notify:(NSString *)name from:(NSObject *)sender transform:(NSValueTransformer *)transformer {
     OCANotificator *notifier = [[self alloc] initWithCenter:nil name:name sender:sender];
     return [notifier bridgeWithFilter:nil transform:transformer];
 }
@@ -161,6 +184,11 @@
 #pragma mark Posting Notifications
 
 
++ (id<OCAConsumer>)postNotification:(NSString *)name {
+    return [[OCANotificationPoster alloc] initWithName:name sender:nil userInfoKey:nil];
+}
+
+
 + (id<OCAConsumer>)postNotification:(NSString *)name sender:(id)object {
     return [[OCANotificationPoster alloc] initWithName:name sender:object userInfoKey:nil];
 }
@@ -199,14 +227,14 @@
 }
 
 
-- (instancetype)initWithName:(NSString *)name sender:(id)sender userInfoKey:(id)key {
+- (instancetype)initWithName:(NSString *)name sender:(NSObject *)sender userInfoKey:(id)key {
     self = [super init];
     if (self) {
         OCAAssert(name.length > 0, @"Missing notification name.") return nil;
-        OCAAssert(sender != nil, @"Missing sender.") return nil;
         
         self->_name = name;
         self->_sender = sender;
+        self->_usesValueAsSender = (sender == nil);
         self->_userInfoKey = key;
     }
     return self;
@@ -225,9 +253,12 @@
 
 
 - (void)consumeValue:(id)value {
+    NSObject *sender = (self.usesValueAsSender? value : self.sender);
+    if ( ! sender) return;
+    
     NSDictionary *userInfo = (self.userInfoKey && value? @{ self.userInfoKey: value } : nil);
     [[NSNotificationCenter defaultCenter] postNotificationName:self.name
-                                                        object:self.sender
+                                                        object:sender
                                                       userInfo:userInfo];
 }
 

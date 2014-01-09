@@ -44,8 +44,9 @@
 
 #pragma mark Posting Notifications
 
-+ (id<OCAConsumer>)postNotification:(NSString *)name sender:(id)object;
-+ (id<OCAConsumer>)postNotification:(NSString *)name sender:(id)object userInfoKey:(id)key;
++ (id<OCAConsumer>)postNotification:(NSString *)name;
++ (id<OCAConsumer>)postNotification:(NSString *)name sender:(NSObject *)object;
++ (id<OCAConsumer>)postNotification:(NSString *)name sender:(NSObject *)object userInfoKey:(id)key;
 
 
 
