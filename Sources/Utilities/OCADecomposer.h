@@ -20,11 +20,6 @@ typedef void(^OCADecomposerBlock)(void);
 
 
 
-#pragma mark Accessing Owner
-
-@property (atomic, readonly, weak) id owner;
-
-
 #pragma mark Managing Owned Objects
 
 - (void)addOwnedObject:(id)object cleanup:(OCADecomposerBlock)block;

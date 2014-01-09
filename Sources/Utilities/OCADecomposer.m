@@ -39,12 +39,9 @@
 #pragma mark Creating Decomposer
 
 
-- (instancetype)initWithOwner:(id)owner {
+- (instancetype)init {
     self = [super init];
     if (self) {
-        OCAAssert( ! [owner isKindOfClass:[OCADecomposer class]], @"You are tricky, but I am trickier.") return nil;
-        
-        self->_owner = owner;
         self->_ownedTable = [NSMapTable strongToStrongObjectsMapTable];
     }
     return self;
@@ -64,7 +61,7 @@
         cleanups = [[NSMutableArray alloc] init];
         [self.ownedTable setObject:cleanups forKey:ownedObject];
     }
-    [cleanups addObject:cleanupBlock];
+    if (cleanupBlock) [cleanups addObject:cleanupBlock];
 }
 
 
@@ -117,12 +114,14 @@
 
 
 
+static const void * OCADecomposerAssociationKey = &OCADecomposerAssociationKey;
+
+
 - (OCADecomposer *)decomposer {
     @synchronized(self) {
-        static const void * OCADecomposerAssociationKey = &OCADecomposerAssociationKey;
         OCADecomposer *decomposer = objc_getAssociatedObject(self, OCADecomposerAssociationKey);
         if ( ! decomposer) {
-            decomposer = [[OCADecomposer alloc] initWithOwner:self];
+            decomposer = [[OCADecomposer alloc] init];
             objc_setAssociatedObject(self, OCADecomposerAssociationKey, decomposer, OBJC_ASSOCIATION_RETAIN);
         }
         [self.class swizzleDeallocIfNeeded];
@@ -141,25 +140,29 @@
     @synchronized(self) {
         if ([swizzledClasses containsObject:self]) return NO;
         
-        Method dealloc = class_getInstanceMethod(self, NSSelectorFromString(@"dealloc"));
-        Method oca_dealloc = class_getInstanceMethod(self, @selector(oca_dealloc));
-        method_exchangeImplementations(dealloc, oca_dealloc);
+        SEL deallocSelector = NSSelectorFromString(@"dealloc");
+        Method dealloc = class_getInstanceMethod(self, deallocSelector);
+        
+        void (*oldImplementation)(id, SEL) = (typeof(oldImplementation))method_getImplementation(dealloc);
+        void(^newDeallocBlock)(id) = ^(__unsafe_unretained NSObject *self_deallocating) {
+            
+            // New dealloc implementation:
+            NSLog(@"Decomposer: Custom dealloc <%@ %p>", self_deallocating.class, self_deallocating);
+            OCADecomposer *decomposer = objc_getAssociatedObject(self_deallocating, OCADecomposerAssociationKey);
+            [decomposer decompose];
+            
+            // Calling existing implementation.
+            oldImplementation(self_deallocating, deallocSelector);
+        };
+        IMP newImplementation = imp_implementationWithBlock(newDeallocBlock);
+        
+        class_replaceMethod(self, deallocSelector, newImplementation, method_getTypeEncoding(dealloc));
         
         [swizzledClasses addObject:self];
         NSLog(@"Decomposer: Swizzled class %@", self);
         
         return YES;
     }
-}
-
-
-- (void)oca_dealloc {
-    // New implementation of `dealloc`
-    NSLog(@"Decomposer: Custom dealloc <%@ %p>", self.class, self);
-    [self.decomposer decompose];
-    
-    // Swizzled in runtime, so selector `oca_dealloc` will invoke `dealloc` implementation.
-    [self oca_dealloc];
 }
 
 
