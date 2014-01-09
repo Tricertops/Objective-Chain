@@ -30,7 +30,10 @@
 
 #pragma mark Attributes of Key-Path Accessor
 
+@property (atomic, readonly, strong) Class objectClass;
 @property (atomic, readonly, copy) NSString *keyPath;
+@property (atomic, readonly, strong) Class valueClass;
+
 @property (atomic, readonly, strong) OCAStructureAccessor *structureAccessor;
 
 

@@ -14,11 +14,6 @@
 
 @interface OCAKeyPathAccessor ()
 
-
-@property (atomic, readonly, strong) Class objectClass;
-@property (atomic, readonly, strong) Class valueClass;
-
-
 @end
 
 
