@@ -36,6 +36,9 @@
 		5B8F4DA2187DAFD100D75EEE /* OCANotificator.h in Headers */ = {isa = PBXBuildFile; fileRef = 5B8F4DA0187DAFD100D75EEE /* OCANotificator.h */; };
 		5B8F4DA3187DAFD100D75EEE /* OCANotificator.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B8F4DA1187DAFD100D75EEE /* OCANotificator.m */; };
 		5B8F4DA4187DAFD100D75EEE /* OCANotificator.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B8F4DA1187DAFD100D75EEE /* OCANotificator.m */; };
+		5B8F4DA7187DDA7500D75EEE /* OCADecomposer.h in Headers */ = {isa = PBXBuildFile; fileRef = 5B8F4DA5187DDA7500D75EEE /* OCADecomposer.h */; };
+		5B8F4DA8187DDA7500D75EEE /* OCADecomposer.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B8F4DA6187DDA7500D75EEE /* OCADecomposer.m */; };
+		5B8F4DA9187DDA7500D75EEE /* OCADecomposer.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B8F4DA6187DDA7500D75EEE /* OCADecomposer.m */; };
 		5BA8A6451875BD950012BA5D /* OCAMathTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BA8A6441875BD950012BA5D /* OCAMathTest.m */; };
 		5BA8A6461875BD950012BA5D /* OCAMathTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BA8A6441875BD950012BA5D /* OCAMathTest.m */; };
 		5BB7CD2A1879BCB3006916AB /* OCAMath.h in Headers */ = {isa = PBXBuildFile; fileRef = 5BB7CD281879BCB3006916AB /* OCAMath.h */; };
@@ -142,6 +145,8 @@
 		5B8F4D9C187D887100D75EEE /* OCAKeyPathAccessor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCAKeyPathAccessor.m; sourceTree = "<group>"; };
 		5B8F4DA0187DAFD100D75EEE /* OCANotificator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCANotificator.h; sourceTree = "<group>"; };
 		5B8F4DA1187DAFD100D75EEE /* OCANotificator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCANotificator.m; sourceTree = "<group>"; };
+		5B8F4DA5187DDA7500D75EEE /* OCADecomposer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCADecomposer.h; sourceTree = "<group>"; };
+		5B8F4DA6187DDA7500D75EEE /* OCADecomposer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCADecomposer.m; sourceTree = "<group>"; };
 		5BA8A6441875BD950012BA5D /* OCAMathTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCAMathTest.m; sourceTree = "<group>"; };
 		5BB7CD281879BCB3006916AB /* OCAMath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCAMath.h; sourceTree = "<group>"; };
 		5BB7CD291879BCB3006916AB /* OCAMath.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCAMath.m; sourceTree = "<group>"; };
@@ -399,6 +404,8 @@
 				5BD9ED021872FFA90069044C /* OCASemaphore.m */,
 				5B8F4D8B187D838300D75EEE /* NSValue+Boxing.h */,
 				5B8F4D8C187D838300D75EEE /* NSValue+Boxing.m */,
+				5B8F4DA5187DDA7500D75EEE /* OCADecomposer.h */,
+				5B8F4DA6187DDA7500D75EEE /* OCADecomposer.m */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -430,6 +437,7 @@
 				5BB7CD381879D183006916AB /* OCABridge.h in Headers */,
 				5B8F4D93187D83BE00D75EEE /* OCAStructureAccessor.h in Headers */,
 				5B8F4D9D187D887100D75EEE /* OCAKeyPathAccessor.h in Headers */,
+				5B8F4DA7187DDA7500D75EEE /* OCADecomposer.h in Headers */,
 				5B8F4D98187D849800D75EEE /* OCAAccessor.h in Headers */,
 				5BD9ECFD1872D61E0069044C /* OCATimer.h in Headers */,
 				5BD9ED0918731B570069044C /* OCATransformer.h in Headers */,
@@ -590,6 +598,7 @@
 				5BD9ECF91871E9F30069044C /* OCASubscriber.m in Sources */,
 				5BB7CD401879D745006916AB /* OCAHub.m in Sources */,
 				5BD9ED05187300B80069044C /* OCASemaphore.m in Sources */,
+				5B8F4DA9187DDA7500D75EEE /* OCADecomposer.m in Sources */,
 				5B097E591871BEA1006240D8 /* OCAProducer.m in Sources */,
 				5B8F4DA4187DAFD100D75EEE /* OCANotificator.m in Sources */,
 			);
@@ -631,6 +640,7 @@
 				5BD9ECF81871E9F20069044C /* OCASubscriber.m in Sources */,
 				5BB7CD3F1879D745006916AB /* OCAHub.m in Sources */,
 				5BD9ED04187300B70069044C /* OCASemaphore.m in Sources */,
+				5B8F4DA8187DDA7500D75EEE /* OCADecomposer.m in Sources */,
 				5B097E221871AE6D006240D8 /* OCAConnection.m in Sources */,
 				5B8F4DA3187DAFD100D75EEE /* OCANotificator.m in Sources */,
 			);

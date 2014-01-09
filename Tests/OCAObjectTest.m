@@ -79,5 +79,25 @@
 
 
 
+- (void)test_deallocation {
+    __block BOOL passed = NO;
+    NSBlockOperation *something = [[NSBlockOperation alloc] init];
+    OCADecomposer *decomposer = something.decomposer;
+    
+    [something.decomposer addOwnedObject:self cleanup:^{
+        [decomposer removeOwnedObject:self]; // This line should not crash.
+        
+        passed = YES;
+    }];
+    something = nil;
+    
+    XCTAssertTrue(passed, @"Block associated with decomposer should be invoked when owner is deallocated.");
+}
+
+
+
+
 
 @end
+
+
