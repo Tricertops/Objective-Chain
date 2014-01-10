@@ -76,12 +76,12 @@
 }
 
 
-+ (OCATransformer *)not {
++ (OCATransformer *)negate {
     return [[OCATransformer fromClass:[NSNumber class] toClass:[NSNumber class] symetric:^NSNumber *(NSNumber *input) {
         if ( ! input) return nil;
         return @( ! input.boolValue);
     }]
-            describe:@"not"];
+            describe:@"negate"];
 }
 
 
@@ -113,6 +113,14 @@
     }]
             describe:[NSString stringWithFormat:@"map %@ pairs from %@ to %@", @(dictionary.count), inputClass ?: @"various", outputClass ?: @"various"]
             reverse:[NSString stringWithFormat:@"map %@ pairs from %@ to %@", @(dictionary.count), outputClass ?: @"various", inputClass ?: @"various"]];
+}
+
+
++ (OCATransformer *)evaluate:(NSExpression *)expression {
+    return [[OCATransformer fromClass:nil toClass:nil asymetric:^id(id input) {
+        return [expression expressionValueWithObject:input context:nil];
+    }]
+            describe:[NSString stringWithFormat:@"evaluate “%@”", expression]];
 }
 
 

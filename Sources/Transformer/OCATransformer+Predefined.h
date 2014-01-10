@@ -30,11 +30,12 @@
 + (OCATransformer *)kindOfClass:(Class)class or:(id)replacement;
 + (OCATransformer *)passes:(NSPredicate *)predicate or:(id)replacement;
 + (OCATransformer *)test:(NSPredicate *)predicate;
-+ (OCATransformer *)not;
++ (OCATransformer *)negate;
 
 + (OCATransformer *)count;
 + (OCATransformer *)copy;
 + (OCATransformer *)map:(NSDictionary *)dictionary;
++ (OCATransformer *)evaluate:(NSExpression *)expression;
 
 
 #pragma mark Control Flow
