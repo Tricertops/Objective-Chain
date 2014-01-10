@@ -55,7 +55,7 @@
     return [[OCATransformer fromClass:[NSData class] toClass:[NSData class]
                             transform:^NSData *(NSData *input) {
                                 
-                                return [input subdataWithRange:OCAFoundationNormalizeRange(range, input.length)];
+                                return [input subdataWithRange:OCANormalizeRange(range, input.length)];
                                 
                             } reverse:OCATransformationPass]
             

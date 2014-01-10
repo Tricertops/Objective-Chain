@@ -21,7 +21,8 @@
 
 
 
-extern NSRange OCAFoundationNormalizeRange(NSRange range, NSUInteger length);
+extern NSUInteger OCANormalizeIndex(NSInteger index, NSUInteger length);
+extern NSRange OCANormalizeRange(NSRange range, NSUInteger length);
 
 
 
