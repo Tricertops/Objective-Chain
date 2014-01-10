@@ -12,6 +12,7 @@
 #import "OCAHub.h"
 #import "OCAFoundation.h"
 #import "OCAMulticast.h"
+#import "NSArray+Ordinals.h"
 
 
 
@@ -156,11 +157,11 @@
     __block NSString *old = nil;
     __block NSString *new = nil;
     [OCAPropertyChange(self, firstName, NSString) connectTo:[OCASubscriber subscribeClass:[NSArray class] handler:^(NSArray *change) {
-        old = [change objectAtIndex:0];
-        new = [change objectAtIndex:1];
+        old = change.first;
+        new = change.second;
     }]];
     
-    XCTAssertEqualObjects(old, NSNull.null);
+    XCTAssertNil(old);
     XCTAssertEqualObjects(new, @"Martin");
     
     self.firstName = @"Juraj";

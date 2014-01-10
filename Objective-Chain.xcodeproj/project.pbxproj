@@ -44,6 +44,9 @@
 		5B8F4DAF187EF01A00D75EEE /* OCAPropertyBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B8F4DAC187EF01A00D75EEE /* OCAPropertyBridge.m */; };
 		5B8F4DB1187EF60800D75EEE /* OCAPropertyTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B8F4DB0187EF60800D75EEE /* OCAPropertyTest.m */; };
 		5B8F4DB2187EF60800D75EEE /* OCAPropertyTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B8F4DB0187EF60800D75EEE /* OCAPropertyTest.m */; };
+		5B8F4DB51880421200D75EEE /* NSArray+Ordinals.h in Headers */ = {isa = PBXBuildFile; fileRef = 5B8F4DB31880421200D75EEE /* NSArray+Ordinals.h */; };
+		5B8F4DB61880421200D75EEE /* NSArray+Ordinals.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B8F4DB41880421200D75EEE /* NSArray+Ordinals.m */; };
+		5B8F4DB71880421200D75EEE /* NSArray+Ordinals.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B8F4DB41880421200D75EEE /* NSArray+Ordinals.m */; };
 		5BA8A6451875BD950012BA5D /* OCAMathTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BA8A6441875BD950012BA5D /* OCAMathTest.m */; };
 		5BA8A6461875BD950012BA5D /* OCAMathTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BA8A6441875BD950012BA5D /* OCAMathTest.m */; };
 		5BB7CD2A1879BCB3006916AB /* OCAMath.h in Headers */ = {isa = PBXBuildFile; fileRef = 5BB7CD281879BCB3006916AB /* OCAMath.h */; };
@@ -155,6 +158,8 @@
 		5B8F4DAB187EF01A00D75EEE /* OCAPropertyBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCAPropertyBridge.h; sourceTree = "<group>"; };
 		5B8F4DAC187EF01A00D75EEE /* OCAPropertyBridge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCAPropertyBridge.m; sourceTree = "<group>"; };
 		5B8F4DB0187EF60800D75EEE /* OCAPropertyTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCAPropertyTest.m; sourceTree = "<group>"; };
+		5B8F4DB31880421200D75EEE /* NSArray+Ordinals.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+Ordinals.h"; sourceTree = "<group>"; };
+		5B8F4DB41880421200D75EEE /* NSArray+Ordinals.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+Ordinals.m"; sourceTree = "<group>"; };
 		5BA8A6441875BD950012BA5D /* OCAMathTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCAMathTest.m; sourceTree = "<group>"; };
 		5BB7CD281879BCB3006916AB /* OCAMath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCAMath.h; sourceTree = "<group>"; };
 		5BB7CD291879BCB3006916AB /* OCAMath.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCAMath.m; sourceTree = "<group>"; };
@@ -425,6 +430,8 @@
 				5B8F4D8C187D838300D75EEE /* NSValue+Boxing.m */,
 				5B8F4DA5187DDA7500D75EEE /* OCADecomposer.h */,
 				5B8F4DA6187DDA7500D75EEE /* OCADecomposer.m */,
+				5B8F4DB31880421200D75EEE /* NSArray+Ordinals.h */,
+				5B8F4DB41880421200D75EEE /* NSArray+Ordinals.m */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -452,6 +459,7 @@
 				5BD9ED1118733A350069044C /* OCATransformer+Predefined.h in Headers */,
 				5BB7CD56187B1122006916AB /* OCAQueue.h in Headers */,
 				5BB7CD51187AE997006916AB /* OCAMulticast.h in Headers */,
+				5B8F4DB51880421200D75EEE /* NSArray+Ordinals.h in Headers */,
 				5BB7CD2A1879BCB3006916AB /* OCAMath.h in Headers */,
 				5BB7CD381879D183006916AB /* OCABridge.h in Headers */,
 				5B8F4D93187D83BE00D75EEE /* OCAStructureAccessor.h in Headers */,
@@ -610,6 +618,7 @@
 				5BB7CD311879BCC8006916AB /* OCAFoundation.m in Sources */,
 				5BD9ECFF1872D61E0069044C /* OCATimer.m in Sources */,
 				5BD9ECE51871D82E0069044C /* OCACommand.m in Sources */,
+				5B8F4DB71880421200D75EEE /* NSArray+Ordinals.m in Sources */,
 				5BB7CD3A1879D183006916AB /* OCABridge.m in Sources */,
 				5B097E581871BEA1006240D8 /* OCAConnection.m in Sources */,
 				5BB7CD2C1879BCB3006916AB /* OCAMath.m in Sources */,
@@ -654,6 +663,7 @@
 				5BB7CD301879BCC8006916AB /* OCAFoundation.m in Sources */,
 				5BD9ECFE1872D61E0069044C /* OCATimer.m in Sources */,
 				5BD9ECE41871D82E0069044C /* OCACommand.m in Sources */,
+				5B8F4DB61880421200D75EEE /* NSArray+Ordinals.m in Sources */,
 				5BB7CD391879D183006916AB /* OCABridge.m in Sources */,
 				5B4F85D01871A939004695DA /* OCAObject.m in Sources */,
 				5BB7CD2B1879BCB3006916AB /* OCAMath.m in Sources */,
