@@ -71,9 +71,9 @@ typedef enum : NSUInteger {
 
 #define OCAPropertyBridgeCreate(OBJECT, KEYPATH, TYPE, OPTIONS) \
 (OCAPropertyBridge *)({ \
-    id o = (OBJECT);\
+    typeof(OBJECT) o = (OBJECT);\
     [[OCAPropertyBridge alloc] initWithObject:o \
-                              keyPathAccessor:OCAKeyPathAccessorCreate([o class], KEYPATH, TYPE) \
+                              keyPathAccessor:OCAKeyPathAccessorCreateFromObject(o, KEYPATH, TYPE) \
                                       options:OPTIONS]; \
 }) \
 

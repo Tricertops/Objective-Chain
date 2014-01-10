@@ -11,14 +11,19 @@
 
 
 #define OCAKPUnsafe(KEYPATH)            NSStringFromSelector(@selector(KEYPATH))
-#define OCAKP(CLASS, KEYPATH)           ((NSString *)@(((void)(NO && ((void)[[CLASS new] KEYPATH], NO)), # KEYPATH)))
+#define OCAKP(CLASS, KEYPATH)           OCAKPObject([CLASS new], KEYPATH)
+#define OCAKPObject(OBJECT, KEYPATH)    ((NSString *)@(((void)(NO && ((void)OBJECT.KEYPATH, NO)), # KEYPATH)))
+
 #define OCAWeakify(VARIABLE)            __weak typeof(VARIABLE) VARIABLE##_weak = VARIABLE
 #define OCAStrongify(VARIABLE)          __strong typeof(VARIABLE##_weak) VARIABLE = VARIABLE##_weak
-#define OCAEqual(A, B) \
+
+#define OCAEqual(A, B)                  OCAEqualCustom(A, isEqual:, B)
+#define OCAEqualString(A, B)            OCAEqualCustom(A, isEqualToString:, B)
+#define OCAEqualCustom(A, SELECTOR, B) \
 (BOOL)({ \
-    NSObject *a = (A); \
-    NSObject *b = (B); \
-    ((a == b) || (b && [a isEqual:b])); \
+    typeof(A) a = (A); \
+    typeof(B) b = (B); \
+    ((a == b) || (b && [a SELECTOR b])); \
 }) \
 
 

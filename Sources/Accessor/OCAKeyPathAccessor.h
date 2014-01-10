@@ -62,6 +62,22 @@
 
 
 
+
+#define OCAKeyPathAccessorCreateFromObject(OBJECT, KEYPATH, TYPE) \
+(OCAKeyPathAccessor *)({ \
+    const char *type = @encode(TYPE *); \
+    BOOL isObject = (strcmp(@encode(id), type) == 0); \
+    BOOL isNumeric = [NSValue objCTypeIsNumeric:(type+1)]; \
+    [[OCAKeyPathAccessor alloc] initWithObjectClass:[OBJECT class] \
+                                            keyPath:OCAKPObject(OBJECT, KEYPATH) \
+                                         valueClass:(isObject? NSClassFromString(@#TYPE) \
+                                                     : (isNumeric? [NSNumber class] : [NSValue class]))]; \
+}) \
+
+
+
+
+
 #define OCAKeyPathAccessorCreateWithStructure(CLASS, KEYPATH, MEMBER) \
 (OCAKeyPathAccessor *)({ \
     CLASS *o; \
@@ -74,12 +90,13 @@
 
 
 
+
 #define OCAKeyPathAccessorCreateWithStructureFromObject(OBJECT, KEYPATH, MEMBER) \
 (OCAKeyPathAccessor *)({ \
     typeof(OBJECT) o; \
     (void)o.KEYPATH.MEMBER; \
-    [[OCAKeyPathAccessor alloc] initWithObjectClass:[OBJECT class] \
-                                            keyPath:OCAKP([OBJECT class], KEYPATH) \
+    [[OCAKeyPathAccessor alloc] initWithObjectClass:[(OBJECT) class] \
+                                            keyPath:OCAKPObject((OBJECT), KEYPATH) \
                                   structureAccessor:OCAStructureAccessorCreate(o.KEYPATH, MEMBER)]; \
 }) \
 

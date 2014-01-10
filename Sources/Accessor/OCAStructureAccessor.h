@@ -56,12 +56,11 @@
 
 
 #define OCAStructureAccessorCreate(STRUCT, MEMBER) \
-\
 (OCAStructureAccessor *)({ \
     typeof(STRUCT) s; \
     const char *structType = @encode(typeof(s)); \
     const char *memberType = @encode(typeof(s.MEMBER)); \
-    [[[OCAStructureAccessor alloc] initWithStructType:structType memberType:memberType getBlock:^NSValue *(NSValue *structValue) { \
+    [[[OCAStructureAccessor alloc] initWithStructType:structType memberPath:@#MEMBER memberType:memberType getBlock:^NSValue *(NSValue *structValue) { \
         typeof(s) structure; \
         BOOL unboxed = [structValue unboxValue:&structure objCType:structType]; \
         if ( ! unboxed) return nil; \
