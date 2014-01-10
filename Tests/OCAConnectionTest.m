@@ -14,7 +14,6 @@
 #import "OCASubscriber.h"
 #import "OCAMulticast.h"
 #import "OCATransformer.h"
-#import "OCATransformer+Predefined.h"
 #import "OCASemaphore.h"
 #import "OCAQueue.h"
 

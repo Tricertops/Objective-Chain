@@ -6,92 +6,10 @@
 //  Copyright © 2014 Martin Kiss. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
 
 
-
-typedef id (^OCATransformerBlock)(id input);
-
-
-
-
-
-@interface NSValueTransformer (OCATransformerCompatibility)
-
-+ (Class)valueClass;
-
-- (NSValueTransformer *)reversed;
-
-@end
-
-
-
-
-
-@interface OCATransformer : NSValueTransformer
-
-
-
-#pragma mark Class Info
-
-+ (Class)valueClass;
-+ (Class)transformedValueClass;
-+ (BOOL)allowsReverseTransformation;
-
-
-
-#pragma mark Transformation
-
-- (id)transformedValue:(id)value;
-- (id)reverseTransformedValue:(id)value;
-
-
-
-#pragma mark Describing
-
-@property (atomic, readonly, copy) NSString *description;
-@property (atomic, readonly, copy) NSString *reverseDescription;
-- (instancetype)describe:(NSString *)description;
-- (instancetype)describe:(NSString *)description reverse:(NSString *)reverseDescription;
-
-
-
-#pragma mark Deriving Transformers
-
-- (OCATransformer *)reversed;
-- (OCATransformer *)specializeFromClass:(Class)fromClass toClass:(Class)toClass;
-
-
-
-#pragma mark Customizing Using Blocks
-
-+ (Class)subclassForInputClass:(Class)inputClass outputClass:(Class)outputClass reversible:(BOOL)isReversible;
-- (OCATransformer *)initWithBlock:(OCATransformerBlock)block reverseBlock:(OCATransformerBlock)reverseBlock;
-
-+ (OCATransformer *)fromClass:(Class)fromClass toClass:(Class)toClass symetric:(OCATransformerBlock)symetric;
-+ (OCATransformer *)fromClass:(Class)fromClass toClass:(Class)toClass asymetric:(OCATransformerBlock)asymetric;
-+ (OCATransformer *)fromClass:(Class)fromClass toClass:(Class)toClass transform:(OCATransformerBlock)transform reverse:(OCATransformerBlock)reverse;
-
-
-
-@end
-
-
-
-
-
-extern OCATransformerBlock const OCATransformationNil;
-extern OCATransformerBlock const OCATransformationPass;
-
-
-
-
-@interface NSObject (NSValueTransformer)
-
-- (id)transform:(NSValueTransformer *)transformer;
-
-@end
-
-
+#import "OCATransformer+Base.h"
+#import "OCATransformer+Nil.h"
+#import "OCATransformer+Predefined.h"
 
 

@@ -1,12 +1,12 @@
 //
-//  OCATransformer.m
+//  OCATransformer+Base.m
 //  Objective-Chain
 //
-//  Created by Martin Kiss on 31.12.13.
-//  Copyright © 2014 Martin Kiss. All rights reserved.
+//  Created by Martin Kiss on 10.1.14.
+//  Copyright (c) 2014 Martin Kiss. All rights reserved.
 //
 
-#import "OCATransformer.h"
+#import "OCATransformer+Base.h"
 #import "OCAObject.h"
 #import <objc/runtime.h>
 
@@ -65,30 +65,26 @@
 
 
 - (id)transformedValue:(id)value {
-    BOOL validInput = [OCAObject validateObject:&value ofClass:[self.class valueClass]];
-    if ( ! validInput) return nil;
+    [OCAObject validateObject:&value ofClass:[self.class valueClass]];
+    if ( ! value) return nil; // Skip nils.
     
     OCATransformerBlock block = self.transformationBlock;
     id transformedValue = (block? block(value) : nil);
     
-    BOOL validOutput = [OCAObject validateObject:&transformedValue ofClass:[self.class transformedValueClass]];
-    if ( ! validOutput) return nil;
-    
+    [OCAObject validateObject:&transformedValue ofClass:[self.class transformedValueClass]];
     return transformedValue;
 }
 
 
 - (id)reverseTransformedValue:(id)value {
     if ([self.class allowsReverseTransformation]) {
-        BOOL validInput = [OCAObject validateObject:&value ofClass:[self.class transformedValueClass]];
-        if ( ! validInput) return nil;
+        [OCAObject validateObject:&value ofClass:[self.class transformedValueClass]];
+        if ( ! value) return nil; // Skip nils.
         
         OCATransformerBlock block = self.reverseTransformationBlock;
         id transformedValue = (block? block(value) : nil);
         
-        BOOL validOutput = [OCAObject validateObject:&transformedValue ofClass:[self.class valueClass]];
-        if ( ! validOutput) return nil;
-        
+        [OCAObject validateObject:&transformedValue ofClass:[self.class valueClass]];
         return transformedValue;
     }
     else {

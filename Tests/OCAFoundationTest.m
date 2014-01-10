@@ -7,7 +7,7 @@
 //
 
 #import "OCAFoundation.h"
-#import "OCATransformer+Predefined.h"
+#import "OCATransformer.h"
 #import "OCASubscriber.h"
 #import "OCACommand.h"
 #import "OCADecomposer.h"

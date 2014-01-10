@@ -10,7 +10,7 @@
 #import "OCAProducer+Subclass.h"
 #import "OCABridge.h"
 #import "OCAHub.h"
-#import "OCATransformer+Predefined.h"
+#import "OCATransformer.h"
 #import "OCADecomposer.h"
 
 

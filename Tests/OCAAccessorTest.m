@@ -8,7 +8,7 @@
 
 #import "OCAStructureAccessor.h"
 #import "OCAKeyPathAccessor.h"
-#import "OCATransformer+Predefined.h"
+#import "OCATransformer.h"
 #import "OCAMath.h"
 
 

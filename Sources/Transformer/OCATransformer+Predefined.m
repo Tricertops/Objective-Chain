@@ -41,16 +41,6 @@
 }
 
 
-+ (OCATransformer *)ifNull:(id)replacement {
-    OCAAssert(replacement != nil, @"Are you kidding me?");
-    
-    return [[OCATransformer fromClass:nil toClass:nil transform:^id(id input) {
-        return input ?: replacement;
-    } reverse:OCATransformationPass]
-            describe:[NSString stringWithFormat:@"replace nil by %@", replacement]];
-}
-
-
 + (OCATransformer *)kindOfClass:(Class)class or:(id)replacement {
     Class commonClass = [replacement classForKeyedArchiver];
     while (commonClass) {

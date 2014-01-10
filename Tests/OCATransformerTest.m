@@ -7,7 +7,6 @@
 //
 
 #import "OCATransformer.h"
-#import "OCATransformer+Predefined.h"
 #import "OCAStructureAccessor.h"
 
 
@@ -241,7 +240,7 @@
 
 
 - (void)test_predefinedNonNull {
-    OCATransformer *t = [OCATransformer ifNull:@"A"];
+    OCATransformer *t = [OCATransformer ifNil:@"A"];
     XCTAssertEqualObjects([t transformedValue:@"B"], @"B");
     XCTAssertNotNil([t transformedValue:nil]);
 }

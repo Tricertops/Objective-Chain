@@ -6,7 +6,7 @@
 //  Copyright © 2014 Martin Kiss. All rights reserved.
 //
 
-#import "OCATransformer.h"
+#import "OCATransformer+Base.h"
 #import "OCAKeyPathAccessor.h"
 #import "OCAStructureAccessor.h"
 
@@ -26,7 +26,6 @@
 
 + (OCATransformer *)null;
 + (OCATransformer *)replaceWith:(id)replacement;
-+ (OCATransformer *)ifNull:(id)replacement;
 + (OCATransformer *)kindOfClass:(Class)class or:(id)replacement;
 + (OCATransformer *)passes:(NSPredicate *)predicate or:(id)replacement;
 + (OCATransformer *)test:(NSPredicate *)predicate;
