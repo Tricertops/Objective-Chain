@@ -28,7 +28,7 @@
 
 
 + (OCATransformer *)discard {
-    return [[OCATransformer fromClass:nil toClass:nil symetric:OCATransformationNil]
+    return [[OCATransformer fromClass:nil toClass:nil symetric:OCATransformationDiscard]
             describe:@"discard"];
 }
 

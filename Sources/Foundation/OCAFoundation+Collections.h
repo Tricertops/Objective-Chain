@@ -22,6 +22,8 @@
 #pragma mark -
 #pragma mark Array
 #pragma mark -
+
+
 #pragma mark Creating Array
 
 + (OCATransformer *)branchArray:(NSArray *)transformers;
@@ -60,24 +62,32 @@
 #pragma mark Dictionary
 #pragma mark -
 
-/// Constructors
-//TODO: dictionaryFromFile
-//TODO: mappedArray: (transformer)
-//TODO: namedArray: (array of names)
-//TODO: dictionaryFromProperties:
 
-/// Transformators
-//TODO: filteredDictionary:
-//TODO: mutateDictionary: (block)
+#pragma mark Creating Dictionary
 
-/// Destructors
-//TODO: joinPairsWithString:
-//TODO: keysForValue:
-//TODO: transformValues:
-//TODO: sortedKeysByValues:
++ (OCATransformer *)dictionaryFromFile;
++ (OCATransformer *)mappedArray:(NSValueTransformer *)transformer;
++ (OCATransformer *)keyedArray:(NSArray *)keys;
 
 
-#pragma mark NSIndexSet
+#pragma mark Altering Dictionary
+
++ (OCATransformer *)filteredDictionary:(NSPredicate *)predicate;
++ (OCATransformer *)transformValues:(NSValueTransformer *)transformer;
++ (OCATransformer *)mutateDictionary:(void(^)(NSMutableDictionary *dictionary))block;
+
+
+#pragma mark Disposing Dictionary
+
++ (OCATransformer *)joinPairs:(NSString *)string;
++ (OCATransformer *)valueForKey:(id)key;
++ (OCATransformer *)keysForValue:(id)value;
+
+
+
+#pragma mark -
+#pragma mark Index Set
+#pragma mark -
 
 /// Constructors
 //TODO: indexSetFromArray

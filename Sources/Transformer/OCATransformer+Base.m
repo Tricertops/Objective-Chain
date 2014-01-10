@@ -288,7 +288,7 @@
 
 
 
-OCATransformerBlock const OCATransformationNil = ^id(id x) {
+OCATransformerBlock const OCATransformationDiscard = ^id(id x) {
     return nil;
 };
 

@@ -308,9 +308,163 @@
 
 
 
-#pragma mark - 
+#pragma mark -
 #pragma mark NSDictionary
 #pragma mark -
+
+
+#pragma mark NSDictionary - Create
+
+
++ (OCATransformer *)dictionaryFromFile {
+    return [[OCATransformer fromClass:[NSString class] toClass:[NSDictionary class]
+                           asymetric:^NSDictionary *(NSString *input) {
+                               
+                               return [NSDictionary dictionaryWithContentsOfFile:input];
+                           }]
+            describe:@"dictionary from file"];
+}
+
+
++ (OCATransformer *)mappedArray:(NSValueTransformer *)transformer {
+    return [[OCATransformer fromClass:[NSArray class] toClass:[NSDictionary class]
+                           asymetric:^NSDictionary *(NSArray *input) {
+                               
+                               NSMutableDictionary *output = [[NSMutableDictionary alloc] init];
+                               for (id object in input) {
+                                   id transformed = [transformer transformedValue:object];
+                                   if (transformed) {
+                                       [output setObject:transformed forKey:object];
+                                   }
+                               }
+                               return output;
+                           }]
+            describe:[NSString stringWithFormat:@"mapped array using %@", transformer]];
+}
+
+
++ (OCATransformer *)keyedArray:(NSArray *)keys {
+    return [[OCATransformer fromClass:[NSArray class] toClass:[NSDictionary class]
+                           asymetric:^NSDictionary *(NSArray *input) {
+                               
+                               NSMutableDictionary *output = [[NSMutableDictionary alloc] init];
+                               NSUInteger index = 0;
+                               for (id key in keys) {
+                                   id value = [input valueAtIndex:index];
+                                   if (value) {
+                                       [output setObject:value forKey:keys];
+                                   }
+                                   index++;
+                               }
+                               return output;
+                           }]
+            describe:[NSString stringWithFormat:@"keyed array {%@}", [keys componentsJoinedByString:@", "]]];
+}
+
+
+
+
+
+#pragma mark NSDictionary - Alter
+
+
++ (OCATransformer *)filteredDictionary:(NSPredicate *)predicate {
+    return [[OCATransformer fromClass:[NSDictionary class] toClass:[NSDictionary class]
+                            transform:^NSDictionary *(NSDictionary *input) {
+                                
+                                NSSet *keySet = [input keysOfEntriesPassingTest:^BOOL(id key, id obj, BOOL *stop) {
+                                    return [predicate evaluateWithObject:obj];
+                                }];
+                                NSArray *keys = keySet.allObjects;
+                                NSArray *values = [input objectsForKeys:keys notFoundMarker:NSNull.null];
+                                
+                                return [NSDictionary dictionaryWithObjects:values forKeys:keys];
+                                
+                            } reverse:OCATransformationPass]
+            
+            describe:[NSString stringWithFormat:@"filter dictionary (%@)", predicate]];
+}
+
+
++ (NSDictionary *)transformDictionary:(NSDictionary *)dictionary transformer:(NSValueTransformer *)transformer {
+    NSMutableDictionary *mutable = [[NSMutableDictionary alloc] init];
+    [dictionary enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+        id transformed = [transformer transformedValue:obj];
+        if (transformed) {
+            [mutable setObject:transformed forKey:key];
+        }
+    }];
+    return mutable;
+}
+
+
++ (OCATransformer *)transformValues:(NSValueTransformer *)transformer {
+    NSValueTransformer *reversedTransformer = transformer.reversed;
+    return [[OCATransformer fromClass:[NSDictionary class] toClass:[NSDictionary class]
+                            transform:^NSDictionary *(NSDictionary *input) {
+                                
+                                return [self transformDictionary:input transformer:transformer];
+                                
+                            } reverse:^NSDictionary *(NSDictionary *input) {
+                                
+                                return [self transformDictionary:input transformer:reversedTransformer];
+                            }]
+            describe:[NSString stringWithFormat:@"transform dictionary %@", transformer]
+            reverse:[NSString stringWithFormat:@"transform dictionary %@", reversedTransformer]];
+}
+
+
++ (OCATransformer *)mutateDictionary:(void(^)(NSMutableDictionary *dictionary))block {
+    return [[OCATransformer fromClass:[NSArray class] toClass:[NSDictionary class]
+                            asymetric:^NSDictionary *(NSArray *input) {
+                                
+                                NSMutableDictionary *mutable = [input mutableCopy];
+                                block(mutable);
+                                return mutable;
+                            }]
+            describe:@"mutate dictionary"];
+}
+
+
+
+
+
+#pragma mark NSDictionary - Dispose
+
+
++ (OCATransformer *)joinPairs:(NSString *)string {
+    return [[OCATransformer fromClass:[NSDictionary class] toClass:[NSArray class]
+                           asymetric:^NSArray *(NSDictionary *input) {
+                               
+                               NSMutableArray *output = [[NSMutableArray alloc] init];
+                               [input enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+                                   NSString *pair = [NSString stringWithFormat:@"%@%@%@", key, string, obj];
+                                   [output addObject:pair];
+                               }];
+                               return output;
+                           }]
+            describe:[NSString stringWithFormat:@"join pairs with “%@”", string]];
+}
+
+
++ (OCATransformer *)valueForKey:(id)key {
+    return [[OCATransformer fromClass:[NSDictionary class] toClass:nil
+                            asymetric:^id(NSDictionary *input) {
+                                
+                                return [input valueForKey:key];
+                            }]
+            describe:[NSString stringWithFormat:@"value for key “%@”", key]];
+}
+
+
++ (OCATransformer *)keysForValue:(id)value {
+    return [[OCATransformer fromClass:[NSDictionary class] toClass:[NSArray class]
+                            asymetric:^NSArray *(NSDictionary *input) {
+                                
+                                return [input allKeysForObject:value];
+                            }]
+            describe:[NSString stringWithFormat:@"keys for value “%@”", value]];
+}
 
 
 

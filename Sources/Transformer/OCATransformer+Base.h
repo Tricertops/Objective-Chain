@@ -80,7 +80,7 @@ typedef id (^OCATransformerBlock)(id input);
 
 
 
-extern OCATransformerBlock const OCATransformationNil;
+extern OCATransformerBlock const OCATransformationDiscard;
 extern OCATransformerBlock const OCATransformationPass;
 
 
