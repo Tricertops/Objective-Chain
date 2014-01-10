@@ -65,24 +65,22 @@
 
 #pragma mark NSData
 
-/// Constructors
-//TODO: dataFromFile
-//TODO: dataFromString
-//TODO: encodeBase64String
-//TODO: decodeBase64String
-//TODO: archiveBinary:
-//TODO: serializePropertyListBinary:
-//TODO: serializeJSONPrettyPrinted:
+/// Materializing Data
++ (OCATransformer *)dataFromFile;
++ (OCATransformer *)dataFromString;
++ (OCATransformer *)archiveBinary:(BOOL)binary;
++ (OCATransformer *)serializePropertyListBinary:(BOOL)binary;
++ (OCATransformer *)serializeJSONPretty:(BOOL)pretty;
 
-/// Transformators
-//TODO: decodeBase64Data
-//TODO: encodeBase64Data
-//TODO: subdataWithRange:
+/// Altering Data
++ (OCATransformer *)decodeBase64Data;
++ (OCATransformer *)encodeBase64Data;
++ (OCATransformer *)subdataWithRange:(NSRange)range;
 
-/// Destructors
-//TODO: unarchive
-//TODO: deserializePropertyListMutable:
-//TODO: deserializeJSONMutable:
+/// Dematerializing Data
++ (OCATransformer *)unarchive;
++ (OCATransformer *)deserializePropertyListMutable:(BOOL)mutable;
++ (OCATransformer *)deserializeJSONMutable:(BOOL)mutable;
 
 
 #pragma mark NSDate
