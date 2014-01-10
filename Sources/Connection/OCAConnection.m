@@ -149,6 +149,18 @@
 #pragma mark Describing Connection
 
 
+- (instancetype)describe:(NSString *)format, ... NS_REQUIRES_NIL_TERMINATION {
+    va_list vargs;
+    va_start(vargs, format);
+    NSString *name = [[NSString alloc] initWithFormat:format arguments:vargs];
+    va_end(vargs);
+    
+    self.name = name;
+    
+    return self;
+}
+
+
 - (NSString *)descriptionName {
     return @"Connection";
 }
@@ -157,6 +169,9 @@
 - (NSString *)description {
     NSMutableString *d = [[NSMutableString alloc] init];
     [d appendString:(self.closed? @"Closed connection" : (self.enabled? @"Connection" : @"Disabled connection"))];
+    if (self.name.length) {
+        [d appendFormat:@" “%@”", self.name];
+    }
     [d appendString:@"\n"];
     [d appendFormat:@"Producer: %@\n", self.producer];
     [d appendFormat:@"Queue: %@\n", self.queue];
@@ -181,6 +196,7 @@
              @"consumer": [self.consumer debugDescription],
              @"enabled": (self.enabled? @"YES" : @"NO"),
              @"closed": (self.closed? @"YES" : @"NO"),
+             @"name": self.name,
              };
 }
 

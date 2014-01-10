@@ -38,7 +38,7 @@
 
 #pragma mark Controlling Connection
 
-@property (atomic, readwrite, assign) BOOL enabled; //TODO: Remotely check for enabled?
+@property (atomic, readwrite, assign) BOOL enabled;
 
 @property (atomic, readonly, strong) OCAQueue *queue;
 @property (atomic, readonly, strong) NSPredicate *filter;
@@ -48,7 +48,10 @@
 - (void)close;
 
 
-//TODO: -describe:
+#pragma mark Describing Connection
+
+@property (atomic, readwrite, copy) NSString *name;
+- (instancetype)describe:(NSString *)format, ... NS_REQUIRES_NIL_TERMINATION;
 
 
 

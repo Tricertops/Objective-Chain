@@ -45,7 +45,7 @@ static void * OCAQueueSpecificKey = &OCAQueueSpecificKey;
     if (isConcurrent && ! targetQueue.isConcurrent) NSLog(@"Objective-Chain: Warning: Couldn't create concurrent queue while targetting serial queue.");
     isConcurrent = (isConcurrent && targetQueue.isConcurrent);
     
-    NSString *label = [NSString stringWithFormat:@"com.ObjectiveChain.queue.%@", name];
+    NSString *label = [NSString stringWithFormat:@"com.ObjectiveChain.queue.%@", [name stringByReplacingOccurrencesOfString:@" " withString:@""]];
     dispatch_queue_t dispatchQueue = dispatch_queue_create(label.UTF8String, (isConcurrent? DISPATCH_QUEUE_CONCURRENT : DISPATCH_QUEUE_SERIAL));
     dispatch_set_target_queue(dispatchQueue, targetQueue.dispatchQueue);
     
