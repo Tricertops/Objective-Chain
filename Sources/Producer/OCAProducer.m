@@ -17,7 +17,6 @@
 
 
 @property (atomic, readwrite, assign) NSUInteger numberOfSentValues;
-@property (atomic, readwrite, strong) id lastValue;
 @property (atomic, readwrite, assign) BOOL finished;
 @property (atomic, readwrite, strong) NSError *error;
 

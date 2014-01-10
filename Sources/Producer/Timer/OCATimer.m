@@ -96,7 +96,6 @@
     dispatch_time_t startTime = dispatch_time(DISPATCH_TIME_NOW, self.delay * NSEC_PER_SEC);
     dispatch_source_set_timer(self.timer, startTime, self.interval * NSEC_PER_SEC, self.leeway * NSEC_PER_SEC);
     
-    __block NSUInteger tick = 0;
     dispatch_source_set_event_handler(self.timer, ^{
         if (self.date.timeIntervalSinceNow < 0) {
             [self stop];

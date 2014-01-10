@@ -42,7 +42,7 @@
 #pragma mark Creating Property Bridge
 
 
-- (instancetype)initWithObject:(NSObject *)object keyPathAccessor:(OCAKeyPathAccessor *)accessor {
+- (instancetype)initWithObject:(NSObject *)object keyPathAccessor:(OCAKeyPathAccessor *)accessor options:(OCAPropertyOptions)options {
     self = [super init];
     if (self) {
         OCAAssert(object != nil, @"Need an object.") return nil;
@@ -51,6 +51,7 @@
         
         self->_object = object;
         self->_accessor = accessor;
+        self->_options = options;
         
         [object addObserver:self
                  forKeyPath:accessor.keyPath
@@ -79,7 +80,8 @@
 
 
 - (Class)valueClass {
-    return self.accessor.valueClass;
+    if (self.options & OCAPropertyOptionIncludePreviousValue) return [NSArray class];
+    else return self.accessor.valueClass;
 }
 
 
@@ -106,11 +108,46 @@
 
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
-    id value = [self.accessor accessObject:self.object];
+    //TODO: OCAKeyValueChange class
     
-    if (OCAEqual(value, self.lastValue)) return;
+    OCAStructureAccessor *structureAccessor = self.accessor.structureAccessor;
     
-    [self produceValue:value];
+    id old = [change objectForKey:NSKeyValueChangeOldKey];
+    if (old == NSNull.null) old = nil;
+    if (structureAccessor) {
+        old = [structureAccessor accessObject:old];
+    }
+    
+    id new = [change objectForKey:NSKeyValueChangeNewKey];
+    if (new == NSNull.null) new = nil;
+    if (structureAccessor) {
+        new = [structureAccessor accessObject:new];
+    }
+    
+    if (OCAEqual(old, new)) return;
+    
+    if (self.options & OCAPropertyOptionIncludePreviousValue) {
+        [self produceValue:@[ old ?: NSNull.null, new ?: NSNull.null ]];
+    }
+    else {
+        [self produceValue:new];
+    }
+}
+
+
+- (id)lastValue {
+    id object = self.object;
+    
+    if (self.options & OCAPropertyOptionIncludePreviousValue)
+        // We never store the previous property value, so we just return NSNull.
+        return @[ NSNull.null, [self.accessor accessObject:object] ];
+    else
+        return [self.accessor accessObject:object];
+}
+
+
+- (void)setLastValue:(id)value {
+    // Nothing. Don't store last value.
 }
 
 

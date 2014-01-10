@@ -36,6 +36,8 @@
 
 #pragma mark Lifetime of Producer
 
+@property (atomic, readwrite, strong) id lastValue;
+
 - (void)produceValue:(id)value NS_REQUIRES_SUPER;
 - (void)finishProducingWithError:(NSError *)error NS_REQUIRES_SUPER;
 

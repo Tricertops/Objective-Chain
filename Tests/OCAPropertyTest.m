@@ -152,6 +152,23 @@
 }
 
 
+- (void)test_changesWithPrevious {
+    __block NSString *old = nil;
+    __block NSString *new = nil;
+    [OCAPropertyChange(self, firstName, NSString) connectTo:[OCASubscriber subscribeClass:[NSArray class] handler:^(NSArray *change) {
+        old = [change objectAtIndex:0];
+        new = [change objectAtIndex:1];
+    }]];
+    
+    XCTAssertEqualObjects(old, NSNull.null);
+    XCTAssertEqualObjects(new, @"Martin");
+    
+    self.firstName = @"Juraj";
+    XCTAssertEqualObjects(old, @"Martin");
+    XCTAssertEqualObjects(new, @"Juraj");
+}
+
+
 
 
 
