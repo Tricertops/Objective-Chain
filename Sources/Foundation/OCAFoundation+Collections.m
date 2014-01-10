@@ -18,11 +18,16 @@
 
 
 
+#pragma mark -
 #pragma mark NSArray
+#pragma mark -
+
+
+#pragma mark NSArray - Create
 
 
 + (OCATransformer *)branchArray:(NSArray *)transformers {
-    return [OCATransformer fromClass:nil toClass:[NSArray class] asymetric:^NSArray *(id input) {
+    return [[OCATransformer fromClass:nil toClass:[NSArray class] asymetric:^NSArray *(id input) {
         NSMutableArray *output = [[NSMutableArray alloc] init];
         
         for (NSValueTransformer *t in transformers) {
@@ -31,7 +36,8 @@
         }
         
         return output;
-    }];
+    }]
+            describe:[NSString stringWithFormat:@"branch { %@ }", [transformers componentsJoinedByString:@", "]]];
 }
 
 
@@ -52,6 +58,12 @@
     }]
             describe:@"array from file"];
 }
+
+
+
+
+
+#pragma mark NSArray - Subarray
 
 
 + (OCATransformer *)objectsAtIndexes:(NSIndexSet *)indexes {
@@ -110,6 +122,11 @@
             describe:[NSString stringWithFormat:@"subarray with range %@", NSStringFromRange(range)]
             reverse:@"pass"];
 }
+
+
+
+
+#pragma mark NSArray - Alter
 
 
 + (OCATransformer *)transformArray:(NSValueTransformer *)transformer {
@@ -217,6 +234,12 @@
     }]
             describe:@"mutate array"];
 }
+
+
+
+
+
+#pragma mark NSArray - Dispose
 
 
 + (OCATransformer *)objectAtIndex:(NSInteger)index {

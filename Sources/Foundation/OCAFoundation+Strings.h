@@ -35,21 +35,34 @@
 //TODO: splitWords
 
 
-#pragma mark NSAttributedString
 
-/// Materializing Attributed String
+#pragma mark -
+#pragma mark Attributed String
+#pragma mark -
+
+
+#pragma mark Creating Attributed String
+
 + (OCATransformer *)stringWithAttributes:(NSDictionary *)attributes;
 
-/// Altering Attributed String
+
+#pragma mark Changing Attributes
+
 + (OCATransformer *)addAttributes:(NSDictionary *)attributes;
 + (OCATransformer *)addAttributes:(NSDictionary *)attributes range:(NSRange)range;
 + (OCATransformer *)transformAttribute:(NSString *)attribute transformer:(NSValueTransformer *)transformer;
+
+#pragma mark Altering Attributed String
+
 + (OCATransformer *)appendAttributedString:(NSAttributedString *)attributedString;
 + (OCATransformer *)attributedSubstringInRange:(NSRange)range;
 + (OCATransformer *)mutateAttributedString:(void(^)(NSMutableAttributedString *attributedString))block;
 
 
-#pragma mark NSParagraphStyle
+
+#pragma mark -
+#pragma mark Paragraph Style
+#pragma mark -
 
 /// Transformators
 //TODO: mutateParagraphStyle: (block)

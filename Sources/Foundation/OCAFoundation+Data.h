@@ -16,24 +16,39 @@
 
 
 
-#pragma mark NSData
+#pragma mark -
+#pragma mark Data
+#pragma mark -
 
-/// Materializing Data
+#pragma mark Creating Data
+
 + (OCATransformer *)dataFromFile;
 + (OCATransformer *)dataFromString;
-+ (OCATransformer *)archiveBinary:(BOOL)binary;
-+ (OCATransformer *)serializePropertyListBinary:(BOOL)binary;
-+ (OCATransformer *)serializeJSONPretty:(BOOL)pretty;
-
-/// Altering Data
-+ (OCATransformer *)decodeBase64Data;
-+ (OCATransformer *)encodeBase64Data;
 + (OCATransformer *)subdataWithRange:(NSRange)range;
 
-/// Dematerializing Data
+
+#pragma mark Keyed Archivation
+
++ (OCATransformer *)archiveBinary:(BOOL)binary;
 + (OCATransformer *)unarchive;
+
+
+#pragma mark Property List Serialization
+
++ (OCATransformer *)serializePropertyListBinary:(BOOL)binary;
 + (OCATransformer *)deserializePropertyListMutable:(BOOL)mutable;
+
+
+#pragma mark JSON Serialization
+
++ (OCATransformer *)serializeJSONPretty:(BOOL)pretty;
 + (OCATransformer *)deserializeJSONMutable:(BOOL)mutable;
+
+
+#pragma mark Base64 Encoding
+
++ (OCATransformer *)decodeBase64Data;
++ (OCATransformer *)encodeBase64Data;
 
 
 

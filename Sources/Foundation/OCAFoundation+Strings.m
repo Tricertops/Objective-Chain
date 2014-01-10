@@ -17,7 +17,13 @@
 
 
 
+
+#pragma mark -
 #pragma mark NSAttributedString
+#pragma mark -
+
+
+#pragma mark NSAttributedString - Create
 
 
 + (OCATransformer *)stringWithAttributes:(NSDictionary *)attributes {
@@ -29,6 +35,12 @@
     }]
             describe:[NSString stringWithFormat:@"attributed with %@", attributes]];
 }
+
+
+
+
+
+#pragma mark NSAttributedString - Attributes
 
 
 + (OCATransformer *)addAttributes:(NSDictionary *)attributes {
@@ -80,6 +92,12 @@
             describe:[NSString stringWithFormat:@"transform attribute %@ using %@", attribute, transformer]
             reverse:[NSString stringWithFormat:@"transform attribute %@ using %@", attribute, [transformer reversed]]];
 }
+
+
+
+
+
+#pragma mark NSAttributedString - Alter
 
 
 + (OCATransformer *)appendAttributedString:(NSAttributedString *)attributedString {

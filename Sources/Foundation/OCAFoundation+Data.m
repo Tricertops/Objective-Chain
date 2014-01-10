@@ -18,7 +18,12 @@
 
 
 
+#pragma mark -
 #pragma mark NSData
+#pragma mark -
+
+
+#pragma mark NSData - Create
 
 
 + (OCATransformer *)dataFromFile {
@@ -42,6 +47,25 @@
 }
 
 
++ (OCATransformer *)subdataWithRange:(NSRange)range {
+    return [[OCATransformer fromClass:[NSData class] toClass:[NSData class] transform:^NSData *(NSData *input) {
+        
+        NSUInteger location = CLAMP(0, range.location, input.length);
+        NSUInteger length = CLAMP(0, range.length, input.length - location);
+        
+        return [input subdataWithRange:NSMakeRange(location, length)];
+    } reverse:OCATransformationPass]
+            describe:[NSString stringWithFormat:@"subdata at %@", NSStringFromRange(range)]
+            reverse:@"pass"];
+}
+
+
+
+
+
+#pragma mark NSData - Keyed Archivation
+
+
 + (OCATransformer *)archiveBinary:(BOOL)binary {
     return [[OCATransformer fromClass:nil toClass:[NSData class] transform:^NSData *(id input) {
         if ( ! input) return nil;
@@ -62,6 +86,17 @@
 }
 
 
++ (OCATransformer *)unarchive {
+    return [[OCAFoundation archiveBinary:YES] reversed];
+}
+
+
+
+
+
+#pragma mark NSData - Property List Serialization
+
+
 + (OCATransformer *)serializePropertyListBinary:(BOOL)binary {
     return [[OCATransformer fromClass:nil toClass:[NSData class] transform:^NSData *(id input) {
         if ( ! input) return nil;
@@ -77,59 +112,6 @@
     }]
             describe:[NSString stringWithFormat:@"serialize to %@ property list", (binary? @"binary" : @"XML")]
             reverse:@"deserialize property list"];
-}
-
-
-+ (OCATransformer *)serializeJSONPretty:(BOOL)pretty {
-    return [[OCATransformer fromClass:nil toClass:[NSData class] transform:^NSData *(id input) {
-        if ( ! input) return nil;
-        
-        BOOL isValid = [NSJSONSerialization isValidJSONObject:input];
-        if ( ! isValid) return nil;
-        
-        return [NSJSONSerialization dataWithJSONObject:input options:(pretty? NSJSONWritingPrettyPrinted : kNilOptions) error:nil];
-    } reverse:^id(NSData *input) {
-        if ( ! input) return nil;
-        return [NSJSONSerialization JSONObjectWithData:input options:kNilOptions error:nil];
-    }]
-            describe:[NSString stringWithFormat:@"serialize to %@JSON", (pretty? @"pretty " : @"")]
-            reverse:@"deserialize JSON"];
-}
-
-
-+ (OCATransformer *)decodeBase64Data {
-    return [[OCATransformer fromClass:[NSData class] toClass:[NSData class] transform:^NSData *(NSData *input) {
-        if ( ! input) return nil;
-        return [[NSData alloc] initWithBase64EncodedData:input options:kNilOptions];
-    } reverse:^NSData *(NSData *input) {
-        if ( ! input) return nil;
-        return [input base64EncodedDataWithOptions:kNilOptions];
-    }]
-            describe:@"decode base64"
-            reverse:@"encode base64"];
-}
-
-
-+ (OCATransformer *)encodeBase64Data {
-    return [[OCAFoundation decodeBase64Data] reversed];
-}
-
-
-+ (OCATransformer *)subdataWithRange:(NSRange)range {
-    return [[OCATransformer fromClass:[NSData class] toClass:[NSData class] transform:^NSData *(NSData *input) {
-        
-        NSUInteger location = CLAMP(0, range.location, input.length);
-        NSUInteger length = CLAMP(0, range.length, input.length - location);
-        
-        return [input subdataWithRange:NSMakeRange(location, length)];
-    } reverse:OCATransformationPass]
-            describe:[NSString stringWithFormat:@"subdata at %@", NSStringFromRange(range)]
-            reverse:@"pass"];
-}
-
-
-+ (OCATransformer *)unarchive {
-    return [[OCAFoundation archiveBinary:YES] reversed];
 }
 
 
@@ -150,6 +132,30 @@
 }
 
 
+
+
+
+
+#pragma mark NSData - JSON Serialization
+
+
++ (OCATransformer *)serializeJSONPretty:(BOOL)pretty {
+    return [[OCATransformer fromClass:nil toClass:[NSData class] transform:^NSData *(id input) {
+        if ( ! input) return nil;
+        
+        BOOL isValid = [NSJSONSerialization isValidJSONObject:input];
+        if ( ! isValid) return nil;
+        
+        return [NSJSONSerialization dataWithJSONObject:input options:(pretty? NSJSONWritingPrettyPrinted : kNilOptions) error:nil];
+    } reverse:^id(NSData *input) {
+        if ( ! input) return nil;
+        return [NSJSONSerialization JSONObjectWithData:input options:kNilOptions error:nil];
+    }]
+            describe:[NSString stringWithFormat:@"serialize to %@JSON", (pretty? @"pretty " : @"")]
+            reverse:@"deserialize JSON"];
+}
+
+
 + (OCATransformer *)deserializeJSONMutable:(BOOL)mutable {
     return [[OCATransformer fromClass:[NSData class] toClass:nil transform:^id(NSData *input) {
         if ( ! input) return nil;
@@ -166,6 +172,30 @@
             reverse:@"serialize JSON"];
 }
 
+
+
+
+
+
+#pragma mark NSData - Base64 Encoding
+
+
++ (OCATransformer *)decodeBase64Data {
+    return [[OCATransformer fromClass:[NSData class] toClass:[NSData class] transform:^NSData *(NSData *input) {
+        if ( ! input) return nil;
+        return [[NSData alloc] initWithBase64EncodedData:input options:kNilOptions];
+    } reverse:^NSData *(NSData *input) {
+        if ( ! input) return nil;
+        return [input base64EncodedDataWithOptions:kNilOptions];
+    }]
+            describe:@"decode base64"
+            reverse:@"encode base64"];
+}
+
+
++ (OCATransformer *)encodeBase64Data {
+    return [[OCAFoundation decodeBase64Data] reversed];
+}
 
 
 
