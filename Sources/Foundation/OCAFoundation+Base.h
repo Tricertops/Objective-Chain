@@ -21,6 +21,13 @@
 
 
 
+
+extern NSRange OCAFoundationNormalizeRange(NSRange range, NSUInteger length);
+
+
+
+
+
 #define CLAMP(MIN, VALUE, MAX) \
 (typeof(VALUE))({ \
     typeof(VALUE) __min = (MIN); \

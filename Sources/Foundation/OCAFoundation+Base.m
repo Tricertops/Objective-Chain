@@ -17,3 +17,16 @@
 @end
 
 
+
+
+
+extern NSRange OCAFoundationNormalizeRange(NSRange range, NSUInteger length) {
+    if (range.location > length)
+        range.location = length;
+    NSUInteger end = length - range.location;
+    if (range.length > end)
+        range.length = end;
+    return range;
+}
+
+
