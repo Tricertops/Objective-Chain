@@ -65,6 +65,7 @@
 
 - (void)test_sharingNotificators {
     OCANotificator *first = [OCANotificator notify:NSCurrentLocaleDidChangeNotification];
+    [first connectTo:[OCABridge bridge]]; // This works only after the instance is connected at least once.
     OCANotificator *second = [OCANotificator notify:NSCurrentLocaleDidChangeNotification];
     XCTAssertTrue(first == second);
 }
