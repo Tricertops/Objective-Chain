@@ -89,21 +89,33 @@
 #pragma mark Index Set
 #pragma mark -
 
-/// Constructors
-//TODO: indexSetFromArray
-//TODO: wrapIndex
-//TODO: wrapRange
 
-/// Destructors
-//TODO: lowestIndex
-//TODO: highestIndex
+#pragma mark Creating Index Set
+
++ (OCATransformer *)indexSetFromArray;
++ (OCATransformer *)wrapIndex;
++ (OCATransformer *)wrapRange;
 
 
-#pragma mark NSIndexPath
+#pragma mark Altering Index Set
 
-/// Constructors
-//TODO: indexPathFromArray
-//TODO: indexPathWithSection:
++ (OCATransformer *)mutateIndexSet:(void(^)(NSMutableIndexSet *indexSet))block;
+
+
+#pragma mark Disposing Index Set
+
++ (OCATransformer *)lowestIndex;
++ (OCATransformer *)highestIndex;
+
+
+
+#pragma mark -
+#pragma mark Index Path
+#pragma mark -
+
+
++ (OCATransformer *)indexPathFromArray;
++ (OCATransformer *)indexPathInSection:(NSUInteger)section;
 
 
 

@@ -470,6 +470,167 @@
 
 
 
+#pragma mark -
+#pragma mark NSIndexSet
+#pragma mark -
+
+
+#pragma mark NSIndexSet - Create
+
+
++ (OCATransformer *)indexSetFromArray {
+    return [[OCATransformer fromClass:[NSArray class] toClass:[NSIndexSet class]
+                           transform:^NSIndexSet *(NSArray *input) {
+                               
+                               NSMutableIndexSet *output = [[NSMutableIndexSet alloc] init];
+                               for (NSNumber *number in input) {
+                                   [output addIndex:number.unsignedIntegerValue];
+                               }
+                               return output;
+                               
+                           } reverse:^NSArray *(NSIndexSet *input) {
+                               
+                               NSMutableArray *output = [[NSMutableArray alloc] init];
+                               [input enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *stop) {
+                                   [output addObject:@(idx)];
+                               }];
+                               return output;
+                           }]
+            describe:@"index set from array"
+            reverse:@"array from index set"];
+}
+
+
++ (OCATransformer *)wrapIndex {
+    return [[OCATransformer fromClass:[NSNumber class] toClass:[NSIndexSet class]
+                            transform:^NSIndexSet *(NSNumber *input) {
+                                
+                                return [NSIndexSet indexSetWithIndex:input.unsignedIntegerValue];
+                                
+                            } reverse:^NSNumber *(NSIndexSet *input) {
+                                NSUInteger lowest = input.firstIndex;
+                                return (lowest == NSNotFound? nil : @(lowest));
+                            }]
+            describe:@"wrap index in set"
+            reverse:@"lowest index"];
+}
+
+
++ (OCATransformer *)wrapRange {
+    return [[OCATransformer fromClass:[NSValue class] toClass:[NSIndexSet class]
+                            transform:^NSIndexSet *(NSValue *input) {
+                                
+                                NSRange range = OCAUnbox(input, NSRange, NSMakeRange(0, 0));
+                                return [NSIndexSet indexSetWithIndexesInRange:range];
+                                
+                            } reverse:^NSValue *(NSIndexSet *input) {
+                                
+                                __block NSRange range = NSMakeRange(NSNotFound, NSNotFound);
+                                [input enumerateRangesUsingBlock:^(NSRange r, BOOL *stop) {
+                                    range = r;
+                                    *stop = YES;
+                                }];
+                                
+                                return (range.location == NSNotFound? nil : OCABox(range));
+                            }]
+            describe:@"wrap range in set"
+            reverse:@"lowest range"];
+}
+
+
+
+
+
+#pragma mark NSIndexSet -  Alter
+
+
++ (OCATransformer *)mutateIndexSet:(void(^)(NSMutableIndexSet *indexSet))block {
+    return [[OCATransformer fromClass:[NSIndexSet class] toClass:[NSIndexSet class]
+                            asymetric:^NSIndexSet *(NSIndexSet *input) {
+                                
+                                NSMutableIndexSet *mutable = [input mutableCopy];
+                                block(mutable);
+                                return mutable;
+                            }]
+            describe:@"mutate index set"];
+}
+
+
+
+
+
+#pragma mark NSIndexSet - Dispose
+
+
++ (OCATransformer *)lowestIndex {
+    return [[OCATransformer fromClass:[NSIndexSet class] toClass:[NSNumber class]
+                            asymetric:^NSNumber *(NSIndexSet *input) {
+                                
+                                NSUInteger lowest = input.firstIndex;
+                                return (lowest == NSNotFound? nil : @(lowest));
+                            }]
+            describe:@"lowest index"];
+}
+
+
++ (OCATransformer *)highestIndex {
+    return [[OCATransformer fromClass:[NSIndexSet class] toClass:[NSNumber class]
+                            asymetric:^NSNumber *(NSIndexSet *input) {
+                                
+                                NSUInteger highest = input.lastIndex;
+                                return (highest == NSNotFound? nil : @(highest));
+                            }]
+            describe:@"highest index"];
+}
+
+
+
+
+
+
+#pragma mark -
+#pragma mark Index Path
+#pragma mark -
+
+
++ (OCATransformer *)indexPathFromArray {
+    return [[OCATransformer fromClass:[NSArray class] toClass:[NSIndexPath class]
+                            transform:^NSIndexPath *(NSArray *input) {
+                                
+                                NSIndexPath *indexPath = [[NSIndexPath alloc] init];
+                                for (NSNumber *number in input) {
+                                    indexPath = [indexPath indexPathByAddingIndex:number.unsignedIntegerValue];
+                                }
+                                return indexPath;
+                                
+                            } reverse:^NSArray *(NSIndexPath *input) {
+                                
+                                NSMutableArray *output = [[NSMutableArray alloc] init];
+                                for (NSUInteger position = 0; position < input.length; position++) {
+                                    NSUInteger index = [input indexAtPosition:position];
+                                    [output addObject:@(index)];
+                                }
+                                return output;
+                            }]
+            describe:@"array from index path"];
+}
+
+
++ (OCATransformer *)indexPathInSection:(NSUInteger)section {
+    return [[OCATransformer fromClass:[NSNumber class] toClass:[NSIndexPath class]
+                            asymetric:^NSIndexPath *(NSNumber *input) {
+                                
+                                const NSUInteger indexes[2] = { section, input.unsignedIntegerValue };
+                                return [NSIndexPath indexPathWithIndexes:indexes length:2];
+                                
+                            }]
+            describe:[NSString stringWithFormat:@"index path in section %@", @(section)]];
+}
+
+
+
+
+
 @end
 
 
