@@ -132,13 +132,14 @@
 
 - (void)producerDidFinishWithError:(NSError *)error {
     if (self.closed) return;
-    if ( ! self.enabled) return;
     
-    [self.queue performBlockAndTryWait:^{
-        
-        [self.consumer finishConsumingWithError:error];
-        [self close];
-    }];
+    if (self.enabled) {
+        [self.queue performBlockAndTryWait:^{
+            [self.consumer finishConsumingWithError:error];
+        }];
+    }
+    
+    [self close];
 }
 
 
