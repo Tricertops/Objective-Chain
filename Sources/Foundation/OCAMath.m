@@ -260,7 +260,7 @@
 
 
 + (OCATransformer *)clampFrom:(OCAReal)min to:(OCAReal)max {
-    OCAAssert(min <= max, @"What is this supposed to do return, when minimum (%@) is greater than maximum (%@)?!", @(min), @(max)) return [OCATransformer null];
+    OCAAssert(min <= max, @"What is this supposed to do return, when minimum (%@) is greater than maximum (%@)?!", @(min), @(max)) return [OCATransformer discard];
     return [[OCAMath transform:^OCAReal(OCAReal x) {
         return MIN(MAX(min, x), max);
     } reverse:^OCAReal(OCAReal y) {

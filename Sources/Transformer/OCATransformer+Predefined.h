@@ -23,14 +23,13 @@
 #pragma mark Basic
 
 + (OCATransformer *)pass;
-
-+ (OCATransformer *)null;
++ (OCATransformer *)discard;
 + (OCATransformer *)replaceWith:(id)replacement;
 + (OCATransformer *)kindOfClass:(Class)class or:(id)replacement;
+
 + (OCATransformer *)passes:(NSPredicate *)predicate or:(id)replacement;
 + (OCATransformer *)test:(NSPredicate *)predicate;
 + (OCATransformer *)negate;
-
 + (OCATransformer *)count;
 + (OCATransformer *)copy;
 + (OCATransformer *)map:(NSDictionary *)dictionary;

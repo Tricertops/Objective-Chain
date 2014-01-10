@@ -27,9 +27,9 @@
 }
 
 
-+ (OCATransformer *)null {
++ (OCATransformer *)discard {
     return [[OCATransformer fromClass:nil toClass:nil symetric:OCATransformationNil]
-            describe:@"nil"];
+            describe:@"discard"];
 }
 
 
@@ -138,7 +138,7 @@
         [descriptions addObject:t.description ?: @"unknown"];
         [reverseDescriptions addObject:t.reversed.description ?: @"unknown"];
         
-        OCAAssert(previousOutputClass == Nil || [t.class valueClass] == Nil || [[t.class valueClass] isSubclassOfClass:previousOutputClass], @"Classes of transformers in sequence are incompatible.") return [OCATransformer null];
+        OCAAssert(previousOutputClass == Nil || [t.class valueClass] == Nil || [[t.class valueClass] isSubclassOfClass:previousOutputClass], @"Classes of transformers in sequence are incompatible.") return [OCATransformer discard];
         previousOutputClass = [t.class transformedValueClass];
     }
     return [[OCATransformer fromClass:[firstTransformer.class valueClass]
@@ -204,7 +204,7 @@
 + (OCATransformer *)repeat:(NSUInteger)count transformer:(NSValueTransformer *)transformer {
     Class inputClass = [transformer.class valueClass];
     Class outputClass = [transformer.class transformedValueClass];
-    OCAAssert(inputClass == Nil || outputClass == Nil || [inputClass isSubclassOfClass:outputClass], @"Transformer cannot be repeated.") return [OCATransformer null];
+    OCAAssert(inputClass == Nil || outputClass == Nil || [inputClass isSubclassOfClass:outputClass], @"Transformer cannot be repeated.") return [OCATransformer discard];
     
     return [[OCATransformer fromClass:inputClass toClass:outputClass transform:^id(id input) {
         id value = input;
