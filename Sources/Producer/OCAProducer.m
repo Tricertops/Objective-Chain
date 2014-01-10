@@ -16,6 +16,7 @@
 @interface OCAProducer ()
 
 
+@property (atomic, readwrite, assign) NSUInteger numberOfSentValues;
 @property (atomic, readwrite, strong) id lastValue;
 @property (atomic, readwrite, assign) BOOL finished;
 @property (atomic, readwrite, strong) NSError *error;
@@ -76,14 +77,22 @@
         [connections addObject:connection];
         
         [self didAddConnection:connection];
+        
+        if (self.finished) {
+            // I we already finished remove immediately.
+            [connection producerDidFinishWithError:self.error];
+            [self removeConnection:connection];
+        }
+        else if (self.numberOfSentValues > 0) {
+            // It there was at least one sent value, send the last one.
+            [connection producerDidProduceValue:self.lastValue];
+        }
     }
 }
 
 
 - (void)didAddConnection:(OCAConnection *)connection {
-    if (self.finished) {
-        [connection producerDidFinishWithError:self.error];
-    }
+    
 }
 
 
@@ -149,12 +158,12 @@
     
     if (self.finished) return;
     self.lastValue = value;
+    self.numberOfSentValues ++;
     
     for (OCAConnection *connection in [self.mutableConnections copy]) {
         [connection producerDidProduceValue:value];
     }
 }
-
 
 - (void)finishProducingWithError:(NSError *)error {
     if (self.finished) return;
