@@ -103,7 +103,6 @@
                                               OCAProperty(self, firstName, NSString),
                                               OCAProperty(self, lastName, NSString),
                                               ]];
-    //TODO: Hub not sending initial.
     NSMutableArray *received = [[NSMutableArray alloc] init];
     OCAMulticast *consumer = [OCAMulticast multicast:@[
                                                        OCAProperty(self, fullName, NSString),
@@ -118,6 +117,17 @@
     
     NSArray *expected = @[ @"Martin Kiss", @"Martin Me" ];
     XCTAssertEqualObjects(received, expected);
+}
+
+
+- (void)test_bindWithTransform {
+    [OCAProperty(self, birthYear, NSUInteger) bindWithTransform:[OCAMath subtractFrom:2014] to:OCAProperty(self, age, NSUInteger)];
+    
+    XCTAssertTrue(self.age == 22);
+    self.birthYear = 1991;
+    XCTAssertTrue(self.age == 23);
+    self.age = 50;
+    XCTAssertTrue(self.birthYear == 1964);
 }
 
 

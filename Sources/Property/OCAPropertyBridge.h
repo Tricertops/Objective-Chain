@@ -39,6 +39,12 @@
 - (void)consumeValue:(id)value;
 
 
+#pragma mark Binding Properties
+
+- (NSArray *)bindTo:(OCAPropertyBridge *)property;
+- (NSArray *)bindWithTransform:(NSValueTransformer *)transformer to:(OCAPropertyBridge *)property;
+
+
 
 @end
 

@@ -9,6 +9,8 @@
 #import "OCAPropertyBridge.h"
 #import "OCAProducer+Subclass.h"
 #import "OCADecomposer.h"
+#import "OCATransformer.h"
+#import "OCAConnection.h"
 
 
 
@@ -114,6 +116,34 @@
 
 - (void)finishConsumingWithError:(NSError *)error {
     // Nothing.
+}
+
+
+
+
+
+#pragma mark Binding Properties
+
+
+- (NSArray *)bindTo:(OCAPropertyBridge *)property {
+    return [self bindWithTransform:nil to:property];
+}
+
+
+- (NSArray *)bindWithTransform:(NSValueTransformer *)transformer to:(OCAPropertyBridge *)property {
+    OCAAssert([transformer.class allowsReverseTransformation], @"Need reversible transformer for two-way binding.") return nil;
+    
+    OCAConnection *there = [[OCAConnection alloc] initWithProducer:self
+                                                             queue:nil
+                                                            filter:nil
+                                                         transform:transformer
+                                                          consumer:property];
+    OCAConnection *andBackAgain = [[OCAConnection alloc] initWithProducer:property
+                                                                    queue:nil
+                                                                   filter:nil
+                                                                transform:[transformer reversed]
+                                                                 consumer:self];
+    return @[ there, andBackAgain ];
 }
 
 
