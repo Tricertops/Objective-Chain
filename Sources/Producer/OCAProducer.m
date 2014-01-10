@@ -186,11 +186,14 @@
     self.finished = YES;
     self.error = error;
     
-    for (OCAConnection *connection in [self.mutableConnections copy]) {
+    // Connections will attempt to remove themselves, but now the array is empty.
+    NSArray *connections = [self.mutableConnections copy];
+    [self.mutableConnections setArray:nil];
+    
+    for (OCAConnection *connection in connections) {
         [connection producerDidFinishWithError:error];
     }
     
-    [self.mutableConnections setArray:nil];
 }
 
 
