@@ -47,14 +47,27 @@
 		5B8F4DB51880421200D75EEE /* NSArray+Ordinals.h in Headers */ = {isa = PBXBuildFile; fileRef = 5B8F4DB31880421200D75EEE /* NSArray+Ordinals.h */; };
 		5B8F4DB61880421200D75EEE /* NSArray+Ordinals.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B8F4DB41880421200D75EEE /* NSArray+Ordinals.m */; };
 		5B8F4DB71880421200D75EEE /* NSArray+Ordinals.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B8F4DB41880421200D75EEE /* NSArray+Ordinals.m */; };
+		5B8F4DBA1880737A00D75EEE /* OCAFoundation+Collections.h in Headers */ = {isa = PBXBuildFile; fileRef = 5B8F4DB81880737A00D75EEE /* OCAFoundation+Collections.h */; };
+		5B8F4DBB1880737A00D75EEE /* OCAFoundation+Collections.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B8F4DB91880737A00D75EEE /* OCAFoundation+Collections.m */; };
+		5B8F4DBC1880737A00D75EEE /* OCAFoundation+Collections.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B8F4DB91880737A00D75EEE /* OCAFoundation+Collections.m */; };
+		5B8F4DBF1880738B00D75EEE /* OCAFoundation+Base.h in Headers */ = {isa = PBXBuildFile; fileRef = 5B8F4DBD1880738B00D75EEE /* OCAFoundation+Base.h */; };
+		5B8F4DC01880738B00D75EEE /* OCAFoundation+Base.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B8F4DBE1880738B00D75EEE /* OCAFoundation+Base.m */; };
+		5B8F4DC11880738B00D75EEE /* OCAFoundation+Base.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B8F4DBE1880738B00D75EEE /* OCAFoundation+Base.m */; };
+		5B8F4DC41880748F00D75EEE /* OCAFoundation+Strings.h in Headers */ = {isa = PBXBuildFile; fileRef = 5B8F4DC21880748F00D75EEE /* OCAFoundation+Strings.h */; };
+		5B8F4DC51880748F00D75EEE /* OCAFoundation+Strings.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B8F4DC31880748F00D75EEE /* OCAFoundation+Strings.m */; };
+		5B8F4DC61880748F00D75EEE /* OCAFoundation+Strings.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B8F4DC31880748F00D75EEE /* OCAFoundation+Strings.m */; };
+		5B8F4DC91880754300D75EEE /* OCAFoundation+Data.h in Headers */ = {isa = PBXBuildFile; fileRef = 5B8F4DC71880754300D75EEE /* OCAFoundation+Data.h */; };
+		5B8F4DCA1880754300D75EEE /* OCAFoundation+Data.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B8F4DC81880754300D75EEE /* OCAFoundation+Data.m */; };
+		5B8F4DCB1880754300D75EEE /* OCAFoundation+Data.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B8F4DC81880754300D75EEE /* OCAFoundation+Data.m */; };
+		5B8F4DCE188075C000D75EEE /* OCAFoundation+Dates.h in Headers */ = {isa = PBXBuildFile; fileRef = 5B8F4DCC188075C000D75EEE /* OCAFoundation+Dates.h */; };
+		5B8F4DCF188075C000D75EEE /* OCAFoundation+Dates.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B8F4DCD188075C000D75EEE /* OCAFoundation+Dates.m */; };
+		5B8F4DD0188075C000D75EEE /* OCAFoundation+Dates.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B8F4DCD188075C000D75EEE /* OCAFoundation+Dates.m */; };
 		5BA8A6451875BD950012BA5D /* OCAMathTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BA8A6441875BD950012BA5D /* OCAMathTest.m */; };
 		5BA8A6461875BD950012BA5D /* OCAMathTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BA8A6441875BD950012BA5D /* OCAMathTest.m */; };
 		5BB7CD2A1879BCB3006916AB /* OCAMath.h in Headers */ = {isa = PBXBuildFile; fileRef = 5BB7CD281879BCB3006916AB /* OCAMath.h */; };
 		5BB7CD2B1879BCB3006916AB /* OCAMath.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BB7CD291879BCB3006916AB /* OCAMath.m */; };
 		5BB7CD2C1879BCB3006916AB /* OCAMath.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BB7CD291879BCB3006916AB /* OCAMath.m */; };
 		5BB7CD2F1879BCC8006916AB /* OCAFoundation.h in Headers */ = {isa = PBXBuildFile; fileRef = 5BB7CD2D1879BCC8006916AB /* OCAFoundation.h */; };
-		5BB7CD301879BCC8006916AB /* OCAFoundation.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BB7CD2E1879BCC8006916AB /* OCAFoundation.m */; };
-		5BB7CD311879BCC8006916AB /* OCAFoundation.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BB7CD2E1879BCC8006916AB /* OCAFoundation.m */; };
 		5BB7CD331879BE51006916AB /* OCAFoundationTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BB7CD321879BE51006916AB /* OCAFoundationTest.m */; };
 		5BB7CD341879BE51006916AB /* OCAFoundationTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BB7CD321879BE51006916AB /* OCAFoundationTest.m */; };
 		5BB7CD381879D183006916AB /* OCABridge.h in Headers */ = {isa = PBXBuildFile; fileRef = 5BB7CD361879D183006916AB /* OCABridge.h */; };
@@ -160,11 +173,20 @@
 		5B8F4DB0187EF60800D75EEE /* OCAPropertyTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCAPropertyTest.m; sourceTree = "<group>"; };
 		5B8F4DB31880421200D75EEE /* NSArray+Ordinals.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+Ordinals.h"; sourceTree = "<group>"; };
 		5B8F4DB41880421200D75EEE /* NSArray+Ordinals.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+Ordinals.m"; sourceTree = "<group>"; };
+		5B8F4DB81880737A00D75EEE /* OCAFoundation+Collections.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "OCAFoundation+Collections.h"; sourceTree = "<group>"; };
+		5B8F4DB91880737A00D75EEE /* OCAFoundation+Collections.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "OCAFoundation+Collections.m"; sourceTree = "<group>"; };
+		5B8F4DBD1880738B00D75EEE /* OCAFoundation+Base.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "OCAFoundation+Base.h"; sourceTree = "<group>"; };
+		5B8F4DBE1880738B00D75EEE /* OCAFoundation+Base.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "OCAFoundation+Base.m"; sourceTree = "<group>"; };
+		5B8F4DC21880748F00D75EEE /* OCAFoundation+Strings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "OCAFoundation+Strings.h"; sourceTree = "<group>"; };
+		5B8F4DC31880748F00D75EEE /* OCAFoundation+Strings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "OCAFoundation+Strings.m"; sourceTree = "<group>"; };
+		5B8F4DC71880754300D75EEE /* OCAFoundation+Data.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "OCAFoundation+Data.h"; sourceTree = "<group>"; };
+		5B8F4DC81880754300D75EEE /* OCAFoundation+Data.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "OCAFoundation+Data.m"; sourceTree = "<group>"; };
+		5B8F4DCC188075C000D75EEE /* OCAFoundation+Dates.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "OCAFoundation+Dates.h"; sourceTree = "<group>"; };
+		5B8F4DCD188075C000D75EEE /* OCAFoundation+Dates.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "OCAFoundation+Dates.m"; sourceTree = "<group>"; };
 		5BA8A6441875BD950012BA5D /* OCAMathTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCAMathTest.m; sourceTree = "<group>"; };
 		5BB7CD281879BCB3006916AB /* OCAMath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCAMath.h; sourceTree = "<group>"; };
 		5BB7CD291879BCB3006916AB /* OCAMath.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCAMath.m; sourceTree = "<group>"; };
 		5BB7CD2D1879BCC8006916AB /* OCAFoundation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCAFoundation.h; sourceTree = "<group>"; };
-		5BB7CD2E1879BCC8006916AB /* OCAFoundation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCAFoundation.m; sourceTree = "<group>"; };
 		5BB7CD321879BE51006916AB /* OCAFoundationTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCAFoundationTest.m; sourceTree = "<group>"; };
 		5BB7CD361879D183006916AB /* OCABridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCABridge.h; sourceTree = "<group>"; };
 		5BB7CD371879D183006916AB /* OCABridge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCABridge.m; sourceTree = "<group>"; };
@@ -358,7 +380,16 @@
 			isa = PBXGroup;
 			children = (
 				5BB7CD2D1879BCC8006916AB /* OCAFoundation.h */,
-				5BB7CD2E1879BCC8006916AB /* OCAFoundation.m */,
+				5B8F4DBD1880738B00D75EEE /* OCAFoundation+Base.h */,
+				5B8F4DBE1880738B00D75EEE /* OCAFoundation+Base.m */,
+				5B8F4DB81880737A00D75EEE /* OCAFoundation+Collections.h */,
+				5B8F4DB91880737A00D75EEE /* OCAFoundation+Collections.m */,
+				5B8F4DC21880748F00D75EEE /* OCAFoundation+Strings.h */,
+				5B8F4DC31880748F00D75EEE /* OCAFoundation+Strings.m */,
+				5B8F4DC71880754300D75EEE /* OCAFoundation+Data.h */,
+				5B8F4DC81880754300D75EEE /* OCAFoundation+Data.m */,
+				5B8F4DCC188075C000D75EEE /* OCAFoundation+Dates.h */,
+				5B8F4DCD188075C000D75EEE /* OCAFoundation+Dates.m */,
 				5BB7CD281879BCB3006916AB /* OCAMath.h */,
 				5BB7CD291879BCB3006916AB /* OCAMath.m */,
 				5B8F4DA0187DAFD100D75EEE /* OCANotificator.h */,
@@ -459,11 +490,15 @@
 				5BD9ED1118733A350069044C /* OCATransformer+Predefined.h in Headers */,
 				5BB7CD56187B1122006916AB /* OCAQueue.h in Headers */,
 				5BB7CD51187AE997006916AB /* OCAMulticast.h in Headers */,
+				5B8F4DC91880754300D75EEE /* OCAFoundation+Data.h in Headers */,
 				5B8F4DB51880421200D75EEE /* NSArray+Ordinals.h in Headers */,
+				5B8F4DBA1880737A00D75EEE /* OCAFoundation+Collections.h in Headers */,
 				5BB7CD2A1879BCB3006916AB /* OCAMath.h in Headers */,
 				5BB7CD381879D183006916AB /* OCABridge.h in Headers */,
 				5B8F4D93187D83BE00D75EEE /* OCAStructureAccessor.h in Headers */,
 				5B8F4D9D187D887100D75EEE /* OCAKeyPathAccessor.h in Headers */,
+				5B8F4DC41880748F00D75EEE /* OCAFoundation+Strings.h in Headers */,
+				5B8F4DCE188075C000D75EEE /* OCAFoundation+Dates.h in Headers */,
 				5B8F4DA7187DDA7500D75EEE /* OCADecomposer.h in Headers */,
 				5B8F4D98187D849800D75EEE /* OCAAccessor.h in Headers */,
 				5B8F4DAD187EF01A00D75EEE /* OCAPropertyBridge.h in Headers */,
@@ -471,6 +506,7 @@
 				5BD9ED0918731B570069044C /* OCATransformer.h in Headers */,
 				5BD9ECE31871D82E0069044C /* OCACommand.h in Headers */,
 				5B8F4D8D187D838300D75EEE /* NSValue+Boxing.h in Headers */,
+				5B8F4DBF1880738B00D75EEE /* OCAFoundation+Base.h in Headers */,
 				5B8F4DA2187DAFD100D75EEE /* OCANotificator.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -609,13 +645,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				5B097E571871BEA1006240D8 /* OCAObject.m in Sources */,
+				5B8F4DC61880748F00D75EEE /* OCAFoundation+Strings.m in Sources */,
+				5B8F4DD0188075C000D75EEE /* OCAFoundation+Dates.m in Sources */,
 				5B8F4D95187D83BE00D75EEE /* OCAStructureAccessor.m in Sources */,
 				5BD9ED0B18731B570069044C /* OCATransformer.m in Sources */,
+				5B8F4DC11880738B00D75EEE /* OCAFoundation+Base.m in Sources */,
 				5BB7CD53187AE997006916AB /* OCAMulticast.m in Sources */,
 				5B8F4D9A187D849800D75EEE /* OCAAccessor.m in Sources */,
+				5B8F4DCB1880754300D75EEE /* OCAFoundation+Data.m in Sources */,
 				5B8F4D8F187D838300D75EEE /* NSValue+Boxing.m in Sources */,
 				5B8F4D9F187D887100D75EEE /* OCAKeyPathAccessor.m in Sources */,
-				5BB7CD311879BCC8006916AB /* OCAFoundation.m in Sources */,
 				5BD9ECFF1872D61E0069044C /* OCATimer.m in Sources */,
 				5BD9ECE51871D82E0069044C /* OCACommand.m in Sources */,
 				5B8F4DB71880421200D75EEE /* NSArray+Ordinals.m in Sources */,
@@ -626,6 +665,7 @@
 				5BB7CD58187B1122006916AB /* OCAQueue.m in Sources */,
 				5BD9ECF91871E9F30069044C /* OCASubscriber.m in Sources */,
 				5BB7CD401879D745006916AB /* OCAHub.m in Sources */,
+				5B8F4DBC1880737A00D75EEE /* OCAFoundation+Collections.m in Sources */,
 				5BD9ED05187300B80069044C /* OCASemaphore.m in Sources */,
 				5B8F4DAF187EF01A00D75EEE /* OCAPropertyBridge.m in Sources */,
 				5B8F4DA9187DDA7500D75EEE /* OCADecomposer.m in Sources */,
@@ -654,13 +694,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				5B097E281871B0C1006240D8 /* OCAProducer.m in Sources */,
+				5B8F4DC51880748F00D75EEE /* OCAFoundation+Strings.m in Sources */,
+				5B8F4DCF188075C000D75EEE /* OCAFoundation+Dates.m in Sources */,
 				5B8F4D94187D83BE00D75EEE /* OCAStructureAccessor.m in Sources */,
 				5BD9ED0A18731B570069044C /* OCATransformer.m in Sources */,
+				5B8F4DC01880738B00D75EEE /* OCAFoundation+Base.m in Sources */,
 				5BB7CD52187AE997006916AB /* OCAMulticast.m in Sources */,
 				5B8F4D99187D849800D75EEE /* OCAAccessor.m in Sources */,
+				5B8F4DCA1880754300D75EEE /* OCAFoundation+Data.m in Sources */,
 				5B8F4D8E187D838300D75EEE /* NSValue+Boxing.m in Sources */,
 				5B8F4D9E187D887100D75EEE /* OCAKeyPathAccessor.m in Sources */,
-				5BB7CD301879BCC8006916AB /* OCAFoundation.m in Sources */,
 				5BD9ECFE1872D61E0069044C /* OCATimer.m in Sources */,
 				5BD9ECE41871D82E0069044C /* OCACommand.m in Sources */,
 				5B8F4DB61880421200D75EEE /* NSArray+Ordinals.m in Sources */,
@@ -671,6 +714,7 @@
 				5BB7CD57187B1122006916AB /* OCAQueue.m in Sources */,
 				5BD9ECF81871E9F20069044C /* OCASubscriber.m in Sources */,
 				5BB7CD3F1879D745006916AB /* OCAHub.m in Sources */,
+				5B8F4DBB1880737A00D75EEE /* OCAFoundation+Collections.m in Sources */,
 				5BD9ED04187300B70069044C /* OCASemaphore.m in Sources */,
 				5B8F4DAE187EF01A00D75EEE /* OCAPropertyBridge.m in Sources */,
 				5B8F4DA8187DDA7500D75EEE /* OCADecomposer.m in Sources */,
