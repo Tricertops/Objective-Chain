@@ -20,6 +20,22 @@
 
 @interface OCAFoundation : OCAObject
 
+
+
+
+
+#pragma mark Transformers
+
++ (OCATransformer *)test:(NSPredicate *)predicate;
++ (OCATransformer *)negate;
++ (OCATransformer *)passes:(NSPredicate *)predicate or:(id)replacement;
++ (OCATransformer *)evaluate:(NSExpression *)expression;
++ (OCATransformer *)map:(NSDictionary *)dictionary;
+
+
+
+
+
 @end
 
 

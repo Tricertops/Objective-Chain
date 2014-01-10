@@ -7,6 +7,7 @@
 //
 
 #import "OCATransformer.h"
+#import "OCAFoundation.h"
 #import "OCAStructureAccessor.h"
 
 
@@ -142,7 +143,7 @@
                                                    return [input componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
                                                }] describe:@"split words"];
     
-    OCATransformer *countWords = [OCATransformer sequence:@[ toWords, [OCATransformer count] ]];
+    OCATransformer *countWords = [OCATransformer sequence:@[ toWords, [OCAFoundation count] ]];
     
     XCTAssertEqualObjects([countWords.class valueClass], [NSString class], @"Sequence has mismatched input class.");
     XCTAssertEqualObjects([countWords.class transformedValueClass], [NSNumber class], @"Sequence has mismatched output class.");
@@ -180,12 +181,12 @@
 
 - (void)test_predefinedRepeat_transformRequiredNumerOfTimes {
     OCATransformer *appendExclamation = [[OCATransformer fromClass:[NSString class] toClass:[NSString class]
-                                                          transform:^NSString *(NSString *input) {
-                                                              return [input stringByAppendingString:@"!"];
-                                                          } reverse:^NSString *(NSString *input) {
-                                                              if ([input hasSuffix:@"!"]) return [input substringToIndex:input.length-1];
-                                                              else return input;
-                                                          }] describe:@"append “!”" reverse:@"remove appended “!”"];
+                                                         transform:^NSString *(NSString *input) {
+                                                             return [input stringByAppendingString:@"!"];
+                                                         } reverse:^NSString *(NSString *input) {
+                                                             if ([input hasSuffix:@"!"]) return [input substringToIndex:input.length-1];
+                                                             else return input;
+                                                         }] describe:@"append “!”" reverse:@"remove appended “!”"];
     OCATransformer *t = [OCATransformer repeat:5 transformer:appendExclamation];
     
     XCTAssertEqualObjects([t transformedValue:@"Hello"], @"Hello!!!!!");
@@ -247,11 +248,11 @@
 
 
 - (void)test_predefinedMap_NSDictionary {
-    OCATransformer *t = [OCATransformer map:@{
-                                              @"A": @1,
-                                              @"B": @4,
-                                              @"C": @8,
-                                              }];
+    OCATransformer *t = [OCAFoundation map:@{
+                                             @"A": @1,
+                                             @"B": @4,
+                                             @"C": @8,
+                                             }];
     XCTAssertEqualObjects([t.class valueClass], [NSString class], @"Key classes are consistent NSStrings.");
     XCTAssertEqualObjects([t.class transformedValueClass], [NSNumber class], @"Object classes are consistent NSNumbers.");
     XCTAssertEqualObjects([t transformedValue:@"C"], @8);
