@@ -27,6 +27,7 @@
 
 @property (atomic, readwrite, assign) NSUInteger birthYear;
 @property (atomic, readwrite, assign) NSUInteger age;
+@property (atomic, readwrite, assign) NSRange lifespan;
 
 
 @end
@@ -49,6 +50,7 @@
     self.occupation = nil;
     self.birthYear = 1992;
     self.age = 0;
+    self.lifespan = NSMakeRange(0, 0);
 }
 
 
@@ -128,6 +130,25 @@
     XCTAssertTrue(self.age == 23);
     self.age = 50;
     XCTAssertTrue(self.birthYear == 1964);
+}
+
+
+- (void)test_bindWithStructure {
+    [OCAProperty(self, birthYear, NSUInteger) bindWithTransform:[OCAMath subtractFrom:2014] to:OCAProperty(self, age, NSUInteger)];
+    [OCAProperty(self, birthYear, NSUInteger) bindTo:OCAPropertyStruct(self, lifespan, location)];
+    [OCAProperty(self, age, NSUInteger) bindTo:OCAPropertyStruct(self, lifespan, length)];
+    
+    XCTAssertTrue(self.lifespan.location == 1992);
+    XCTAssertTrue(self.lifespan.length == 22);
+    
+    self.lifespan = NSMakeRange(1990, 24);
+    XCTAssertTrue(self.birthYear == 1990);
+    XCTAssertTrue(self.age == 24);
+    
+    self.birthYear = 2000;
+    XCTAssertTrue(self.age == 14);
+    XCTAssertTrue(self.lifespan.location == 2000);
+    XCTAssertTrue(self.lifespan.length == 14);
 }
 
 

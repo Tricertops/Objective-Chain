@@ -67,8 +67,8 @@
 
 #define OCAPropertyBridgeCreateWithStructure(OBJECT, KEYPATH, MEMBER) \
 (OCAPropertyBridge *)({ \
-    id o = (OBJECT);\
-    [[OCAPropertyBridge alloc] initWithObject:o keyPathAccessor:OCAKeyPathAccessorCreateWithStructure([o class], KEYPATH, MEMBER)]; \
+    typeof(OBJECT) o = (OBJECT);\
+    [[OCAPropertyBridge alloc] initWithObject:o keyPathAccessor:OCAKeyPathAccessorCreateWithStructureFromObject(o, KEYPATH, MEMBER)]; \
 }) \
 
 

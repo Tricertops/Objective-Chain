@@ -131,7 +131,9 @@
 
 
 - (NSArray *)bindWithTransform:(NSValueTransformer *)transformer to:(OCAPropertyBridge *)property {
-    OCAAssert([transformer.class allowsReverseTransformation], @"Need reversible transformer for two-way binding.") return nil;
+    if (transformer) {
+        OCAAssert([transformer.class allowsReverseTransformation], @"Need reversible transformer for two-way binding.") return nil;
+    }
     
     OCAConnection *there = [[OCAConnection alloc] initWithProducer:self
                                                              queue:nil

@@ -68,7 +68,19 @@
     (void)o.KEYPATH.MEMBER; \
     [[OCAKeyPathAccessor alloc] initWithObjectClass:[CLASS class] \
                                             keyPath:OCAKP(CLASS, KEYPATH) \
-                                  structureAccessor:OCAStruct(o.KEYPATH, MEMBER)]; \
+                                  structureAccessor:OCAStructureAccessorCreate(o.KEYPATH, MEMBER)]; \
+}) \
+
+
+
+
+#define OCAKeyPathAccessorCreateWithStructureFromObject(OBJECT, KEYPATH, MEMBER) \
+(OCAKeyPathAccessor *)({ \
+    typeof(OBJECT) o; \
+    (void)o.KEYPATH.MEMBER; \
+    [[OCAKeyPathAccessor alloc] initWithObjectClass:[OBJECT class] \
+                                            keyPath:OCAKP([OBJECT class], KEYPATH) \
+                                  structureAccessor:OCAStructureAccessorCreate(o.KEYPATH, MEMBER)]; \
 }) \
 
 
