@@ -25,12 +25,12 @@
 
 #pragma mark NSArray
 
-/// Creating Array
+/// Materialize Array
 + (OCATransformer *)branchArray:(NSArray *)transformers;
 + (OCATransformer *)wrapInArray;
 + (OCATransformer *)arrayFromFile;
 
-/// Transforming Array
+/// Altering Array
 + (OCATransformer *)objectsAtIndexes:(NSIndexSet *)indexes;
 + (OCATransformer *)subarrayToIndex:(NSInteger)index;
 + (OCATransformer *)subarrayFromIndex:(NSInteger)index;
@@ -43,7 +43,7 @@
 + (OCATransformer *)removeNullsFromArray;
 + (OCATransformer *)mutateArray:(void(^)(NSMutableArray *array))block;
 
-/// Destroying Array
+/// Dematerialize Array
 + (OCATransformer *)objectAtIndex:(NSInteger)index;
 + (OCATransformer *)joinWithString:(NSString *)string;
 + (OCATransformer *)joinWithString:(NSString *)string last:(NSString *)lastString;
@@ -51,16 +51,16 @@
 
 #pragma mark NSAttributedString
 
-/// Constructors
-//TODO: stringWithAttributes:
+/// Materializing Attributed String
++ (OCATransformer *)stringWithAttributes:(NSDictionary *)attributes;
 
-/// Transformators
-//TODO: setAttributes:
-//TODO: transformAttribute:transformer:
-//TODO: appendAttributedString:
-//TODO: attributedSubstringInRange:
-//TODO: addAttributes:range:
-//TODO: mutateAttributedString:(block)
+/// Altering Attributed String
++ (OCATransformer *)addAttributes:(NSDictionary *)attributes;
++ (OCATransformer *)addAttributes:(NSDictionary *)attributes range:(NSRange)range;
++ (OCATransformer *)transformAttribute:(NSString *)attribute transformer:(NSValueTransformer *)transformer;
++ (OCATransformer *)appendAttributedString:(NSAttributedString *)attributedString;
++ (OCATransformer *)attributedSubstringInRange:(NSRange)range;
++ (OCATransformer *)mutateAttributedString:(void(^)(NSMutableAttributedString *attributedString))block;
 
 
 #pragma mark NSData
