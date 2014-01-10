@@ -169,6 +169,13 @@
 }
 
 
+- (void)test_sharedInstances {
+    OCAPropertyBridge *first = OCAProperty(self, lastName, NSString);
+    OCAPropertyBridge *second = OCAProperty(self, lastName, NSString);
+    XCTAssertTrue(first == second);
+}
+
+
 
 
 

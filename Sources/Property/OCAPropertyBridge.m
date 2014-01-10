@@ -47,7 +47,8 @@
     if (self) {
         OCAAssert(object != nil, @"Need an object.") return nil;
         
-        //TODO: Re-use instances.
+        OCAPropertyBridge *existing = [OCAPropertyBridge existingPropertyOnObject:object keyPathAccessor:accessor options:options];
+        if (existing) return existing;
         
         self->_object = object;
         self->_accessor = accessor;
@@ -60,12 +61,22 @@
                              | NSKeyValueObservingOptionNew)
                     context:nil];
         
+        //TODO: Attach and detach on demand.
         [object.decomposer addOwnedObject:self cleanup:^{
             [object removeObserver:self forKeyPath:self.accessor.keyPath];
             [self finishProducingWithError:nil];
         }];
     }
     return self;
+}
+
+
++ (instancetype)existingPropertyOnObject:(NSObject *)object keyPathAccessor:(OCAKeyPathAccessor *)accessor options:(OCAPropertyOptions)options {
+    return [object.decomposer findOwnedObjectOfClass:self usingBlock:^BOOL(OCAPropertyBridge *ownedProperty) {
+        BOOL equalAccessor = [ownedProperty.accessor isEqual:accessor];
+        BOOL equalOptions = (ownedProperty.options == options);
+        return (equalAccessor && equalOptions);
+    }];
 }
 
 
