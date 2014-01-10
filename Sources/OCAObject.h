@@ -14,6 +14,12 @@
 #define OCAKP(CLASS, KEYPATH)           ((NSString *)@(((void)(NO && ((void)[[CLASS new] KEYPATH], NO)), # KEYPATH)))
 #define OCAWeakify(VARIABLE)            __weak typeof(VARIABLE) VARIABLE##_weak = VARIABLE
 #define OCAStrongify(VARIABLE)          __strong typeof(VARIABLE##_weak) VARIABLE = VARIABLE##_weak
+#define OCAEqual(A, B) \
+(BOOL)({ \
+    NSObject *a = (A); \
+    NSObject *b = (B); \
+    ((a == b) || (b && [a isEqual:b])); \
+}) \
 
 
 

@@ -1,5 +1,5 @@
 //
-//  OCAProperty.h
+//  OCAPropertyBridge.h
 //  Objective-Chain
 //
 //  Created by Martin Kiss on 9.1.14.
@@ -14,18 +14,18 @@
 
 
 
-@interface OCAProperty : OCAProducer < OCAConsumer >
+@interface OCAPropertyBridge : OCAProducer < OCAConsumer >
 
 
 
-#pragma mark Creating Property
+#pragma mark Creating Property Bridge
 
-//TODO: Options: Prior, Changes, Weak Last
+//TODO: Options: Prior, Changes, Weak Last, Duplicates
 
 - (instancetype)initWithObject:(NSObject *)object keyPathAccessor:(OCAKeyPathAccessor *)accessor;
 
 
-#pragma mark Attributes of Property
+#pragma mark Attributes of Property Bridge
 
 @property (atomic, readonly, weak) id object;
 @property (atomic, readonly, copy) NSString *keyPath;
@@ -41,5 +41,15 @@
 
 
 @end
+
+
+
+
+
+#define OCAProperty(OBJECT, KEYPATH, TYPE) \
+(OCAPropertyBridge *)({ \
+    id o = (OBJECT);\
+    [[OCAPropertyBridge alloc] initWithObject:o keyPathAccessor:OCAKeyPath([o class], KEYPATH, TYPE)]; \
+}) \
 
 

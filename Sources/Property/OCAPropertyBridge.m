@@ -1,12 +1,12 @@
 //
-//  OCAProperty.m
+//  OCAPropertyBridge.m
 //  Objective-Chain
 //
 //  Created by Martin Kiss on 9.1.14.
 //  Copyright (c) 2014 Martin Kiss. All rights reserved.
 //
 
-#import "OCAProperty.h"
+#import "OCAPropertyBridge.h"
 #import "OCAProducer+Subclass.h"
 #import "OCADecomposer.h"
 
@@ -14,7 +14,7 @@
 
 
 
-@interface OCAProperty ()
+@interface OCAPropertyBridge ()
 
 
 @property (atomic, readonly, strong) OCAKeyPathAccessor *accessor;
@@ -31,13 +31,13 @@
 
 
 
-@implementation OCAProperty
+@implementation OCAPropertyBridge
 
 
 
 
 
-#pragma mark Creating Property
+#pragma mark Creating Property Bridge
 
 
 - (instancetype)initWithObject:(NSObject *)object keyPathAccessor:(OCAKeyPathAccessor *)accessor {
@@ -89,6 +89,9 @@
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
     id value = [self.accessor accessObject:self.object];
+    
+    if (OCAEqual(value, self.lastValue)) return;
+    
     [self produceValue:value];
 }
 
