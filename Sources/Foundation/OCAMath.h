@@ -41,10 +41,12 @@ typedef OCAReal(^OCARealTransformBlock)(OCAReal x);
 
 + (OCATransformer *)add:(OCAReal)value;
 + (OCATransformer *)subtract:(OCAReal)value;
++ (OCATransformer *)subtractFrom:(OCAReal)value;
 + (OCATransformer *)multiplyBy:(OCAReal)value;
 + (OCATransformer *)divideBy:(OCAReal)value;
 + (OCATransformer *)modulus:(OCAInteger)value;
 + (OCATransformer *)absoluteValue;
++ (OCATransformer *)inversedValue;
 
 
 #pragma mark Advanced

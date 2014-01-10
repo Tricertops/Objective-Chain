@@ -97,6 +97,16 @@
 }
 
 
++ (OCATransformer *)subtractFrom:(OCAReal)value {
+    return [[self transform:^OCAReal(OCAReal x) {
+        return value - x;
+    } reverse:^OCAReal(OCAReal y) {
+        return value - y;
+    }]
+            describe:[NSString stringWithFormat:@"subtract from %@", @(value)]];
+}
+
+
 + (OCATransformer *)multiplyBy:(OCAReal)value {
     return [[self transform:^OCAReal(OCAReal x) {
         return x * value;
@@ -131,6 +141,16 @@
         return ABS(y);
     }]
             describe:@"absolute value"];
+}
+
+
++ (OCATransformer *)inversedValue {
+    return [[self transform:^OCAReal(OCAReal x) {
+        return 1/x;
+    } reverse:^OCAReal(OCAReal y) {
+        return 1/y;
+    }]
+            describe:@"inversed value"];
 }
 
 
