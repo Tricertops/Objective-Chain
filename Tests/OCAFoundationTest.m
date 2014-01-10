@@ -11,6 +11,8 @@
 #import "OCASubscriber.h"
 #import "OCACommand.h"
 #import "OCADecomposer.h"
+#import "OCABridge.h"
+#import "OCAConnection.h"
 
 
 
@@ -65,6 +67,21 @@
     OCANotificator *first = [OCANotificator notify:NSCurrentLocaleDidChangeNotification];
     OCANotificator *second = [OCANotificator notify:NSCurrentLocaleDidChangeNotification];
     XCTAssertTrue(first == second);
+}
+
+
+- (void)test_deallocationOfNotificators {
+    NSString *name = @"bkhsuhgrjlnshilag";
+    OCANotificator *notificator = [[OCANotificator alloc] initWithCenter:nil name:name sender:nil];
+    __block BOOL deallocated = NO;
+    [notificator.decomposer addOwnedObject:self cleanup:^{
+        deallocated = YES;
+    }];
+    OCAConnection *connection = [notificator connectTo:[OCABridge bridge]];
+    notificator = nil;
+    [connection close];
+    
+    XCTAssertTrue(deallocated, @"");
 }
 
 

@@ -72,22 +72,29 @@
 
 
 - (void)addConnection:(OCAConnection *)connection {
+    [self willAddConnection:connection];
+    
     NSMutableArray *connections = self.mutableConnections;
     @synchronized(connections) {
         [connections addObject:connection];
-        
-        [self didAddConnection:connection];
-        
-        if (self.finished) {
-            // I we already finished remove immediately.
-            [connection producerDidFinishWithError:self.error];
-            [self removeConnection:connection];
-        }
-        else if (self.numberOfSentValues > 0) {
-            // It there was at least one sent value, send the last one.
-            [connection producerDidProduceValue:self.lastValue];
-        }
     }
+    
+    if (self.finished) {
+        // I we already finished remove immediately.
+        [connection producerDidFinishWithError:self.error];
+        [self removeConnection:connection];
+    }
+    else if (self.numberOfSentValues > 0) {
+        // It there was at least one sent value, send the last one.
+        [connection producerDidProduceValue:self.lastValue];
+    }
+    
+    [self didAddConnection:connection];
+}
+
+
+- (void)willAddConnection:(OCAConnection *)connection {
+    
 }
 
 
@@ -103,10 +110,18 @@
     @synchronized(connections) {
         [connections removeObjectIdenticalTo:connection];
     }
+    
+    [self didRemoveConnection:connection];
 }
 
 
 - (void)willRemoveConnection:(OCAConnection *)connection {
+    
+}
+
+
+- (void)didRemoveConnection:(OCAConnection *)connection {
+    
 }
 
 

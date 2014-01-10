@@ -25,11 +25,13 @@
 
 #pragma mark Managing Connections
 
+- (void)willAddConnection:(OCAConnection *)connection;
 - (void)addConnection:(OCAConnection *)connection;
 - (void)didAddConnection:(OCAConnection *)connection;
 
 - (void)willRemoveConnection:(OCAConnection *)connection;
 - (void)removeConnection:(OCAConnection *)connection;
+- (void)didRemoveConnection:(OCAConnection *)connection;
 
 
 #pragma mark Lifetime of Producer

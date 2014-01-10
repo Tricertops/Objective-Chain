@@ -66,7 +66,12 @@
 
 
 - (void)removeOwnedObject:(id)ownedObject {
+    NSMutableArray *cleanups = [self.ownedTable objectForKey:ownedObject];
     [self.ownedTable removeObjectForKey:ownedObject];
+    
+    for (OCADecomposerBlock cleanupBlock in cleanups) {
+        cleanupBlock();
+    }
 }
 
 

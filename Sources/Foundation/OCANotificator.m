@@ -62,22 +62,6 @@
         self->_notificationSender = sender;
         
         [center addObserver:self selector:@selector(produceValue:) name:name object:sender];
-        
-        OCAWeakify(self);
-        OCAWeakify(center);
-        OCAWeakify(sender);
-        
-        [center.decomposer addOwnedObject:self cleanup:^{
-            OCAStrongify(self);
-            OCAStrongify(sender);
-            [sender.decomposer removeOwnedObject:self];
-        }];
-        [sender.decomposer addOwnedObject:self cleanup:^{
-            OCAStrongify(self);
-            OCAStrongify(center);
-            [center.decomposer removeOwnedObject:self];
-            [center removeObserver:self];
-        }];
     }
     return self;
 }
@@ -94,6 +78,33 @@
 
 - (void)dealloc {
     [self.notificationCenter removeObserver:self];
+}
+
+
+- (void)willAddConnection:(OCAConnection *)connection {
+    if ( ! self.connections.count) {
+        OCAWeakify(self);
+        __weak NSObject *sender = self.notificationSender;
+        
+        [self.notificationCenter.decomposer addOwnedObject:self cleanup:^{
+            OCAStrongify(self);
+            [sender.decomposer removeOwnedObject:self];
+        }];
+        [sender.decomposer addOwnedObject:self cleanup:^{
+            OCAStrongify(self);
+            [self.notificationCenter.decomposer removeOwnedObject:self];
+        }];
+    }
+}
+
+
+- (void)didRemoveConnection:(OCAConnection *)connection {
+    if ( ! self.connections.count) {
+        [self.notificationCenter.decomposer removeOwnedObject:self];
+        
+        NSObject *sender = self.notificationSender;
+        [sender.decomposer removeOwnedObject:self];
+    }
 }
 
 
