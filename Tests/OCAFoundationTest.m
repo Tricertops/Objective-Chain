@@ -61,6 +61,13 @@
 }
 
 
+- (void)test_sharingNotificators {
+    OCANotificator *first = [OCANotificator notify:NSCurrentLocaleDidChangeNotification];
+    OCANotificator *second = [OCANotificator notify:NSCurrentLocaleDidChangeNotification];
+    XCTAssertTrue(first == second);
+}
+
+
 
 
 

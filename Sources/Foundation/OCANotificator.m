@@ -45,15 +45,17 @@
 
 
 
-#pragma mark Creating Notifier
+#pragma mark Creating Notificator
 
 
 - (instancetype)initWithCenter:(NSNotificationCenter *)center name:(NSString *)name sender:(NSObject *)sender {
     self = [super initWithValueClass:[NSNotification class]];
     if (self) {
         OCAAssert(name.length > 0, @"Missing notification name.");
-        
         center = center ?: [NSNotificationCenter defaultCenter];
+        
+        OCANotificator *existing = [OCANotificator existingNotificatorForCenter:center name:name sender:sender];
+        if (existing) return existing;
         
         self->_notificationCenter = center;
         self->_notificationName = name;
@@ -81,6 +83,21 @@
 }
 
 
++ (instancetype)existingNotificatorForCenter:(NSNotificationCenter *)center name:(NSString *)name sender:(NSObject *)sender {
+    __block OCANotificator *existingNotificator = nil;
+    [center.decomposer enumerateOwnedObjectsOfClass:self usingBlock:^(OCANotificator *ownedNotificator, BOOL *stop) {
+        BOOL theSameName = [ownedNotificator.notificationName isEqualToString:name];
+        BOOL theSameSender = ownedNotificator.notificationSender == sender;
+        
+        if (theSameName && theSameSender) {
+            existingNotificator = ownedNotificator;
+            *stop = YES;
+        }
+    }];
+    return existingNotificator;
+}
+
+
 - (void)dealloc {
     [self.notificationCenter removeObserver:self];
 }
@@ -89,7 +106,7 @@
 
 
 
-#pragma mark Describing Notifier
+#pragma mark Describing Notificator
 
 
 - (NSString *)descriptionName {

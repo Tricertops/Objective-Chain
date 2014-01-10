@@ -70,6 +70,22 @@
 }
 
 
+- (NSArray *)ownedObjects {
+    return self.ownedTable.keyEnumerator.allObjects;
+}
+
+
+- (void)enumerateOwnedObjectsOfClass:(Class)class usingBlock:(void(^)(id ownedObject, BOOL *stop))block {
+    BOOL stop = NO;
+    for (id ownedObject in self.ownedTable.keyEnumerator) {
+        if ( ! [ownedObject isKindOfClass:class]) continue;
+        
+        block(ownedObject, &stop);
+        if (stop) break;
+    }
+}
+
+
 
 
 
