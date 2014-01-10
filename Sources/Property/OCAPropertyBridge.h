@@ -37,10 +37,9 @@
 @property (atomic, readonly, strong) Class valueClass;
 
 
-#pragma mark Consuming Values
+#pragma mark Using Property
 
-- (Class)consumedValueClass;
-- (void)consumeValue:(id)value;
+@property (atomic, readwrite, assign) id value;
 
 
 #pragma mark Binding Properties
@@ -61,6 +60,7 @@
     id o = (OBJECT);\
     [[OCAPropertyBridge alloc] initWithObject:o keyPathAccessor:OCAKeyPathAccessorCreate([o class], KEYPATH, TYPE)]; \
 }) \
+
 
 
 

@@ -86,6 +86,22 @@
 
 
 
+#pragma mark Using Property
+
+
+- (id)value {
+    return [self.accessor accessObject:self.object];
+}
+
+
+- (void)setValue:(id)value {
+    [self.accessor modifyObject:self.object withValue:value];
+}
+
+
+
+
+
 #pragma mark Producing Values
 
 
