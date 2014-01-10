@@ -17,20 +17,32 @@
 
 
 
+#pragma mark Creating Structure Accessor
+
+#define OCAStruct(STRUCT, MEMBER)       OCAStructureAccessorCreate(STRUCT, MEMBER)
+
 - (instancetype)initWithStructType:(const char *)structType
                         memberType:(const char *)memberType
                           getBlock:(NSValue *(^)(NSValue *structValue))getBlock
                           setBlock:(NSValue *(^)(NSValue *structValue, NSValue *memberValue))setBlock;
+
+
+#pragma mark Attributes of Structure Accessor
 
 @property (atomic, readonly, assign) const char *structType;
 @property (atomic, readonly, assign) const char *memberType;
 
 @property (atomic, readonly, assign) BOOL isNumeric;
 
+
+#pragma mark Describing Structure Accessor
+
 @property (atomic, readwrite, assign) NSString *structureDescription;
 @property (atomic, readwrite, assign) NSString *memberDescription;
 - (instancetype)describeStructure:(NSString *)structure member:(NSString *)member;
 
+
+#pragma mark Using Structure Accessor
 
 - (NSValue *)memberFromStructure:(NSValue *)structValue;
 - (NSValue *)setMember:(NSValue *)memberValue toStructure:(NSValue *)structValue;
@@ -43,7 +55,7 @@
 
 
 
-#define OCAStruct(STRUCT, MEMBER) \
+#define OCAStructureAccessorCreate(STRUCT, MEMBER) \
 \
 (OCAStructureAccessor *)({ \
     typeof(STRUCT) s; \

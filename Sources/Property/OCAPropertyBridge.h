@@ -14,11 +14,15 @@
 
 
 
+
 @interface OCAPropertyBridge : OCAProducer < OCAConsumer >
 
 
 
 #pragma mark Creating Property Bridge
+
+#define OCAProperty(OBJECT, KEYPATH, TYPE)              OCAPropertyBridgeCreate(OBJECT, KEYPATH, TYPE)
+#define OCAPropertyStruct(OBJECT, KEYPATH, MEMBER)      OCAPropertyBridgeCreateWithStructure(OBJECT, KEYPATH, MEMBER)
 
 //TODO: Options: Prior, Changes, Weak Last, Duplicates
 
@@ -52,10 +56,19 @@
 
 
 
-#define OCAProperty(OBJECT, KEYPATH, TYPE) \
+#define OCAPropertyBridgeCreate(OBJECT, KEYPATH, TYPE) \
 (OCAPropertyBridge *)({ \
     id o = (OBJECT);\
-    [[OCAPropertyBridge alloc] initWithObject:o keyPathAccessor:OCAKeyPath([o class], KEYPATH, TYPE)]; \
+    [[OCAPropertyBridge alloc] initWithObject:o keyPathAccessor:OCAKeyPathAccessorCreate([o class], KEYPATH, TYPE)]; \
+}) \
+
+
+
+
+#define OCAPropertyBridgeCreateWithStructure(OBJECT, KEYPATH, MEMBER) \
+(OCAPropertyBridge *)({ \
+    id o = (OBJECT);\
+    [[OCAPropertyBridge alloc] initWithObject:o keyPathAccessor:OCAKeyPathAccessorCreateWithStructure([o class], KEYPATH, MEMBER)]; \
 }) \
 
 

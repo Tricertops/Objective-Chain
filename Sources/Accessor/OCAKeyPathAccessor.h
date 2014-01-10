@@ -19,6 +19,10 @@
 
 #pragma mark Creating Key-Path Accessor
 
+#define OCAKeyPath(CLASS, KEYPATH, TYPE)            OCAKeyPathAccessorCreate(CLASS, KEYPATH, TYPE)
+#define OCAKeyPathStruct(CLASS, KEYPATH, MEMBER)    OCAKeyPathAccessorCreateWithStructure(CLASS, KEYPATH, MEMBER)
+#define OCAKeyPathUnsafe(KEYPATH)                   OCAKeyPathAccessorCreateUnsafe(KEYPATH)
+
 - (instancetype)initWithObjectClass:(Class)objectClass
                             keyPath:(NSString *)keyPath
                          valueClass:(Class)valueClass;
@@ -44,7 +48,7 @@
 
 
 
-#define OCAKeyPath(CLASS, KEYPATH, TYPE) \
+#define OCAKeyPathAccessorCreate(CLASS, KEYPATH, TYPE) \
 (OCAKeyPathAccessor *)({ \
     const char *type = @encode(TYPE *); \
     BOOL isObject = (strcmp(@encode(id), type) == 0); \
@@ -58,7 +62,7 @@
 
 
 
-#define OCAKeyPathStruct(CLASS, KEYPATH, MEMBER) \
+#define OCAKeyPathAccessorCreateWithStructure(CLASS, KEYPATH, MEMBER) \
 (OCAKeyPathAccessor *)({ \
     CLASS *o; \
     (void)o.KEYPATH.MEMBER; \
@@ -70,7 +74,7 @@
 
 
 
-#define OCAKeyPathUnsafe(KEYPATH) \
+#define OCAKeyPathAccessorCreateUnsafe(KEYPATH) \
 (OCAKeyPathAccessor *)({ \
     [[OCAKeyPathAccessor alloc] initWithObjectClass:nil keyPath:KEYPATH valueClass:nil]; \
 }) \
