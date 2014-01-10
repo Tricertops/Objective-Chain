@@ -279,6 +279,7 @@
                       ^(NSNumber *timeInterval) {
                           tickCount++;
                       } finish:^(NSError *error) {
+                          NSLog(@"Heisenbug");
                           [semaphore signal];
                       }]];
     

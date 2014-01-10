@@ -103,12 +103,10 @@
             return;
         }
         
-        printf("Timer %lu\n", (unsigned long)tick);
         [self produceValue:[NSDate date]];
     });
     
     dispatch_source_set_cancel_handler(self.timer, ^{
-        NSLog(@"Finished");
         [self finishProducingWithError:nil];
     });
     
