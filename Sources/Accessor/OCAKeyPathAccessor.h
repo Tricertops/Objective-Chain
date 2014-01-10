@@ -41,6 +41,12 @@
 @property (atomic, readonly, strong) OCAStructureAccessor *structureAccessor;
 
 
+#pragma mark Comparing Key-Path Accessor
+
+- (NSUInteger)hash;
+- (BOOL)isEqual:(OCAKeyPathAccessor *)other;
+
+
 
 @end
 

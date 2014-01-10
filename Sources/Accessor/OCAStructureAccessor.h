@@ -22,6 +22,7 @@
 #define OCAStruct(STRUCT, MEMBER)       OCAStructureAccessorCreate(STRUCT, MEMBER)
 
 - (instancetype)initWithStructType:(const char *)structType
+                        memberPath:(NSString *)memberPath
                         memberType:(const char *)memberType
                           getBlock:(NSValue *(^)(NSValue *structValue))getBlock
                           setBlock:(NSValue *(^)(NSValue *structValue, NSValue *memberValue))setBlock;
@@ -30,6 +31,7 @@
 #pragma mark Attributes of Structure Accessor
 
 @property (atomic, readonly, assign) const char *structType;
+@property (atomic, readonly, copy) NSString *memberPath;
 @property (atomic, readonly, assign) const char *memberType;
 
 @property (atomic, readonly, assign) BOOL isNumeric;
@@ -46,6 +48,12 @@
 
 - (NSValue *)memberFromStructure:(NSValue *)structValue;
 - (NSValue *)setMember:(NSValue *)memberValue toStructure:(NSValue *)structValue;
+
+
+#pragma mark Comparing Structure Accessor
+
+- (NSUInteger)hash;
+- (BOOL)isEqual:(OCAStructureAccessor *)other;
 
 
 

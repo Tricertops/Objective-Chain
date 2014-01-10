@@ -95,6 +95,31 @@
 
 
 
+
+#pragma mark Comparing Key-Path Accessor
+
+
+- (NSUInteger)hash {
+    return (self.objectClass.hash
+            ^ self.keyPath.hash
+            ^ self.valueClass.hash
+            ^ self.structureAccessor.hash);
+}
+
+
+- (BOOL)isEqual:(OCAKeyPathAccessor *)other {
+    if (other == self) return YES;
+    if (other.class != self.class) return NO;
+    
+    return (OCAEqual(self.objectClass, other.objectClass)
+            && OCAEqualString(self.keyPath, other.keyPath)
+            && OCAEqual(self.valueClass, other.valueClass)
+            && OCAEqual(self.structureAccessor, other.structureAccessor));
+}
+
+
+
+
 #pragma mark Describing Key-Path Accessors
 
 

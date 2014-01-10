@@ -40,16 +40,19 @@
 
 
 - (instancetype)initWithStructType:(const char *)structType
+                        memberPath:(NSString *)memberPath
                         memberType:(const char *)memberType
                           getBlock:(NSValue *(^)(NSValue *structValue))getBlock
                           setBlock:(NSValue *(^)(NSValue *structValue, NSValue *memberValue))setBlock {
     self = [super init];
     if (self) {
         OCAAssert( ! [NSValue objCTypeIsNumeric:structType], @"This is not a struct! Don't play with types or bad things will happen!") return nil;
+        OCAAssert(memberPath.length > 0, @"Missing member path.") return nil;;
         OCAAssert(getBlock != nil, @"Missing get block.");
         OCAAssert(setBlock != nil, @"Missing set block.");
         
         self->_structType = structType;
+        self->_memberPath = memberPath;
         self->_memberType = memberType;
         
         self->_isNumeric = [NSValue objCTypeIsNumeric:memberType];
@@ -150,6 +153,29 @@
 
 - (id)modifyObject:(id)object withValue:(id)value {
     return [self setMember:value toStructure:object];
+}
+
+
+
+
+
+#pragma mark Comparing Structure Accessor
+
+
+- (NSUInteger)hash {
+    NSString *structType = [NSString stringWithUTF8String:self.structType];
+    NSString *memberType = [NSString stringWithUTF8String:self.memberType];
+    return (structType.hash ^ self.memberPath.hash ^ memberType.hash);
+}
+
+
+- (BOOL)isEqual:(OCAStructureAccessor *)other {
+    if (other == self) return YES;
+    if (other.class != self.class) return NO;
+    
+    return (strcmp(self.structType, other.structType) == 0
+            && OCAEqualString(self.memberPath, other.memberPath)
+            && strcmp(self.memberType, other.memberType) == 0);
 }
 
 
