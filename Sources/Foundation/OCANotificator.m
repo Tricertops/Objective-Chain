@@ -84,17 +84,11 @@
 
 
 + (instancetype)existingNotificatorForCenter:(NSNotificationCenter *)center name:(NSString *)name sender:(NSObject *)sender {
-    __block OCANotificator *existingNotificator = nil;
-    [center.decomposer enumerateOwnedObjectsOfClass:self usingBlock:^(OCANotificator *ownedNotificator, BOOL *stop) {
+    return [center.decomposer findOwnedObjectOfClass:self usingBlock:^BOOL(OCANotificator *ownedNotificator) {
         BOOL theSameName = [ownedNotificator.notificationName isEqualToString:name];
         BOOL theSameSender = ownedNotificator.notificationSender == sender;
-        
-        if (theSameName && theSameSender) {
-            existingNotificator = ownedNotificator;
-            *stop = YES;
-        }
+        return (theSameName && theSameSender);
     }];
-    return existingNotificator;
 }
 
 

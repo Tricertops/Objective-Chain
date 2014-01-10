@@ -75,14 +75,14 @@
 }
 
 
-- (void)enumerateOwnedObjectsOfClass:(Class)class usingBlock:(void(^)(id ownedObject, BOOL *stop))block {
-    BOOL stop = NO;
+- (id)findOwnedObjectOfClass:(Class)class usingBlock:(BOOL(^)(id ownedObject))filterBlock {
     for (id ownedObject in self.ownedTable.keyEnumerator) {
         if ( ! [ownedObject isKindOfClass:class]) continue;
         
-        block(ownedObject, &stop);
-        if (stop) break;
+        BOOL found = filterBlock(ownedObject);
+        if (found) return ownedObject;
     }
+    return nil;
 }
 
 

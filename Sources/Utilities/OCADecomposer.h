@@ -26,7 +26,7 @@ typedef void(^OCADecomposerBlock)(void);
 - (void)removeOwnedObject:(id)object;
 
 - (NSArray *)ownedObjects;
-- (void)enumerateOwnedObjectsOfClass:(Class)class usingBlock:(void(^)(id ownedObject, BOOL *stop))block;
+- (id)findOwnedObjectOfClass:(Class)class usingBlock:(BOOL(^)(id ownedObject))filterBlock;
 
 
 
