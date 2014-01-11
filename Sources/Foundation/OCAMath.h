@@ -35,7 +35,6 @@ typedef OCAReal(^OCARealTransformBlock)(OCAReal x);
 + (OCATransformer *)function:(OCAReal(*)(OCAReal))function reverse:(OCAReal(*)(OCAReal))reverse;
 
 
-
 #pragma mark Basic
 
 + (OCATransformer *)add:(OCAReal)value;
