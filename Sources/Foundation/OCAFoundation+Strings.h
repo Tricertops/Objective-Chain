@@ -16,23 +16,36 @@
 
 
 
-#pragma mark NSString
+#pragma mark -
+#pragma mark String
+#pragma mark -
 
-/// Constructors
-//TODO: stringFromData
-//TODO: formatString: (simply replaces %@ with the value)
-//TODO: stringFromFile
 
-/// Transformators
-//TODO: appendString:
-//TODO: substringToIndex: (also negative)
-//TODO: substringFromIndex: (also negative)
-//TODO: substringWithRange:
-//TODO: replaceString:withString:
+#pragma mark Creating String
 
-/// Destructors
-//TODO: splitString:
-//TODO: splitWords
++ (OCATransformer *)stringFromFile;
++ (OCATransformer *)stringFromData;
++ (OCATransformer *)formatString:(NSString *)format;
+
+
+#pragma mark Getting Substring
+
++ (OCATransformer *)substringToIndex:(NSInteger)index;
++ (OCATransformer *)substringFromIndex:(NSInteger)index;
++ (OCATransformer *)substringWithRange:(NSRange)range;
+
+
+#pragma mark Altering String
+
++ (OCATransformer *)appendFormat:(NSString *)format, ... NS_FORMAT_FUNCTION(1, 2);
++ (OCATransformer *)replaceString:(NSString *)find withString:(NSString *)replace;
++ (OCATransformer *)mutateString:(void(^)(NSMutableString *string))block;
+
+
+#pragma mark Splitting String
+
++ (OCATransformer *)splitString:(NSString *)split;
++ (OCATransformer *)splitByWhitespace;
 
 
 

@@ -282,11 +282,16 @@
 
 + (OCATransformer *)joinWithString:(NSString *)string {
     return [[OCATransformer fromClass:[NSArray class] toClass:[NSString class]
-                            asymetric:^NSString *(NSArray *input) {
+                            transform:^NSString *(NSArray *input) {
                                 
                                 return [input componentsJoinedByString:string];
+                                
+                            } reverse:^NSArray *(NSString *input) {
+                                
+                                return [input componentsSeparatedByString:string];
                             }]
-            describe:[NSString stringWithFormat:@"join “%@”", string]];
+            describe:[NSString stringWithFormat:@"join with “%@”", string]
+            reverse:[NSString stringWithFormat:@"split by “%@”", string]];
 }
 
 
