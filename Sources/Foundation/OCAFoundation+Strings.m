@@ -299,6 +299,91 @@
 
 
 
+#pragma mark -
+#pragma mark NSNumber
+#pragma mark -
+
+
+#pragma mark NSNumber - Format
+
+
++ (OCATransformer *)stringWithNumberStyle:(NSNumberFormatterStyle)style {
+    NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
+    formatter.numberStyle = style;
+    NSDictionary *nameByStyle = @{
+                                  @(NSNumberFormatterNoStyle): @"format number",
+                                  @(NSNumberFormatterDecimalStyle): @"format decimal number",
+                                  @(NSNumberFormatterCurrencyStyle): @"format currency",
+                                  @(NSNumberFormatterPercentStyle): @"format percent",
+                                  @(NSNumberFormatterScientificStyle): @"format scientific number",
+                                  @(NSNumberFormatterSpellOutStyle): @"spell out number",
+                                  };
+    return [[OCAFoundation stringWithNumberFormatter:formatter]
+            describe:[nameByStyle objectForKey:@(style)]];
+}
+
+
++ (OCATransformer *)stringWithNumberFormatter:(NSNumberFormatter *)formatter {
+    return [[OCATransformer fromClass:[NSNumber class] toClass:[NSString class]
+                           transform:^NSString *(NSNumber *input) {
+                               
+                               return [formatter stringFromNumber:input];
+                               
+                           } reverse:^NSNumber *(NSString *input) {
+                               
+                               return [formatter numberFromString:input];
+                           }]
+            describe:[NSString stringWithFormat:@"format number using %@", formatter]
+            reverse:[NSString stringWithFormat:@"parse number using %@", formatter]];
+}
+
+
+
+
+
+#pragma mark NSNumber - Byte Count
+
+
++ (OCATransformer *)stringWithMemoryByteCount {
+    NSByteCountFormatter *formatter = [[NSByteCountFormatter alloc] init];
+    formatter.countStyle = NSByteCountFormatterCountStyleMemory;
+    return [[OCAFoundation stringWithByteCountFormatter:formatter]
+            describe:@"format memory size"];
+}
+
+
++ (OCATransformer *)stringWithFileByteCount {
+    NSByteCountFormatter *formatter = [[NSByteCountFormatter alloc] init];
+    formatter.countStyle = NSByteCountFormatterCountStyleMemory;
+    return [[OCAFoundation stringWithByteCountFormatter:formatter]
+            describe:@"format file size"];
+}
+
+
++ (OCATransformer *)stringWithByteCountFormatter:(NSByteCountFormatter *)formatter {
+    return [[OCATransformer fromClass:[NSNumber class] toClass:[NSString class]
+                           asymetric:^NSString *(NSNumber *input) {
+                               
+                               return [formatter stringFromByteCount:input.longLongValue];
+                           }]
+            describe:@"format byte count"];
+}
+
+
+
+
+
+#pragma mark NSNumber - Parse
+
+
++ (OCATransformer *)numberWithFormatter:(NSNumberFormatter *)formatter {
+    return [[OCAFoundation stringWithNumberFormatter:formatter] reversed];
+}
+
+
+
+
+
 @end
 
 

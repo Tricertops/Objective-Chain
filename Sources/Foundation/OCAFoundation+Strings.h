@@ -74,24 +74,27 @@
 
 
 #pragma mark -
-#pragma mark Paragraph Style
+#pragma mark Number
 #pragma mark -
 
-/// Transformators
-//TODO: mutateParagraphStyle: (block)
+
+#pragma mark Format Numbers
+
++ (OCATransformer *)stringWithNumberStyle:(NSNumberFormatterStyle)style;
++ (OCATransformer *)stringWithNumberFormatter:(NSNumberFormatter *)formatter;
 
 
-#pragma mark NSNumber
+#pragma mark Format Byte Count
 
-/// Constructors
-//TODO: numberWithFormatter:
++ (OCATransformer *)stringWithMemoryByteCount;
++ (OCATransformer *)stringWithFileByteCount;
++ (OCATransformer *)stringWithByteCountFormatter:(NSByteCountFormatter *)formatter;
 
-/// Destructors
-//TODO: stringWithNumberFormatter:
-//TODO: stringWithNumberStyle:
-//TODO: stringWithByteCountFormatter:
-//TODO: stringWithMemoryByteCount
-//TODO: stringWithFileByteCount
+
+#pragma mark Parse Numbers
+
++ (OCATransformer *)numberWithFormatter:(NSNumberFormatter *)formatter;
+
 
 
 #pragma mark NSURL
