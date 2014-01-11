@@ -97,15 +97,21 @@
 
 
 
-#pragma mark NSURL
+#pragma mark -
+#pragma mark URL
+#pragma mark -
 
-/// Constructors
-//TODO: URLFromString
-//TODO: fileURLFromPath
-//TODO: URLWithBaseURL:
 
-/// Destructors
-//TODO: URLComponents
+#pragma mark Creating URL
+
++ (OCATransformer *)URLFromString;
++ (OCATransformer *)URLFromPath;
++ (OCATransformer *)URLWithBaseURL:(NSURL *)base;
+
+#pragma mark URL Components
+
++ (OCATransformer *)componentsOfURL;
++ (OCATransformer *)modifyURLComponents:(void(^)(NSURLComponents *components))block;
 
 
 

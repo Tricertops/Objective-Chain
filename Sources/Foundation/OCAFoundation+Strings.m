@@ -384,6 +384,95 @@
 
 
 
+#pragma mark -
+#pragma mark NSURL
+#pragma mark -
+
+
+#pragma mark NSURL - Create
+
+
++ (OCATransformer *)URLFromString {
+    return [[OCATransformer fromClass:[NSString class] toClass:[NSURL class]
+                           transform:^NSURL *(NSString *input) {
+                               
+                               return [NSURL URLWithString:input];
+                               
+                           } reverse:^NSString *(NSURL *input) {
+                               
+                               return [input absoluteString];
+                           }]
+            describe:@"URL from string"
+            reverse:@"string from URL"];
+}
+
+
++ (OCATransformer *)URLFromPath {
+    return [[OCATransformer fromClass:[NSString class] toClass:[NSURL class]
+                            transform:^NSURL *(NSString *input) {
+                                
+                                return [NSURL fileURLWithPath:input];
+                                
+                            } reverse:^NSString *(NSURL *input) {
+                                
+                                return [input path];
+                            }]
+            describe:@"URL from path"
+            reverse:@"path from URL"];
+}
+
+
++ (OCATransformer *)URLWithBaseURL:(NSURL *)base {
+    return [[OCATransformer fromClass:[NSString class] toClass:[NSURL class]
+                            transform:^NSURL *(NSString *input) {
+                                
+                                return [NSURL URLWithString:input relativeToURL:base];
+                                
+                            } reverse:^NSString *(NSURL *input) {
+                                
+                                return [input relativeString];
+                            }]
+            describe:[NSString stringWithFormat:@"URL with base “%@”", base]
+            reverse:@"relative URL string"];
+}
+
+
+
+
+
+#pragma mark NSURL - Components
+
+
++ (OCATransformer *)componentsOfURL {
+    return [[OCATransformer fromClass:[NSURL class] toClass:[NSURLComponents class]
+                            transform:^NSURLComponents *(NSURL *input) {
+                                
+                                return [[NSURLComponents alloc] initWithURL:input resolvingAgainstBaseURL:YES];
+                                
+                            } reverse:^NSURL *(NSURLComponents *input) {
+                                
+                                return [input URL];
+                            }]
+            describe:@"components of URL"
+            reverse:@"URL from components"];
+}
+
+
++ (OCATransformer *)modifyURLComponents:(void(^)(NSURLComponents *components))block {
+    return [[OCATransformer fromClass:[NSURL class] toClass:[NSURL class]
+                            asymetric:^NSURL *(NSURL *input) {
+                                
+                                NSURLComponents *components = [[NSURLComponents alloc] initWithURL:input resolvingAgainstBaseURL:YES];
+                                block(components);
+                                return [components URL];
+                            }]
+            describe:@"modify URL component"];
+}
+
+
+
+
+
 @end
 
 
