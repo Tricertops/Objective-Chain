@@ -81,6 +81,19 @@
 
 
 
+#define NSStringFromFormat(format)\
+(NSString *)({\
+    va_list __vargs;\
+    va_start(__vargs, format);\
+    NSString *__string = [[NSString alloc] initWithFormat:format arguments:__vargs];\
+    va_end(__vargs);\
+    __string;\
+})
+
+
+
+
+
 #if !defined(NS_BLOCK_ASSERTIONS)
 
     #define OCAAssert(CONDITION, MESSAGE, ...) \

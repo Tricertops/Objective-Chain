@@ -150,13 +150,7 @@
 
 
 - (instancetype)describe:(NSString *)format, ... NS_REQUIRES_NIL_TERMINATION {
-    va_list vargs;
-    va_start(vargs, format);
-    NSString *name = [[NSString alloc] initWithFormat:format arguments:vargs];
-    va_end(vargs);
-    
-    self.name = name;
-    
+    self.name = NSStringFromFormat(format);
     return self;
 }
 
