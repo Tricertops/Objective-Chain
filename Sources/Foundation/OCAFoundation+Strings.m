@@ -8,7 +8,7 @@
 
 #import "OCAFoundation+Strings.h"
 #import "OCAFoundation+Data.h"
-#import "OCAFoundation+Collections.m"
+#import "OCAFoundation+Collections.h"
 
 
 

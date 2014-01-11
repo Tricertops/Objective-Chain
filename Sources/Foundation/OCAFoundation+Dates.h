@@ -15,36 +15,45 @@
 @interface OCAFoundation (Dates)
 
 
-#pragma mark NSDate
 
-/// Constructors
-//TODO: dateFromTimeInterval
-//TODO: dateFromUNIXTimeInterval
-//TODO: dateWithFormatter:
-//TODO: dateFromStringFormat:
-
-/// Transformators
-//TODO: earlierDate:
-//TODO: laterDate:
-//TODO: addTimeInterval:
-//TODO: addDateComponents:
-//TODO: subtractDateComponents:
-
-/// Destructors
-//TODO: timeInterval
-//TODO: timeIntervalSinceNow
-//TODO: UNIXTimeInterval
-//TODO: timeIntervalSinceDate:
-//TODO: stringWithDateFormatter:
-//TODO: stringWithDateFormat:
-//TODO: stringWithDateStyle:timeStyle:
+#pragma mark -
+#pragma mark Date
+#pragma mark -
 
 
-#pragma mark NSDateComponents
+#pragma mark Working with Time Intervals
 
-/// Constructors
-//TODO: dateComponents:
-//TODO: dateComponents:sinceDate:
++ (OCATransformer *)dateFromTimeIntervalSinceUNIX:(BOOL)unix;
++ (OCATransformer *)timeIntervalSinceUNIX:(BOOL)unix;
++ (OCATransformer *)addTimeInterval:(NSTimeInterval)interval;
++ (OCATransformer *)timeIntervalSinceDate:(NSDate *)otherDate;
+
+
+#pragma mark Parsing Dates
+
++ (OCATransformer *)dateWithFormatter:(NSDateFormatter *)formatter;
++ (OCATransformer *)dateFromStringFormat:(NSString *)dateFormat;
+
+
+#pragma mark Formatting Dates
+
++ (OCATransformer *)stringWithDateFormatter:(NSDateFormatter *)formatter;
++ (OCATransformer *)stringWithDateFormat:(NSString *)dateFormat;
++ (OCATransformer *)stringWithDateStyle:(NSDateFormatterStyle)dateStyle timeStyle:(NSDateFormatterStyle)timeStyle;
+
+
+#pragma mark Limiting Dates
+
++ (OCATransformer *)earlierDate:(NSDate *)otherDate;
++ (OCATransformer *)laterDate:(NSDate *)otherDate;
+
+
+#pragma mark Date Components
+
++ (OCATransformer *)dateComponents:(NSCalendarUnit)units;
++ (OCATransformer *)dateComponents:(NSCalendarUnit)units sinceDate:(NSDate *)otherDate;
++ (OCATransformer *)addDateComponents:(NSDateComponents *)components;
++ (OCATransformer *)modifyDateComponents:(NSCalendarUnit)units block:(void(^)(NSDateComponents *components))block;
 
 
 
