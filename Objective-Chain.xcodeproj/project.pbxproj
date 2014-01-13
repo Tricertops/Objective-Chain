@@ -11,6 +11,8 @@
 		5B097E481871BE01006240D8 /* libObjectiveChain-OSX.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B097E321871BE01006240D8 /* libObjectiveChain-OSX.a */; };
 		5B097E5F1871BED0006240D8 /* OCAObjectTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B097E5B1871BED0006240D8 /* OCAObjectTest.m */; };
 		5B097E601871BED0006240D8 /* OCAObjectTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B097E5B1871BED0006240D8 /* OCAObjectTest.m */; };
+		5B217C96188442A100706ED9 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B217C95188442A100706ED9 /* QuartzCore.framework */; };
+		5B217C98188442B300706ED9 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B217C97188442B300706ED9 /* QuartzCore.framework */; };
 		5B2F2F7F1881D9510028367B /* OCAConsumer.h in Headers */ = {isa = PBXBuildFile; fileRef = 5B2F2F361881D9500028367B /* OCAConsumer.h */; };
 		5B2F2F801881D9510028367B /* OCAMulticast.h in Headers */ = {isa = PBXBuildFile; fileRef = 5B2F2F371881D9500028367B /* OCAMulticast.h */; };
 		5B2F2F811881D9510028367B /* OCAMulticast.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B2F2F381881D9500028367B /* OCAMulticast.m */; };
@@ -185,6 +187,8 @@
 		5B097E5A1871BED0006240D8 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5B097E5B1871BED0006240D8 /* OCAObjectTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCAObjectTest.m; sourceTree = "<group>"; };
 		5B097E5C1871BED0006240D8 /* Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Prefix.pch; sourceTree = "<group>"; };
+		5B217C95188442A100706ED9 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/System/Library/Frameworks/QuartzCore.framework; sourceTree = DEVELOPER_DIR; };
+		5B217C97188442B300706ED9 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		5B2F2F361881D9500028367B /* OCAConsumer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCAConsumer.h; sourceTree = "<group>"; };
 		5B2F2F371881D9500028367B /* OCAMulticast.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCAMulticast.h; sourceTree = "<group>"; };
 		5B2F2F381881D9500028367B /* OCAMulticast.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCAMulticast.m; sourceTree = "<group>"; };
@@ -285,6 +289,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5B217C98188442B300706ED9 /* QuartzCore.framework in Frameworks */,
 				5B2F2FF61883DFCB0028367B /* CoreGraphics.framework in Frameworks */,
 				5B2F2FF01883DF930028367B /* Foundation.framework in Frameworks */,
 			);
@@ -303,6 +308,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5B217C96188442A100706ED9 /* QuartzCore.framework in Frameworks */,
 				5BAB21B51884199500459B56 /* UIKit.framework in Frameworks */,
 				5B2F2FEF1883DF8B0028367B /* CoreGraphics.framework in Frameworks */,
 				5B4F85A21871A4DC004695DA /* Foundation.framework in Frameworks */,
@@ -504,6 +510,7 @@
 			isa = PBXGroup;
 			children = (
 				5B2F2FF51883DFCB0028367B /* CoreGraphics.framework */,
+				5B217C97188442B300706ED9 /* QuartzCore.framework */,
 			);
 			name = "OS X";
 			sourceTree = "<group>";
@@ -512,6 +519,7 @@
 			isa = PBXGroup;
 			children = (
 				5B2F2FEE1883DF8B0028367B /* CoreGraphics.framework */,
+				5B217C95188442A100706ED9 /* QuartzCore.framework */,
 				5BAB21B41884199500459B56 /* UIKit.framework */,
 			);
 			name = iOS;

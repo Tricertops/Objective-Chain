@@ -12,7 +12,8 @@
 #import "OCAObject.h"
 
 #if OCA_iOS
-    #import <UIKit/UIKit.h>
+    #import <UIKit/UIGeometry.h>
+    #import <UIKit/UIScreen.h> // For default rounding scale.
 #endif
 
 #import "OCAPredicate.h"

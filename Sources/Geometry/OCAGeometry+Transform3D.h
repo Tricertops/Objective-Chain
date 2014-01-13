@@ -6,6 +6,8 @@
 //  Copyright (c) 2014 Martin Kiss. All rights reserved.
 //
 
+#import <QuartzCore/CATransform3D.h>
+
 #import "OCAGeometry+Base.h"
 
 
@@ -22,10 +24,10 @@
 #pragma mark Predicates
 #pragma mark -
 
-//+ (NSPredicate *)predicateForTransform3D:(BOOL(^)(CATransform3D t))block;
-//+ (NSPredicate *)transform3DIsIdentity;
-//+ (NSPredicate *)transform3DIsEqualTo:(CATransform3D)otherTransform3D;
-//+ (NSPredicate *)transform3DIsAffineTransform;
++ (NSPredicate *)predicateForTransform3D:(BOOL(^)(CATransform3D t))block;
++ (NSPredicate *)isTransform3DIdentity;
++ (NSPredicate *)isTransform3DEqualTo:(CATransform3D)otherTransform3D;
++ (NSPredicate *)isTransform3DAffineTransform;
 
 
 
@@ -36,23 +38,23 @@
 
 #pragma mark Creating 3D Transforms
 
-//+ (OCATransformer *)transform3DFromScaleWithZ:(CGFloat)zScale;
-//+ (OCATransformer *)transform3DFromXRotation;
-//+ (OCATransformer *)transform3DFromYRotation;
-//+ (OCATransformer *)transform3DFromZRotation;
-//+ (OCATransformer *)transform3DFromTranslationWithZ:(CGFloat)zTranslation;
-//+ (OCATransformer *)transform3DFromAffineTransform;
++ (OCATransformer *)transform3DFromScaleWithZ:(CGFloat)zScale;
++ (OCATransformer *)transform3DFromXRotation;
++ (OCATransformer *)transform3DFromYRotation;
++ (OCATransformer *)transform3DFromZRotation;
++ (OCATransformer *)transform3DFromTranslationWithZ:(CGFloat)zTranslation;
++ (OCATransformer *)transform3DFromAffineTransform;
 
 
 #pragma mark Modifying 3D Transforms
 
-//+ (OCATransformer *)modifyTransform3D:(CATransform3D(^)(CATransform3D t))block;
-//+ (OCATransformer *)concatTransform3D:(CATransform3D)otherTransform3D;
++ (OCATransformer *)modifyTransform3D:(CATransform3D(^)(CATransform3D t))block;
++ (OCATransformer *)concatTransform3D:(CATransform3D)otherTransform3D;
 
 
 #pragma mark Disposing 3D Transforms
 
-//+ (OCATransformer *)transform3DGetAffineTransform;
++ (OCATransformer *)affineTransformFromTransform3D;
 
 
 
