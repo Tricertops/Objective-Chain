@@ -31,7 +31,7 @@
 
 + (NSPredicate *)predicateForSize:(BOOL(^)(CGSize size))block {
     return [OCAPredicate predicateForClass:[NSValue class] block:^BOOL(NSValue *value) {
-        CGSize size = OCAUnbox(value, CGSize, CGSizeZero);
+        CGSize size = OCAUnboxSize(value);
         return block(size);
     }];
 }
@@ -70,8 +70,7 @@
                                 
                             } reverse:^NSString *(NSValue *input) {
                                 
-                                CGSize size = OCAUnbox(input, CGSize, CGSizeZero);
-                                return OCAStringFromSize(size);
+                                return OCAStringFromSize(OCAUnboxSize(input));
                             }]
             describe:@"size from string"
             reverse:@"string from size"];
@@ -86,7 +85,7 @@
                                 
                             } reverse:^NSNumber *(NSValue *input) {
                                 
-                                CGSize size = OCAUnbox(input, CGSize, CGSizeZero);
+                                CGSize size = OCAUnboxSize(input);
                                 return @(size.height);
                             }]
             describe:[NSString stringWithFormat:@"point with width %@", @(width)]
@@ -102,7 +101,7 @@
                                 
                             } reverse:^NSNumber *(NSValue *input) {
                                 
-                                CGSize size = OCAUnbox(input, CGSize, CGSizeZero);
+                                CGSize size = OCAUnboxSize(input);
                                 return @(size.width);
                             }]
             describe:[NSString stringWithFormat:@"point with height %@", @(height)]
@@ -120,7 +119,7 @@
     return [[OCATransformer fromClass:[NSValue class] toClass:[NSValue class]
                             asymetric:^NSValue *(NSValue *input) {
                                 
-                                CGSize size = OCAUnbox(input, CGSize, CGSizeZero);
+                                CGSize size = OCAUnboxSize(input);
                                 size = block(size);
                                 return OCABox(size);
                             }]
@@ -128,59 +127,120 @@
 }
 
 
++ (OCATransformer *)modifySize:(CGSize(^)(CGSize size))block reverse:(CGSize(^)(CGSize size))reverseBlock {
+    return [[OCATransformer fromClass:[NSValue class] toClass:[NSValue class]
+                            transform:^NSValue *(NSValue *input) {
+                                
+                                CGSize size = OCAUnboxSize(input);
+                                size = block(size);
+                                return OCABox(size);
+                                
+                            } reverse:^NSValue *(NSValue *input) {
+                                
+                                CGSize size = OCAUnboxSize(input);
+                                size = reverseBlock(size);
+                                return OCABox(size);
+                            }]
+            describe:@"modify size"];
+}
+
+
 + (OCATransformer *)extendSizeBy:(CGSize)otherSize {
-    return [OCAGeometry modifySize:^CGSize(CGSize size) {
+    return [[OCAGeometry modifySize:^CGSize(CGSize size) {
+        
         return OCASizeExtendBySize(size, otherSize);
-    }];
+        
+    } reverse:^CGSize(CGSize size) {
+        
+        return OCASizeShrinkBySize(size, otherSize);
+    }]
+            describe:[NSString stringWithFormat:@"extend size by %@", OCAStringFromSize(otherSize)]
+            reverse:[NSString stringWithFormat:@"shrink size by %@", OCAStringFromSize(otherSize)]];
 }
 
 
 + (OCATransformer *)shrinkSizeBy:(CGSize)otherSize {
-    return [OCAGeometry modifySize:^CGSize(CGSize size) {
-        return OCASizeShrinkBySize(size, otherSize);
-    }];
+    return [[OCAGeometry extendSizeBy:otherSize] reversed];
 }
 
 
 + (OCATransformer *)multiplySizeBy:(CGFloat)multiplier {
-    return [OCAGeometry modifySize:^CGSize(CGSize size) {
+    return [[OCAGeometry modifySize:^CGSize(CGSize size) {
+        
         return OCASizeMultiply(size, multiplier);
-    }];
+        
+    } reverse:^CGSize(CGSize size) {
+        
+        return OCASizeMultiply(size, 1 / multiplier);
+    }]
+            describe:[NSString stringWithFormat:@"multiply size by %@", @(multiplier)]
+            reverse:[NSString stringWithFormat:@"multiply size by %@", @(1 / multiplier)]];
 }
 
 
 + (OCATransformer *)transformSize:(CGAffineTransform)affineTransform {
-    return [OCAGeometry modifySize:^CGSize(CGSize size) {
+    return [[OCAGeometry modifySize:^CGSize(CGSize size) {
+        
         return CGSizeApplyAffineTransform(size, affineTransform);
-    }];
+        
+    } reverse:^CGSize(CGSize size) {
+        
+        return CGSizeApplyAffineTransform(size, CGAffineTransformInvert(affineTransform));
+    }]
+            describe:@"apply affine transform on size"];
 }
 
 
 + (OCATransformer *)roundSizeTo:(CGFloat)scale {
-    return [OCAGeometry modifySize:^CGSize(CGSize size) {
+    return [[OCAGeometry modifySize:^CGSize(CGSize size) {
+        
         return OCASizeRound(size, scale);
-    }];
+        
+    } reverse:^CGSize(CGSize size) {
+        return size;
+    }]
+            describe:[NSString stringWithFormat:@"round size to %@", @(scale)]
+            reverse:@"pass"];
 }
 
 
 + (OCATransformer *)floorSizeTo:(CGFloat)scale {
-    return [OCAGeometry modifySize:^CGSize(CGSize size) {
+    return [[OCAGeometry modifySize:^CGSize(CGSize size) {
+        
         return OCASizeFloor(size, scale);
-    }];
+        
+    } reverse:^CGSize(CGSize size) {
+        return size;
+    }]
+            describe:[NSString stringWithFormat:@"floor size to %@", @(scale)]
+            reverse:@"pass"];
 }
 
 
 + (OCATransformer *)ceilSizeTo:(CGFloat)scale {
-    return [OCAGeometry modifySize:^CGSize(CGSize size) {
+    return [[OCAGeometry modifySize:^CGSize(CGSize size) {
+        
         return OCASizeCeil(size, scale);
-    }];
+        
+    } reverse:^CGSize(CGSize size) {
+        return size;
+    }]
+            describe:[NSString stringWithFormat:@"ceil size to %@", @(scale)]
+            reverse:@"pass"];
 }
 
 
 + (OCATransformer *)standardizeSize {
-    return [OCAGeometry modifySize:^CGSize(CGSize size) {
+    return [[OCAGeometry modifySize:^CGSize(CGSize size) {
+        
         return OCASizeStandardize(size);
-    }];
+        
+    } reverse:^CGSize(CGSize size) {
+        
+        return size;
+    }]
+            describe:@"standardize size"
+            reverse:@"pass"];
 }
 
 
