@@ -62,9 +62,9 @@
 #pragma mark Disposing Rectangles
 
 + (OCATransformer *)stringFromRect;
-+ (OCATransformer *)rectGetPoint:(CGPoint)point;
-+ (OCATransformer *)rectGetCenter:(CGPoint)point;
-+ (OCATransformer *)rectGetEdge:(CGRectEdge)edge;
++ (OCATransformer *)rectRelativePoint:(CGPoint)point;
++ (OCATransformer *)rectCenter;
++ (OCATransformer *)rectEdge:(CGRectEdge)edge;
 
 
 

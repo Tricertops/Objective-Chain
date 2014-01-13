@@ -73,16 +73,19 @@
 #pragma mark Functions
 #pragma mark -
 
+extern CGSize OCASizeFromString(NSString *);
+extern NSString * OCAStringFromSize(CGSize);
+
 extern CGSize OCASizeExtendBySize(CGSize, CGSize);
 extern CGSize OCASizeShrinkBySize(CGSize, CGSize);
-extern CGSize OCASizeMultiply(CGSize, CGPoint);
+extern CGSize OCASizeMultiply(CGSize, CGFloat);
+extern CGSize OCASizeStandardize(CGSize size);
 
 extern CGSize OCASizeRound(CGSize size, CGFloat scale);
 extern CGSize OCASizeFloor(CGSize size, CGFloat scale);
 extern CGSize OCASizeCeil(CGSize size, CGFloat scale);
 
-extern CGSize OCASizeStandardize(CGSize size, CGFloat scale);
-extern CGSize OCASizeGetArea(CGSize size);
-extern CGSize OCASizeGetRatio(CGSize size);
+extern CGFloat OCASizeGetArea(CGSize size);
+extern CGFloat OCASizeGetRatio(CGSize size);
 
 

@@ -104,7 +104,7 @@
                                 CGPoint point = OCAUnbox(input, CGPoint, CGPointZero);
                                 return @(point.y);
                             }]
-            describe:[NSString stringWithFormat:@"point with x = %@", @(x)]
+            describe:[NSString stringWithFormat:@"point with x %@", @(x)]
             reverse:@"CGPoint.y"];
 }
 
@@ -113,14 +113,14 @@
     return [[OCATransformer fromClass:[NSNumber class] toClass:[NSValue class]
                             transform:^NSValue *(NSNumber *input) {
                                 
-                                return OCABox(CGPointMake(y, input.doubleValue));
+                                return OCABox(CGPointMake(input.doubleValue, y));
                                 
                             } reverse:^NSNumber *(NSValue *input) {
                                 
                                 CGPoint point = OCAUnbox(input, CGPoint, CGPointZero);
                                 return @(point.x);
                             }]
-            describe:[NSString stringWithFormat:@"point with y = %@", @(y)]
+            describe:[NSString stringWithFormat:@"point with y %@", @(y)]
             reverse:@"CGPoint.x"];
 }
 
