@@ -46,6 +46,8 @@ typedef OCAReal(^OCARealTransformBlock)(OCAReal x);
 + (OCATransformer *)absoluteValue;
 + (OCATransformer *)inversedValue;
 
++ (OCATransformer *)shareBetween:(OCAReal)lower and:(OCAReal)upper;
+
 
 #pragma mark Advanced
 
