@@ -23,8 +23,8 @@
 #pragma mark -
 
 + (NSPredicate *)predicateForAffineTransform:(BOOL(^)(CGAffineTransform t))block;
-+ (NSPredicate *)affineTransformIsIdentity;
-+ (NSPredicate *)affineTransformIsEqualTo:(CGAffineTransform)otherAffineTransform;
++ (NSPredicate *)isAffineTransformIdentity;
++ (NSPredicate *)isAffineTransformEqualTo:(CGAffineTransform)otherAffineTransform;
 
 
 

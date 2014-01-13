@@ -47,9 +47,7 @@
 
 
 + (NSPredicate *)isSizeZero {
-    return [OCAGeometry predicateForSize:^BOOL(CGSize size) {
-        return CGSizeEqualToSize(size, CGSizeZero);
-    }];
+    return [OCAGeometry isSizeEqualTo:CGSizeZero];
 }
 
 

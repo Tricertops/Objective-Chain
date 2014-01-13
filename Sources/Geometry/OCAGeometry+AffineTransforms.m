@@ -36,14 +36,14 @@
 }
 
 
-+ (NSPredicate *)affineTransformIsIdentity {
++ (NSPredicate *)isAffineTransformIdentity {
     return [OCAGeometry predicateForAffineTransform:^BOOL(CGAffineTransform t) {
         return CGAffineTransformIsIdentity(t);
     }];
 }
 
 
-+ (NSPredicate *)affineTransformIsEqualTo:(CGAffineTransform)otherAffineTransform {
++ (NSPredicate *)isAffineTransformEqualTo:(CGAffineTransform)otherAffineTransform {
     return [OCAGeometry predicateForAffineTransform:^BOOL(CGAffineTransform t) {
         return CGAffineTransformEqualToTransform(t, otherAffineTransform);
     }];

@@ -50,9 +50,7 @@
 
 
 + (NSPredicate *)isRectZero {
-    return [OCAGeometry predicateForRect:^BOOL(CGRect rect) {
-        return CGRectEqualToRect(rect, CGRectZero);
-    }];
+    return [OCAGeometry isRectEqualTo:CGRectZero];
 }
 
 

@@ -48,9 +48,7 @@
 
 
 + (NSPredicate *)isPointZero {
-    return [OCAGeometry predicateForPoint:^BOOL(CGPoint point) {
-        return CGPointEqualToPoint(point, CGPointZero);
-    }];
+    return [OCAGeometry isPointEqualTo:CGPointZero];
 }
 
 
