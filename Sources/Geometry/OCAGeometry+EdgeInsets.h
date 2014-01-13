@@ -27,8 +27,8 @@
 #pragma mark -
 
 + (NSPredicate *)predicateForEdgeInsets:(BOOL(^)(UIEdgeInsets insets))block;
++ (NSPredicate *)isEdgeInsetsEqualTo:(UIEdgeInsets)otherInsets;
 + (NSPredicate *)isEdgeInsetsZero;
-+ (NSPredicate *)isEdgeInsetsEqualTo:(UIEdgeInsets)insets;
 
 
 
@@ -39,13 +39,14 @@
 
 #pragma mark Creating Edge Insets
 
-+ (OCATransformer *)edgeInsetsFromEdges:(UIRectEdge)edge;
++ (OCATransformer *)edgeInsetsFromEdges:(UIRectEdge)edges;
 + (OCATransformer *)edgeInsetsFromString;
 
 
 #pragma mark Modifying Edge Insets
 
 + (OCATransformer *)modifyEdgeInsets:(UIEdgeInsets(^)(UIEdgeInsets insets))block;
++ (OCATransformer *)modifyEdgeInsets:(UIEdgeInsets(^)(UIEdgeInsets insets))block reverse:(UIEdgeInsets(^)(UIEdgeInsets insets))reverseBlock;
 + (OCATransformer *)addEdgeInsets:(UIEdgeInsets)otherInsets;
 + (OCATransformer *)subtractEdgeInsets:(UIEdgeInsets)otherInsets;
 + (OCATransformer *)multiplyEdgeInsets:(CGFloat)multiplier;
