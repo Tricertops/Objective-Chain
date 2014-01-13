@@ -7,6 +7,7 @@
 //
 
 #import "OCAGeometry+Base.h"
+#import "OCAMath.h"
 
 
 
@@ -17,8 +18,40 @@
 
 
 
-@implementation OCAGeometry (Base)
+@implementation OCAGeometry
 
 @end
+
+
+
+
+
+
+
+
+
+
+CGFloat OCAGeometryDefaultScale(void) {
+#if OCA_iOS
+    return [[UIScreen mainScreen] scale];
+#else
+    return 1;
+#endif
+}
+
+
+CGFloat OCAGeometryRound(CGFloat value, CGFloat scale) {
+    return OCARound(value, scale ?: OCAGeometryDefaultScale());
+}
+
+
+CGFloat OCAGeometryFloor(CGFloat value, CGFloat scale) {
+    return OCAFloor(value, scale ?: OCAGeometryDefaultScale());
+}
+
+
+CGFloat OCAGeometryCeil(CGFloat value, CGFloat scale) {
+    return OCACeil(value, scale ?: OCAGeometryDefaultScale());
+}
 
 

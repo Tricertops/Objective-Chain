@@ -8,7 +8,6 @@
 
 #import "OCAGeometry+Points.h"
 #import "OCAPredicate.h"
-#import "OCAMath.h"
 
 
 
@@ -376,22 +375,22 @@ CGPoint OCAPointNormalize(CGPoint p) {
 
 
 CGPoint OCAPointRound(CGPoint p, CGFloat s) {
-    p.x = OCARound(p.x, s);
-    p.y = OCARound(p.y, s);
+    p.x = OCAGeometryRound(p.x, s);
+    p.y = OCAGeometryRound(p.y, s);
     return p;
 }
 
 
 CGPoint OCAPointFloor(CGPoint p, CGFloat s) {
-    p.x = OCAFloor(p.x, s);
-    p.y = OCAFloor(p.y, s);
+    p.x = OCAGeometryFloor(p.x, s);
+    p.y = OCAGeometryFloor(p.y, s);
     return p;
 }
 
 
 CGPoint OCAPointCeil(CGPoint p, CGFloat s) {
-    p.x = OCACeil(p.x, s);
-    p.y = OCACeil(p.y, s);
+    p.x = OCAGeometryCeil(p.x, s);
+    p.y = OCAGeometryCeil(p.y, s);
     return p;
 }
 

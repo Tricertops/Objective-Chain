@@ -7,7 +7,6 @@
 //
 
 #import "OCAGeometry+Sizes.h"
-#import "OCAMath.h"
 
 
 
@@ -339,22 +338,22 @@ CGSize OCASizeMultiply(CGSize s, CGFloat m) {
 
 
 CGSize OCASizeRound(CGSize size, CGFloat scale) {
-    size.width = OCARound(size.width, scale);
-    size.height = OCARound(size.height, scale);
+    size.width = OCAGeometryRound(size.width, scale);
+    size.height = OCAGeometryRound(size.height, scale);
     return size;
 }
 
 
 CGSize OCASizeFloor(CGSize size, CGFloat scale) {
-    size.width = OCAFloor(size.width, scale);
-    size.height = OCAFloor(size.height, scale);
+    size.width = OCAGeometryFloor(size.width, scale);
+    size.height = OCAGeometryFloor(size.height, scale);
     return size;
 }
 
 
 CGSize OCASizeCeil(CGSize size, CGFloat scale) {
-    size.width = OCACeil(size.width, scale);
-    size.height = OCACeil(size.height, scale);
+    size.width = OCAGeometryCeil(size.width, scale);
+    size.height = OCAGeometryCeil(size.height, scale);
     return size;
 }
 

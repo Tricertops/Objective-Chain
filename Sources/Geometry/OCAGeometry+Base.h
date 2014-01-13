@@ -27,3 +27,12 @@
 @end
 
 
+
+
+
+extern CGFloat OCAGeometryDefaultScale(void);
+extern CGFloat OCAGeometryRound(CGFloat value, CGFloat scale);
+extern CGFloat OCAGeometryFloor(CGFloat value, CGFloat scale);
+extern CGFloat OCAGeometryCeil(CGFloat value, CGFloat scale);
+
+
