@@ -154,6 +154,18 @@
 }
 
 
++ (OCATransformer *)shareBetween:(OCAReal)lower and:(OCAReal)upper {
+    OCAReal delta = upper - lower;
+    return [[self transform:^OCAReal(OCAReal x) {
+        return (x - lower) / delta;
+    } reverse:^OCAReal(OCAReal y) {
+        return lower + (delta * y);
+    }]
+            describe:[NSString stringWithFormat:@"share between %@ and %@", @(lower), @(upper)]
+            reverse:[NSString stringWithFormat:@"scale between %@ and %@", @(lower), @(upper)]];
+}
+
+
 
 
 
@@ -180,15 +192,15 @@
     return [[self transform:^OCAReal(OCAReal x) {
         return pow(value, x);
     } reverse:^OCAReal(OCAReal y) {
-        return log(y) / log(value);
+        return OCALogarithm(y, value);
     }]
             describe:[NSString stringWithFormat:@"exponent of %@", @(value)]
             reverse:[NSString stringWithFormat:@"log with base %@", @(value)]];
 }
 
 
-+ (OCATransformer *)logarithmWithBase:(OCAReal)value {
-    return [[self exponentOf:value] reversed];
++ (OCATransformer *)logarithmWithBase:(OCAReal)base {
+    return [[self exponentOf:base] reversed];
 }
 
 
@@ -198,9 +210,9 @@
 #pragma mark Rounding
 
 
-+ (OCATransformer *)roundToClosest:(OCAReal)scale {
++ (OCATransformer *)roundTo:(OCAReal)scale {
     return [[OCAMath transform:^OCAReal(OCAReal x) {
-        return round(x * scale) / scale;
+        return OCARound(x, scale);
     } reverse:^OCAReal(OCAReal y) {
         return y;
     }]
@@ -209,9 +221,9 @@
 }
 
 
-+ (OCATransformer *)roundUpToClosest:(OCAReal)scale {
++ (OCATransformer *)ceilTo:(OCAReal)scale {
     return [[OCAMath transform:^OCAReal(OCAReal x) {
-        return ceil(x * scale) / scale;
+        return OCACeil(x, scale);
     } reverse:^OCAReal(OCAReal y) {
         return y;
     }]
@@ -220,9 +232,9 @@
 }
 
 
-+ (OCATransformer *)roundDownToClosest:(OCAReal)scale {
++ (OCATransformer *)floorTo:(OCAReal)scale {
     return [[OCAMath transform:^OCAReal(OCAReal x) {
-        return floor(x * scale) / scale;
+        return OCAFloor(x, scale);
     } reverse:^OCAReal(OCAReal y) {
         return y;
     }]
@@ -262,7 +274,7 @@
 + (OCATransformer *)clampFrom:(OCAReal)min to:(OCAReal)max {
     OCAAssert(min <= max, @"What is this supposed to do return, when minimum (%@) is greater than maximum (%@)?!", @(min), @(max)) return [OCATransformer discard];
     return [[OCAMath transform:^OCAReal(OCAReal x) {
-        return MIN(MAX(min, x), max);
+        return OCAClamp(min, x, max);
     } reverse:^OCAReal(OCAReal y) {
         return y;
     }]
@@ -357,5 +369,43 @@
 
 
 @end
+
+
+
+
+
+
+
+
+
+
+#pragma mark Functions
+
+
+OCAReal OCALogarithm(OCAReal x, OCAReal base) {
+    return log(x) / log(base);
+}
+
+
+OCAReal OCARound(OCAReal x, OCAReal scale) {
+    return round(x * scale) / scale;
+}
+
+
+OCAReal OCACeil(OCAReal x, OCAReal scale) {
+    return ceil(x * scale) / scale;
+}
+
+
+extern OCAReal OCAFloor(OCAReal x, OCAReal scale) {
+    return floor(x * scale) / scale;
+}
+
+
+extern OCAReal OCAClamp(OCAReal lower, OCAReal value, OCAReal upper) {
+    return (value > upper ? upper
+            : (value < lower ? lower
+               : value));
+}
 
 

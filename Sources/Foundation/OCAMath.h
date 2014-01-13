@@ -37,11 +37,11 @@ typedef OCAReal(^OCARealTransformBlock)(OCAReal x);
 
 #pragma mark Basic
 
-+ (OCATransformer *)add:(OCAReal)value;
-+ (OCATransformer *)subtract:(OCAReal)value;
++ (OCATransformer *)add:(OCAReal)add;
++ (OCATransformer *)subtract:(OCAReal)substract;
 + (OCATransformer *)subtractFrom:(OCAReal)value;
-+ (OCATransformer *)multiplyBy:(OCAReal)value;
-+ (OCATransformer *)divideBy:(OCAReal)value;
++ (OCATransformer *)multiplyBy:(OCAReal)multiplier;
++ (OCATransformer *)divideBy:(OCAReal)divisor;
 + (OCATransformer *)modulus:(OCAInteger)value;
 + (OCATransformer *)absoluteValue;
 + (OCATransformer *)inversedValue;
@@ -54,14 +54,14 @@ typedef OCAReal(^OCARealTransformBlock)(OCAReal x);
 + (OCATransformer *)powerBy:(OCAReal)value;
 + (OCATransformer *)rootOf:(OCAReal)value;
 + (OCATransformer *)exponentOf:(OCAReal)value;
-+ (OCATransformer *)logarithmWithBase:(OCAReal)value;
++ (OCATransformer *)logarithmWithBase:(OCAReal)base;
 
 
 #pragma mark Rounding
 
-+ (OCATransformer *)roundToClosest:(OCAReal)value;
-+ (OCATransformer *)roundUpToClosest:(OCAReal)value;
-+ (OCATransformer *)roundDownToClosest:(OCAReal)value;
++ (OCATransformer *)roundTo:(OCAReal)scale;
++ (OCATransformer *)floorTo:(OCAReal)scale;
++ (OCATransformer *)ceilTo:(OCAReal)scale;
 
 
 #pragma mark Limits
@@ -94,5 +94,17 @@ typedef OCAReal(^OCARealTransformBlock)(OCAReal x);
 
 
 @end
+
+
+
+
+
+#pragma mark Functions
+
+extern OCAReal OCALogarithm(OCAReal x, OCAReal base);
+extern OCAReal OCARound(OCAReal x, OCAReal scale);
+extern OCAReal OCACeil(OCAReal x, OCAReal scale);
+extern OCAReal OCAFloor(OCAReal x, OCAReal scale);
+extern OCAReal OCAClamp(OCAReal lower, OCAReal value, OCAReal upper);
 
 
