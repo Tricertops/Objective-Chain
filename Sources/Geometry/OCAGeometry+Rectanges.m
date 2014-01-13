@@ -343,21 +343,20 @@
 
 
 + (OCATransformer *)rectEdge:(CGRectEdge)edge {
-    CGFloat(*edgeFunction)(CGRect) = NULL;
+    NSString *edgeName = @"no";
     switch (edge) {
-        case CGRectMinXEdge: edgeFunction = &CGRectGetMinX; break;
-        case CGRectMaxXEdge: edgeFunction = &CGRectGetMaxX; break;
-        case CGRectMinYEdge: edgeFunction = &CGRectGetMinY; break;
-        case CGRectMaxYEdge: edgeFunction = &CGRectGetMaxY; break;
+        case CGRectMinYEdge: edgeName = @"top"; break;
+        case CGRectMinXEdge: edgeName = @"left"; break;
+        case CGRectMaxXEdge: edgeName = @"right"; break;
+        case CGRectMaxYEdge: edgeName = @"bottom"; break;
     }
     return [[OCATransformer fromClass:[NSValue class] toClass:[NSNumber class]
                             asymetric:^NSNumber *(NSValue *input) {
                                 
                                 CGRect rect = OCAUnboxRect(input);
-                                
-                                return @( edgeFunction(rect) );
+                                return @( OCARectGetEdge(rect, edge) );
                             }]
-            describe:@"get rect edge"];
+            describe:[NSString stringWithFormat:@"%@ rect edge", edgeName]];
 }
 
 
@@ -424,6 +423,18 @@ CGPoint OCARectGetRelativePoint(CGRect rect, CGPoint relative) {
     point.x = rect.origin.x + (rect.size.width * relative.x);
     point.y = rect.origin.y + (rect.size.height * relative.y);
     return point;
+}
+
+
+CGFloat OCARectGetEdge(CGRect rect, CGRectEdge edge) {
+    CGFloat(*edgeFunction)(CGRect) = NULL;
+    switch (edge) {
+        case CGRectMinXEdge: edgeFunction = &CGRectGetMinX; break;
+        case CGRectMaxXEdge: edgeFunction = &CGRectGetMaxX; break;
+        case CGRectMinYEdge: edgeFunction = &CGRectGetMinY; break;
+        case CGRectMaxYEdge: edgeFunction = &CGRectGetMaxY; break;
+    }
+    return edgeFunction(rect);
 }
 
 

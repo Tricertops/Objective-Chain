@@ -92,5 +92,6 @@ extern CGRect OCARectCeil(CGRect rect, CGFloat scale);
 extern CGRect OCARectFloor(CGRect rect, CGFloat scale);
 
 extern CGPoint OCARectGetRelativePoint(CGRect rect, CGPoint point);
+extern CGFloat OCARectGetEdge(CGRect, CGRectEdge);
 
 
