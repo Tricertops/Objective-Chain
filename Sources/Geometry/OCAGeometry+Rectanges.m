@@ -33,8 +33,11 @@
 
 
 + (NSPredicate *)predicateForRect:(BOOL(^)(CGRect rect))block {
-    return [OCAPredicate predicateForClass:[NSValue class] block:^BOOL(NSValue *object) {
-        CGRect rect = OCAUnboxRect(object);
+    return [OCAPredicate predicateForClass:[NSValue class] block:^BOOL(NSValue *value) {
+        CGRect rect;
+        BOOL success = [value unboxValue:&rect objCType:@encode(CGRect)];
+        if ( ! success) return NO;
+        
         return block(rect);
     }];
 }

@@ -31,7 +31,10 @@
 
 + (NSPredicate *)predicateForSize:(BOOL(^)(CGSize size))block {
     return [OCAPredicate predicateForClass:[NSValue class] block:^BOOL(NSValue *value) {
-        CGSize size = OCAUnboxSize(value);
+        CGSize size;
+        BOOL success = [value unboxValue:&size objCType:@encode(CGSize)];
+        if ( ! success) return NO;
+        
         return block(size);
     }];
 }

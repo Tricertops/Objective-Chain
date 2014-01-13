@@ -32,7 +32,10 @@
 
 + (NSPredicate *)predicateForPoint:(BOOL(^)(CGPoint point))block {
     return [OCAPredicate predicateForClass:[NSValue class] block:^BOOL(NSValue *value) {
-        CGPoint point = OCAUnboxPoint(value);
+        CGPoint point;
+        BOOL success = [value unboxValue:&point objCType:@encode(CGPoint)];
+        if ( ! success)  return NO;
+        
         return block(point);
     }];
 }
