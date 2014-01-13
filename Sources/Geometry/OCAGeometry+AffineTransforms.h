@@ -35,15 +35,18 @@
 
 #pragma mark Creating Affine Transforms
 
-+ (OCATransformer *)affineTransformFromScale;
++ (OCATransformer *)affineTransformFromScales;
 + (OCATransformer *)affineTransformFromRotation;
 + (OCATransformer *)affineTransformFromTranslation;
+#if OCA_iOS
 + (OCATransformer *)affineTransformFromString;
+#endif
 
 
 #pragma mark Modifying Affine Transforms
 
 + (OCATransformer *)modifyAffineTransform:(CGAffineTransform(^)(CGAffineTransform t))block;
++ (OCATransformer *)modifyAffineTransform:(CGAffineTransform(^)(CGAffineTransform t))block reverse:(CGAffineTransform(^)(CGAffineTransform t))reverseBlock;
 + (OCATransformer *)concatAffineTransform:(CGAffineTransform)otherAffineTransform;
 + (OCATransformer *)affineTransformScale:(CGSize)scale;
 + (OCATransformer *)affineTransformRotate:(CGFloat)rotation;
@@ -51,29 +54,9 @@
 + (OCATransformer *)invertAffineTransform;
 
 
-#pragma mark Disposing Affine Transforms
-
-+ (OCATransformer *)stringFromAffineTransform;
-+ (OCATransformer *)affineTransformGetScale;
-+ (OCATransformer *)affineTransformGetRotation;
-+ (OCATransformer *)affineTransformGetTranslation;
-
-
 
 
 
 @end
-
-
-
-
-
-#pragma mark -
-#pragma mark Functions
-#pragma mark -
-
-extern CGSize OCAAffineTransformGetScale(CGAffineTransform);
-extern CGSize OCAAffineTransformGetRotation(CGAffineTransform);
-extern CGSize OCAAffineTransformGetTranslation(CGAffineTransform);
 
 
