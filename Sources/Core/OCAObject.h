@@ -26,6 +26,8 @@
     ((a == b) || (b && [a SELECTOR b])); \
 }) \
 
+#define OCA_iOS     TARGET_OS_IPHONE
+
 
 
 

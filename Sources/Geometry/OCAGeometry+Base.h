@@ -10,6 +10,11 @@
 #import <CoreGraphics/CGAffineTransform.h>
 
 #import "OCAObject.h"
+
+#if OCA_iOS
+    #import <UIKit/UIKit.h>
+#endif
+
 #import "OCAPredicate.h"
 #import "OCATransformer.h"
 

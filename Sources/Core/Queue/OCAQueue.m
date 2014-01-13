@@ -241,7 +241,7 @@ static void * OCAQueueSpecificKey = &OCAQueueSpecificKey;
 - (void)performMultiple:(NSUInteger)count blocks:(void(^)(NSUInteger i))block {
     OCAAssert(block != nil, @"No block.") return;
     
-    dispatch_apply(count, self.dispatchQueue, block);
+    dispatch_apply(count, self.dispatchQueue, (void(^)(size_t))block);
 }
 
 
