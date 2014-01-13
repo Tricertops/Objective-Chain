@@ -46,6 +46,7 @@
 #pragma mark Modifying Points
 
 + (OCATransformer *)modifyPoint:(CGPoint(^)(CGPoint point))block;
++ (OCATransformer *)modifyPoint:(CGPoint(^)(CGPoint point))block reverse:(CGPoint(^)(CGPoint point))reverseBlock;
 + (OCATransformer *)addPoint:(CGPoint)otherPoint;
 + (OCATransformer *)subtractPoint:(CGPoint)otherPoint;
 + (OCATransformer *)multiplyPointBy:(CGFloat)multiplier;

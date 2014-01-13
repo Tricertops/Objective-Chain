@@ -32,7 +32,7 @@
 
 + (NSPredicate *)predicateForPoint:(BOOL(^)(CGPoint point))block {
     return [OCAPredicate predicateForClass:[NSValue class] block:^BOOL(NSValue *value) {
-        CGPoint point = OCAUnbox(value, CGPoint, CGPointZero);
+        CGPoint point = OCAUnboxPoint(value);
         return block(point);
     }];
 }
@@ -92,8 +92,7 @@
                                
                            } reverse:^NSString *(NSValue *input) {
                                
-                               CGPoint point = OCAUnbox(input, CGPoint, CGPointZero);
-                               return OCAStringFromPoint(point);
+                               return OCAStringFromPoint(OCAUnboxPoint(input));
                            }]
             describe:@"point from string"
             reverse:@"string from point"];
@@ -108,7 +107,7 @@
                                 
                             } reverse:^NSNumber *(NSValue *input) {
                                 
-                                CGPoint point = OCAUnbox(input, CGPoint, CGPointZero);
+                                CGPoint point = OCAUnboxPoint(input);
                                 return @(point.y);
                             }]
             describe:[NSString stringWithFormat:@"point with x %@", @(x)]
@@ -124,7 +123,7 @@
                                 
                             } reverse:^NSNumber *(NSValue *input) {
                                 
-                                CGPoint point = OCAUnbox(input, CGPoint, CGPointZero);
+                                CGPoint point = OCAUnboxPoint(input);
                                 return @(point.x);
                             }]
             describe:[NSString stringWithFormat:@"point with y %@", @(y)]
@@ -142,7 +141,7 @@
     return [[OCATransformer fromClass:[NSValue class] toClass:[NSValue class]
                             asymetric:^NSValue *(NSValue *input) {
                                 
-                                CGPoint point = OCAUnbox(input, CGPoint, CGPointZero);
+                                CGPoint point = OCAUnboxPoint(input);
                                 point = block(point);
                                 return OCABox(point);
                             }]
@@ -150,59 +149,119 @@
 }
 
 
++ (OCATransformer *)modifyPoint:(CGPoint(^)(CGPoint point))block reverse:(CGPoint(^)(CGPoint point))reverseBlock {
+    return [[OCATransformer fromClass:[NSValue class] toClass:[NSValue class]
+                            transform:^NSValue *(NSValue *input) {
+                                
+                                CGPoint point = OCAUnboxPoint(input);
+                                point = block(point);
+                                return OCABox(point);
+                                
+                            } reverse:^NSValue *(NSValue *input) {
+                                
+                                CGPoint point = OCAUnboxPoint(input);
+                                point = reverseBlock(point);
+                                return OCABox(point);
+                                
+                            }]
+            describe:@"modify point"];
+}
+
+
 + (OCATransformer *)addPoint:(CGPoint)otherPoint {
-    return [OCAGeometry modifyPoint:^CGPoint(CGPoint point) {
+    return [[OCAGeometry modifyPoint:^CGPoint(CGPoint point) {
+        
         return OCAPointAddPoint(point, otherPoint);
-    }];
+        
+    } reverse:^CGPoint(CGPoint point) {
+        
+        return OCAPointSubtractPoint(point, otherPoint);
+    }]
+            describe:[NSString stringWithFormat:@"add point %@", OCAStringFromPoint(otherPoint)]
+            reverse:[NSString stringWithFormat:@"subtract point %@", OCAStringFromPoint(otherPoint)]];
 }
 
 
 + (OCATransformer *)subtractPoint:(CGPoint)otherPoint {
-    return [OCAGeometry modifyPoint:^CGPoint(CGPoint point) {
-        return OCAPointSubtractPoint(point, otherPoint);
-    }];
+    return [[OCAGeometry addPoint:otherPoint] reversed];
 }
 
 
 + (OCATransformer *)multiplyPointBy:(CGFloat)multiplier {
-    return [OCAGeometry modifyPoint:^CGPoint(CGPoint point) {
+    return [[OCAGeometry modifyPoint:^CGPoint(CGPoint point) {
+        
         return OCAPointMultiply(point, multiplier);
-    }];
+        
+    } reverse:^CGPoint(CGPoint point) {
+        
+        return OCAPointMultiply(point, 1 / multiplier);
+    }]
+            describe:[NSString stringWithFormat:@"multiply point by %@", @(multiplier)]
+            reverse:[NSString stringWithFormat:@"multiply point by %@", @(1 / multiplier)]];
 }
 
 
 + (OCATransformer *)transformPoint:(CGAffineTransform)affineTransform {
-    return [OCAGeometry modifyPoint:^CGPoint(CGPoint point) {
+    return [[OCAGeometry modifyPoint:^CGPoint(CGPoint point) {
+        
         return CGPointApplyAffineTransform(point, affineTransform);
-    }];
+        
+    } reverse:^CGPoint(CGPoint point) {
+        
+        return CGPointApplyAffineTransform(point, CGAffineTransformInvert(affineTransform));
+    }]
+            describe:@"apply affine transform on point"];
 }
 
 
 + (OCATransformer *)roundPointTo:(CGFloat)scale {
-    return [OCAGeometry modifyPoint:^CGPoint(CGPoint point) {
+    return [[OCAGeometry modifyPoint:^CGPoint(CGPoint point) {
+        
         return OCAPointRound(point, scale);
-    }];
+        
+    } reverse:^CGPoint(CGPoint point) {
+        return point;
+    }]
+            describe:[NSString stringWithFormat:@"round point to %@", @(scale)]
+            reverse:@"pass"];
 }
 
 
 + (OCATransformer *)floorPointTo:(CGFloat)scale {
-    return [OCAGeometry modifyPoint:^CGPoint(CGPoint point) {
+    return [[OCAGeometry modifyPoint:^CGPoint(CGPoint point) {
+        
         return OCAPointFloor(point, scale);
-    }];
+        
+    } reverse:^CGPoint(CGPoint point) {
+        return point;
+    }]
+            describe:[NSString stringWithFormat:@"floor point to %@", @(scale)]
+            reverse:@"pass"];
 }
 
 
 + (OCATransformer *)ceilPointTo:(CGFloat)scale {
-    return [OCAGeometry modifyPoint:^CGPoint(CGPoint point) {
+    return [[OCAGeometry modifyPoint:^CGPoint(CGPoint point) {
+        
         return OCAPointCeil(point, scale);
-    }];
+        
+    } reverse:^CGPoint(CGPoint point) {
+        return point;
+    }]
+            describe:[NSString stringWithFormat:@"ceil point to %@", @(scale)]
+            reverse:@"pass"];
 }
 
 
 + (OCATransformer *)normalizePoint {
-    return [OCAGeometry modifyPoint:^CGPoint(CGPoint point) {
+    return [[OCAGeometry modifyPoint:^CGPoint(CGPoint point) {
+        
         return OCAPointNormalize(point);
-    }];
+        
+    } reverse:^CGPoint(CGPoint point) {
+        return point;
+    }]
+            describe:@"normalize point"];
 }
 
 
