@@ -10,6 +10,10 @@
 
 
 
+#if OCA_iOS
+
+
+
 
 
 @interface OCAGeometry (EdgeInsets)
@@ -22,9 +26,9 @@
 #pragma mark Predicates
 #pragma mark -
 
-//+ (NSPredicate *)predicateForEdgeInsets:(BOOL(^)(UIEdgeInsets insets))block;
-//+ (NSPredicate *)isEdgeInsetsZero;
-//+ (NSPredicate *)isEdgeInsetsEqualTo:(UIEdgeInsets)insets;
++ (NSPredicate *)predicateForEdgeInsets:(BOOL(^)(UIEdgeInsets insets))block;
++ (NSPredicate *)isEdgeInsetsZero;
++ (NSPredicate *)isEdgeInsetsEqualTo:(UIEdgeInsets)insets;
 
 
 
@@ -35,26 +39,26 @@
 
 #pragma mark Creating Edge Insets
 
-//+ (OCATransformer *)edgeInsetsFromEdges:(UIRectEdge)edge;
-//+ (OCATransformer *)edgeInsetsFromString;
++ (OCATransformer *)edgeInsetsFromEdges:(UIRectEdge)edge;
++ (OCATransformer *)edgeInsetsFromString;
 
 
 #pragma mark Modifying Edge Insets
 
-//+ (OCATransformer *)modifyEdgeInsets:(UIEdgeInsets(^)(UIEdgeInsets insets))block;
-//+ (OCATransformer *)addEdgeInsets:(UIEdgeInsets)otherInsets;
-//+ (OCATransformer *)subtractEdgeInsets:(UIEdgeInsets)otherInsets;
-//+ (OCATransformer *)multiplyEdgeInsets:(CGFloat)multiplier;
-//+ (OCATransformer *)roundEdgeInsetsTo:(CGFloat)scale;
-//+ (OCATransformer *)ceilEdgeInsetsTo:(CGFloat)scale;
-//+ (OCATransformer *)floorEdgeInsetsTo:(CGFloat)scale;
++ (OCATransformer *)modifyEdgeInsets:(UIEdgeInsets(^)(UIEdgeInsets insets))block;
++ (OCATransformer *)addEdgeInsets:(UIEdgeInsets)otherInsets;
++ (OCATransformer *)subtractEdgeInsets:(UIEdgeInsets)otherInsets;
++ (OCATransformer *)multiplyEdgeInsets:(CGFloat)multiplier;
++ (OCATransformer *)roundEdgeInsetsTo:(CGFloat)scale;
++ (OCATransformer *)ceilEdgeInsetsTo:(CGFloat)scale;
++ (OCATransformer *)floorEdgeInsetsTo:(CGFloat)scale;
 
 
 #pragma mark Disposing Edge Insets
 
-//+ (OCATransformer *)stringFromEdgeInsets;
-//+ (OCATransformer *)edgeInsetsGetHorizontal;
-//+ (OCATransformer *)edgeInsetsGetVertical;
++ (OCATransformer *)stringFromEdgeInsets;
++ (OCATransformer *)edgeInsetsGetHorizontal;
++ (OCATransformer *)edgeInsetsGetVertical;
 
 
 
@@ -70,12 +74,16 @@
 #pragma mark Functions
 #pragma mark -
 
-//extern UIEdgeInsets OCAEdgeInsetsAddEdgeInsets(UIEdgeInsets, UIEdgeInsets);
-//extern UIEdgeInsets OCAEdgeInsetsSubtractEdgeInsets(UIEdgeInsets, UIEdgeInsets);
-//extern UIEdgeInsets OCAEdgeInsetsMultiply(UIEdgeInsets insets, CGFloat multipler);
+extern UIEdgeInsets OCAEdgeInsetsAddEdgeInsets(UIEdgeInsets, UIEdgeInsets);
+extern UIEdgeInsets OCAEdgeInsetsSubtractEdgeInsets(UIEdgeInsets, UIEdgeInsets);
+extern UIEdgeInsets OCAEdgeInsetsMultiply(UIEdgeInsets insets, CGFloat multipler);
 
-//extern UIEdgeInsets OCAEdgeInsetsRound(UIEdgeInsets insets, CGFloat scale);
-//extern UIEdgeInsets OCAEdgeInsetsFloor(UIEdgeInsets insets, CGFloat scale);
-//extern UIEdgeInsets OCAEdgeInsetsCeil(UIEdgeInsets insets, CGFloat scale);
+extern UIEdgeInsets OCAEdgeInsetsRound(UIEdgeInsets insets, CGFloat scale);
+extern UIEdgeInsets OCAEdgeInsetsFloor(UIEdgeInsets insets, CGFloat scale);
+extern UIEdgeInsets OCAEdgeInsetsCeil(UIEdgeInsets insets, CGFloat scale);
+
+
+
+#endif // OCA_iOS
 
 
