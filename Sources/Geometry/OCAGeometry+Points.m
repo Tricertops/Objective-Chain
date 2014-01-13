@@ -66,6 +66,13 @@
 }
 
 
++ (NSPredicate *)isPointContainedInRect:(CGRect)rect {
+    return [OCAGeometry predicateForPoint:^BOOL(CGPoint point) {
+        return CGRectContainsPoint(rect, point);
+    }];
+}
+
+
 
 
 

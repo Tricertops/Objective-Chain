@@ -27,6 +27,7 @@
 + (NSPredicate *)isPointZero;
 + (NSPredicate *)isPointFurtherFrom:(CGPoint)otherPoint than:(CGFloat)distance;
 + (NSPredicate *)isPointCloserTo:(CGPoint)otherPoint than:(CGFloat)distance;
++ (NSPredicate *)isPointContainedInRect:(CGRect)rect;
 
 
 
