@@ -153,7 +153,40 @@
 
 
 
-//TODO: Edge Insets
+#pragma mark -
+#pragma mark Edge Insets
+#pragma mark -
+
+
+#pragma mark Comparing Edge Insets
+
+//+ (NSPredicate *)predicateForEdgeInsets:(BOOL(^)(UIEdgeInsets insets))block;
+//+ (NSPredicate *)isEdgeInsetsZero;
+//+ (NSPredicate *)isEdgeInsetsEqualTo:(UIEdgeInsets)insets;
+
+
+#pragma mark Creating Edge Insets
+
+//+ (OCATransformer *)edgeInsetsFromEdges:(UIRectEdge)edge;
+//+ (OCATransformer *)edgeInsetsFromString;
+
+
+#pragma mark Modifying Edge Insets
+
+//+ (OCATransformer *)modifyEdgeInsets:(UIEdgeInsets(^)(UIEdgeInsets insets))block;
+//+ (OCATransformer *)addEdgeInsets:(UIEdgeInsets)otherInsets;
+//+ (OCATransformer *)subtractEdgeInsets:(UIEdgeInsets)otherInsets;
+//+ (OCATransformer *)multiplyEdgeInsets:(CGFloat)multiplier;
+//+ (OCATransformer *)roundEdgeInsetsTo:(CGFloat)scale;
+//+ (OCATransformer *)ceilEdgeInsetsTo:(CGFloat)scale;
+//+ (OCATransformer *)floorEdgeInsetsTo:(CGFloat)scale;
+
+
+#pragma mark Disposing Edge Insets
+
+//+ (OCATransformer *)stringFromEdgeInsets;
+//+ (OCATransformer *)edgeInsetsGetHorizontal;
+//+ (OCATransformer *)edgeInsetsGetVertical;
 
 
 
@@ -174,6 +207,7 @@
 + (OCATransformer *)affineTransformFromScale;
 + (OCATransformer *)affineTransformFromRotation;
 + (OCATransformer *)affineTransformFromTranslation;
++ (OCATransformer *)affineTransformFromString;
 
 
 #pragma mark Modifying Affine Transforms
@@ -188,9 +222,45 @@
 
 #pragma mark Disposing Affine Transforms
 
++ (OCATransformer *)stringFromAffineTransform;
 + (OCATransformer *)affineTransformGetScale;
 + (OCATransformer *)affineTransformGetRotation;
 + (OCATransformer *)affineTransformGetTranslation;
+
+
+
+#pragma mark -
+#pragma mark 3D Transforms
+#pragma mark -
+
+
+#pragma mark Comparing 3D Transforms
+
+//+ (NSPredicate *)predicateForTransform3D:(BOOL(^)(CATransform3D t))block;
+//+ (NSPredicate *)transform3DIsIdentity;
+//+ (NSPredicate *)transform3DIsEqualTo:(CATransform3D)otherTransform3D;
+//+ (NSPredicate *)transform3DIsAffineTransform;
+
+
+#pragma mark Creating 3D Transforms
+
+//+ (OCATransformer *)transform3DFromScaleWithZ:(CGFloat)zScale;
+//+ (OCATransformer *)transform3DFromXRotation;
+//+ (OCATransformer *)transform3DFromYRotation;
+//+ (OCATransformer *)transform3DFromZRotation;
+//+ (OCATransformer *)transform3DFromTranslationWithZ:(CGFloat)zTranslation;
+//+ (OCATransformer *)transform3DFromAffineTransform;
+
+
+#pragma mark Modifying 3D Transforms
+
+//+ (OCATransformer *)modifyTransform3D:(CATransform3D(^)(CATransform3D t))block;
+//+ (OCATransformer *)concatTransform3D:(CATransform3D)otherTransform3D;
+
+
+#pragma mark Disposing 3D Transforms
+
+//+ (OCATransformer *)transform3DGetAffineTransform;
 
 
 
@@ -249,5 +319,18 @@ extern CGRect OCARectGetPoint(CGRect rect, CGPoint point);
 extern CGSize OCAAffineTransformGetScale(CGAffineTransform);
 extern CGSize OCAAffineTransformGetRotation(CGAffineTransform);
 extern CGSize OCAAffineTransformGetTranslation(CGAffineTransform);
+
+
+
+#pragma mark Edge Insets Functions
+
+//extern UIEdgeInsets OCAEdgeInsetsAddEdgeInsets(UIEdgeInsets, UIEdgeInsets);
+//extern UIEdgeInsets OCAEdgeInsetsSubtractEdgeInsets(UIEdgeInsets, UIEdgeInsets);
+//extern UIEdgeInsets OCAEdgeInsetsMultiply(UIEdgeInsets insets, CGFloat multipler);
+
+//extern UIEdgeInsets OCAEdgeInsetsRound(UIEdgeInsets insets, CGFloat scale);
+//extern UIEdgeInsets OCAEdgeInsetsFloor(UIEdgeInsets insets, CGFloat scale);
+//extern UIEdgeInsets OCAEdgeInsetsCeil(UIEdgeInsets insets, CGFloat scale);
+
 
 

@@ -110,6 +110,7 @@
 		5B2F2FEF1883DF8B0028367B /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B2F2FEE1883DF8B0028367B /* CoreGraphics.framework */; };
 		5B2F2FF01883DF930028367B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B4F85A11871A4DC004695DA /* Foundation.framework */; };
 		5B2F2FF61883DFCB0028367B /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B2F2FF51883DFCB0028367B /* CoreGraphics.framework */; };
+		5B2F2FFA1883FFD20028367B /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B2F2FF91883FFD20028367B /* UIKit.framework */; };
 		5B4F85A21871A4DC004695DA /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B4F85A11871A4DC004695DA /* Foundation.framework */; };
 		5B4F85B01871A4DC004695DA /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B4F85AF1871A4DC004695DA /* XCTest.framework */; };
 		5B4F85B11871A4DC004695DA /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B4F85A11871A4DC004695DA /* Foundation.framework */; };
@@ -233,6 +234,7 @@
 		5B2F2FEA1883DF710028367B /* OCAGeometry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCAGeometry.m; sourceTree = "<group>"; };
 		5B2F2FEE1883DF8B0028367B /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/System/Library/Frameworks/CoreGraphics.framework; sourceTree = DEVELOPER_DIR; };
 		5B2F2FF51883DFCB0028367B /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		5B2F2FF91883FFD20028367B /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/System/Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
 		5B4F859E1871A4DB004695DA /* libObjectiveChain-iOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libObjectiveChain-iOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5B4F85A11871A4DC004695DA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		5B4F85AE1871A4DC004695DA /* ObjectiveChain-iOS-Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "ObjectiveChain-iOS-Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -269,6 +271,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5B2F2FFA1883FFD20028367B /* UIKit.framework in Frameworks */,
 				5B2F2FEF1883DF8B0028367B /* CoreGraphics.framework in Frameworks */,
 				5B4F85A21871A4DC004695DA /* Foundation.framework in Frameworks */,
 			);
@@ -496,6 +499,7 @@
 		5B4F85A01871A4DB004695DA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				5B2F2FF91883FFD20028367B /* UIKit.framework */,
 				5B4F85A11871A4DC004695DA /* Foundation.framework */,
 				5B2F2FF41883DFBD0028367B /* iOS */,
 				5B2F2FF31883DFAB0028367B /* OS X */,
