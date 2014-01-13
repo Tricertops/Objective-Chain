@@ -125,8 +125,8 @@
     }
     NSString *inputClassesString = [inputClasses.allObjects componentsJoinedByString:@", "];
     
-    //TODO: Find common input class.
-    return [[OCATransformer fromClass:nil toClass:finalClass transform:^id(id input) {
+    Class inputClass = [OCAObject valueClassForClasses:inputClasses.allObjects];
+    return [[OCATransformer fromClass:inputClass toClass:finalClass transform:^id(id input) {
         Class class = [input class];
         while (class) {
             NSValueTransformer *t = [byInputClass objectForKey:class];

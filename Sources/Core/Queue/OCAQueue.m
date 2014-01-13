@@ -138,7 +138,7 @@ static void * OCAQueueSpecificKey = &OCAQueueSpecificKey;
     OCAQueue *current = [OCAQueue current];
     if (self == current) return YES; // Definitely deadlocking!
     
-    //TODO: Targetting to Main may have separate BOOL.
+    //TODO: Targetting to Main may have separate property.
     BOOL isTargetedToMain = [self isTargetedTo:[OCAQueue main]];
     BOOL runningOnMain = [current isTargetedTo:[OCAQueue main]];
     // If both Current and Self are targetted to Main, it would deadlock!
