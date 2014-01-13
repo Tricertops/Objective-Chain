@@ -53,7 +53,6 @@
 + (OCATransformer *)floorPointTo:(CGFloat)scale;
 + (OCATransformer *)ceilPointTo:(CGFloat)scale;
 + (OCATransformer *)normalizePoint;
-+ (OCATransformer *)invertPoint;
 
 
 #pragma mark Disposing Points
@@ -77,10 +76,12 @@
 #pragma mark Functions
 #pragma mark -
 
+extern CGPoint OCAPointFromString(NSString *);
+extern NSString * OCAStringFromPoint(CGPoint);
+
 extern CGPoint OCAPointAddPoint(CGPoint, CGPoint);
 extern CGPoint OCAPointSubtractPoint(CGPoint, CGPoint);
 extern CGPoint OCAPointMultiply(CGPoint point, CGFloat multipler);
-extern CGPoint OCAPointInvert(CGPoint);
 extern CGPoint OCAPointNormalize(CGPoint);
 
 extern CGPoint OCAPointRound(CGPoint point, CGFloat scale);
