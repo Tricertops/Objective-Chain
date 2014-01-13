@@ -22,7 +22,7 @@
 #pragma mark Predicates
 #pragma mark -
 
-+ (NSPredicate *)predicateForRect:(BOOL(^)(CGRect size))block;
++ (NSPredicate *)predicateForRect:(BOOL(^)(CGRect rect))block;
 + (NSPredicate *)isRectEqualTo:(CGRect)otherRect;
 + (NSPredicate *)isRectZero;
 + (NSPredicate *)isRectEmpty;
@@ -30,6 +30,7 @@
 + (NSPredicate *)isRectInfinite;
 + (NSPredicate *)isRectContainsPoint:(CGPoint)point;
 + (NSPredicate *)isRectContainsRect:(CGRect)otherRect;
++ (NSPredicate *)isRectContainedInRect:(CGRect)otherRect;
 + (NSPredicate *)isRectIntersects:(CGRect)otherRect;
 
 
@@ -49,7 +50,10 @@
 #pragma mark Modifying Rectangles
 
 + (OCATransformer *)modifyRect:(CGRect(^)(CGRect rect))block;
-//TODO: + (OCATransformer *)insetRect:(UIEdgeInsets)insets;
++ (OCATransformer *)modifyRect:(CGRect(^)(CGRect rect))block reverse:(CGRect(^)(CGRect rect))reverseBlock;
+#if OCA_iOS
++ (OCATransformer *)insetRect:(UIEdgeInsets)insets;
+#endif
 + (OCATransformer *)transformRect:(CGAffineTransform)affineTransform;
 + (OCATransformer *)roundRectTo:(CGFloat)scale;
 + (OCATransformer *)floorRectTo:(CGFloat)scale;
@@ -62,7 +66,7 @@
 #pragma mark Disposing Rectangles
 
 + (OCATransformer *)stringFromRect;
-+ (OCATransformer *)rectRelativePoint:(CGPoint)point;
++ (OCATransformer *)rectRelativePoint:(CGPoint)relativePoint;
 + (OCATransformer *)rectCenter;
 + (OCATransformer *)rectEdge:(CGRectEdge)edge;
 
@@ -80,10 +84,13 @@
 #pragma mark Functions
 #pragma mark -
 
+extern CGRect OCARectFromString(NSString *);
+extern NSString * OCAStringFromRect(CGRect);
+
 extern CGRect OCARectRound(CGRect rect, CGFloat scale);
 extern CGRect OCARectCeil(CGRect rect, CGFloat scale);
 extern CGRect OCARectFloor(CGRect rect, CGFloat scale);
 
-extern CGRect OCARectGetPoint(CGRect rect, CGPoint point);
+extern CGPoint OCARectGetRelativePoint(CGRect rect, CGPoint point);
 
 
