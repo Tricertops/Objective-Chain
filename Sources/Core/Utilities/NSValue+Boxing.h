@@ -27,6 +27,12 @@
 
 
 
+#define OCAUnboxPoint(VALUE)    OCAUnbox(VALUE, CGPoint, CGPointZero)
+#define OCAUnboxSize(VALUE)     OCAUnbox(VALUE, CGSize, CGSizeZero)
+#define OCAUnboxRect(VALUE)     OCAUnbox(VALUE, CGRect, CGRectZero)
+
+
+
 @interface NSValue (Boxing)
 
 
