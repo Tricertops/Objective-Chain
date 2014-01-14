@@ -36,6 +36,9 @@
 
 
 
+#pragma mark Creating & Loading
+
+
 - (instancetype)initWithStyle:(UITableViewStyle)style {
     self = [super initWithStyle:UITableViewStyleGrouped];
     if (self) {
@@ -64,6 +67,12 @@
     @"Licensed under MIT License";
     self.tableView.tableFooterView = footnote;
 }
+
+
+
+
+
+#pragma mark tTable View
 
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {

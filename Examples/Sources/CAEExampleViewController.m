@@ -23,6 +23,9 @@
 
 
 
+#pragma mark Registering Subclasses
+
+
 + (void)registerExample {
     if (self == [CAEExampleViewController class]) return;
     
@@ -49,6 +52,9 @@
 
 
 
+#pragma mark Getting Info about Examples
+
+
 + (NSString *)exampleTitle {
     return NSStringFromClass(self);
 }
@@ -67,9 +73,21 @@
 
 
 
+#pragma mark Creating & Loading
+
+
+- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self) {
+        self.title = [self.class exampleTitle];
+    }
+    return self;
+}
+
+
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = [UIColor whiteColor];
+    self.view.backgroundColor = [UIColor groupTableViewBackgroundColor];
 }
 
 

@@ -167,13 +167,6 @@
 			remoteGlobalIDString = 5B4F859D1871A4DB004695DA;
 			remoteInfo = "ObjectiveChain-iOS";
 		};
-		5B8AE24118856D8C007B611F /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 5B8AE23D18856D8C007B611F /* Chain Examples.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 5B8AE20118856D20007B611F;
-			remoteInfo = Examples;
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -279,7 +272,6 @@
 		5B4F85A11871A4DC004695DA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		5B4F85AE1871A4DC004695DA /* ObjectiveChain-iOS-Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "ObjectiveChain-iOS-Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5B4F85AF1871A4DC004695DA /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
-		5B8AE23D18856D8C007B611F /* Chain Examples.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = "Chain Examples.xcodeproj"; sourceTree = "<group>"; };
 		5B8F4DB0187EF60800D75EEE /* OCAPropertyTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCAPropertyTest.m; sourceTree = "<group>"; };
 		5BA8A6441875BD950012BA5D /* OCAMathTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCAMathTest.m; sourceTree = "<group>"; };
 		5BAB21B41884199500459B56 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/System/Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
@@ -341,7 +333,6 @@
 			children = (
 				5B2F2F331881D9500028367B /* Sources */,
 				5B4F85C71871A874004695DA /* Tests */,
-				5B8AE1F618856C98007B611F /* Examples */,
 				5B4F85A01871A4DB004695DA /* Frameworks */,
 				5B4F859F1871A4DB004695DA /* Products */,
 			);
@@ -596,27 +587,11 @@
 			path = Tests;
 			sourceTree = "<group>";
 		};
-		5B8AE1F618856C98007B611F /* Examples */ = {
-			isa = PBXGroup;
-			children = (
-				5B8AE23D18856D8C007B611F /* Chain Examples.xcodeproj */,
-			);
-			path = Examples;
-			sourceTree = "<group>";
-		};
 		5B8AE1F718856CA7007B611F /* UIKit */ = {
 			isa = PBXGroup;
 			children = (
 			);
 			path = UIKit;
-			sourceTree = "<group>";
-		};
-		5B8AE23E18856D8C007B611F /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				5B8AE24218856D8C007B611F /* Chain Examples.app */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -773,12 +748,6 @@
 			mainGroup = 5B2E8BC41871A23B008AC4B1;
 			productRefGroup = 5B4F859F1871A4DB004695DA /* Products */;
 			projectDirPath = "";
-			projectReferences = (
-				{
-					ProductGroup = 5B8AE23E18856D8C007B611F /* Products */;
-					ProjectRef = 5B8AE23D18856D8C007B611F /* Chain Examples.xcodeproj */;
-				},
-			);
 			projectRoot = "";
 			targets = (
 				5B4F859D1871A4DB004695DA /* iOS Library */,
@@ -788,17 +757,6 @@
 			);
 		};
 /* End PBXProject section */
-
-/* Begin PBXReferenceProxy section */
-		5B8AE24218856D8C007B611F /* Chain Examples.app */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.application;
-			name = "Chain Examples.app";
-			path = Examples.app;
-			remoteRef = 5B8AE24118856D8C007B611F /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		5B097E411871BE01006240D8 /* Resources */ = {

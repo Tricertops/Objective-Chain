@@ -31,6 +31,9 @@
 
 
 
+#pragma mark Example Info & Registration
+
+
 + (void)load {
     [self registerExample];
 }
@@ -48,6 +51,19 @@
 
 + (NSString *)exampleDescription {
     return @"";
+}
+
+
+
+
+
+#pragma mark Creating & Loading
+
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    
+    
 }
 
 

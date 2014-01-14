@@ -7,18 +7,28 @@
 //
 
 
+#import "ObjectiveChain.h"
+
+
 
 
 
 @interface CAEExampleViewController : UIViewController
 
 
+
+#pragma mark Registering Subclasses
+
 + (void)registerExample;
 + (NSArray *)allSubclasses;
+
+
+#pragma mark Getting Info about Examples
 
 + (NSString *)exampleTitle;
 + (NSString *)exampleSubtitle;
 + (NSString *)exampleDescription;
+
 
 
 @end

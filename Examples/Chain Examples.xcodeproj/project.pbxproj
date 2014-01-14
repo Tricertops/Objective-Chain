@@ -15,8 +15,48 @@
 		5B8AE25418856EE9007B611F /* CAEListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B8AE25318856EE9007B611F /* CAEListViewController.m */; };
 		5B8AE256188570B5007B611F /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5B8AE255188570B5007B611F /* Images.xcassets */; };
 		5B8AE259188570F1007B611F /* CAEExampleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B8AE258188570F1007B611F /* CAEExampleViewController.m */; };
-		5B8AE25D1885716F007B611F /* CAEControlsExample.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B8AE25C1885716F007B611F /* CAEControlsExample.m */; };
+		5BB822B118857DF7006D00DB /* libObjectiveChain-iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5BB822A818857DE3006D00DB /* libObjectiveChain-iOS.a */; };
+		5BB822B518857F60006D00DB /* CAEControlsExample.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BB822B418857F60006D00DB /* CAEControlsExample.m */; };
+		5BB822B718857F73006D00DB /* CAEControlsExample.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5BB822B618857F73006D00DB /* CAEControlsExample.xib */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		5BB822A718857DE3006D00DB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5BB822A018857DE3006D00DB /* Objective-Chain.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 5B4F859E1871A4DB004695DA;
+			remoteInfo = "iOS Library";
+		};
+		5BB822A918857DE3006D00DB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5BB822A018857DE3006D00DB /* Objective-Chain.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 5B4F85AE1871A4DC004695DA;
+			remoteInfo = "iOS Tests";
+		};
+		5BB822AB18857DE3006D00DB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5BB822A018857DE3006D00DB /* Objective-Chain.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 5B097E321871BE01006240D8;
+			remoteInfo = "OS X Library";
+		};
+		5BB822AD18857DE3006D00DB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5BB822A018857DE3006D00DB /* Objective-Chain.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 5B097E431871BE01006240D8;
+			remoteInfo = "OS X Tests";
+		};
+		5BB822AF18857DF1006D00DB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5BB822A018857DE3006D00DB /* Objective-Chain.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 5B4F859D1871A4DB004695DA;
+			remoteInfo = "iOS Library";
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		5B8AE20118856D20007B611F /* Examples.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Examples.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -33,8 +73,10 @@
 		5B8AE255188570B5007B611F /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		5B8AE257188570F1007B611F /* CAEExampleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CAEExampleViewController.h; sourceTree = "<group>"; };
 		5B8AE258188570F1007B611F /* CAEExampleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CAEExampleViewController.m; sourceTree = "<group>"; };
-		5B8AE25B1885716F007B611F /* CAEControlsExample.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CAEControlsExample.h; sourceTree = "<group>"; };
-		5B8AE25C1885716F007B611F /* CAEControlsExample.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CAEControlsExample.m; sourceTree = "<group>"; };
+		5BB822A018857DE3006D00DB /* Objective-Chain.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = "Objective-Chain.xcodeproj"; path = "../Objective-Chain.xcodeproj"; sourceTree = "<group>"; };
+		5BB822B318857F60006D00DB /* CAEControlsExample.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CAEControlsExample.h; sourceTree = "<group>"; };
+		5BB822B418857F60006D00DB /* CAEControlsExample.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CAEControlsExample.m; sourceTree = "<group>"; };
+		5BB822B618857F73006D00DB /* CAEControlsExample.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CAEControlsExample.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -42,6 +84,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5BB822B118857DF7006D00DB /* libObjectiveChain-iOS.a in Frameworks */,
 				5B8AE20718856D20007B611F /* CoreGraphics.framework in Frameworks */,
 				5B8AE20918856D20007B611F /* UIKit.framework in Frameworks */,
 				5B8AE20518856D20007B611F /* Foundation.framework in Frameworks */,
@@ -58,6 +101,7 @@
 				5B8AE24B18856EBD007B611F /* Sources */,
 				5B8AE25A1885712B007B611F /* Examples */,
 				5B8AE255188570B5007B611F /* Images.xcassets */,
+				5BB822A018857DE3006D00DB /* Objective-Chain.xcodeproj */,
 				5B8AE20318856D20007B611F /* Frameworks */,
 				5B8AE20218856D20007B611F /* Products */,
 			);
@@ -99,10 +143,30 @@
 		5B8AE25A1885712B007B611F /* Examples */ = {
 			isa = PBXGroup;
 			children = (
-				5B8AE25B1885716F007B611F /* CAEControlsExample.h */,
-				5B8AE25C1885716F007B611F /* CAEControlsExample.m */,
+				5BB822B218857F60006D00DB /* Controls */,
 			);
 			path = Examples;
+			sourceTree = "<group>";
+		};
+		5BB822A118857DE3006D00DB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				5BB822A818857DE3006D00DB /* libObjectiveChain-iOS.a */,
+				5BB822AA18857DE3006D00DB /* ObjectiveChain-iOS-Tests.xctest */,
+				5BB822AC18857DE3006D00DB /* libObjectiveChain-OSX.a */,
+				5BB822AE18857DE3006D00DB /* ObjectiveChain-OSX-Tests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		5BB822B218857F60006D00DB /* Controls */ = {
+			isa = PBXGroup;
+			children = (
+				5BB822B318857F60006D00DB /* CAEControlsExample.h */,
+				5BB822B618857F73006D00DB /* CAEControlsExample.xib */,
+				5BB822B418857F60006D00DB /* CAEControlsExample.m */,
+			);
+			path = Controls;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -119,6 +183,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				5BB822B018857DF1006D00DB /* PBXTargetDependency */,
 			);
 			name = Examples;
 			productName = "Chain Examples";
@@ -145,6 +210,12 @@
 			mainGroup = 5B8AE1F818856D20007B611F;
 			productRefGroup = 5B8AE20218856D20007B611F /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 5BB822A118857DE3006D00DB /* Products */;
+					ProjectRef = 5BB822A018857DE3006D00DB /* Objective-Chain.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				5B8AE20018856D20007B611F /* Examples */,
@@ -152,11 +223,43 @@
 		};
 /* End PBXProject section */
 
+/* Begin PBXReferenceProxy section */
+		5BB822A818857DE3006D00DB /* libObjectiveChain-iOS.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libObjectiveChain-iOS.a";
+			remoteRef = 5BB822A718857DE3006D00DB /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		5BB822AA18857DE3006D00DB /* ObjectiveChain-iOS-Tests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = "ObjectiveChain-iOS-Tests.xctest";
+			remoteRef = 5BB822A918857DE3006D00DB /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		5BB822AC18857DE3006D00DB /* libObjectiveChain-OSX.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libObjectiveChain-OSX.a";
+			remoteRef = 5BB822AB18857DE3006D00DB /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		5BB822AE18857DE3006D00DB /* ObjectiveChain-OSX-Tests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = "ObjectiveChain-OSX-Tests.xctest";
+			remoteRef = 5BB822AD18857DE3006D00DB /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
+
 /* Begin PBXResourcesBuildPhase section */
 		5B8AE1FF18856D20007B611F /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5BB822B718857F73006D00DB /* CAEControlsExample.xib in Resources */,
 				5B8AE256188570B5007B611F /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -172,11 +275,19 @@
 				5B8AE259188570F1007B611F /* CAEExampleViewController.m in Sources */,
 				5B8AE25418856EE9007B611F /* CAEListViewController.m in Sources */,
 				5B8AE25018856EBD007B611F /* CAEAppDelegate.m in Sources */,
-				5B8AE25D1885716F007B611F /* CAEControlsExample.m in Sources */,
+				5BB822B518857F60006D00DB /* CAEControlsExample.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		5BB822B018857DF1006D00DB /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "iOS Library";
+			targetProxy = 5BB822AF18857DF1006D00DB /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		5B8AE22B18856D20007B611F /* Debug */ = {
@@ -260,6 +371,7 @@
 				GCC_PREFIX_HEADER = Sources/Prefix.pch;
 				INFOPLIST_FILE = "$(SRCROOT)/Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				USER_HEADER_SEARCH_PATHS = "../Sources/**";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -273,6 +385,7 @@
 				GCC_PREFIX_HEADER = Sources/Prefix.pch;
 				INFOPLIST_FILE = "$(SRCROOT)/Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				USER_HEADER_SEARCH_PATHS = "../Sources/**";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
