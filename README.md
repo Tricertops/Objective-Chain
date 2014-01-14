@@ -56,25 +56,20 @@ Despite of the fact, that single *Connection* can have associated only one *Prod
 
 
 
-## [Modules][1]
+## [Modules](./Sources)
 
 **Objective-Chain** is made up of *Core* and additional libraries that are built on top of it. 
 
-Basic library ***Foundation*** provides transformers for many standard classes like `NSArray`, `NSDictionary`, `NSString` or `NSNumber`, and also implements *Timer* and *Notification* producers. ***Geometry*** library makes it easy to work with frames, insets or transforms. [Read more…](1)
+Basic library ***Foundation*** provides transformers for many standard classes like `NSArray`, `NSDictionary`, `NSString` or `NSNumber`, and also implements *Timer* and *Notification* producers. ***Geometry*** library makes it easy to work with frames, insets or transforms. [Read more…](./Sources)
 
 More modules will be added, mainly **UIKit** additions.
 
 
 ---
 
-### [Project in development…][2]
+### [Project in development…](https://github.com/iMartinKiss/Objective-Chain/issues/1)
 
 ---
 
 Licensed under The MIT License (MIT)  
 Copyright © 2014 Martin Kiss
-
-
-
-[1]: Sources
-[2]: https://github.com/iMartinKiss/Objective-Chain/issues/1
