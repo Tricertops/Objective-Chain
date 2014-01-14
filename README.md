@@ -56,7 +56,7 @@ Despite of the fact, that single *Connection* can have associated only one *Prod
 
 
 
-## [Modules](1)
+## [Modules][1]
 
 **Objective-Chain** is made up of *Core* and additional libraries that are built on top of it. 
 
@@ -67,7 +67,7 @@ More modules will be added, mainly **UIKit** additions.
 
 ---
 
-### [Project in development…](2)
+### [Project in development…][2]
 
 ---
 
