@@ -7,6 +7,7 @@
 //
 
 #import "CAEAppDelegate.h"
+#import "CAEListViewController.h"
 
 
 
@@ -21,6 +22,10 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.backgroundColor = [UIColor blackColor];
+    
+    CAEListViewController *listViewController = [[CAEListViewController alloc] init];
+    self.window.rootViewController = [[UINavigationController alloc] initWithRootViewController:listViewController];
+    
     [self.window makeKeyAndVisible];
     return YES;
 }

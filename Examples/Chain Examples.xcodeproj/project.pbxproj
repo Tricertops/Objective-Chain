@@ -10,8 +10,12 @@
 		5B8AE20518856D20007B611F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B8AE20418856D20007B611F /* Foundation.framework */; };
 		5B8AE20718856D20007B611F /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B8AE20618856D20007B611F /* CoreGraphics.framework */; };
 		5B8AE20918856D20007B611F /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B8AE20818856D20007B611F /* UIKit.framework */; };
-		5B8AE24718856DA5007B611F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B8AE24418856DA5007B611F /* main.m */; };
-		5B8AE24A18856DF4007B611F /* CAEAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B8AE24918856DF4007B611F /* CAEAppDelegate.m */; };
+		5B8AE25018856EBD007B611F /* CAEAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B8AE24D18856EBD007B611F /* CAEAppDelegate.m */; };
+		5B8AE25118856EBD007B611F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B8AE24E18856EBD007B611F /* main.m */; };
+		5B8AE25418856EE9007B611F /* CAEListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B8AE25318856EE9007B611F /* CAEListViewController.m */; };
+		5B8AE256188570B5007B611F /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5B8AE255188570B5007B611F /* Images.xcassets */; };
+		5B8AE259188570F1007B611F /* CAEExampleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B8AE258188570F1007B611F /* CAEExampleViewController.m */; };
+		5B8AE25D1885716F007B611F /* CAEControlsExample.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B8AE25C1885716F007B611F /* CAEControlsExample.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -20,10 +24,17 @@
 		5B8AE20618856D20007B611F /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		5B8AE20818856D20007B611F /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		5B8AE24318856DA5007B611F /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		5B8AE24418856DA5007B611F /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		5B8AE24518856DA5007B611F /* Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Prefix.pch; sourceTree = "<group>"; };
-		5B8AE24818856DF4007B611F /* CAEAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CAEAppDelegate.h; sourceTree = "<group>"; };
-		5B8AE24918856DF4007B611F /* CAEAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CAEAppDelegate.m; sourceTree = "<group>"; };
+		5B8AE24C18856EBD007B611F /* CAEAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CAEAppDelegate.h; sourceTree = "<group>"; };
+		5B8AE24D18856EBD007B611F /* CAEAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CAEAppDelegate.m; sourceTree = "<group>"; };
+		5B8AE24E18856EBD007B611F /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		5B8AE24F18856EBD007B611F /* Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Prefix.pch; sourceTree = "<group>"; };
+		5B8AE25218856EE9007B611F /* CAEListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CAEListViewController.h; sourceTree = "<group>"; };
+		5B8AE25318856EE9007B611F /* CAEListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CAEListViewController.m; sourceTree = "<group>"; };
+		5B8AE255188570B5007B611F /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		5B8AE257188570F1007B611F /* CAEExampleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CAEExampleViewController.h; sourceTree = "<group>"; };
+		5B8AE258188570F1007B611F /* CAEExampleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CAEExampleViewController.m; sourceTree = "<group>"; };
+		5B8AE25B1885716F007B611F /* CAEControlsExample.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CAEControlsExample.h; sourceTree = "<group>"; };
+		5B8AE25C1885716F007B611F /* CAEControlsExample.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CAEControlsExample.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -44,10 +55,9 @@
 			isa = PBXGroup;
 			children = (
 				5B8AE24318856DA5007B611F /* Info.plist */,
-				5B8AE24518856DA5007B611F /* Prefix.pch */,
-				5B8AE24418856DA5007B611F /* main.m */,
-				5B8AE24818856DF4007B611F /* CAEAppDelegate.h */,
-				5B8AE24918856DF4007B611F /* CAEAppDelegate.m */,
+				5B8AE24B18856EBD007B611F /* Sources */,
+				5B8AE25A1885712B007B611F /* Examples */,
+				5B8AE255188570B5007B611F /* Images.xcassets */,
 				5B8AE20318856D20007B611F /* Frameworks */,
 				5B8AE20218856D20007B611F /* Products */,
 			);
@@ -69,6 +79,30 @@
 				5B8AE20818856D20007B611F /* UIKit.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		5B8AE24B18856EBD007B611F /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				5B8AE24F18856EBD007B611F /* Prefix.pch */,
+				5B8AE24E18856EBD007B611F /* main.m */,
+				5B8AE24C18856EBD007B611F /* CAEAppDelegate.h */,
+				5B8AE24D18856EBD007B611F /* CAEAppDelegate.m */,
+				5B8AE25218856EE9007B611F /* CAEListViewController.h */,
+				5B8AE25318856EE9007B611F /* CAEListViewController.m */,
+				5B8AE257188570F1007B611F /* CAEExampleViewController.h */,
+				5B8AE258188570F1007B611F /* CAEExampleViewController.m */,
+			);
+			path = Sources;
+			sourceTree = "<group>";
+		};
+		5B8AE25A1885712B007B611F /* Examples */ = {
+			isa = PBXGroup;
+			children = (
+				5B8AE25B1885716F007B611F /* CAEControlsExample.h */,
+				5B8AE25C1885716F007B611F /* CAEControlsExample.m */,
+			);
+			path = Examples;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -123,6 +157,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5B8AE256188570B5007B611F /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -133,8 +168,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5B8AE24A18856DF4007B611F /* CAEAppDelegate.m in Sources */,
-				5B8AE24718856DA5007B611F /* main.m in Sources */,
+				5B8AE25118856EBD007B611F /* main.m in Sources */,
+				5B8AE259188570F1007B611F /* CAEExampleViewController.m in Sources */,
+				5B8AE25418856EE9007B611F /* CAEListViewController.m in Sources */,
+				5B8AE25018856EBD007B611F /* CAEAppDelegate.m in Sources */,
+				5B8AE25D1885716F007B611F /* CAEControlsExample.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -219,7 +257,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = Prefix.pch;
+				GCC_PREFIX_HEADER = Sources/Prefix.pch;
 				INFOPLIST_FILE = "$(SRCROOT)/Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
@@ -232,7 +270,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = Prefix.pch;
+				GCC_PREFIX_HEADER = Sources/Prefix.pch;
 				INFOPLIST_FILE = "$(SRCROOT)/Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
