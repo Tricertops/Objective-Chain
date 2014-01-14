@@ -18,6 +18,7 @@
 @property (nonatomic, readwrite, strong) IBOutlet UILabel *label;
 @property (nonatomic, readwrite, strong) IBOutlet UISlider *slider;
 @property (nonatomic, readwrite, strong) IBOutlet UIStepper *stepper;
+@property (nonatomic, readwrite, strong) IBOutlet UISwitch *switcher;
 
 @property (nonatomic, readwrite, assign) float temperature;
 
@@ -70,9 +71,10 @@
 
 - (void)setupConnections {
     [super setupConnections];
-    
+
     [self.slider addTarget:self action:@selector(sliderDidChangeValue) forControlEvents:UIControlEventValueChanged];
     [self.stepper addTarget:self action:@selector(stepperDidChangeValue) forControlEvents:UIControlEventValueChanged];
+    [self.switcher addTarget:self action:@selector(switcherDidChangeValue) forControlEvents:UIControlEventValueChanged];
     
     [OCAProperty(self, slider.value, float)
      bindWithTransform:[OCAMath roundTo:1]
@@ -84,6 +86,10 @@
      connectWithTransform:[OCAFoundation formatString:@"%@°"]
      to:OCAProperty(self, label.text, NSString)];
     
+    [OCAProperty(self, switcher.on, BOOL) connectTo:[OCAMulticast multicast:@[
+                                                                              OCAProperty(self, slider.enabled, BOOL),
+                                                                              OCAProperty(self, stepper.enabled, BOOL)
+                                                                              ]]];
 }
 
 
@@ -102,7 +108,12 @@
     self.stepper.value = value;
 }
 
-
+- (void)switcherDidChangeValue {
+    // Fuck off UISwitch, I want KVO events now!
+    BOOL value = self.switcher.on;
+    self.switcher.on = !value;
+    self.switcher.on = value;
+}
 
 
 
