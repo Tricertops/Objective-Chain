@@ -44,11 +44,12 @@
 
 
 + (OCATransformer *)formatString:(NSString *)format {
-    return [[OCATransformer fromClass:[NSArray class] toClass:[NSString class]
-                            asymetric:^NSString *(NSArray *input) {
+    return [[OCATransformer fromClass:nil toClass:[NSString class]
+                            asymetric:^NSString *(id input) {
                                 
+                                NSArray *array = ([input isKindOfClass:[NSArray class]] ? input : @[ input ]);
                                 NSMutableString *output = [format mutableCopy];
-                                for (NSObject *object in input) {
+                                for (NSObject *object in array) {
                                     NSRange range = [output rangeOfString:@"%@"];
                                     [output replaceCharactersInRange:range withString:object.description];
                                 }
