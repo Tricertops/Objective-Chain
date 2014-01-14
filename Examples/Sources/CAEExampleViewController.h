@@ -30,6 +30,9 @@
 + (NSString *)exampleDescription;
 
 
+- (void)setupConnections;
+
+
 
 @end
 

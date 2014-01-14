@@ -6,6 +6,8 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CAEControlsExample">
             <connections>
+                <outlet property="label" destination="IMs-ux-RRZ" id="X7u-uu-mGz"/>
+                <outlet property="slider" destination="s60-ev-hOD" id="hIu-N4-8GK"/>
                 <outlet property="view" destination="tEa-6j-59S" id="vwm-iA-bSY"/>
             </connections>
         </placeholder>
@@ -63,7 +65,7 @@
                             <color key="backgroundColor" red="0.78431372549019607" green="0.7803921568627451" blue="0.80000000000000004" alpha="1" colorSpace="calibratedRGB"/>
                         </view>
                         <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bf4-iA-B8s" userLabel="Bottom Line">
-                            <rect key="frame" x="0.0" y="87" width="320" height="0.5"/>
+                            <rect key="frame" x="0.0" y="87.5" width="320" height="0.5"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" red="0.78431372549019607" green="0.7803921568627451" blue="0.80000000000000004" alpha="1" colorSpace="calibratedRGB"/>
                         </view>
@@ -74,8 +76,8 @@
                     <rect key="frame" x="18" y="227" width="284" height="34"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 </slider>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="20°" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IMs-ux-RRZ" userLabel="Value Label">
-                    <rect key="frame" x="92" y="94" width="137" height="103"/>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="20°" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IMs-ux-RRZ" userLabel="Value Label">
+                    <rect key="frame" x="20" y="94" width="280" height="103"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" name="HelveticaNeue-UltraLight" family="Helvetica Neue" pointSize="90"/>
                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>

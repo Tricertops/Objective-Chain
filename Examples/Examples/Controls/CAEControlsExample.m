@@ -14,6 +14,11 @@
 
 @interface CAEControlsExample ()
 
+
+@property (nonatomic, readwrite, strong) IBOutlet UILabel *label;
+@property (nonatomic, readwrite, strong) IBOutlet UISlider *slider;
+
+
 @end
 
 
@@ -60,11 +65,29 @@
 #pragma mark Creating & Loading
 
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
+- (void)setupConnections {
+    [super setupConnections];
     
+    [self.slider addTarget:self action:@selector(sliderDidChangeValue) forControlEvents:UIControlEventValueChanged];
+    
+    [OCAProperty(self, slider.value, float)
+     connectWithTransform:[OCATransformer sequence:@[ [OCATransformer debugPrintWithMarker:@"Slider"],
+                                                      [OCAMath roundTo:1],
+                                                      [OCAFoundation formatString:@"%@°"] ]]
+     to:OCAProperty(self, label.text, NSString)];
     
 }
+
+
+- (void)sliderDidChangeValue {
+    // Fuck off UISlider, I want KVO events now!
+    float value = self.slider.value;
+    self.slider.value = 0;
+    self.slider.value = value;
+}
+
+
+
 
 
 
