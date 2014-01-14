@@ -65,44 +65,16 @@ Basic library ***Foundation*** provides transformers for many standard classes l
 More modules will be added, mainly **UIKit** additions.
 
 
+---
 
-## Examples
-
-*To be implemented…*
-
-
+### [Project in development…](2)
 
 ---
 
-### Project in development…
-
-#### Core
-  - [x] **Producers** + Tests
-  - [x] **Consumers** + Tests
-  - [x] **Connection** + Tests
-  - [x] **Queue** + Tests
-  - [x] **Transformers** + Tests
-  - [x] **Predicates**
-  
-#### Foundation
-  - [x] **Notificator** + Tests
-  - [x] **Timer** + Tests
-  - [x] **Transformers**
-  - [x] **Math** + Tests
-  - [ ] Predicates
-  
-#### Geometry
-  - [x] **Transformers**
-  - [x] **Predicates**
-
-#### UIKit
-  - [ ] Producers
-  - [ ] Consumers
-  - [ ] Predicates
-  - [ ] Transforms
-
----
+Licensed under The MIT License (MIT)  
+Copyright © 2014 Martin Kiss
 
 
 
-[1]: Sources/README.md
+[1]: Sources
+[2]: https://github.com/iMartinKiss/Objective-Chain/issues/1

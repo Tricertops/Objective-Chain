@@ -22,6 +22,6 @@
 *To be implemented…*
 
 
-[1]: Core/README.md
-[2]: Foundation/README.md
-[3]: Geometry/README.md
+[1]: Core
+[2]: Foundation
+[3]: Geometry
