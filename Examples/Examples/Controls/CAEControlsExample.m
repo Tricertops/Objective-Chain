@@ -86,21 +86,36 @@
     [self.stepper addTarget:self action:@selector(stepperDidChangeValue) forControlEvents:UIControlEventValueChanged];
     [self.switcher addTarget:self action:@selector(switcherDidChangeValue) forControlEvents:UIControlEventValueChanged];
     
+    // Bind rounded Slider's value.
     [OCAProperty(self, slider.value, float)
      bindWithTransform:[OCAMath roundTo:1]
      to:OCAProperty(self, temperature, float)];
     
+    // Bind Stepper's value.
     [OCAProperty(self, temperature, float)
      bindTo:OCAProperty(self, stepper.value, double)];
     
+    // Display formatted temperature.
     [OCAProperty(self, temperature, float)
      connectWithTransform:[OCAFoundation formatString:@"%@°"]
      to:OCAProperty(self, label.text, NSString)];
     
+    // Disable Slider and Stepper with Switch.
     [OCAProperty(self, switcher.on, BOOL)
      connectTo:[OCAMulticast multicast:
                 @[ OCAProperty(self, slider.enabled, BOOL),
                    OCAProperty(self, stepper.enabled, BOOL) ]]];
+    
+    // Dimm tint color of Slider and Stepper when disabled.
+    NSValueTransformer *mapEnabledToTintColorDimmingMode = [OCAFoundation map:@{ @YES: @(UIViewTintAdjustmentModeAutomatic),
+                                                                                 @NO: @(UIViewTintAdjustmentModeDimmed) }];
+    [OCAProperty(self, stepper.enabled, BOOL)
+     connectWithTransform:mapEnabledToTintColorDimmingMode
+     to:OCAProperty(self, stepper.tintAdjustmentMode, UIViewTintAdjustmentMode)];
+    
+    [OCAProperty(self, slider.enabled, BOOL)
+     connectWithTransform:mapEnabledToTintColorDimmingMode
+     to:OCAProperty(self, slider.tintAdjustmentMode, UIViewTintAdjustmentMode)];
 }
 
 
