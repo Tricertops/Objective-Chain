@@ -20,6 +20,7 @@
 #pragma mark Registering Subclasses
 
 + (void)registerExample;
+
 + (NSArray *)allSubclasses;
 
 
@@ -28,7 +29,13 @@
 + (NSString *)exampleTitle;
 + (NSString *)exampleSubtitle;
 + (NSString *)exampleDescription;
++ (NSString *)exampleAuthor;
++ (NSDate *)exampleDate;
 
++ (NSDate *)day:(NSUInteger)day month:(NSUInteger)month year:(NSUInteger)year;
+
+
+#pragma mark Setup the Example
 
 - (void)setupConnections;
 

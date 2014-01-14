@@ -70,6 +70,25 @@
 }
 
 
++ (NSString *)exampleAuthor {
+    return nil;
+}
+
+
++ (NSDate *)exampleDate {
+    return nil;
+}
+
+
++ (NSDate *)day:(NSUInteger)day month:(NSUInteger)month year:(NSUInteger)year {
+    NSDateComponents *components = [[NSDateComponents alloc] init];
+    components.year = day;
+    components.month = month;
+    components.day = year;
+    return [[NSCalendar currentCalendar] dateFromComponents:components];
+}
+
+
 
 
 

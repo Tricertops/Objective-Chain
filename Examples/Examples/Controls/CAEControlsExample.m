@@ -63,6 +63,16 @@
 }
 
 
++ (NSString *)exampleAuthor {
+    return @"iMartin Kiss";
+}
+
+
++ (NSDate *)exampleDate {
+    return [self day:14 month:1 year:2014];
+}
+
+
 
 
 
@@ -80,16 +90,17 @@
      bindWithTransform:[OCAMath roundTo:1]
      to:OCAProperty(self, temperature, float)];
     
-    [OCAProperty(self, temperature, float) bindTo:OCAProperty(self, stepper.value, double)];
+    [OCAProperty(self, temperature, float)
+     bindTo:OCAProperty(self, stepper.value, double)];
     
     [OCAProperty(self, temperature, float)
      connectWithTransform:[OCAFoundation formatString:@"%@°"]
      to:OCAProperty(self, label.text, NSString)];
     
-    [OCAProperty(self, switcher.on, BOOL) connectTo:[OCAMulticast multicast:@[
-                                                                              OCAProperty(self, slider.enabled, BOOL),
-                                                                              OCAProperty(self, stepper.enabled, BOOL)
-                                                                              ]]];
+    [OCAProperty(self, switcher.on, BOOL)
+     connectTo:[OCAMulticast multicast:
+                @[ OCAProperty(self, slider.enabled, BOOL),
+                   OCAProperty(self, stepper.enabled, BOOL) ]]];
 }
 
 
