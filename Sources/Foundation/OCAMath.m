@@ -388,17 +388,17 @@ OCAReal OCALogarithm(OCAReal x, OCAReal base) {
 
 
 OCAReal OCARound(OCAReal x, OCAReal scale) {
-    return round(x * scale) / scale;
+    return round(x / scale) * scale;
 }
 
 
 OCAReal OCACeil(OCAReal x, OCAReal scale) {
-    return ceil(x * scale) / scale;
+    return ceil(x / scale) * scale;
 }
 
 
 extern OCAReal OCAFloor(OCAReal x, OCAReal scale) {
-    return floor(x * scale) / scale;
+    return floor(x / scale) * scale;
 }
 
 

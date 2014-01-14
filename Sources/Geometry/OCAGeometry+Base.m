@@ -33,7 +33,7 @@
 
 CGFloat OCAGeometryDefaultScale(void) {
 #if OCA_iOS
-    return [[UIScreen mainScreen] scale];
+    return 1 / [[UIScreen mainScreen] scale];
 #else
     return 1;
 #endif
