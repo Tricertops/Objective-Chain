@@ -8,12 +8,12 @@
 
 
 
+/***  Core  ***/
+
 #import "OCAConnection.h"
-#import "OCAQueue.h"
 
 #import "OCAProducer.h"
 #import "OCACommand.h"
-#import "OCATimer.h"
 #import "OCABridge.h"
 #import "OCAHub.h"
 
@@ -21,15 +21,26 @@
 #import "OCASubscriber.h"
 #import "OCAMulticast.h"
 
-#import "OCATransformer.h"
-
-#import "OCAFoundation.h"
-
-#import "OCAAccessor.h"
+#import "OCAPropertyBridge.h"
 #import "OCAKeyPathAccessor.h"
 #import "OCAStructureAccessor.h"
 
+#import "OCAQueue.h"
+#import "OCASemaphore.h"
+
+#import "OCATransformer.h"
+#import "OCATransformer+Predefined.h"
+#import "OCAPredicate.h"
+
 #import "NSValue+Boxing.h"
+#import "NSArray+Ordinals.h"
 #import "OCADecomposer.h"
+
+
+
+/***  Modules  ***/
+
+#import "OCAFoundation.h"
+#import "OCAGeometry.h"
 
 
