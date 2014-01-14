@@ -107,14 +107,14 @@
                    OCAProperty(self, stepper.enabled, BOOL) ]]];
     
     // Dimm tint color of Slider and Stepper when disabled.
-    NSValueTransformer *mapEnabledToTintColorDimmingMode = [OCAFoundation map:@{ @YES: @(UIViewTintAdjustmentModeAutomatic),
-                                                                                 @NO: @(UIViewTintAdjustmentModeDimmed) }];
+    NSValueTransformer *mapEnabledToTintAdjustmentMode = [OCAFoundation map:@{ @YES: @(UIViewTintAdjustmentModeAutomatic),
+                                                                               @NO:  @(UIViewTintAdjustmentModeDimmed) }];
     [OCAProperty(self, stepper.enabled, BOOL)
-     connectWithTransform:mapEnabledToTintColorDimmingMode
+     connectWithTransform:mapEnabledToTintAdjustmentMode
      to:OCAProperty(self, stepper.tintAdjustmentMode, UIViewTintAdjustmentMode)];
     
     [OCAProperty(self, slider.enabled, BOOL)
-     connectWithTransform:mapEnabledToTintColorDimmingMode
+     connectWithTransform:mapEnabledToTintAdjustmentMode
      to:OCAProperty(self, slider.tintAdjustmentMode, UIViewTintAdjustmentMode)];
 }
 
