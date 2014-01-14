@@ -17,6 +17,9 @@
 
 @property (nonatomic, readwrite, strong) IBOutlet UILabel *label;
 @property (nonatomic, readwrite, strong) IBOutlet UISlider *slider;
+@property (nonatomic, readwrite, strong) IBOutlet UIStepper *stepper;
+
+@property (nonatomic, readwrite, assign) float temperature;
 
 
 @end
@@ -69,11 +72,16 @@
     [super setupConnections];
     
     [self.slider addTarget:self action:@selector(sliderDidChangeValue) forControlEvents:UIControlEventValueChanged];
+    [self.stepper addTarget:self action:@selector(stepperDidChangeValue) forControlEvents:UIControlEventValueChanged];
     
     [OCAProperty(self, slider.value, float)
-     connectWithTransform:[OCATransformer sequence:@[ [OCATransformer debugPrintWithMarker:@"Slider"],
-                                                      [OCAMath roundTo:1],
-                                                      [OCAFoundation formatString:@"%@°"] ]]
+     bindWithTransform:[OCAMath roundTo:1]
+     to:OCAProperty(self, temperature, float)];
+    
+    [OCAProperty(self, temperature, float) bindTo:OCAProperty(self, stepper.value, double)];
+    
+    [OCAProperty(self, temperature, float)
+     connectWithTransform:[OCAFoundation formatString:@"%@°"]
      to:OCAProperty(self, label.text, NSString)];
     
 }
@@ -84,6 +92,14 @@
     float value = self.slider.value;
     self.slider.value = 0;
     self.slider.value = value;
+}
+
+
+- (void)stepperDidChangeValue {
+    // Fuck off UIStepper, I want KVO events now!
+    float value = self.stepper.value;
+    self.stepper.value = 0;
+    self.stepper.value = value;
 }
 
 

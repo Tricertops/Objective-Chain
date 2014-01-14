@@ -8,6 +8,7 @@
             <connections>
                 <outlet property="label" destination="IMs-ux-RRZ" id="X7u-uu-mGz"/>
                 <outlet property="slider" destination="s60-ev-hOD" id="hIu-N4-8GK"/>
+                <outlet property="stepper" destination="jCT-OR-oru" id="9g8-Ov-4HZ"/>
                 <outlet property="view" destination="tEa-6j-59S" id="vwm-iA-bSY"/>
             </connections>
         </placeholder>
@@ -30,7 +31,7 @@
                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                     <nil key="highlightedColor"/>
                                 </label>
-                                <stepper opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="jCT-OR-oru" userLabel="Value Stepper">
+                                <stepper opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="20" minimumValue="-20" maximumValue="40" translatesAutoresizingMaskIntoConstraints="NO" id="jCT-OR-oru" userLabel="Value Stepper">
                                     <rect key="frame" x="206" y="8" width="94" height="29"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 </stepper>
