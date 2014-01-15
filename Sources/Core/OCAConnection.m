@@ -77,6 +77,8 @@
         self->_consumer = consumer;
         
         [producer addConnection:self];
+        
+        NSLog(@"Connection (%p): Allocated from [%@] to [%@]", self, self.producer, self.consumer);
     }
     return self;
 }
@@ -102,6 +104,7 @@
 
 - (void)dealloc {
     [self close];
+    NSLog(@"Connection (%p): Deallocated", self);
 }
 
 

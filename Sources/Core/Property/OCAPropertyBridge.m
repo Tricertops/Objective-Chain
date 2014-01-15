@@ -186,6 +186,32 @@
 
 
 
+#pragma mark Describing Properties
+
+
+- (NSString *)descriptionName {
+    return @"Property";
+}
+
+
+- (NSString *)description {
+    NSObject *object = self.object;
+    return [NSString stringWithFormat:@"%@ “%@” of %@:%p", self.shortDescription, self.accessor.keyPath, object.class, object];
+}
+
+
+- (NSDictionary *)debugDescriptionValues {
+    return @{
+             @"object": [self.object debugDescription],
+             @"lastValue": self.lastValue,
+             @"accessor": self.accessor,
+             };
+}
+
+
+
+
+
 #pragma mark Binding Properties
 
 
