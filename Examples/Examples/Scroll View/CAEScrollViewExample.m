@@ -155,7 +155,7 @@
     
     self.pentagramLayer = ({
         CAShapeLayer *pentagramLayer = [[CAShapeLayer alloc] init];
-        pentagramLayer.fillColor = [[UIColor lightGrayColor] CGColor];
+        pentagramLayer.fillColor = [[UIColor darkGrayColor] CGColor];
         pentagramLayer.bounds = CGRectMake(0, 0, 100, 100);
         pentagramLayer.position = CGPointMake(self.view.bounds.size.width / 4 * 3, self.view.bounds.size.height / 2);
         
@@ -170,6 +170,12 @@
             [pentagramPath closePath];
             pentagramPath.CGPath;
         });
+        
+        pentagramLayer.shadowColor = [[UIColor blackColor] CGColor];
+        pentagramLayer.shadowOffset = CGSizeMake(0, 1);
+        pentagramLayer.shadowOpacity = 0.25;
+        pentagramLayer.shadowPath = pentagramLayer.path;
+        pentagramLayer.shadowRadius = 3;
         
         [self.view.layer addSublayer:pentagramLayer];
         pentagramLayer;
@@ -199,23 +205,38 @@
      to:OCAProperty(self.starView, transform, CGAffineTransform)];
     
     
-    [OCAPropertyStruct(self.scrollView, contentOffset, y)
+    OCAProducer *paralax = [OCAPropertyStruct(self.scrollView, contentOffset, y)
+                            bridgeWithTransform:[OCATransformer sequence:
+                                                 @[ [OCAMath transform:
+                                                     ^OCAReal(OCAReal offset) {
+                                                         CGFloat realOffset = offset + self.scrollView.contentInset.top;
+                                                         CGFloat maxOffset = (self.scrollView.contentSize.height
+                                                                              - self.scrollView.bounds.size.height
+                                                                              + self.scrollView.contentInset.top);
+                                                         return realOffset / maxOffset;
+                                                     }],
+                                                    [OCAMath subtract:0.5],
+                                                    [OCAMath multiplyBy:2],
+                                                    // From -1 to 1
+                                                    [OCATransformer debugPrintWithMarker:@"Paralax progress"] ]]];
+    
+    [paralax
      connectWithTransform:[OCATransformer sequence:
-                           @[ [OCAMath transform:
-                               ^OCAReal(OCAReal offset) {
-                                   CGFloat realOffset = offset + self.scrollView.contentInset.top;
-                                   CGFloat maxOffset = (self.scrollView.contentSize.height
-                                                        - self.scrollView.bounds.size.height
-                                                        + self.scrollView.contentInset.top);
-                                   return realOffset / maxOffset;
-                               }],
-                              [OCAMath subtract:0.5],
-                              [OCAMath multiplyBy:2],
-                              // From -1 to 1
-                              [OCATransformer debugPrintWithMarker:@"Paralax progress"],
-                              [OCAMath multiplyBy:100],
+                           @[ [OCAMath multiplyBy:100],
                               [OCAMath add:self.view.bounds.size.height / 2], ]]
      to:OCAPropertyStruct(self.pentagramView, center, y)];
+    
+    [paralax
+     connectWithTransform:[OCAMath multiplyBy:-50]
+     to:[OCASubscriber subscribeClass:[NSNumber class] handler:^(NSNumber *offset) {
+        [CATransaction begin];
+        [CATransaction setDisableActions:YES];
+        
+        [OCAKeyPathStruct(CALayer, shadowOffset, height)
+         modifyObject:self.pentagramLayer withValue:offset];
+        
+        [CATransaction commit];
+    }]];
     
 }
 
