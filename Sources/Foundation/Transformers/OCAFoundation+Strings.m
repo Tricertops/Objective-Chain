@@ -308,9 +308,11 @@
 #pragma mark NSNumber - Format
 
 
-+ (OCATransformer *)stringWithNumberStyle:(NSNumberFormatterStyle)style {
++ (OCATransformer *)stringWithNumberStyle:(NSNumberFormatterStyle)style fractionDigits:(NSUInteger)fractionDigits {
     NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
     formatter.numberStyle = style;
+    formatter.minimumFractionDigits = fractionDigits;
+    formatter.maximumFractionDigits = fractionDigits;
     NSDictionary *nameByStyle = @{
                                   @(NSNumberFormatterNoStyle): @"format number",
                                   @(NSNumberFormatterDecimalStyle): @"format decimal number",

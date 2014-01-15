@@ -42,5 +42,8 @@
 
 #import "OCAFoundation.h"
 #import "OCAGeometry.h"
+#if OCA_iOS
+    #import "OCAUIKit.h"
+#endif
 
 

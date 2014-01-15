@@ -136,6 +136,7 @@
 		5B8F4DB2187EF60800D75EEE /* OCAPropertyTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B8F4DB0187EF60800D75EEE /* OCAPropertyTest.m */; };
 		5BA8A6451875BD950012BA5D /* OCAMathTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BA8A6441875BD950012BA5D /* OCAMathTest.m */; };
 		5BA8A6461875BD950012BA5D /* OCAMathTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BA8A6441875BD950012BA5D /* OCAMathTest.m */; };
+		5BAB04751886A38600882AC4 /* OCAActionTarget.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BAB04741886A38600882AC4 /* OCAActionTarget.m */; };
 		5BAB21B51884199500459B56 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5BAB21B41884199500459B56 /* UIKit.framework */; };
 		5BB7CD331879BE51006916AB /* OCAFoundationTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BB7CD321879BE51006916AB /* OCAFoundationTest.m */; };
 		5BB7CD341879BE51006916AB /* OCAFoundationTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BB7CD321879BE51006916AB /* OCAFoundationTest.m */; };
@@ -274,6 +275,9 @@
 		5B4F85AF1871A4DC004695DA /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		5B8F4DB0187EF60800D75EEE /* OCAPropertyTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCAPropertyTest.m; sourceTree = "<group>"; };
 		5BA8A6441875BD950012BA5D /* OCAMathTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCAMathTest.m; sourceTree = "<group>"; };
+		5BAB04731886A38600882AC4 /* OCAActionTarget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCAActionTarget.h; sourceTree = "<group>"; };
+		5BAB04741886A38600882AC4 /* OCAActionTarget.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCAActionTarget.m; sourceTree = "<group>"; };
+		5BAB04761886A88E00882AC4 /* OCAUIKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OCAUIKit.h; sourceTree = "<group>"; };
 		5BAB21B41884199500459B56 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/System/Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
 		5BB7CD321879BE51006916AB /* OCAFoundationTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCAFoundationTest.m; sourceTree = "<group>"; };
 		5BB7CD59187B397E006916AB /* OCAQueueTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCAQueueTest.m; sourceTree = "<group>"; };
@@ -590,6 +594,9 @@
 		5B8AE1F718856CA7007B611F /* UIKit */ = {
 			isa = PBXGroup;
 			children = (
+				5BAB04761886A88E00882AC4 /* OCAUIKit.h */,
+				5BAB04731886A38600882AC4 /* OCAActionTarget.h */,
+				5BAB04741886A38600882AC4 /* OCAActionTarget.m */,
 			);
 			path = UIKit;
 			sourceTree = "<group>";
@@ -852,6 +859,7 @@
 				5B2F2F911881D9510028367B /* OCABridge.m in Sources */,
 				5B2F2FC71881D9510028367B /* OCATimer.m in Sources */,
 				5B2F2F8B1881D9510028367B /* OCAConnection.m in Sources */,
+				5BAB04751886A38600882AC4 /* OCAActionTarget.m in Sources */,
 				5B2F2FA71881D9510028367B /* OCAPropertyBridge.m in Sources */,
 				5B2F2F971881D9510028367B /* OCAHub.m in Sources */,
 				5B2F2FBD1881D9510028367B /* NSValue+Boxing.m in Sources */,

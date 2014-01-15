@@ -82,33 +82,49 @@
 - (void)setupConnections {
     [super setupConnections];
 
-    [self.slider addTarget:self action:@selector(sliderDidChangeValue) forControlEvents:UIControlEventValueChanged];
-    [self.stepper addTarget:self action:@selector(stepperDidChangeValue) forControlEvents:UIControlEventValueChanged];
-    [self.switcher addTarget:self action:@selector(switcherDidChangeValue) forControlEvents:UIControlEventValueChanged];
     
-    // Bind rounded Slider's value.
-    [OCAProperty(self, slider.value, float)
-     bindWithTransform:[OCAMath roundTo:1]
+    // Slider changes to property.
+    [[self.slider producerForEvent:UIControlEventValueChanged]
+     connectWithTransform:[OCATransformer access:OCAKeyPath(UISlider, value, float)]
      to:OCAProperty(self, temperature, float)];
     
-    // Bind Stepper's value.
-    [OCAProperty(self, temperature, float)
-     bindTo:OCAProperty(self, stepper.value, double)];
+    // Stepper changes to property.
+    [[self.stepper producerForEvent:UIControlEventValueChanged]
+     connectWithTransform:[OCATransformer access:OCAKeyPath(UIStepper, value, float)]
+     to:OCAProperty(self, temperature, float)];
     
-    // Display formatted temperature.
+    // Property to Slider and Stepper.
     [OCAProperty(self, temperature, float)
-     connectWithTransform:[OCAFoundation formatString:@"%@°"]
+     connectTo:[OCAMulticast multicast:
+                @[ OCAProperty(self, slider.value, float),
+                   OCAProperty(self, stepper.value, double) ]]];
+    
+    
+    // Display formatted Temperature property.
+    NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
+    formatter.minimumIntegerDigits = 1;
+    formatter.minimumFractionDigits = 1;
+    formatter.maximumFractionDigits = 1;
+    formatter.positiveSuffix = @"°";
+    formatter.negativeSuffix = @"°";
+    
+    [OCAProperty(self, temperature, float)
+     connectWithTransform:[OCAFoundation stringWithNumberFormatter:formatter]
      to:OCAProperty(self, label.text, NSString)];
     
+    
     // Disable Slider and Stepper with Switch.
-    [OCAProperty(self, switcher.on, BOOL)
-     connectTo:[OCAMulticast multicast:
-                @[ OCAProperty(self, slider.enabled, BOOL),
-                   OCAProperty(self, stepper.enabled, BOOL) ]]];
+    [[self.switcher producerForEvent:UIControlEventValueChanged]
+     connectWithTransform:[OCATransformer access:OCAKeyPath(UISwitch, on, BOOL)]
+     to:[OCAMulticast multicast:
+            @[ OCAProperty(self, slider.enabled, BOOL),
+               OCAProperty(self, stepper.enabled, BOOL) ]]];
+    
     
     // Dimm tint color of Slider and Stepper when disabled.
     NSValueTransformer *mapEnabledToTintAdjustmentMode = [OCAFoundation map:@{ @YES: @(UIViewTintAdjustmentModeAutomatic),
                                                                                @NO:  @(UIViewTintAdjustmentModeDimmed) }];
+    
     [OCAProperty(self, stepper.enabled, BOOL)
      connectWithTransform:mapEnabledToTintAdjustmentMode
      to:OCAProperty(self, stepper.tintAdjustmentMode, UIViewTintAdjustmentMode)];
@@ -117,30 +133,6 @@
      connectWithTransform:mapEnabledToTintAdjustmentMode
      to:OCAProperty(self, slider.tintAdjustmentMode, UIViewTintAdjustmentMode)];
 }
-
-
-- (void)sliderDidChangeValue {
-    // Fuck off UISlider, I want KVO events now!
-    float value = self.slider.value;
-    self.slider.value = 0;
-    self.slider.value = value;
-}
-
-
-- (void)stepperDidChangeValue {
-    // Fuck off UIStepper, I want KVO events now!
-    float value = self.stepper.value;
-    self.stepper.value = 0;
-    self.stepper.value = value;
-}
-
-- (void)switcherDidChangeValue {
-    // Fuck off UISwitch, I want KVO events now!
-    BOOL value = self.switcher.on;
-    self.switcher.on = !value;
-    self.switcher.on = value;
-}
-
 
 
 

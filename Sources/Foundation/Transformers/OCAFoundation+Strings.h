@@ -80,7 +80,7 @@
 
 #pragma mark Format Numbers
 
-+ (OCATransformer *)stringWithNumberStyle:(NSNumberFormatterStyle)style;
++ (OCATransformer *)stringWithNumberStyle:(NSNumberFormatterStyle)style fractionDigits:(NSUInteger)fractionalDigits;
 + (OCATransformer *)stringWithNumberFormatter:(NSNumberFormatter *)formatter;
 
 
