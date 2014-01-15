@@ -15,6 +15,7 @@
 		5B8AE25418856EE9007B611F /* CAEListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B8AE25318856EE9007B611F /* CAEListViewController.m */; };
 		5B8AE256188570B5007B611F /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5B8AE255188570B5007B611F /* Images.xcassets */; };
 		5B8AE259188570F1007B611F /* CAEExampleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B8AE258188570F1007B611F /* CAEExampleViewController.m */; };
+		5BAB047D1886CF5900882AC4 /* CAEScrollViewExample.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BAB047C1886CF5900882AC4 /* CAEScrollViewExample.m */; };
 		5BB822B118857DF7006D00DB /* libObjectiveChain-iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5BB822A818857DE3006D00DB /* libObjectiveChain-iOS.a */; };
 		5BB822B518857F60006D00DB /* CAEControlsExample.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BB822B418857F60006D00DB /* CAEControlsExample.m */; };
 		5BB822B718857F73006D00DB /* CAEControlsExample.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5BB822B618857F73006D00DB /* CAEControlsExample.xib */; };
@@ -73,6 +74,8 @@
 		5B8AE255188570B5007B611F /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		5B8AE257188570F1007B611F /* CAEExampleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CAEExampleViewController.h; sourceTree = "<group>"; };
 		5B8AE258188570F1007B611F /* CAEExampleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CAEExampleViewController.m; sourceTree = "<group>"; };
+		5BAB047B1886CF5900882AC4 /* CAEScrollViewExample.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CAEScrollViewExample.h; sourceTree = "<group>"; };
+		5BAB047C1886CF5900882AC4 /* CAEScrollViewExample.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CAEScrollViewExample.m; sourceTree = "<group>"; };
 		5BB822A018857DE3006D00DB /* Objective-Chain.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = "Objective-Chain.xcodeproj"; path = "../Objective-Chain.xcodeproj"; sourceTree = "<group>"; };
 		5BB822B318857F60006D00DB /* CAEControlsExample.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CAEControlsExample.h; sourceTree = "<group>"; };
 		5BB822B418857F60006D00DB /* CAEControlsExample.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CAEControlsExample.m; sourceTree = "<group>"; };
@@ -144,8 +147,18 @@
 			isa = PBXGroup;
 			children = (
 				5BB822B218857F60006D00DB /* Controls */,
+				5BAB04771886CF3E00882AC4 /* Scroll View */,
 			);
 			path = Examples;
+			sourceTree = "<group>";
+		};
+		5BAB04771886CF3E00882AC4 /* Scroll View */ = {
+			isa = PBXGroup;
+			children = (
+				5BAB047B1886CF5900882AC4 /* CAEScrollViewExample.h */,
+				5BAB047C1886CF5900882AC4 /* CAEScrollViewExample.m */,
+			);
+			path = "Scroll View";
 			sourceTree = "<group>";
 		};
 		5BB822A118857DE3006D00DB /* Products */ = {
@@ -273,6 +286,7 @@
 			files = (
 				5B8AE25118856EBD007B611F /* main.m in Sources */,
 				5B8AE259188570F1007B611F /* CAEExampleViewController.m in Sources */,
+				5BAB047D1886CF5900882AC4 /* CAEScrollViewExample.m in Sources */,
 				5B8AE25418856EE9007B611F /* CAEListViewController.m in Sources */,
 				5B8AE25018856EBD007B611F /* CAEAppDelegate.m in Sources */,
 				5BB822B518857F60006D00DB /* CAEControlsExample.m in Sources */,

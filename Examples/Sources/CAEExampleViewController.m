@@ -108,7 +108,13 @@
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor groupTableViewBackgroundColor];
     
+    [self setupViews];
     [self setupConnections];
+}
+
+
+- (void)setupViews {
+    
 }
 
 

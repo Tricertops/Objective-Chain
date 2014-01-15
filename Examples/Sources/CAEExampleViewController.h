@@ -37,6 +37,7 @@
 
 #pragma mark Setup the Example
 
+- (void)setupViews;
 - (void)setupConnections;
 
 
