@@ -21,6 +21,7 @@
 #pragma mark Creating Bridge
 
 - (instancetype)initWithValueClass:(Class)valueClass;
+//- (instancetype)initWithValueClass:(Class)valueClass context:(OCAContext *)context;
 
 + (instancetype)bridge;
 + (instancetype)bridgeForClass:(Class)class;
