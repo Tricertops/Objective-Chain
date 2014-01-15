@@ -31,7 +31,8 @@
         OCAAssert(control != nil, @"Need a control.") return nil;
         OCAAssert(events != 0, @"Need events.") return nil;
         
-        //TODO: Shared
+        OCAActionTarget *existingTarget = [OCAActionTarget existingActionTargetForControl:control events:events];
+        if (existingTarget) return existingTarget;
         
         self->_control = control;
         self->_events = events;
