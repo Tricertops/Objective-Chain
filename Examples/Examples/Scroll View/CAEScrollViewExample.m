@@ -198,6 +198,10 @@
 - (void)setupConnections {
     [super setupConnections];
     
+    [OCAProperty(self.pentagramView, tintColor, UIColor)
+     connectWithTransform:[OCAUIKit colorGetCGColor]
+     to:OCAProperty(self.pentagramLayer, fillColor, NSObject)];
+    
     [OCAPropertyStruct(self.scrollView, contentOffset, y)
      connectWithTransform:[OCATransformer sequence:
                            @[ [OCAMath divideBy: - self.starView.bounds.size.width / 2],
