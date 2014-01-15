@@ -19,6 +19,8 @@
 @property (atomic, readwrite, strong) CAShapeLayer *lineLayer;
 @property (atomic, readwrite, strong) CAShapeLayer *starLayer;
 @property (atomic, readwrite, strong) UIView *starView;
+@property (atomic, readwrite, strong) CAShapeLayer *pentagramLayer;
+@property (atomic, readwrite, strong) UIView *pentagramView;
 
 
 @end
@@ -115,6 +117,7 @@
         starLayer.position = CGPointMake(self.view.bounds.size.width / 4, self.view.bounds.size.height / 2);
         
         starLayer.path = ({
+            // Generated using PaintCode
             UIBezierPath* starPath = [UIBezierPath bezierPath];
             [starPath moveToPoint: CGPointMake(50, 0)];
             [starPath addLineToPoint: CGPointMake(59.52, 27)];
@@ -144,20 +147,75 @@
         self.starLayer.frame = starView.bounds;
         [starView.layer addSublayer:self.starLayer];
         
+        starView.userInteractionEnabled = NO;
+        
         [self.view addSubview:starView];
         starView;
     });
+    
+    self.pentagramLayer = ({
+        CAShapeLayer *pentagramLayer = [[CAShapeLayer alloc] init];
+        pentagramLayer.fillColor = [[UIColor lightGrayColor] CGColor];
+        pentagramLayer.bounds = CGRectMake(0, 0, 100, 100);
+        pentagramLayer.position = CGPointMake(self.view.bounds.size.width / 4 * 3, self.view.bounds.size.height / 2);
+        
+        pentagramLayer.path = ({
+            // Generated using PaintCode
+            UIBezierPath* pentagramPath = [[UIBezierPath alloc] init];
+            [pentagramPath moveToPoint: CGPointMake(50, 0)];
+            [pentagramPath addLineToPoint: CGPointMake(97.55, 34.55)];
+            [pentagramPath addLineToPoint: CGPointMake(79.39, 90.45)];
+            [pentagramPath addLineToPoint: CGPointMake(20.61, 90.45)];
+            [pentagramPath addLineToPoint: CGPointMake(2.45, 34.55)];
+            [pentagramPath closePath];
+            pentagramPath.CGPath;
+        });
+        
+        [self.view.layer addSublayer:pentagramLayer];
+        pentagramLayer;
+    });
+    
+    self.pentagramView = ({
+        UIView *pentagramView = [[UIView alloc] initWithFrame:self.pentagramLayer.frame];
+        self.pentagramLayer.frame = pentagramView.bounds;
+        [pentagramView.layer addSublayer:self.pentagramLayer];
+        
+        pentagramView.userInteractionEnabled = NO;
+        
+        [self.view addSubview:pentagramView];
+        pentagramView;
+    });
+    
 }
 
 
 - (void)setupConnections {
     [super setupConnections];
     
-    [OCAPropertyStruct(self, scrollView.contentOffset, y)
+    [OCAPropertyStruct(self.scrollView, contentOffset, y)
      connectWithTransform:[OCATransformer sequence:
-                           @[ [OCAMath divideBy:-100],
+                           @[ [OCAMath divideBy: - self.starView.bounds.size.width / 2],
                               [OCAGeometry affineTransformFromRotation] ]]
-     to:OCAProperty(self, starView.transform, CGAffineTransform)];
+     to:OCAProperty(self.starView, transform, CGAffineTransform)];
+    
+    
+    [OCAPropertyStruct(self.scrollView, contentOffset, y)
+     connectWithTransform:[OCATransformer sequence:
+                           @[ [OCAMath transform:
+                               ^OCAReal(OCAReal offset) {
+                                   CGFloat realOffset = offset + self.scrollView.contentInset.top;
+                                   CGFloat maxOffset = (self.scrollView.contentSize.height
+                                                        - self.scrollView.bounds.size.height
+                                                        + self.scrollView.contentInset.top);
+                                   return realOffset / maxOffset;
+                               }],
+                              [OCAMath subtract:0.5],
+                              [OCAMath multiplyBy:2],
+                              // From -1 to 1
+                              [OCATransformer debugPrintWithMarker:@"Paralax progress"],
+                              [OCAMath multiplyBy:100],
+                              [OCAMath add:self.view.bounds.size.height / 2], ]]
+     to:OCAPropertyStruct(self.pentagramView, center, y)];
     
 }
 

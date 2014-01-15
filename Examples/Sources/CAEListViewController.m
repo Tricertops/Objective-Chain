@@ -46,7 +46,8 @@
         self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] init];
         self.navigationItem.backBarButtonItem.title = @"Examples";
         
-        self->_exampleClasses = [CAEExampleViewController allSubclasses];
+        NSSortDescriptor *sortByDate = [NSSortDescriptor sortDescriptorWithKey:OCAKPUnsafe(exampleDate) ascending:YES];
+        self->_exampleClasses = [[CAEExampleViewController allSubclasses] sortedArrayUsingDescriptors:@[ sortByDate ]];
     }
     return self;
 }

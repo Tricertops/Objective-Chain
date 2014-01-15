@@ -197,7 +197,8 @@
 
 - (NSString *)description {
     NSObject *object = self.object;
-    return [NSString stringWithFormat:@"%@ “%@” of %@:%p", self.shortDescription, self.accessor.keyPath, object.class, object];
+    NSString *structMember = (self.accessor.structureAccessor? [NSString stringWithFormat:@".%@", self.accessor.structureAccessor.memberPath] : @"");
+    return [NSString stringWithFormat:@"%@ “%@%@” of %@:%p", self.shortDescription, self.accessor.keyPath, structMember, object.class, object];
 }
 
 
