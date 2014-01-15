@@ -37,6 +37,7 @@
 
 
 - (OCAProducer *)bridgeOn:(OCAQueue *)queue;
+- (OCAProducer *)bridgeWithTransform:(NSValueTransformer *)transformer;
 - (OCAProducer *)bridgeWithFilter:(NSPredicate *)filter transform:(NSValueTransformer *)transformer;
 - (OCAProducer *)bridgeOn:(OCAQueue *)queue filter:(NSPredicate *)filter transform:(NSValueTransformer *)transformer;
 

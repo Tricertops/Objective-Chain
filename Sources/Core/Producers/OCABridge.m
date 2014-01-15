@@ -100,6 +100,11 @@
 }
 
 
+- (OCAProducer *)bridgeWithTransform:(NSValueTransformer *)transformer {
+    return [self bridgeOn:nil filter:nil transform:transformer];
+}
+
+
 - (OCAProducer *)bridgeWithFilter:(NSPredicate *)filter transform:(NSValueTransformer *)transformer {
     return [self bridgeOn:nil filter:filter transform:transformer];
 }
