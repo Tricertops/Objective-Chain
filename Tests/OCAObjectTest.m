@@ -82,10 +82,9 @@
 - (void)test_deallocation {
     __block BOOL passed = NO;
     NSBlockOperation *something = [[NSBlockOperation alloc] init];
-    OCADecomposer *decomposer = something.decomposer;
     
-    [something.decomposer addOwnedObject:self cleanup:^{
-        [decomposer removeOwnedObject:self]; // This line should not crash.
+    [something.decomposer addOwnedObject:self cleanup:^(__unsafe_unretained NSBlockOperation *owner){
+        [owner.decomposer removeOwnedObject:self]; // This line should not crash.
         
         passed = YES;
     }];

@@ -39,7 +39,7 @@
         
         [control addTarget:self action:@selector(produceValue:) forControlEvents:events];
         
-        [control.decomposer addOwnedObject:self cleanup:^{
+        [control.decomposer addOwnedObject:self cleanup:^(__unsafe_unretained UIControl *owner){
             [control removeTarget:self action:@selector(produceValue:) forControlEvents:events];
         }];
     }

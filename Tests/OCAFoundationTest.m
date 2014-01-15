@@ -75,7 +75,7 @@
     NSString *name = @"bkhsuhgrjlnshilag";
     OCANotificator *notificator = [[OCANotificator alloc] initWithCenter:nil name:name sender:nil];
     __block BOOL deallocated = NO;
-    [notificator.decomposer addOwnedObject:self cleanup:^{
+    [notificator.decomposer addOwnedObject:self cleanup:^(__unsafe_unretained id owner){
         deallocated = YES;
     }];
     OCAConnection *connection = [notificator connectTo:[OCABridge bridge]];

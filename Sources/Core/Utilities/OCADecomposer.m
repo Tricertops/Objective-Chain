@@ -16,6 +16,8 @@
 @interface OCADecomposer ()
 
 
+@property (atomic, readonly, assign) id owner; // Must be assign, not weak.
+@property (atomic, readonly, copy) NSString *ownerDescription;
 @property (atomic, readonly, strong) NSMapTable *ownedTable;
 
 
@@ -40,8 +42,17 @@
 
 
 - (instancetype)init {
+    return [self initWithOwner:nil];
+}
+
+
+- (instancetype)initWithOwner:(id)owner {
     self = [super init];
     if (self) {
+        OCAAssert(owner != nil, @"Need an owner.") return nil;
+        
+        self->_owner = owner;
+        self->_ownerDescription = [owner debugDescription];
         self->_ownedTable = [NSMapTable strongToStrongObjectsMapTable];
     }
     return self;
@@ -68,9 +79,10 @@
 - (void)removeOwnedObject:(id)ownedObject {
     NSMutableArray *cleanups = [self.ownedTable objectForKey:ownedObject];
     [self.ownedTable removeObjectForKey:ownedObject];
-    
+
+    __unsafe_unretained id owner = self.owner;
     for (OCADecomposerBlock cleanupBlock in cleanups) {
-        cleanupBlock();
+        cleanupBlock(owner);
     }
 }
 
@@ -98,15 +110,19 @@
 
 
 - (void)decompose {
+    __unsafe_unretained id owner = self.owner;
+    if ( ! owner) return;
+    
     NSMapTable *table = self.ownedTable;
     
     for (NSMutableArray *cleanups in table.objectEnumerator) {
         for (OCADecomposerBlock cleanupBlock in cleanups) {
-            cleanupBlock();
+            cleanupBlock(owner);
         }
     }
     
     [table removeAllObjects];
+    self->_owner = nil;
 }
 
 
@@ -142,7 +158,7 @@ static const void * OCADecomposerAssociationKey = &OCADecomposerAssociationKey;
     @synchronized(self) {
         OCADecomposer *decomposer = objc_getAssociatedObject(self, OCADecomposerAssociationKey);
         if ( ! decomposer) {
-            decomposer = [[OCADecomposer alloc] init];
+            decomposer = [[OCADecomposer alloc] initWithOwner:self];
             objc_setAssociatedObject(self, OCADecomposerAssociationKey, decomposer, OBJC_ASSOCIATION_RETAIN);
         }
         [self.class swizzleDeallocIfNeeded];

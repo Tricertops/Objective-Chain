@@ -81,7 +81,7 @@
 
 - (void)setupConnections {
     [super setupConnections];
-
+    
     
     // Slider changes to property.
     [[self.slider producerForEvent:UIControlEventValueChanged]

@@ -62,8 +62,9 @@
                     context:nil];
         
         //TODO: Attach and detach on demand.
-        [object.decomposer addOwnedObject:self cleanup:^{
-            [object removeObserver:self forKeyPath:self.accessor.keyPath];
+        
+        [object.decomposer addOwnedObject:self cleanup:^(__unsafe_unretained NSObject *owner){
+            [owner removeObserver:self forKeyPath:self.accessor.keyPath];
             [self finishProducingWithError:nil];
         }];
     }

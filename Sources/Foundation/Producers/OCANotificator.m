@@ -86,11 +86,11 @@
         OCAWeakify(self);
         __weak NSObject *sender = self.notificationSender;
         
-        [self.notificationCenter.decomposer addOwnedObject:self cleanup:^{
+        [self.notificationCenter.decomposer addOwnedObject:self cleanup:^(__unsafe_unretained id owner){
             OCAStrongify(self);
             [sender.decomposer removeOwnedObject:self];
         }];
-        [sender.decomposer addOwnedObject:self cleanup:^{
+        [sender.decomposer addOwnedObject:self cleanup:^(__unsafe_unretained id owner){
             OCAStrongify(self);
             [self.notificationCenter.decomposer removeOwnedObject:self];
         }];
@@ -134,7 +134,7 @@
     return @{
              @"center": self.notificationCenter,
              @"name": self.notificationName,
-             @"sender": self.notificationSender,
+             @"sender": self.notificationSender ?: @"nil",
              };
 }
 

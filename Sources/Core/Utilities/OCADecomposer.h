@@ -10,7 +10,7 @@
 
 
 
-typedef void(^OCADecomposerBlock)(void);
+typedef void(^OCADecomposerBlock)(__unsafe_unretained id owner);
 
 
 
