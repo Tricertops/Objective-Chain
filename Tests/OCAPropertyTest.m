@@ -58,7 +58,7 @@
 
 
 - (void)test_consumingObjectValues {
-    OCACommand *command = [OCACommand commandForClass:[NSString class]];
+    OCACommand *command = [OCACommand class:[NSString class]];
     [command connectTo:OCAProperty(self, occupation, NSString)];
     [command sendValue:@"Dude"];
     XCTAssertEqual(self.occupation, @"Dude");
@@ -66,7 +66,7 @@
 
 
 - (void)test_consumingNumericValues {
-    OCACommand *command = [OCACommand commandForClass:[NSNumber class]];
+    OCACommand *command = [OCACommand class:[NSNumber class]];
     [command connectTo:OCAProperty(self, age, NSUInteger)];
     [command sendValue:@21];
     XCTAssertTrue(self.age == 21);

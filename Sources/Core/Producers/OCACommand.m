@@ -36,7 +36,7 @@
     return [[self alloc] init];
 }
 
-+ (instancetype)commandForClass:(Class)valueClass {
++ (instancetype)class:(Class)valueClass {
     return [[self alloc] initWithValueClass:valueClass];
 }
 

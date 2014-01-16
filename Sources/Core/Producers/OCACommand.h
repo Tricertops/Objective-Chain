@@ -21,8 +21,7 @@
 
 - (instancetype)initWithValueClass:(Class)valueClass;
 
-+ (instancetype)command;
-+ (instancetype)commandForClass:(Class)valueClass;
++ (instancetype)class:(Class)valueClass;
 
 
 #pragma mark Using Command
