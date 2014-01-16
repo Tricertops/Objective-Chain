@@ -42,6 +42,7 @@
 
 
 
++ (NSPredicate *)boolean;
 + (NSPredicate *)isEmpty;
 + (NSPredicate *)pass;
 + (NSPredicate *)discard;

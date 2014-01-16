@@ -86,6 +86,16 @@
 
 
 
++ (NSPredicate *)boolean {
+    return [OCAPredicate predicateForClass:nil block:^BOOL(id object) {
+        if ([object respondsToSelector:@selector(boolValue)]) {
+            return [object boolValue];
+        }
+        return NO;
+    }];
+}
+
+
 + (NSPredicate *)isEmpty {
     return [OCAPredicate predicateForClass:nil block:^BOOL(id object) {
         if ([object respondsToSelector:@selector(count)]) {
