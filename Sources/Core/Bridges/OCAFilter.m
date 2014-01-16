@@ -8,6 +8,7 @@
 
 #import "OCAFilter.h"
 #import "OCAProducer+Subclass.h"
+#import "OCAConnection.h"
 
 
 
@@ -29,7 +30,7 @@
 - (instancetype)initWithValueClass:(Class)valueClass predicate:(NSPredicate *)predicate {
     self = [super init];
     if (self) {
-        self->_predicate = nil ?: [NSPredicate predicateWithValue:YES];
+        self->_predicate = predicate ?: [NSPredicate predicateWithValue:YES];
     }
     return self;
 }
@@ -114,7 +115,9 @@
 
 
 - (OCABridge *)filter:(NSPredicate *)predicate {
-    return [[OCAFilter alloc] initWithValueClass:self.valueClass predicate:predicate];
+    OCAFilter *filter = [[OCAFilter alloc] initWithValueClass:self.valueClass predicate:predicate];
+    (void)[[OCAConnection alloc] initWithProducer:self queue:nil transform:nil consumer:filter];
+    return filter;
 }
 
 
