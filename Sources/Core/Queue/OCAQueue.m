@@ -290,9 +290,9 @@ static void * OCAQueueSpecificKey = &OCAQueueSpecificKey;
 
 - (NSDictionary *)debugDescriptionValues {
     return @{
-             @"name": self.name,
+             @"name": self.name ?: @"nil",
              @"concurrent": (self.isConcurrent? @"YES" : @"NO"),
-             @"target": self.targetQueue.debugShortDescription,
+             @"target": self.targetQueue.debugShortDescription ?: @"nil",
              };
 }
 

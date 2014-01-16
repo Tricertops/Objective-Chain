@@ -208,10 +208,10 @@
 
 - (NSDictionary *)debugDescriptionValues {
     return @{
-             @"valueClass": self.valueClass,
-             @"lastValue": self.lastValue,
+             @"valueClass": self.valueClass ?: @"nil",
+             @"lastValue": self.lastValue ?: @"nil",
              @"finished": (self.finished? @"YES" : @"NO"),
-             @"error": self.error,
+             @"error": self.error ?: @"nil",
              @"connections": @(self.connections.count),
              };
 }
