@@ -18,9 +18,7 @@
 @property (atomic, readwrite, strong) UIScrollView *scrollView;
 @property (atomic, readwrite, strong) CAShapeLayer *lineLayer;
 @property (atomic, readwrite, strong) CAShapeLayer *starLayer;
-@property (atomic, readwrite, strong) UIView *starView;
 @property (atomic, readwrite, strong) CAShapeLayer *pentagramLayer;
-@property (atomic, readwrite, strong) UIView *pentagramView;
 
 
 @end
@@ -139,18 +137,14 @@
             starPath.CGPath;
         });
         
+        starLayer.shadowColor = [[UIColor blackColor] CGColor];
+        starLayer.shadowOffset = CGSizeMake(0, 20);
+        starLayer.shadowOpacity = 0.25;
+        starLayer.shadowPath = starLayer.path;
+        starLayer.shadowRadius = 3;
+        
+        [self.view.layer addSublayer:starLayer];
         starLayer;
-    });
-    
-    self.starView = ({
-        UIView *starView = [[UIView alloc] initWithFrame:self.starLayer.frame];
-        self.starLayer.frame = starView.bounds;
-        [starView.layer addSublayer:self.starLayer];
-        
-        starView.userInteractionEnabled = NO;
-        
-        [self.view addSubview:starView];
-        starView;
     });
     
     self.pentagramLayer = ({
@@ -181,66 +175,51 @@
         pentagramLayer;
     });
     
-    self.pentagramView = ({
-        UIView *pentagramView = [[UIView alloc] initWithFrame:self.pentagramLayer.frame];
-        self.pentagramLayer.frame = pentagramView.bounds;
-        [pentagramView.layer addSublayer:self.pentagramLayer];
-        
-        pentagramView.userInteractionEnabled = NO;
-        
-        [self.view addSubview:pentagramView];
-        pentagramView;
-    });
-    
 }
 
 
 - (void)setupConnections {
     [super setupConnections];
     
-    [OCAProperty(self.pentagramView, tintColor, UIColor)
+    [OCAProperty(self.view, tintColor, UIColor)
      transform:[OCAUIKit colorGetCGColor]
-     connectTo:OCAProperty(self.pentagramLayer, fillColor, NSObject)];
+     connectTo:[OCAMulticast multicast:
+                @[ OCAProperty(self.starLayer, fillColor, NSObject),
+                   OCAProperty(self.pentagramLayer, fillColor, NSObject) ]]];
     
-    [OCAPropertyStruct(self.scrollView, contentOffset, y)
+    [[OCAPropertyStruct(self.scrollView, contentOffset, y)
+      contextualize:[OCAContext disableImplicitAnimations]]
      transform:[OCATransformer sequence:
-                @[ [OCAMath divideBy: - self.starView.bounds.size.width / 2],
-                   [OCAGeometry affineTransformFromRotation] ]]
-     connectTo:OCAProperty(self.starView, transform, CGAffineTransform)];
+                @[ [OCAMath divideBy: - self.starLayer.bounds.size.width / 2],
+                   [OCAGeometry transform3DFromZRotation] ]]
+     connectTo:OCAProperty(self.starLayer, transform, CATransform3D)];
     
     
+    NSValueTransformer *scrollProgressFromContentOffset = [OCAMath transform:
+                                                           ^OCAReal(OCAReal offset) {
+                                                               CGFloat realOffset = offset + self.scrollView.contentInset.top;
+                                                               CGFloat maxOffset = (self.scrollView.contentSize.height
+                                                                                    - self.scrollView.bounds.size.height
+                                                                                    + self.scrollView.contentInset.top);
+                                                               return realOffset / maxOffset;
+                                                           }];
     OCAProducer *paralax = [OCAPropertyStruct(self.scrollView, contentOffset, y)
                             bridgeWithTransform:[OCATransformer sequence:
-                                                 @[ [OCAMath transform:
-                                                     ^OCAReal(OCAReal offset) {
-                                                         CGFloat realOffset = offset + self.scrollView.contentInset.top;
-                                                         CGFloat maxOffset = (self.scrollView.contentSize.height
-                                                                              - self.scrollView.bounds.size.height
-                                                                              + self.scrollView.contentInset.top);
-                                                         return realOffset / maxOffset;
-                                                     }],
+                                                 @[ scrollProgressFromContentOffset,
                                                     [OCAMath subtract:0.5],
                                                     [OCAMath multiplyBy:2],
                                                     // From -1 to 1
                                                     [OCATransformer debugPrintWithMarker:@"Paralax progress"] ]]];
     
-    [paralax
+    [[paralax contextualize:[OCAContext disableImplicitAnimations]]
      transform:[OCATransformer sequence:
                 @[ [OCAMath multiplyBy:100],
                    [OCAMath add:self.view.bounds.size.height / 2], ]]
-     connectTo:OCAPropertyStruct(self.pentagramView, center, y)];
+     connectTo:OCAPropertyStruct(self.pentagramLayer, position, y)];
     
-    [paralax
+    [[paralax contextualize:[OCAContext disableImplicitAnimations]]
      transform:[OCAMath multiplyBy:-50]
-     connectTo:[OCASubscriber subscribeClass:[NSNumber class] handler:^(NSNumber *offset) {
-        [CATransaction begin];
-        [CATransaction setDisableActions:YES];
-        
-        [OCAKeyPathStruct(CALayer, shadowOffset, height)
-         modifyObject:self.pentagramLayer withValue:offset];
-        
-        [CATransaction commit];
-    }]];
+     connectTo:OCAPropertyStruct(self.pentagramLayer, shadowOffset, height)];
     
 }
 
