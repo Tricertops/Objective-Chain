@@ -9,6 +9,7 @@
 #import "OCABridge.h"
 #import "OCAProducer+Subclass.h"
 #import "OCATransformer.h"
+#import "OCAConnection.h"
 
 
 
@@ -95,26 +96,23 @@
 
 
 
-- (OCAProducer *)bridgeOn:(OCAQueue *)queue {
-    return [self bridgeOn:queue filter:nil transform:nil];
+- (OCAProducer *)bridgeOnQueue:(OCAQueue *)queue {
+    OCABridge *bridge = [[OCABridge alloc] initWithValueClass:self.valueClass];
+    (void)[[OCAConnection alloc] initWithProducer:self queue:queue transform:nil consumer:bridge];
+    return bridge;
 }
 
 
 - (OCAProducer *)bridgeWithTransform:(NSValueTransformer *)transformer {
-    return [self bridgeOn:nil filter:nil transform:transformer];
-}
-
-
-- (OCAProducer *)bridgeWithFilter:(NSPredicate *)filter transform:(NSValueTransformer *)transformer {
-    return [self bridgeOn:nil filter:filter transform:transformer];
-}
-
-
-- (OCAProducer *)bridgeOn:(OCAQueue *)queue filter:(NSPredicate *)filter transform:(NSValueTransformer *)transformer {
     Class class = (transformer? [transformer.class transformedValueClass] : self.valueClass);
     OCABridge *bridge = [[OCABridge alloc] initWithValueClass:class];
-    [self connectOn:queue transform:transformer to:bridge];
+    (void)[[OCAConnection alloc] initWithProducer:self queue:nil transform:transformer consumer:bridge];
     return bridge;
+}
+
+
+- (OCAConnection *)onQueue:(OCAQueue *)queue transform:(NSValueTransformer *)transformer bridge:(OCABridge *)bridge {
+    return [[OCAConnection alloc] initWithProducer:self queue:queue transform:transformer consumer:bridge];
 }
 
 

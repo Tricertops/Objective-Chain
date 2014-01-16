@@ -199,14 +199,14 @@
     [super setupConnections];
     
     [OCAProperty(self.pentagramView, tintColor, UIColor)
-     connectWithTransform:[OCAUIKit colorGetCGColor]
-     to:OCAProperty(self.pentagramLayer, fillColor, NSObject)];
+     transform:[OCAUIKit colorGetCGColor]
+     connectTo:OCAProperty(self.pentagramLayer, fillColor, NSObject)];
     
     [OCAPropertyStruct(self.scrollView, contentOffset, y)
-     connectWithTransform:[OCATransformer sequence:
-                           @[ [OCAMath divideBy: - self.starView.bounds.size.width / 2],
-                              [OCAGeometry affineTransformFromRotation] ]]
-     to:OCAProperty(self.starView, transform, CGAffineTransform)];
+     transform:[OCATransformer sequence:
+                @[ [OCAMath divideBy: - self.starView.bounds.size.width / 2],
+                   [OCAGeometry affineTransformFromRotation] ]]
+     connectTo:OCAProperty(self.starView, transform, CGAffineTransform)];
     
     
     OCAProducer *paralax = [OCAPropertyStruct(self.scrollView, contentOffset, y)
@@ -225,14 +225,14 @@
                                                     [OCATransformer debugPrintWithMarker:@"Paralax progress"] ]]];
     
     [paralax
-     connectWithTransform:[OCATransformer sequence:
-                           @[ [OCAMath multiplyBy:100],
-                              [OCAMath add:self.view.bounds.size.height / 2], ]]
-     to:OCAPropertyStruct(self.pentagramView, center, y)];
+     transform:[OCATransformer sequence:
+                @[ [OCAMath multiplyBy:100],
+                   [OCAMath add:self.view.bounds.size.height / 2], ]]
+     connectTo:OCAPropertyStruct(self.pentagramView, center, y)];
     
     [paralax
-     connectWithTransform:[OCAMath multiplyBy:-50]
-     to:[OCASubscriber subscribeClass:[NSNumber class] handler:^(NSNumber *offset) {
+     transform:[OCAMath multiplyBy:-50]
+     connectTo:[OCASubscriber subscribeClass:[NSNumber class] handler:^(NSNumber *offset) {
         [CATransaction begin];
         [CATransaction setDisableActions:YES];
         

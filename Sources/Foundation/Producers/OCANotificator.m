@@ -157,7 +157,7 @@
 
 + (OCAProducer *)notify:(NSString *)name from:(NSObject *)sender transform:(NSValueTransformer *)transformer {
     OCANotificator *notifier = [[self alloc] initWithCenter:nil name:name sender:sender];
-    return [notifier bridgeWithFilter:nil transform:transformer];
+    return [notifier bridgeWithTransform:transformer];
 }
 
 

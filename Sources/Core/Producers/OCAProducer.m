@@ -131,21 +131,16 @@
 
 
 - (OCAConnection *)connectTo:(id<OCAConsumer>)consumer {
-    return [self connectOn:nil transform:nil to:consumer];
+    return [[OCAConnection alloc] initWithProducer:self queue:nil transform:nil consumer:consumer];
 }
 
 
-- (OCAConnection *)connectOn:(OCAQueue *)queue to:(id<OCAConsumer>)consumer {
-    return [self connectOn:queue transform:nil to:consumer];
+- (OCAConnection *)transform:(NSValueTransformer *)transformer connectTo:(id<OCAConsumer>)consumer {
+    return [[OCAConnection alloc] initWithProducer:self queue:nil transform:transformer consumer:consumer];
 }
 
 
-- (OCAConnection *)connectWithTransform:(NSValueTransformer *)transformer to:(id<OCAConsumer>)consumer {
-    return [self connectOn:nil transform:transformer to:consumer];
-}
-
-
-- (OCAConnection *)connectOn:(OCAQueue *)queue transform:(NSValueTransformer *)transformer to:(id<OCAConsumer>)consumer {
+- (OCAConnection *)onQueue:(OCAQueue *)queue transform:(NSValueTransformer *)transformer connectTo:(id<OCAConsumer>)consumer {
     return [[OCAConnection alloc] initWithProducer:self queue:queue transform:transformer consumer:consumer];
 }
 

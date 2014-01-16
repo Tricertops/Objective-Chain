@@ -33,10 +33,8 @@
 #pragma mark Connecting to Producer
 
 - (OCAConnection *)connectTo:(id<OCAConsumer>)consumer;
-- (OCAConnection *)connectOn:(OCAQueue *)queue to:(id<OCAConsumer>)consumer;
-
-- (OCAConnection *)connectWithTransform:(NSValueTransformer *)transformer to:(id<OCAConsumer>)consumer;
-- (OCAConnection *)connectOn:(OCAQueue *)queue transform:(NSValueTransformer *)transformer to:(id<OCAConsumer>)consumer;
+- (OCAConnection *)transform:(NSValueTransformer *)transformer connectTo:(id<OCAConsumer>)consumer;
+- (OCAConnection *)onQueue:(OCAQueue *)queue transform:(NSValueTransformer *)transformer connectTo:(id<OCAConsumer>)consumer;
 
 
 #pragma mark Inspecting Connections of Producer

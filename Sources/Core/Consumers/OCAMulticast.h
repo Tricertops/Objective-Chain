@@ -40,7 +40,7 @@
 @interface OCAProducer (OCAMulticast)
 
 
-- (OCAMulticast *)multicast:(id<OCAConsumer>)consumer, ... NS_REQUIRES_NIL_TERMINATION;
+- (OCAConnection *)multicast:(id<OCAConsumer>)consumer, ... NS_REQUIRES_NIL_TERMINATION;
 
 
 @end

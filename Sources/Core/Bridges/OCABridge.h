@@ -42,10 +42,10 @@
 @interface OCAProducer (OCABridge)
 
 
-- (OCAProducer *)bridgeOn:(OCAQueue *)queue;
-- (OCAProducer *)bridgeWithTransform:(NSValueTransformer *)transformer;
-- (OCAProducer *)bridgeWithFilter:(NSPredicate *)filter transform:(NSValueTransformer *)transformer;
-- (OCAProducer *)bridgeOn:(OCAQueue *)queue filter:(NSPredicate *)filter transform:(NSValueTransformer *)transformer;
+- (OCAConnection *)onQueue:(OCAQueue *)queue transform:(NSValueTransformer *)transformer bridge:(OCABridge *)bridge;
+
+- (OCABridge *)bridgeOnQueue:(OCAQueue *)queue;
+- (OCABridge *)bridgeWithTransform:(NSValueTransformer *)transformer;
 
 
 @end

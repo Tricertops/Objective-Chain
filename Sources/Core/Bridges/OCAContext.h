@@ -48,6 +48,12 @@ typedef void(^OCAContextDefinitionBlock)(OCAContextExecutionBlock executionBlock
 
 
 
-//TODO: Convenience
+@interface OCAProducer (OCAContext)
+
+
+- (OCABridge *)contextualize:(OCAContext *)context;
+
+
+@end
 
 

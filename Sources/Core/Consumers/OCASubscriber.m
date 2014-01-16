@@ -7,6 +7,7 @@
 //
 
 #import "OCASubscriber.h"
+#import "OCAConnection.h"
 
 
 
@@ -135,21 +136,15 @@
 
 
 
-- (OCAConnection *)subscribeClass:(Class)valueClass handler:(OCASubscriberValueHandler)valueHandler {
-    return [self subscribeOn:nil class:valueClass handler:valueHandler finish:nil];
+- (OCAConnection *)subscribe:(Class)valueClass handler:(OCASubscriberValueHandler)valueHandler {
+    OCASubscriber *subscriber = [[OCASubscriber alloc] initWithValueClass:valueClass valueHandler:valueHandler finishHandler:nil];
+    return [[OCAConnection alloc] initWithProducer:self queue:nil transform:nil consumer:subscriber];
 }
 
 
-- (OCAConnection *)subscribeClass:(Class)valueClass handler:(OCASubscriberValueHandler)valueHandler finish:(OCASubscriberFinishHandler)finishHandler {
-    return [self subscribeOn:nil class:valueClass handler:valueHandler finish:finishHandler];
-}
-
-
-- (OCAConnection *)subscribeOn:(OCAQueue *)queue
-                         class:(Class)valueClass
-                       handler:(OCASubscriberValueHandler)valueHandler
-                        finish:(OCASubscriberFinishHandler)finishHandler {
-    return [self connectOn:queue to:[OCASubscriber subscribeClass:valueClass handler:valueHandler finish:finishHandler]];
+- (OCAConnection *)subscribe:(Class)valueClass handler:(OCASubscriberValueHandler)valueHandler finish:(OCASubscriberFinishHandler)finishHandler {
+    OCASubscriber *subscriber = [[OCASubscriber alloc] initWithValueClass:valueClass valueHandler:valueHandler finishHandler:finishHandler];
+    return [[OCAConnection alloc] initWithProducer:self queue:nil transform:nil consumer:subscriber];
 }
 
 

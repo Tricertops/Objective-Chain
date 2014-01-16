@@ -43,6 +43,12 @@
 
 
 
-//TODO: Convenience
+@interface OCAProducer (OCAFilter)
+
+
+- (OCABridge *)filter:(NSPredicate *)predicate;
+
+
+@end
 
 

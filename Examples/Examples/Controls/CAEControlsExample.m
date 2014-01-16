@@ -85,13 +85,13 @@
     
     // Slider changes to property.
     [[self.slider producerForEvent:UIControlEventValueChanged]
-     connectWithTransform:[OCATransformer access:OCAKeyPath(UISlider, value, float)]
-     to:OCAProperty(self, temperature, float)];
+     transform:[OCATransformer access:OCAKeyPath(UISlider, value, float)]
+     connectTo:OCAProperty(self, temperature, float)];
     
     // Stepper changes to property.
     [[self.stepper producerForEvent:UIControlEventValueChanged]
-     connectWithTransform:[OCATransformer access:OCAKeyPath(UIStepper, value, float)]
-     to:OCAProperty(self, temperature, float)];
+     transform:[OCATransformer access:OCAKeyPath(UIStepper, value, float)]
+     connectTo:OCAProperty(self, temperature, float)];
     
     // Property to Slider and Stepper.
     [OCAProperty(self, temperature, float)
@@ -109,16 +109,16 @@
     formatter.negativeSuffix = @"°";
     
     [OCAProperty(self, temperature, float)
-     connectWithTransform:[OCAFoundation stringWithNumberFormatter:formatter]
-     to:OCAProperty(self, label.text, NSString)];
+     transform:[OCAFoundation stringWithNumberFormatter:formatter]
+     connectTo:OCAProperty(self, label.text, NSString)];
     
     
     // Disable Slider and Stepper with Switch.
     [[self.switcher producerForEvent:UIControlEventValueChanged]
-     connectWithTransform:[OCATransformer access:OCAKeyPath(UISwitch, on, BOOL)]
-     to:[OCAMulticast multicast:
-            @[ OCAProperty(self, slider.enabled, BOOL),
-               OCAProperty(self, stepper.enabled, BOOL) ]]];
+     transform:[OCATransformer access:OCAKeyPath(UISwitch, on, BOOL)]
+     connectTo:[OCAMulticast multicast:
+                @[ OCAProperty(self, slider.enabled, BOOL),
+                   OCAProperty(self, stepper.enabled, BOOL) ]]];
     
     
     // Dimm tint color of Slider and Stepper when disabled.
@@ -126,12 +126,12 @@
                                                                                @NO:  @(UIViewTintAdjustmentModeDimmed) }];
     
     [OCAProperty(self, stepper.enabled, BOOL)
-     connectWithTransform:mapEnabledToTintAdjustmentMode
-     to:OCAProperty(self, stepper.tintAdjustmentMode, UIViewTintAdjustmentMode)];
+     transform:mapEnabledToTintAdjustmentMode
+     connectTo:OCAProperty(self, stepper.tintAdjustmentMode, UIViewTintAdjustmentMode)];
     
     [OCAProperty(self, slider.enabled, BOOL)
-     connectWithTransform:mapEnabledToTintAdjustmentMode
-     to:OCAProperty(self, slider.tintAdjustmentMode, UIViewTintAdjustmentMode)];
+     transform:mapEnabledToTintAdjustmentMode
+     connectTo:OCAProperty(self, slider.tintAdjustmentMode, UIViewTintAdjustmentMode)];
 }
 
 
