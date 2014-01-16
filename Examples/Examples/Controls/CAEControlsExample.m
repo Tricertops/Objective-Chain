@@ -83,24 +83,26 @@
     [super setupConnections];
     
     
-    // Slider changes to property.
-    [[self.slider producerForEvent:UIControlEventValueChanged]
-     transform:[OCATransformer access:OCAKeyPath(UISlider, value, float)]
+    
+    // Connect Slider changes to temperature property.
+    [[self.slider producerForEvent:UIControlEventValueChanged] // Sends the sender: UISlider instance
+     transform:[OCATransformer access:OCAKeyPath(UISlider, value, float)] // Get `value` property of sender.
      connectTo:OCAProperty(self, temperature, float)];
     
-    // Stepper changes to property.
-    [[self.stepper producerForEvent:UIControlEventValueChanged]
+    // Connect Stepper changes to temperature property.
+    [[self.stepper producerForEvent:UIControlEventValueChanged] // Sends the sender: UIStepper instance
      transform:[OCATransformer access:OCAKeyPath(UIStepper, value, float)]
      connectTo:OCAProperty(self, temperature, float)];
     
-    // Property to Slider and Stepper.
+    // Connect temperature property back to Slider and Stepper. Now we have two-way binding.
     [OCAProperty(self, temperature, float)
-     connectTo:[OCAMulticast multicast:
+     connectTo:[OCAMulticast multicast: // Simply group two Consumers into one.
                 @[ OCAProperty(self, slider.value, float),
                    OCAProperty(self, stepper.value, double) ]]];
     
     
-    // Display formatted Temperature property.
+    
+    // Display formatted temperature property.
     NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
     formatter.minimumIntegerDigits = 1;
     formatter.minimumFractionDigits = 1;
@@ -113,25 +115,31 @@
      connectTo:OCAProperty(self, label.text, NSString)];
     
     
-    // Disable Slider and Stepper with Switch.
-    [[self.switcher producerForEvent:UIControlEventValueChanged]
+    
+    // Disable Slider and Stepper when Switch is off.
+    [[self.switcher producerForEvent:UIControlEventValueChanged] // Sends the sender: UISwith instance
      transform:[OCATransformer access:OCAKeyPath(UISwitch, on, BOOL)]
      connectTo:[OCAMulticast multicast:
                 @[ OCAProperty(self, slider.enabled, BOOL),
                    OCAProperty(self, stepper.enabled, BOOL) ]]];
     
     
-    // Dimm tint color of Slider and Stepper when disabled.
+    // Simple mapping transformer from BOOL to enum.
     NSValueTransformer *mapEnabledToTintAdjustmentMode = [OCAFoundation map:@{ @YES: @(UIViewTintAdjustmentModeAutomatic),
                                                                                @NO:  @(UIViewTintAdjustmentModeDimmed) }];
     
+    // Dim tint color of Stepper when disabled.
     [OCAProperty(self, stepper.enabled, BOOL)
      transform:mapEnabledToTintAdjustmentMode
      connectTo:OCAProperty(self, stepper.tintAdjustmentMode, UIViewTintAdjustmentMode)];
     
+    // Dim tint color of Stepper when disabled.
     [OCAProperty(self, slider.enabled, BOOL)
      transform:mapEnabledToTintAdjustmentMode
      connectTo:OCAProperty(self, slider.tintAdjustmentMode, UIViewTintAdjustmentMode)];
+    
+    
+    
 }
 
 

@@ -167,7 +167,7 @@
         });
         
         pentagramLayer.shadowColor = [[UIColor blackColor] CGColor];
-        pentagramLayer.shadowOffset = CGSizeMake(0, 1);
+        pentagramLayer.shadowOffset = CGSizeZero;
         pentagramLayer.shadowOpacity = 0.25;
         pentagramLayer.shadowPath = pentagramLayer.path;
         pentagramLayer.shadowRadius = 3;
@@ -182,38 +182,51 @@
 - (void)setupConnections {
     [super setupConnections];
     
+    
+    
+    // Flash scroll indicators, when becomes fully visible.
     [[OCAProperty(self, fullyVisible, BOOL)
-     filter:[OCAPredicate boolean]]
-     subscribeEvents:^{
+     filter:[OCAPredicate boolean]] // Passes only YES values.
+     subscribeEvents:^{ // Not interested in values.
          [self.scrollView flashScrollIndicators];
      }];
     
+    
+    
+    // Connect tint color to shape fill colors.
     [OCAProperty(self.view, tintColor, UIColor)
-     transform:[OCAUIKit colorGetCGColor]
+     transform:[OCAUIKit colorGetCGColor] // CoreGraphic types doesn't support key-path manipulation.
      connectTo:[OCAMulticast multicast:
-                @[ OCAProperty(self.starLayer, fillColor, NSObject),
+                @[ OCAProperty(self.starLayer, fillColor, NSObject), // Uses NSObject, because CoreGraphic types cannot be handled.
                    OCAProperty(self.pentagramLayer, fillColor, NSObject) ]]];
     
+    
+    
+    // Create intermediate producer for rotation of the star.
     OCAProducer *starRotation = [[OCAPropertyStruct(self.scrollView, contentOffset, y)
-                                  contextualize:[OCAContext disableImplicitAnimations]]
+                                  contextualize:[OCAContext disableImplicitAnimations]] // This connection will run with disabled animations.
                                  bridgeWithTransform:[OCAMath divideBy: - self.starLayer.bounds.size.width]];
     
+    // Apply rotation as a layer's transform.
     [starRotation
      transform:[OCAGeometry transform3DFromZRotation]
      connectTo:OCAProperty(self.starLayer, transform, CATransform3D)];
     
+    // Calculate shadow offset for correct perspective.
     [starRotation
      transform:[OCATransformer sequence:@[
-                                          [OCAFoundation branchArray:@[
+                                          [OCAFoundation branchArray:@[ // Will create array: [ sin(r), cos(r) ]
                                                                        [OCAMath sine],
-                                                                       [OCAMath cosine]
+                                                                       [OCAMath cosine],
                                                                        ]],
-                                          [OCAGeometry makeSize],
-                                          [OCAGeometry multiplySizeBy:20]
+                                          [OCAGeometry makeSize], // Uses first two elements in array to make size.
+                                          [OCAGeometry multiplySizeBy:20] // Distance to which to move the shadow.
                                           ]]
      connectTo:OCAProperty(self.starLayer, shadowOffset, CGSize)];
     
     
+    
+    // Transformer for calculation of scroll progress. Content insets are tricky.
     NSValueTransformer *scrollProgressFromContentOffset = [OCAMath transform:
                                                            ^OCAReal(OCAReal offset) {
                                                                CGFloat realOffset = offset + self.scrollView.contentInset.top;
@@ -222,23 +235,27 @@
                                                                                     + self.scrollView.contentInset.top);
                                                                return realOffset / maxOffset;
                                                            }];
-    OCAProducer *paralax = [OCAPropertyStruct(self.scrollView, contentOffset, y)
+    
+    // Creating intermediate producer for paralax effect.
+    OCAProducer *paralax = [[OCAPropertyStruct(self.scrollView, contentOffset, y)
+                             contextualize:[OCAContext disableImplicitAnimations]] // Any paralax depencency will not use animations.
                             bridgeWithTransform:[OCATransformer sequence:
                                                  @[ scrollProgressFromContentOffset,
                                                     [OCAMath subtract:0.5],
                                                     [OCAMath multiplyBy:-2],
-                                                    // From -1 to 1
+                                                    // Should output values from -1 to 1
                                                     ]]];
     
-    [[paralax contextualize:[OCAContext disableImplicitAnimations]]
-     transform:[OCATransformer sequence:
-                @[ [OCAMath multiplyBy:100],
-                   [OCAMath add:self.view.bounds.size.height / 2], ]]
-     connectTo:OCAPropertyStruct(self.pentagramLayer, position, y)];
+    // Calculate absolute position of the pentagram.
+    [paralax transform:[OCATransformer sequence:
+                        @[ [OCAMath multiplyBy:100],
+                           [OCAMath add:self.view.bounds.size.height / 2], ]]
+             connectTo:OCAPropertyStruct(self.pentagramLayer, position, y)];
     
-    [[paralax contextualize:[OCAContext disableImplicitAnimations]]
-     transform:[OCAMath multiplyBy:20]
-     connectTo:OCAPropertyStruct(self.pentagramLayer, shadowOffset, height)];
+    // Calculate relative shadow offset of the pentagram.
+    [paralax transform:[OCAMath multiplyBy:20]
+             connectTo:OCAPropertyStruct(self.pentagramLayer, shadowOffset, height)];
+    
     
 }
 
