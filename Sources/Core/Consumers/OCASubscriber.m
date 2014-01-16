@@ -56,6 +56,15 @@
 }
 
 
++ (instancetype)events:(OCASubscriberEventHandler)eventHandler {
+    return [[self alloc] initWithValueClass:nil
+                               valueHandler:^(id value){
+                                   eventHandler();
+                               }
+                              finishHandler:nil];
+}
+
+
 + (instancetype)class:(Class)valueClass handler:(OCASubscriberValueHandler)valueHandler {
     return [[self alloc] initWithValueClass:valueClass valueHandler:valueHandler finishHandler:nil];
 }
@@ -112,7 +121,7 @@
 
 - (NSDictionary *)debugDescriptionValues {
     return @{
-             @"consumedValueClass": self.valueClass,
+             @"consumedValueClass": self.valueClass ?: @"nil",
              };
 }
 
@@ -134,6 +143,16 @@
 
 @implementation OCAProducer (OCASubscriber)
 
+
+
+- (OCAConnection *)subscribeEvents:(OCASubscriberEventHandler)eventHandler {
+    OCASubscriber *subscriber = [[OCASubscriber alloc] initWithValueClass:nil
+                                                             valueHandler:^(id value) {
+                                                                 eventHandler();
+                                                             }
+                                                            finishHandler:nil];
+    return [[OCAConnection alloc] initWithProducer:self queue:nil transform:nil consumer:subscriber];
+}
 
 
 - (OCAConnection *)subscribe:(Class)valueClass handler:(OCASubscriberValueHandler)valueHandler {

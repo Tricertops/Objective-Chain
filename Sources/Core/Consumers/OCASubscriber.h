@@ -12,6 +12,7 @@
 
 
 
+typedef void(^OCASubscriberEventHandler)(void);
 typedef void(^OCASubscriberValueHandler)(id value);
 typedef void(^OCASubscriberFinishHandler)(NSError *error);
 
@@ -28,6 +29,7 @@ typedef void(^OCASubscriberFinishHandler)(NSError *error);
 
 - (instancetype)initWithValueClass:(Class)valueClass valueHandler:(OCASubscriberValueHandler)valueHandler finishHandler:(OCASubscriberFinishHandler)finishHandler;
 
++ (instancetype)events:(OCASubscriberEventHandler)eventHandler;
 + (instancetype)class:(Class)valueClass handler:(OCASubscriberValueHandler)valueHandler;
 + (instancetype)class:(Class)valueClass handler:(OCASubscriberValueHandler)valueHandler finish:(OCASubscriberFinishHandler)finishHandler;
 
@@ -48,6 +50,7 @@ typedef void(^OCASubscriberFinishHandler)(NSError *error);
 @interface OCAProducer (OCASubscriber)
 
 
+- (OCAConnection *)subscribeEvents:(OCASubscriberEventHandler)eventHandler;
 - (OCAConnection *)subscribe:(Class)valueClass handler:(OCASubscriberValueHandler)valueHandler;
 - (OCAConnection *)subscribe:(Class)valueClass handler:(OCASubscriberValueHandler)valueHandler finish:(OCASubscriberFinishHandler)finishHandler;
 
