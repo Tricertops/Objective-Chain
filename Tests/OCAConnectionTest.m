@@ -16,6 +16,7 @@
 #import "OCATransformer.h"
 #import "OCASemaphore.h"
 #import "OCAQueue.h"
+#import "OCAFilter.h"
 
 
 
@@ -49,7 +50,7 @@
     __block id receivedValue = @"Received";
     
     OCACommand *command = [OCACommand commandForClass:[NSString class]];
-    [command subscribeClass:[NSString class] handler:^(id value) {
+    [command subscribe:[NSString class] handler:^(id value) {
         receivedValue = value;
     }];
     
@@ -64,7 +65,7 @@
     [command finishWithError:nil];
     
     __block BOOL finished = NO;
-    [command subscribeClass:nil handler:nil finish:^(NSError *error) {
+    [command subscribe:nil handler:nil finish:^(NSError *error) {
         finished = YES;
     }];
     
@@ -76,7 +77,7 @@
     OCACommand *command = [OCACommand commandForClass:[NSString class]];
     
     NSMutableArray *received = [[NSMutableArray alloc] init];
-    OCAConnection *connection = [command subscribeClass:nil handler:^(id value) {
+    OCAConnection *connection = [command subscribe:nil handler:^(id value) {
         [received addObject:value];
     }];
     
@@ -95,12 +96,13 @@
     OCACommand *command = [OCACommand commandForClass:[NSString class]];
     NSMutableArray *received = [[NSMutableArray alloc] init];
     
-    [command connectWithFilter:[NSPredicate predicateWithFormat:@"self BEGINSWITH[c] 'a'"]
-                     transform:[OCATransformer access:OCAKeyPath(NSString, uppercaseString, NSString)]
-                            to:[OCASubscriber subscribeClass:[NSString class] handler:
-                                ^(id value) {
-                                    [received addObject:value];
-                                }]];
+    [[command
+      filter:[NSPredicate predicateWithFormat:@"self BEGINSWITH[c] 'a'"]]
+     transform:[OCATransformer access:OCAKeyPath(NSString, uppercaseString, NSString)]
+     connectTo:[OCASubscriber class:[NSString class] handler:
+                ^(NSString *value) {
+                    [received addObject:value];
+                }]];
     
     [command sendValues:@[ @"Auto", @"Magic", @"All", @"Every", @"Alien" ]];
     NSArray *expected = @[ @"AUTO",           @"ALL",           @"ALIEN" ];
@@ -113,11 +115,16 @@
     OCASemaphore *semaphore = [[OCASemaphore alloc] init];
     __block NSUInteger tickCount = 0;
     
-    [timer subscribeOn:timer.queue class:[NSDate class] handler:^(id value) {
-        tickCount ++;
-    } finish:^(NSError *error) {
-        [semaphore signal];
-    }];
+    [timer
+     onQueue:timer.queue
+     transform:nil
+     connectTo:[OCASubscriber
+                class:[NSDate class]
+                handler:^(NSDate *value) {
+                    tickCount ++;
+                } finish:^(NSError *error) {
+                    [semaphore signal];
+                }]];
     
     BOOL signaled = [semaphore waitFor:2];
     XCTAssertTrue(signaled, @"Timer didn't end in given time.");
@@ -139,15 +146,15 @@
     [producer connectTo:bridge];
     
     __block BOOL consumer1 = NO;
-    [bridge subscribeClass:[NSString class] handler:^(id value) {
+    [bridge subscribe:[NSString class] handler:^(id value) {
         consumer1 = (value == hello);
     }];
     __block BOOL consumer2 = NO;
-    [bridge subscribeClass:[NSString class] handler:^(id value) {
+    [bridge subscribe:[NSString class] handler:^(id value) {
         consumer2 = (value == hello);
     }];
     __block BOOL consumer3 = NO;
-    [bridge subscribeClass:[NSString class] handler:^(id value) {
+    [bridge subscribe:[NSString class] handler:^(id value) {
         consumer3 = (value == hello);
     }];
     
@@ -174,12 +181,12 @@
     XCTAssertEqualObjects(hubCombine.valueClass, [NSArray class], @"Combining hub must produce arrays.");
     
     NSMutableArray *merged = [NSMutableArray array];
-    [hubMerge subscribeClass:[NSString class] handler:^(id value) {
+    [hubMerge subscribe:[NSString class] handler:^(id value) {
         [merged addObject:value];
     }];
     
     NSMutableArray *combined = [NSMutableArray array];
-    [hubCombine subscribeClass:[NSArray class] handler:^(NSArray *value) {
+    [hubCombine subscribe:[NSArray class] handler:^(NSArray *value) {
         [combined setArray:value];
     }];
     
@@ -196,11 +203,11 @@
 - (void)test_classValidation_creatingIncompatible {
     OCACommand *command = [OCACommand commandForClass:[NSString class]];
     
-    OCAConnection *connection = [command subscribeClass:[NSNumber class] handler:nil];
+    OCAConnection *connection = [command subscribe:[NSNumber class] handler:nil];
     XCTAssertNil(connection, @"Connection cannot be created with incompatible classes, yet.");
     
     OCATransformer *transformer = [[OCATransformer pass] specializeFromClass:[NSArray class] toClass:nil];
-    OCAConnection *transformedConnection = [command connectWithTransform:transformer to:[OCABridge bridge]];
+    OCAConnection *transformedConnection = [command transform:transformer connectTo:[OCABridge bridge]];
     XCTAssertNil(transformedConnection, @"Connection cannot be created with incompatible classes, yet.");
 }
 
@@ -209,7 +216,7 @@
     OCACommand *command = [OCACommand commandForClass:[NSString class]];
     
     NSMutableArray *received = [[NSMutableArray alloc] init];
-    [command subscribeClass:[NSString class] handler:^(id value) {
+    [command subscribe:[NSString class] handler:^(id value) {
         [received addObject:value];
     }];
     
@@ -223,13 +230,11 @@
 - (void)test_simpleHubWithBridge {
     OCACommand *stringCommand = [OCACommand commandForClass:[NSString class]];
     OCACommand *numberCommand = [OCACommand commandForClass:[NSNumber class]];
-    OCAHub *hub = [[stringCommand
-                    bridgeWithFilter:nil
-                    transform:[OCATransformer access:OCAKeyPath(NSString, length, NSUInteger)]]
+    OCAHub *hub = [[stringCommand transform:[OCATransformer access:OCAKeyPath(NSString, length, NSUInteger)]]
                    mergeWith:numberCommand];
     
     NSMutableArray *received = [[NSMutableArray alloc] init];
-    [hub subscribeClass:[NSNumber class] handler:^(NSNumber *value) {
+    [hub subscribe:[NSNumber class] handler:^(NSNumber *value) {
         [received addObject:value];
     }];
     
@@ -248,11 +253,11 @@
     NSMutableArray *receivedNumbers = [[NSMutableArray alloc] init];
     
     [command multicast:
-     [OCASubscriber subscribeClass:[NSString class] handler:
+     [OCASubscriber class:[NSString class] handler:
       ^(NSString *value) {
           [receivedStrings addObject:value];
       }],
-     [OCASubscriber subscribeClass:[NSNumber class] handler:
+     [OCASubscriber class:[NSNumber class] handler:
       ^(NSNumber *value) {
           [receivedNumbers addObject:value];
       }], nil];
@@ -266,6 +271,7 @@
 
 
 //TODO: Wonder why this is so indeterministic.
+
 //- (void)test_OCATimer_withConnectionOnDifferentQueue {
 //    OCATimer *timer = [OCATimer backgroundTimerWithInterval:0.1 until:[NSDate dateWithTimeIntervalSinceNow:1.1]];
 //    OCAQueue *queue = [OCAQueue serialQueue:@"Testing Queue"];

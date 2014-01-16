@@ -28,8 +28,8 @@ typedef void(^OCASubscriberFinishHandler)(NSError *error);
 
 - (instancetype)initWithValueClass:(Class)valueClass valueHandler:(OCASubscriberValueHandler)valueHandler finishHandler:(OCASubscriberFinishHandler)finishHandler;
 
-+ (instancetype)subscribeClass:(Class)valueClass handler:(OCASubscriberValueHandler)valueHandler;
-+ (instancetype)subscribeClass:(Class)valueClass handler:(OCASubscriberValueHandler)valueHandler finish:(OCASubscriberFinishHandler)finishHandler;
++ (instancetype)class:(Class)valueClass handler:(OCASubscriberValueHandler)valueHandler;
++ (instancetype)class:(Class)valueClass handler:(OCASubscriberValueHandler)valueHandler finish:(OCASubscriberFinishHandler)finishHandler;
 
 
 #pragma mark Attributes of Subscriber

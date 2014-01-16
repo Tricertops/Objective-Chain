@@ -75,9 +75,11 @@
 
 - (void)test_producingStringValues {
     NSMutableArray *received = [[NSMutableArray alloc] init];
-    [OCAProperty(self, jobTitle, NSString) connectTo:[OCASubscriber subscribeClass:[NSString class] handler:^(NSString *jobTitle) {
-        [received addObject:jobTitle ?: @""];
-    }]];
+    [OCAProperty(self, jobTitle, NSString)
+     subscribe:[NSString class]
+     handler:^(NSString *jobTitle) {
+         [received addObject:jobTitle ?: @""];
+     }];
     self.jobTitle = @"Dude";
     self.jobTitle = @"Dude";
     self.jobTitle = nil;
@@ -109,12 +111,12 @@
     NSMutableArray *received = [[NSMutableArray alloc] init];
     OCAMulticast *consumer = [OCAMulticast multicast:@[
                                                        OCAProperty(self, fullName, NSString),
-                                                       [OCASubscriber subscribeClass:[NSString class] handler:
+                                                       [OCASubscriber class:[NSString class] handler:
                                                         ^(NSString *value) {
                                                             [received addObject:value ?: @""];
                                                         }],
                                                        ]];
-    [combined connectWithTransform:[OCAFoundation joinWithString:@" "] to:consumer];
+    [combined transform:[OCAFoundation joinWithString:@" "] connectTo:consumer];
     
     self.lastName = @"Me";
     
@@ -156,10 +158,13 @@
 - (void)test_changesWithPrevious {
     __block NSString *old = nil;
     __block NSString *new = nil;
-    [OCAPropertyChange(self, firstName, NSString) connectTo:[OCASubscriber subscribeClass:[NSArray class] handler:^(NSArray *change) {
-        old = change.first;
-        new = change.second;
-    }]];
+    
+    [OCAPropertyChange(self, firstName, NSString)
+     subscribe:[NSArray class]
+     handler:^(NSArray *change) {
+         old = change.first;
+         new = change.second;
+     }];
     
     XCTAssertNil(old);
     XCTAssertEqualObjects(new, @"Martin");

@@ -56,12 +56,12 @@
 }
 
 
-+ (instancetype)subscribeClass:(Class)valueClass handler:(OCASubscriberValueHandler)valueHandler {
++ (instancetype)class:(Class)valueClass handler:(OCASubscriberValueHandler)valueHandler {
     return [[self alloc] initWithValueClass:valueClass valueHandler:valueHandler finishHandler:nil];
 }
 
 
-+ (instancetype)subscribeClass:(Class)valueClass handler:(OCASubscriberValueHandler)valueHandler finish:(OCASubscriberFinishHandler)finishHandler {
++ (instancetype)class:(Class)valueClass handler:(OCASubscriberValueHandler)valueHandler finish:(OCASubscriberFinishHandler)finishHandler {
     return [[self alloc] initWithValueClass:valueClass valueHandler:valueHandler finishHandler:finishHandler];
 }
 

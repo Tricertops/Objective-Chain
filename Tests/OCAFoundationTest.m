@@ -46,7 +46,7 @@
     
     __block BOOL passed = NO;
     __block BOOL finished = NO;
-    [notificator connectTo:[OCASubscriber subscribeClass:[NSNotification class] handler:
+    [notificator connectTo:[OCASubscriber class:[NSNotification class] handler:
                             ^(NSNotification *notification) {
                                 passed = [notification.name isEqualToString:notificationName];
                             } finish:^(NSError *error) {
