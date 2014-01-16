@@ -41,6 +41,12 @@
 - (void)setupConnections;
 
 
+#pragma mark State Properties
+
+@property (nonatomic, readonly, assign) BOOL partiallyVisible;
+@property (nonatomic, readonly, assign) BOOL fullyVisible;
+
+
 
 @end
 

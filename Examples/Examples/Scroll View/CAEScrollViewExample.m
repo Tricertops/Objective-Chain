@@ -182,6 +182,12 @@
 - (void)setupConnections {
     [super setupConnections];
     
+    [[OCAProperty(self, fullyVisible, BOOL)
+     filter:[OCAPredicate boolean]]
+     subscribeEvents:^{
+         [self.scrollView flashScrollIndicators];
+     }];
+    
     [OCAProperty(self.view, tintColor, UIColor)
      transform:[OCAUIKit colorGetCGColor]
      connectTo:[OCAMulticast multicast:

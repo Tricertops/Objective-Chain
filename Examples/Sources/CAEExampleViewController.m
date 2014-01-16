@@ -12,6 +12,19 @@
 
 
 
+@interface CAEExampleViewController ()
+
+
+@property (nonatomic, readwrite, assign) BOOL partiallyVisible;
+@property (nonatomic, readwrite, assign) BOOL fullyVisible;
+
+
+@end
+
+
+
+
+
 
 
 
@@ -120,6 +133,34 @@
 
 - (void)setupConnections {
     
+}
+
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    self.partiallyVisible = YES;
+    self.fullyVisible = NO;
+}
+
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    self.partiallyVisible = YES;
+    self.fullyVisible = YES;
+}
+
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    self.partiallyVisible = YES;
+    self.fullyVisible = NO;
+}
+
+
+- (void)viewDidDisappear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    self.partiallyVisible = NO;
+    self.fullyVisible = NO;
 }
 
 
