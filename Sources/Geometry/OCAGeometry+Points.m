@@ -8,6 +8,7 @@
 
 #import "OCAGeometry+Points.h"
 #import "OCAPredicate.h"
+#import "NSArray+Ordinals.h"
 
 
 
@@ -96,6 +97,25 @@
                            }]
             describe:@"point from string"
             reverse:@"string from point"];
+}
+
+
++ (OCATransformer *)makePoint {
+    return [[OCATransformer fromClass:[NSArray class] toClass:[NSValue class]
+                            transform:^NSValue *(NSArray *input) {
+                                
+                                NSNumber *x = input.first;
+                                NSNumber *y = input.second;
+                                CGPoint point = CGPointMake(x.doubleValue, y.doubleValue);
+                                return OCABox(point);
+                                
+                            } reverse:^NSArray *(NSValue *input) {
+                                
+                                CGPoint point = OCAUnboxPoint(input);
+                                return @[ @(point.x), @(point.y) ];
+                            }]
+            describe:@"point from [x, y]"
+            reverse:@"[x, y] from point"];
 }
 
 

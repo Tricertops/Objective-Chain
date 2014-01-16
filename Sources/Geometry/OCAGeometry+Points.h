@@ -39,6 +39,7 @@
 #pragma mark Creating Points
 
 + (OCATransformer *)pointFromString;
++ (OCATransformer *)makePoint;
 + (OCATransformer *)makePointWithX:(CGFloat)x;
 + (OCATransformer *)makePointWithY:(CGFloat)y;
 

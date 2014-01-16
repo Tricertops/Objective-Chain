@@ -7,6 +7,7 @@
 //
 
 #import "OCAGeometry+Sizes.h"
+#import "NSArray+Ordinals.h"
 
 
 
@@ -75,6 +76,26 @@
             describe:@"size from string"
             reverse:@"string from size"];
 }
+
+
++ (OCATransformer *)makeSize {
+    return [[OCATransformer fromClass:[NSArray class] toClass:[NSValue class]
+                            transform:^NSValue *(NSArray *input) {
+                                
+                                NSNumber *width = input.first;
+                                NSNumber *height = input.second;
+                                CGSize size = CGSizeMake(width.doubleValue, height.doubleValue);
+                                return OCABox(size);
+                                
+                            } reverse:^NSArray *(NSValue *input) {
+                                
+                                CGSize size = OCAUnboxSize(input);
+                                return @[ @(size.width), @(size.height) ];
+                            }]
+            describe:@"size from [w, h]"
+            reverse:@"[w, h] from size"];
+}
+
 
 
 + (OCATransformer *)makeSizeWithWidth:(CGFloat)width {

@@ -36,6 +36,7 @@
 #pragma mark Creating Sizes
 
 + (OCATransformer *)sizeFromString;
++ (OCATransformer *)makeSize;
 + (OCATransformer *)makeSizeWithWidth:(CGFloat)width;
 + (OCATransformer *)makeSizeWithHeight:(CGFloat)height;
 
