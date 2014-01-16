@@ -126,7 +126,9 @@
 
 
 - (void)test_bindWithTransform {
-    [OCAProperty(self, birthYear, NSUInteger) bindWithTransform:[OCAMath subtractFrom:2014] to:OCAProperty(self, age, NSUInteger)];
+    [OCAProperty(self, birthYear, NSUInteger)
+     transform:[OCAMath subtractFrom:2014]
+     bindWith:OCAProperty(self, age, NSUInteger)];
     
     XCTAssertTrue(self.age == 22);
     self.birthYear = 1991;
@@ -137,9 +139,15 @@
 
 
 - (void)test_bindWithStructure {
-    [OCAProperty(self, birthYear, NSUInteger) bindWithTransform:[OCAMath subtractFrom:2014] to:OCAProperty(self, age, NSUInteger)];
-    [OCAProperty(self, birthYear, NSUInteger) bindTo:OCAPropertyStruct(self, lifespan, location)];
-    [OCAProperty(self, age, NSUInteger) bindTo:OCAPropertyStruct(self, lifespan, length)];
+    [OCAProperty(self, birthYear, NSUInteger)
+     transform:[OCAMath subtractFrom:2014]
+     bindWith:OCAProperty(self, age, NSUInteger)];
+    
+    [OCAProperty(self, birthYear, NSUInteger)
+     bindWith:OCAPropertyStruct(self, lifespan, location)];
+    
+    [OCAProperty(self, age, NSUInteger)
+     bindWith:OCAPropertyStruct(self, lifespan, length)];
     
     XCTAssertTrue(self.lifespan.location == 1992);
     XCTAssertTrue(self.lifespan.length == 22);

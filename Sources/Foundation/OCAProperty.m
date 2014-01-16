@@ -205,24 +205,17 @@
 #pragma mark Binding Properties
 
 
-- (NSArray *)bindTo:(OCAProperty *)property {
-    return [self bindWithTransform:nil to:property];
+- (NSArray *)bindWith:(OCAProperty *)property {
+    return [self transform:nil bindWith:property];
 }
 
 
-- (NSArray *)bindWithTransform:(NSValueTransformer *)transformer to:(OCAProperty *)property {
+- (NSArray *)transform:(NSValueTransformer *)transformer bindWith:(OCAProperty *)property {
     if (transformer) {
         OCAAssert([transformer.class allowsReverseTransformation], @"Need reversible transformer for two-way binding.") return nil;
     }
-    
-    OCAConnection *there = [[OCAConnection alloc] initWithProducer:self
-                                                             queue:nil
-                                                         transform:transformer
-                                                          consumer:property];
-    OCAConnection *andBackAgain = [[OCAConnection alloc] initWithProducer:property
-                                                                    queue:nil
-                                                                transform:[transformer reversed]
-                                                                 consumer:self];
+    OCAConnection *there = [[OCAConnection alloc] initWithProducer:self queue:nil transform:transformer consumer:property];
+    OCAConnection *andBackAgain = [[OCAConnection alloc] initWithProducer:property queue:nil transform:[transformer reversed] consumer:self];
     return @[ there, andBackAgain ];
 }
 

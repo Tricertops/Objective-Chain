@@ -60,8 +60,8 @@ typedef enum : NSUInteger {
 
 #pragma mark Binding Properties
 
-- (NSArray *)bindTo:(OCAProperty *)property;
-- (NSArray *)bindWithTransform:(NSValueTransformer *)transformer to:(OCAProperty *)property;
+- (NSArray *)bindWith:(OCAProperty *)property;
+- (NSArray *)transform:(NSValueTransformer *)transformer bindWith:(OCAProperty *)property;
 
 
 
