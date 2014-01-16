@@ -13,7 +13,6 @@
 
 
 
-/// Bridge is a Producer and Consumer, that forwards consumed values.
 @interface OCABridge : OCAProducer < OCAConsumer >
 
 
@@ -21,10 +20,16 @@
 #pragma mark Creating Bridge
 
 - (instancetype)initWithValueClass:(Class)valueClass;
-//- (instancetype)initWithValueClass:(Class)valueClass context:(OCAContext *)context;
 
-+ (instancetype)bridge;
-+ (instancetype)bridgeForClass:(Class)class;
++ (OCABridge *)bridge;
++ (OCABridge *)bridgeForClass:(Class)class;
+
+
+#pragma mark Bridge as a Consumer
+
+- (Class)consumedValueClass;
+- (void)consumeValue:(id)value;
+- (void)finishConsumingWithError:(NSError *)error;
 
 
 

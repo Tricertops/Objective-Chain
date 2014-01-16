@@ -33,12 +33,12 @@
 }
 
 
-+ (instancetype)bridge {
-    return [[self alloc] init];
++ (OCABridge *)bridge {
+    return [[self alloc] initWithValueClass:nil];
 }
 
 
-+ (instancetype)bridgeForClass:(Class)class {
++ (OCABridge *)bridgeForClass:(Class)class {
     return [[self alloc] initWithValueClass:class];
 }
 
@@ -112,7 +112,7 @@
 
 - (OCAProducer *)bridgeOn:(OCAQueue *)queue filter:(NSPredicate *)filter transform:(NSValueTransformer *)transformer {
     Class class = (transformer? [transformer.class transformedValueClass] : self.valueClass);
-    OCABridge *bridge = [OCABridge bridgeForClass:class];
+    OCABridge *bridge = [[OCABridge alloc] initWithValueClass:class];
     [self connectOn:queue filter:filter transform:transformer to:bridge];
     return bridge;
 }
