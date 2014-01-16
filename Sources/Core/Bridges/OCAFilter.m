@@ -99,3 +99,28 @@
 @end
 
 
+
+
+
+
+
+
+
+
+@implementation OCAProducer (OCAFilter)
+
+
+
+
+
+- (OCABridge *)filter:(NSPredicate *)predicate {
+    return [[OCAFilter alloc] initWithValueClass:self.valueClass predicate:predicate];
+}
+
+
+
+
+
+@end
+
+

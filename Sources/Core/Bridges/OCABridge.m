@@ -111,11 +111,6 @@
 }
 
 
-- (OCAConnection *)onQueue:(OCAQueue *)queue transform:(NSValueTransformer *)transformer bridge:(OCABridge *)bridge {
-    return [[OCAConnection alloc] initWithProducer:self queue:queue transform:transformer consumer:bridge];
-}
-
-
 
 
 

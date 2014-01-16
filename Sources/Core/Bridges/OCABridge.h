@@ -42,8 +42,6 @@
 @interface OCAProducer (OCABridge)
 
 
-- (OCAConnection *)onQueue:(OCAQueue *)queue transform:(NSValueTransformer *)transformer bridge:(OCABridge *)bridge;
-
 - (OCABridge *)bridgeOnQueue:(OCAQueue *)queue;
 - (OCABridge *)bridgeWithTransform:(NSValueTransformer *)transformer;
 
