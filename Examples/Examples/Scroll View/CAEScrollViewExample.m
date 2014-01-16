@@ -86,6 +86,7 @@
         UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:self.view.bounds];
         scrollView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
         scrollView.contentSize = CGSizeMake(screen.width, screen.height * 5);
+        
         [self.view addSubview:scrollView];
         scrollView;
     });
@@ -187,12 +188,24 @@
                 @[ OCAProperty(self.starLayer, fillColor, NSObject),
                    OCAProperty(self.pentagramLayer, fillColor, NSObject) ]]];
     
-    [[OCAPropertyStruct(self.scrollView, contentOffset, y)
-      contextualize:[OCAContext disableImplicitAnimations]]
-     transform:[OCATransformer sequence:
-                @[ [OCAMath divideBy: - self.starLayer.bounds.size.width / 2],
-                   [OCAGeometry transform3DFromZRotation] ]]
+    OCAProducer *starRotation = [[OCAPropertyStruct(self.scrollView, contentOffset, y)
+                                  contextualize:[OCAContext disableImplicitAnimations]]
+                                 bridgeWithTransform:[OCAMath divideBy: - self.starLayer.bounds.size.width]];
+    
+    [starRotation
+     transform:[OCAGeometry transform3DFromZRotation]
      connectTo:OCAProperty(self.starLayer, transform, CATransform3D)];
+    
+    [starRotation
+     transform:[OCATransformer sequence:@[
+                                          [OCAFoundation branchArray:@[
+                                                                       [OCAMath sine],
+                                                                       [OCAMath cosine]
+                                                                       ]],
+                                          [OCAGeometry makeSize],
+                                          [OCAGeometry multiplySizeBy:20]
+                                          ]]
+     connectTo:OCAProperty(self.starLayer, shadowOffset, CGSize)];
     
     
     NSValueTransformer *scrollProgressFromContentOffset = [OCAMath transform:
@@ -207,9 +220,9 @@
                             bridgeWithTransform:[OCATransformer sequence:
                                                  @[ scrollProgressFromContentOffset,
                                                     [OCAMath subtract:0.5],
-                                                    [OCAMath multiplyBy:2],
+                                                    [OCAMath multiplyBy:-2],
                                                     // From -1 to 1
-                                                    [OCATransformer debugPrintWithMarker:@"Paralax progress"] ]]];
+                                                    ]]];
     
     [[paralax contextualize:[OCAContext disableImplicitAnimations]]
      transform:[OCATransformer sequence:
@@ -218,7 +231,7 @@
      connectTo:OCAPropertyStruct(self.pentagramLayer, position, y)];
     
     [[paralax contextualize:[OCAContext disableImplicitAnimations]]
-     transform:[OCAMath multiplyBy:-50]
+     transform:[OCAMath multiplyBy:20]
      connectTo:OCAPropertyStruct(self.pentagramLayer, shadowOffset, height)];
     
 }
