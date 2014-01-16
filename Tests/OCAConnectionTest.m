@@ -230,7 +230,8 @@
 - (void)test_simpleHubWithBridge {
     OCACommand *stringCommand = [OCACommand class:[NSString class]];
     OCACommand *numberCommand = [OCACommand class:[NSNumber class]];
-    OCAHub *hub = [[stringCommand transform:[OCATransformer access:OCAKeyPath(NSString, length, NSUInteger)]]
+    OCAHub *hub = [[stringCommand
+                    bridgeWithTransform:[OCATransformer access:OCAKeyPath(NSString, length, NSUInteger)]]
                    mergeWith:numberCommand];
     
     NSMutableArray *received = [[NSMutableArray alloc] init];
