@@ -135,3 +135,25 @@
 @end
 
 
+
+
+
+
+
+
+
+
+@implementation OCAProducer (OCAContext)
+
+
+
+- (OCABridge *)contextualize:(OCAContext *)context {
+    (void)[[OCAConnection alloc] initWithProducer:self queue:nil transform:nil consumer:context];
+    return context;
+}
+
+
+
+@end
+
+

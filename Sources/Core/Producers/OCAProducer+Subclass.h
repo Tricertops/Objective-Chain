@@ -7,8 +7,7 @@
 //
 
 #import "OCAProducer.h"
-
-@class OCAConnection;
+#import "OCAConnection.h"
 
 
 
