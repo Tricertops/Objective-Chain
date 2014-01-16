@@ -57,7 +57,7 @@
 
 
 + (NSString *)exampleDescription {
-    return @"";
+    return @"This example observes scroll view content offset to rotate and move views (layers). Content offset is transformed into Star rotation, which is also applied to its shadow to preserve perspective look. Then the content offset is used to calculate paralax offset of Pentagon with its shadow. Also applies tint color to the shapes. Total of 8 Connection.";
 }
 
 

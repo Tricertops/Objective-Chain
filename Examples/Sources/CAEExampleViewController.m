@@ -95,9 +95,9 @@
 
 + (NSDate *)day:(NSUInteger)day month:(NSUInteger)month year:(NSUInteger)year {
     NSDateComponents *components = [[NSDateComponents alloc] init];
-    components.year = day;
+    components.year = year;
     components.month = month;
-    components.day = year;
+    components.day = day;
     return [[NSCalendar currentCalendar] dateFromComponents:components];
 }
 
@@ -112,6 +112,10 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         self.title = [self.class exampleTitle];
+        
+        UIButton *detailButton = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
+        [detailButton addTarget:self action:@selector(showExampleDetails) forControlEvents:UIControlEventTouchUpInside];
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:detailButton];
     }
     return self;
 }
@@ -123,6 +127,22 @@
     
     [self setupViews];
     [self setupConnections];
+}
+
+
+- (void)showExampleDetails {
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    formatter.dateStyle = NSDateFormatterMediumStyle;
+    
+    [[[UIAlertView alloc] initWithTitle:[NSString stringWithFormat:@"Example: %@", [self.class exampleTitle]]
+                                message:[NSString stringWithFormat:@"%@\n\n%@\n\nAuthor: %@\nDate: %@",
+                                         [self.class exampleSubtitle],
+                                         [self.class exampleDescription] ?: @"",
+                                         [self.class exampleAuthor],
+                                         [formatter stringFromDate:[self.class exampleDate]]]
+                               delegate:nil
+                      cancelButtonTitle:@"Dismiss"
+                      otherButtonTitles:nil] show];
 }
 
 
