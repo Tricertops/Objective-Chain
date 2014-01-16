@@ -131,32 +131,22 @@
 
 
 - (OCAConnection *)connectTo:(id<OCAConsumer>)consumer {
-    return [self connectOn:nil filter:nil transform:nil to:consumer];
+    return [self connectOn:nil transform:nil to:consumer];
 }
 
 
 - (OCAConnection *)connectOn:(OCAQueue *)queue to:(id<OCAConsumer>)consumer {
-    return [self connectOn:queue filter:nil transform:nil to:consumer];
+    return [self connectOn:queue transform:nil to:consumer];
 }
 
 
 - (OCAConnection *)connectWithTransform:(NSValueTransformer *)transformer to:(id<OCAConsumer>)consumer {
-    return [self connectOn:nil filter:nil transform:transformer to:consumer];
+    return [self connectOn:nil transform:transformer to:consumer];
 }
 
 
-- (OCAConnection *)connectOn:(OCAQueue *)queue transform:(NSValueTransformer *)transformer to:(id<OCAConsumer>)consumer; {
-    return [self connectOn:queue filter:nil transform:transformer to:consumer];
-}
-
-
-- (OCAConnection *)connectWithFilter:(NSPredicate *)predicate transform:(NSValueTransformer *)transformer to:(id<OCAConsumer>)consumer {
-    return [self connectOn:nil filter:predicate transform:transformer to:consumer];
-}
-
-
-- (OCAConnection *)connectOn:(OCAQueue *)queue filter:(NSPredicate *)predicate transform:(NSValueTransformer *)transformer to:(id<OCAConsumer>)consumer {
-    return [[OCAConnection alloc] initWithProducer:self queue:queue filter:predicate transform:transformer consumer:consumer];
+- (OCAConnection *)connectOn:(OCAQueue *)queue transform:(NSValueTransformer *)transformer to:(id<OCAConsumer>)consumer {
+    return [[OCAConnection alloc] initWithProducer:self queue:queue transform:transformer consumer:consumer];
 }
 
 

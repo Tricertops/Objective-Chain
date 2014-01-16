@@ -21,7 +21,6 @@
 
 @property (atomic, readwrite, weak) OCAProducer *producer;
 @property (atomic, readwrite, strong) OCAQueue *queue;
-@property (atomic, readwrite, strong) NSPredicate *filter;
 @property (atomic, readwrite, strong) NSValueTransformer *transformer;
 @property (atomic, readwrite, strong) id<OCAConsumer> consumer;
 
@@ -49,11 +48,11 @@
 
 
 - (instancetype)init {
-    return [self initWithProducer:nil queue:nil filter:nil transform:nil consumer:nil];
+    return [self initWithProducer:nil queue:nil transform:nil consumer:nil];
 }
 
 
-- (instancetype)initWithProducer:(OCAProducer *)producer queue:(OCAQueue *)queue filter:(NSPredicate *)predicate transform:(NSValueTransformer *)transformer consumer:(id<OCAConsumer>)consumer {
+- (instancetype)initWithProducer:(OCAProducer *)producer queue:(OCAQueue *)queue transform:(NSValueTransformer *)transformer consumer:(id<OCAConsumer>)consumer {
     self = [super init];
     if (self) {
         OCAAssert(producer != nil, @"Missing producer!") return nil;
@@ -72,7 +71,6 @@
         self->_producer = producer;
         self->_enabled = YES;
         self->_queue = queue ?: [OCAQueue current];
-        self->_filter = predicate;
         self->_transformer = transformer;
         self->_consumer = consumer;
         
@@ -97,7 +95,6 @@
     [self.producer removeConnection:self];
     self.producer = nil;
     self.transformer = nil;
-    self.filter = nil;
     self.consumer = nil;
 }
 
@@ -119,9 +116,6 @@
     if ( ! self.enabled) return;
     
     [self.queue performBlockAndTryWait:^{
-        
-        BOOL passes = ( ! self.filter || [self.filter evaluateWithObject:value]);
-        if ( ! passes) return;
         
         id transformedValue = (self.transformer ? [self.transformer transformedValue:value] : value);
         
@@ -172,7 +166,6 @@
     [d appendString:@"\n"];
     [d appendFormat:@"Producer: %@\n", self.producer];
     [d appendFormat:@"Queue: %@\n", self.queue];
-    if (self.filter) [d appendFormat:@"Filter: %@\n", self.filter];
     if (self.transformer) [d appendFormat:@"Transform: %@\n", self.transformer];
     [d appendFormat:@"Consumer: %@", self.consumer];
     if ([self.consumer isKindOfClass:[OCAProducer class]]) {
@@ -186,14 +179,13 @@
 
 - (NSDictionary *)debugDescriptionValues {
     return @{
-             @"producer": self.producer.debugDescription,
-             @"queue": self.queue.debugDescription,
-             @"filter": self.filter.debugDescription,
-             @"transformer": self.transformer.debugDescription,
-             @"consumer": [self.consumer debugDescription],
+             @"producer": self.producer.debugDescription ?: @"nil",
+             @"queue": self.queue.debugDescription ?: @"nil",
+             @"transformer": self.transformer.debugDescription ?: @"nil",
+             @"consumer": [self.consumer debugDescription] ?: @"nil",
              @"enabled": (self.enabled? @"YES" : @"NO"),
              @"closed": (self.closed? @"YES" : @"NO"),
-             @"name": self.name,
+             @"name": self.name ?: @"nil",
              };
 }
 

@@ -229,12 +229,10 @@
     
     OCAConnection *there = [[OCAConnection alloc] initWithProducer:self
                                                              queue:nil
-                                                            filter:nil
                                                          transform:transformer
                                                           consumer:property];
     OCAConnection *andBackAgain = [[OCAConnection alloc] initWithProducer:property
                                                                     queue:nil
-                                                                   filter:nil
                                                                 transform:[transformer reversed]
                                                                  consumer:self];
     return @[ there, andBackAgain ];

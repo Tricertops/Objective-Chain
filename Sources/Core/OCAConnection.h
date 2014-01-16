@@ -25,7 +25,6 @@
 
 - (instancetype)initWithProducer:(OCAProducer *)producer
                            queue:(OCAQueue *)queue
-                          filter:(NSPredicate *)predicate
                        transform:(NSValueTransformer *)transformer
                         consumer:(id<OCAConsumer>)consumer;
 
@@ -41,7 +40,6 @@
 @property (atomic, readwrite, assign) BOOL enabled;
 
 @property (atomic, readonly, strong) OCAQueue *queue;
-@property (atomic, readonly, strong) NSPredicate *filter;
 @property (atomic, readonly, strong) NSValueTransformer *transformer;
 
 @property (atomic, readonly, assign) BOOL closed;
