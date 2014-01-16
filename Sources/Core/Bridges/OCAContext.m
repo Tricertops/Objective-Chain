@@ -70,7 +70,7 @@
 }
 
 
-+ (OCAContext *)property:(OCAPropertyBridge *)property value:(id)value {
++ (OCAContext *)property:(OCAProperty *)property value:(id)value {
     return [[self alloc] initWithValueClass:nil definitionBlock:^(OCAContextExecutionBlock executionBlock) {
         id originalValue = [property value];
         [property setValue:value];

@@ -1,12 +1,12 @@
 //
-//  OCAPropertyBridge.m
+//  OCAProperty.m
 //  Objective-Chain
 //
 //  Created by Martin Kiss on 9.1.14.
 //  Copyright (c) 2014 Martin Kiss. All rights reserved.
 //
 
-#import "OCAPropertyBridge.h"
+#import "OCAProperty.h"
 #import "OCAProducer+Subclass.h"
 #import "OCADecomposer.h"
 #import "OCATransformer.h"
@@ -16,24 +16,12 @@
 
 
 
-@interface OCAPropertyBridge ()
-
-
-@property (atomic, readonly, strong) OCAKeyPathAccessor *accessor;
-
-
-@end
 
 
 
 
 
-
-
-
-
-
-@implementation OCAPropertyBridge
+@implementation OCAProperty
 
 
 
@@ -47,7 +35,7 @@
     if (self) {
         OCAAssert(object != nil, @"Need an object.") return nil;
         
-        OCAPropertyBridge *existing = [OCAPropertyBridge existingPropertyOnObject:object keyPathAccessor:accessor options:options];
+        OCAProperty *existing = [OCAProperty existingPropertyOnObject:object keyPathAccessor:accessor options:options];
         if (existing) return existing;
         
         self->_object = object;
@@ -73,7 +61,7 @@
 
 
 + (instancetype)existingPropertyOnObject:(NSObject *)object keyPathAccessor:(OCAKeyPathAccessor *)accessor options:(OCAPropertyOptions)options {
-    return [object.decomposer findOwnedObjectOfClass:self usingBlock:^BOOL(OCAPropertyBridge *ownedProperty) {
+    return [object.decomposer findOwnedObjectOfClass:self usingBlock:^BOOL(OCAProperty *ownedProperty) {
         BOOL equalAccessor = [ownedProperty.accessor isEqual:accessor];
         BOOL equalOptions = (ownedProperty.options == options);
         return (equalAccessor && equalOptions);
@@ -217,12 +205,12 @@
 #pragma mark Binding Properties
 
 
-- (NSArray *)bindTo:(OCAPropertyBridge *)property {
+- (NSArray *)bindTo:(OCAProperty *)property {
     return [self bindWithTransform:nil to:property];
 }
 
 
-- (NSArray *)bindWithTransform:(NSValueTransformer *)transformer to:(OCAPropertyBridge *)property {
+- (NSArray *)bindWithTransform:(NSValueTransformer *)transformer to:(OCAProperty *)property {
     if (transformer) {
         OCAAssert([transformer.class allowsReverseTransformation], @"Need reversible transformer for two-way binding.") return nil;
     }

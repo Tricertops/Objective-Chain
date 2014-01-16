@@ -1,5 +1,5 @@
 //
-//  OCAPropertyBridge.h
+//  OCAProperty.h
 //  Objective-Chain
 //
 //  Created by Martin Kiss on 9.1.14.
@@ -28,16 +28,16 @@ typedef enum : NSUInteger {
 
 
 
-@interface OCAPropertyBridge : OCAProducer < OCAConsumer >
+@interface OCAProperty : OCAProducer < OCAConsumer >
 
 
 
 #pragma mark Creating Property Bridge
 
-#define OCAProperty(OBJECT, KEYPATH, TYPE)                      OCAPropertyBridgeCreate(OBJECT, KEYPATH, TYPE, OCAPropertyOptionDefault)
-#define OCAPropertyChange(OBJECT, KEYPATH, TYPE)                OCAPropertyBridgeCreate(OBJECT, KEYPATH, TYPE, OCAPropertyOptionIncludePreviousValue)
-#define OCAPropertyStruct(OBJECT, KEYPATH, MEMBER)              OCAPropertyBridgeCreateWithStructure(OBJECT, KEYPATH, MEMBER, OCAPropertyOptionDefault)
-#define OCAPropertyStructChange(OBJECT, KEYPATH, MEMBER)        OCAPropertyBridgeCreateWithStructure(OBJECT, KEYPATH, MEMBER, OCAPropertyOptionIncludePreviousValue)
+#define OCAProperty(OBJECT, KEYPATH, TYPE)                      OCAPropertyCreate(OBJECT, KEYPATH, TYPE, OCAPropertyOptionDefault)
+#define OCAPropertyChange(OBJECT, KEYPATH, TYPE)                OCAPropertyCreate(OBJECT, KEYPATH, TYPE, OCAPropertyOptionIncludePreviousValue)
+#define OCAPropertyStruct(OBJECT, KEYPATH, MEMBER)              OCAPropertyCreateWithStructure(OBJECT, KEYPATH, MEMBER, OCAPropertyOptionDefault)
+#define OCAPropertyStructChange(OBJECT, KEYPATH, MEMBER)        OCAPropertyCreateWithStructure(OBJECT, KEYPATH, MEMBER, OCAPropertyOptionIncludePreviousValue)
 
 - (instancetype)initWithObject:(NSObject *)object keyPathAccessor:(OCAKeyPathAccessor *)accessor options:(OCAPropertyOptions)options;
 
@@ -50,6 +50,8 @@ typedef enum : NSUInteger {
 @property (atomic, readonly, strong) Class valueClass;
 @property (atomic, readonly, assign) OCAPropertyOptions options;
 
+@property (atomic, readonly, strong) OCAKeyPathAccessor *accessor;
+
 
 #pragma mark Using Property
 
@@ -58,8 +60,8 @@ typedef enum : NSUInteger {
 
 #pragma mark Binding Properties
 
-- (NSArray *)bindTo:(OCAPropertyBridge *)property;
-- (NSArray *)bindWithTransform:(NSValueTransformer *)transformer to:(OCAPropertyBridge *)property;
+- (NSArray *)bindTo:(OCAProperty *)property;
+- (NSArray *)bindWithTransform:(NSValueTransformer *)transformer to:(OCAProperty *)property;
 
 
 
@@ -69,10 +71,10 @@ typedef enum : NSUInteger {
 
 
 
-#define OCAPropertyBridgeCreate(OBJECT, KEYPATH, TYPE, OPTIONS) \
-(OCAPropertyBridge *)({ \
+#define OCAPropertyCreate(OBJECT, KEYPATH, TYPE, OPTIONS) \
+(OCAProperty *)({ \
     typeof(OBJECT) o = (OBJECT);\
-    [[OCAPropertyBridge alloc] initWithObject:o \
+    [[OCAProperty alloc] initWithObject:o \
                               keyPathAccessor:OCAKeyPathAccessorCreateFromObject(o, KEYPATH, TYPE) \
                                       options:OPTIONS]; \
 }) \
@@ -81,10 +83,10 @@ typedef enum : NSUInteger {
 
 
 
-#define OCAPropertyBridgeCreateWithStructure(OBJECT, KEYPATH, MEMBER, OPTIONS) \
-(OCAPropertyBridge *)({ \
+#define OCAPropertyCreateWithStructure(OBJECT, KEYPATH, MEMBER, OPTIONS) \
+(OCAProperty *)({ \
     typeof(OBJECT) o = (OBJECT);\
-    [[OCAPropertyBridge alloc] initWithObject:o \
+    [[OCAProperty alloc] initWithObject:o \
                               keyPathAccessor:OCAKeyPathAccessorCreateWithStructureFromObject(o, KEYPATH, MEMBER) \
                                       options:OPTIONS]; \
 }) \

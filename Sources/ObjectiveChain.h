@@ -22,7 +22,7 @@
 
 #import "OCABridge.h"
 #import "OCAContext.h"
-#import "OCAPropertyBridge.h"
+#import "OCAProperty.h"
 
 #import "OCAKeyPathAccessor.h"
 #import "OCAStructureAccessor.h"

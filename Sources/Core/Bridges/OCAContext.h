@@ -7,7 +7,7 @@
 //
 
 #import "OCABridge.h"
-#import "OCAPropertyBridge.h"
+#import "OCAProperty.h"
 
 
 
@@ -28,7 +28,7 @@ typedef void(^OCAContextDefinitionBlock)(OCAContextExecutionBlock executionBlock
 
 + (OCAContext *)empty;
 + (OCAContext *)custom:(OCAContextDefinitionBlock)block;
-+ (OCAContext *)property:(OCAPropertyBridge *)property value:(id)value;
++ (OCAContext *)property:(OCAProperty *)property value:(id)value;
 
 
 #pragma mark Using Context

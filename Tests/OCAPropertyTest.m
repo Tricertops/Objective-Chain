@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 Martin Kiss. All rights reserved.
 //
 
-#import "OCAPropertyBridge.h"
+#import "OCAProperty.h"
 #import "OCACommand.h"
 #import "OCASubscriber.h"
 #import "OCAHub.h"
@@ -171,8 +171,8 @@
 
 
 - (void)test_sharedInstances {
-    OCAPropertyBridge *first = OCAProperty(self, lastName, NSString);
-    OCAPropertyBridge *second = OCAProperty(self, lastName, NSString);
+    OCAProperty *first = OCAProperty(self, lastName, NSString);
+    OCAProperty *second = OCAProperty(self, lastName, NSString);
     XCTAssertTrue(first == second);
 }
 
