@@ -82,6 +82,14 @@
 }
 
 
++ (instancetype)connectProducer:(OCAProducer *)producer
+                        onQueue:(OCAQueue *)queue
+                      transform:(NSValueTransformer *)transformer
+                     toConsumer:(id<OCAConsumer>)consumer {
+    return [[self alloc] initWithProducer:producer queue:queue transform:transformer consumer:consumer];
+}
+
+
 
 
 

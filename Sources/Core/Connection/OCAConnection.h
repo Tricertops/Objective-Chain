@@ -10,6 +10,7 @@
 
 @class OCAProducer;
 @class OCAQueue;
+@class OCAProperty;
 @protocol OCAConsumer;
 
 
@@ -27,6 +28,11 @@
                            queue:(OCAQueue *)queue
                        transform:(NSValueTransformer *)transformer
                         consumer:(id<OCAConsumer>)consumer;
+
++ (instancetype)connectProducer:(OCAProducer *)producer
+                        onQueue:(OCAQueue *)queue
+                      transform:(NSValueTransformer *)transformer
+                     toConsumer:(id<OCAConsumer>)consumer;
 
 
 #pragma mark Endpoints of Connection
