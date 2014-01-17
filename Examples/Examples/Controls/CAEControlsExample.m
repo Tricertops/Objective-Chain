@@ -59,7 +59,7 @@
 
 
 + (NSString *)exampleDescription {
-    return @"This example uses UIControl event Producers to update internal property, that is subsequently displayed in a form of temperature label. Also allows you to disable these controls with custom tint color dimming. Total of 7 Connections.";
+    return @"This example uses UIControl event Producers to update internal property, that is subsequently displayed in a form of temperature label. Also allows you to disable these controls with custom tint color dimming. Total of 7 connections.";
 }
 
 

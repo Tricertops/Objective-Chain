@@ -184,7 +184,6 @@ static const void * OCADecomposerAssociationKey = &OCADecomposerAssociationKey;
         void(^newDeallocBlock)(id) = ^(__unsafe_unretained NSObject *self_deallocating) {
             
             // New dealloc implementation:
-            NSLog(@"Decomposer: Custom dealloc <%@ %p>", self_deallocating.class, self_deallocating);
             OCADecomposer *decomposer = objc_getAssociatedObject(self_deallocating, OCADecomposerAssociationKey);
             [decomposer decompose];
             
@@ -196,7 +195,6 @@ static const void * OCADecomposerAssociationKey = &OCADecomposerAssociationKey;
         class_replaceMethod(self, deallocSelector, newImplementation, method_getTypeEncoding(dealloc));
         
         [swizzledClasses addObject:self];
-        NSLog(@"Decomposer: Swizzled class %@", self);
         
         return YES;
     }
