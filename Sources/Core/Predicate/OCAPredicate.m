@@ -86,13 +86,18 @@
 
 
 
-+ (NSPredicate *)boolean {
++ (NSPredicate *)isTrue {
     return [OCAPredicate predicateForClass:nil block:^BOOL(id object) {
         if ([object respondsToSelector:@selector(boolValue)]) {
             return [object boolValue];
         }
         return NO;
     }];
+}
+
+
++ (NSPredicate *)isFalse {
+    return [[OCAPredicate isTrue] negate];
 }
 
 
@@ -200,22 +205,91 @@
 }
 
 
-+ (NSPredicate *)compare:(OCAAccessor *)accessor operator:(NSString *)operator value:(id)rightValue {
++ (NSPredicate *)compare:(OCAAccessor *)accessor format:(NSString *)operatorFormat value:(id)rightValue {
     return [OCAPredicate predicateForClass:accessor.valueClass block:^BOOL(id object) {
         id leftValue = [accessor accessObject:object];
         // Now, a double substitution!
-        NSString *format = [NSString stringWithFormat:@"%%@ %@ %%@", operator];
+        NSString *format = [NSString stringWithFormat:@"%%@ %@ %%@", operatorFormat];
         NSPredicate *predicate = [NSPredicate predicateWithFormat:format, leftValue, rightValue];
         return [predicate evaluateWithObject:object];
     }];
 }
 
 
-+ (NSPredicate *)compare:(OCAAccessor *)accessor using:(BOOL(^)(id input))block {
++ (NSPredicate *)compare:(OCAAccessor *)accessor using:(NSPredicate *)predicate {
     return [OCAPredicate predicateForClass:accessor.valueClass block:^BOOL(id object) {
         id value = [accessor accessObject:object];
-        return block(value);
+        return [predicate evaluateWithObject:value];
     }];
+}
+
+
++ (NSPredicate *)operator:(NSPredicateOperatorType)operator options:(NSComparisonPredicateOptions)options value:(id)value {
+    return [NSComparisonPredicate predicateWithLeftExpression:[NSExpression expressionForEvaluatedObject]
+                                              rightExpression:[NSExpression expressionForConstantValue:value]
+                                                     modifier:kNilOptions
+                                                         type:operator
+                                                      options:options];
+}
+
+
++ (NSPredicate *)isLessThan:(id)value {
+    return [self operator:NSLessThanPredicateOperatorType options:kNilOptions value:value];
+}
+
+
++ (NSPredicate *)isLessThanOrEqual:(id)value {
+    return [self operator:NSLessThanOrEqualToPredicateOperatorType options:kNilOptions value:value];
+}
+
+
++ (NSPredicate *)isGreaterThan:(id)value {
+    return [self operator:NSGreaterThanPredicateOperatorType options:kNilOptions value:value];
+}
+
+
++ (NSPredicate *)isGreaterThanOrEqual:(id)value {
+    return [self operator:NSGreaterThanOrEqualToPredicateOperatorType options:kNilOptions value:value];
+}
+
+
++ (NSPredicate *)isEqualTo:(id)value {
+    return [self operator:NSEqualToPredicateOperatorType options:kNilOptions value:value];
+}
+
+
++ (NSPredicate *)matches:(NSString *)regex {
+    return [self operator:NSMatchesPredicateOperatorType options:kNilOptions value:regex];
+}
+
+
++ (NSPredicate *)isLike:(NSString *)string {
+    return [self operator:NSLikePredicateOperatorType options:kNilOptions value:string];
+}
+
+
++ (NSPredicate *)beginsWith:(id)value {
+    return [self operator:NSBeginsWithPredicateOperatorType options:kNilOptions value:value];
+}
+
+
++ (NSPredicate *)endsWith:(id)value {
+    return [self operator:NSEndsWithPredicateOperatorType options:kNilOptions value:value];
+}
+
+
++ (NSPredicate *)isIn:(id)value {
+    return [self operator:NSInPredicateOperatorType options:kNilOptions value:value];
+}
+
+
++ (NSPredicate *)contains:(id)value {
+    return [self operator:NSContainsPredicateOperatorType options:kNilOptions value:value];
+}
+
+
++ (NSPredicate *)isBetween:(id)lower and:(id)upper {
+    return [self operator:NSBetweenPredicateOperatorType options:kNilOptions value:@[ lower, upper ]];
 }
 
 

@@ -186,7 +186,7 @@
     
     // Flash scroll indicators, when becomes fully visible.
     [[OCAProperty(self, fullyVisible, BOOL)
-     filter:[OCAPredicate boolean]] // Passes only YES values.
+     filter:[OCAPredicate isTrue]] // Passes only YES values.
      subscribeEvents:^{ // Not interested in values.
          [self.scrollView flashScrollIndicators];
      }];
