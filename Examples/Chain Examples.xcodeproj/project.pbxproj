@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5B773C181889362C00C4DF48 /* CAEStopwatchExample.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B773C171889362C00C4DF48 /* CAEStopwatchExample.m */; };
 		5B8AE20518856D20007B611F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B8AE20418856D20007B611F /* Foundation.framework */; };
 		5B8AE20718856D20007B611F /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B8AE20618856D20007B611F /* CoreGraphics.framework */; };
 		5B8AE20918856D20007B611F /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B8AE20818856D20007B611F /* UIKit.framework */; };
@@ -60,6 +61,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		5B773C161889362C00C4DF48 /* CAEStopwatchExample.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CAEStopwatchExample.h; sourceTree = "<group>"; };
+		5B773C171889362C00C4DF48 /* CAEStopwatchExample.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CAEStopwatchExample.m; sourceTree = "<group>"; };
 		5B8AE20118856D20007B611F /* Examples.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Examples.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5B8AE20418856D20007B611F /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		5B8AE20618856D20007B611F /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -97,6 +100,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5B773C121889360600C4DF48 /* Stopwatch */ = {
+			isa = PBXGroup;
+			children = (
+				5B773C161889362C00C4DF48 /* CAEStopwatchExample.h */,
+				5B773C171889362C00C4DF48 /* CAEStopwatchExample.m */,
+			);
+			path = Stopwatch;
+			sourceTree = "<group>";
+		};
 		5B8AE1F818856D20007B611F = {
 			isa = PBXGroup;
 			children = (
@@ -148,6 +160,7 @@
 			children = (
 				5BB822B218857F60006D00DB /* Controls */,
 				5BAB04771886CF3E00882AC4 /* Scroll View */,
+				5B773C121889360600C4DF48 /* Stopwatch */,
 			);
 			path = Examples;
 			sourceTree = "<group>";
@@ -288,6 +301,7 @@
 				5B8AE259188570F1007B611F /* CAEExampleViewController.m in Sources */,
 				5BAB047D1886CF5900882AC4 /* CAEScrollViewExample.m in Sources */,
 				5B8AE25418856EE9007B611F /* CAEListViewController.m in Sources */,
+				5B773C181889362C00C4DF48 /* CAEStopwatchExample.m in Sources */,
 				5B8AE25018856EBD007B611F /* CAEAppDelegate.m in Sources */,
 				5BB822B518857F60006D00DB /* CAEControlsExample.m in Sources */,
 			);
