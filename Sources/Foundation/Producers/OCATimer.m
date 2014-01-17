@@ -146,6 +146,7 @@
 
 
 - (void)stop {
+    if ( ! self.timer) return;
     NSLog(@"%@: Stopped", self.shortDescription);
     dispatch_source_cancel(self.timer);
     self.timer = nil;

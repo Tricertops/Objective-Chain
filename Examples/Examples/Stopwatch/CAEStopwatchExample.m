@@ -14,6 +14,12 @@
 
 @interface CAEStopwatchExample ()
 
+
+@property (nonatomic, readwrite, strong) OCATimer *timer;
+
+@property (nonatomic, readwrite, strong) UILabel *label;
+
+
 @end
 
 
@@ -72,13 +78,45 @@
 
 - (void)setupViews {
     [super setupViews];
+    
+    self.label = ({
+        UILabel *label = [[UILabel alloc] init];
+        label.font = [UIFont fontWithName:@"HelveticaNeue-UltraLight" size:40];
+        label.textAlignment = NSTextAlignmentCenter;
+        label.textColor = [UIColor blackColor];
+        label.backgroundColor = [UIColor clearColor];
+        label.frame = CGRectMake(20, 84, 280, label.font.lineHeight);
+        
+        [self.view addSubview:label];
+        label;
+    });
 }
 
 
 - (void)setupConnections {
     [super setupConnections];
     
+    OCAWeakify(self);
     
+    [OCAProperty(self, fullyVisible, BOOL)
+     subscribe:[NSNumber class]
+     handler:^(NSNumber *value) {
+         OCAStrongify(self);
+         BOOL fullyVisible = value.boolValue;
+         
+         [self.timer stop];
+         if (fullyVisible) {
+             self.timer = [OCATimer repeat:0.01 owner:self];
+             
+             [self.timer
+              transform:[OCATransformer sequence:
+                         @[
+                           [OCAFoundation timeIntervalSinceDate:[NSDate date]],
+                           [OCAFoundation stringWithNumberStyle:NSNumberFormatterDecimalStyle fractionDigits:2],
+                           ]]
+              connectTo:OCAProperty(self.label, text, NSString)];
+         }
+     }];
     
 }
 
