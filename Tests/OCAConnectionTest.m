@@ -271,29 +271,25 @@
 }
 
 
-//TODO: Wonder why this is so indeterministic.
-
-//- (void)test_OCATimer_withConnectionOnDifferentQueue {
-//    OCATimer *timer = [OCATimer backgroundTimerWithInterval:0.1 until:[NSDate dateWithTimeIntervalSinceNow:1.1]];
-//    OCAQueue *queue = [OCAQueue serialQueue:@"Testing Queue"];
-//    OCASemaphore *semaphore = [[OCASemaphore alloc] init];
-//    __block NSUInteger tickCount = 0;
-//    
-//    [timer connectOn:queue
-//              filter:[NSPredicate predicateWithValue:YES]
-//           transform:[OCATransformer access:OCAKeyPath(NSDate, timeIntervalSinceNow, NSTimeInterval)]
-//                  to:[OCASubscriber subscribeClass:[NSNumber class] handler:
-//                      ^(NSNumber *timeInterval) {
-//                          tickCount++;
-//                      } finish:^(NSError *error) {
-//                          NSLog(@"Heisenbug");
-//                          [semaphore signal];
-//                      }]];
-//    
-//    BOOL signaled = [semaphore waitFor:2];
-//    XCTAssertTrue(signaled, @"Timer didn't end in given time.");
-//    XCTAssertTrue(tickCount >= 10, @"Timer didn't fire required number of times.");
-//}
+- (void)test_OCATimer_withConnectionOnDifferentQueue {
+    OCATimer *timer = [OCATimer repeat:0.1 until:[NSDate dateWithTimeIntervalSinceNow:1.1]];
+    OCAQueue *queue = [OCAQueue serialQueue:@"Testing Queue"];
+    OCASemaphore *semaphore = [[OCASemaphore alloc] init];
+    __block NSUInteger tickCount = 0;
+    
+    [timer onQueue:queue
+         transform:[OCATransformer access:OCAKeyPath(NSDate, timeIntervalSinceNow, NSTimeInterval)]
+         connectTo:[OCASubscriber class:[NSNumber class] handler:
+                    ^(NSNumber *timeInterval) {
+                        tickCount++;
+                    } finish:^(NSError *error) {
+                        [semaphore signal];
+                    }]];
+    
+    BOOL signaled = [semaphore waitFor:20];
+    XCTAssertTrue(signaled, @"Timer didn't end in given time.");
+    XCTAssertTrue(tickCount == 10, @"Timer didn't fire required number of times.");
+}
 
 
 

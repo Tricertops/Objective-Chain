@@ -133,10 +133,12 @@
     if (self.enabled) {
         [self.queue performBlockAndTryWait:^{
             [self.consumer finishConsumingWithError:error];
+            [self close];
         }];
     }
-    
-    [self close];
+    else {
+        [self close];
+    }
 }
 
 
