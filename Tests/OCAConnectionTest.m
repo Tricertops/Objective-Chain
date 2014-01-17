@@ -111,7 +111,7 @@
 
 
 - (void)test_OCATimer_periodicProductionOfDatesOfLimitedCount {
-    OCATimer *timer = [OCATimer backgroundTimerWithInterval:0.1 until:[NSDate dateWithTimeIntervalSinceNow:1.1]];
+    OCATimer *timer = [OCATimer repeat:0.1 until:[NSDate dateWithTimeIntervalSinceNow:1.1]];
     OCASemaphore *semaphore = [[OCASemaphore alloc] init];
     __block NSUInteger tickCount = 0;
     
