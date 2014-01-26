@@ -44,6 +44,17 @@
 }
 
 
++ (OCATransformer *)colorWithAlpha:(CGFloat)alpha {
+    return [[OCATransformer fromClass:[UIColor class] toClass:[UIColor class]
+                            transform:^UIColor *(UIColor *input) {
+                                return [input colorWithAlphaComponent:alpha];
+                                
+                            } reverse:OCATransformationPass]
+            describe:[NSString stringWithFormat:@"Color with aplha %@", @(alpha)]
+            reverse:@"pass"];
+}
+
+
 
 
 

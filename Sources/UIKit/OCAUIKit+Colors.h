@@ -26,6 +26,8 @@
 + (OCATransformer *)colorFromCGColor;
 + (OCATransformer *)colorGetCGColor;
 
++ (OCATransformer *)colorWithAlpha:(CGFloat)alpha;
+
 
 
 
