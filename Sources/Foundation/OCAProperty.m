@@ -113,6 +113,8 @@
     OCAStructureAccessor *structureAccessor = self.accessor.structureAccessor;
     
     id old = [change objectForKey:NSKeyValueChangeOldKey];
+    BOOL isInitial = (old == nil);
+    
     if (old == NSNull.null) old = nil;
     if (structureAccessor) {
         old = [structureAccessor accessObject:old];
@@ -124,7 +126,7 @@
         new = [structureAccessor accessObject:new];
     }
     
-    if (OCAEqual(old, new)) return;
+    if ( ! isInitial && OCAEqual(old, new)) return;
     
     if (self.options & OCAPropertyOptionIncludePreviousValue) {
         [self produceValue:@[ old ?: NSNull.null, new ?: NSNull.null ]];
