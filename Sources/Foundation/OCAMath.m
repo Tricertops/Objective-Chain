@@ -124,9 +124,10 @@
 
 
 + (OCATransformer *)modulus:(OCAInteger)value {
-    return [[self integerTransform:^OCAInteger(OCAInteger x) {
-        return x % value;
-    } reverse:^OCAInteger(OCAInteger y) {
+    return [[self transform:^OCAReal(OCAReal x) {
+        OCAInteger integer = floor(x / value);
+        return x - integer * value;
+    } reverse:^OCAReal(OCAReal y) {
         return y;
     }]
             describe:[NSString stringWithFormat:@"modulus %@", @(value)]
