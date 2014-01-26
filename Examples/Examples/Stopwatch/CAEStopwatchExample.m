@@ -25,6 +25,7 @@
 @property (nonatomic, readwrite, strong) UIButton *startButton;
 
 
+
 @end
 
 
@@ -56,12 +57,12 @@
 
 
 + (NSString *)exampleSubtitle {
-    return @"Timer with date transforms";
+    return @"Uses button to control Timer";
 }
 
 
 + (NSString *)exampleDescription {
-    return @"";
+    return @"This example uses Timer object, calculates elapsed time, and displays it as formatted text and as a circular progress. Total of 6 connections.";
 }
 
 
@@ -125,36 +126,40 @@
     [super setupConnections];
     OCAWeakify(self);
     
+    //TODO: Connections not deallocating.
     
+    /// Make the button start and stop the timer instance.
     [[self.startButton producerForEvent:UIControlEventTouchUpInside]
      subscribeEvents:^{
-         OCAStrongify(self);
+         OCAStrongify(self); //TODO: Get rid of this using OCAInvocation
          
          if (self.timer.isRunning) {
              [self.timer stop];
              self.timer = nil;
          }
          else {
+             /// Create and subscribe to the Timer.
              self.timer = [OCATimer repeat:0.01 owner:self];
-             
              [self.timer subscribeEvents:^{
                  OCAStrongify(self);
-                 self.interval += self.timer.interval * 10;
+                 self.interval += self.timer.interval;
               }];
          }
      }];
     
-    
+    /// Update button based on Timer's state.
     [OCAProperty(self, timer.isRunning, BOOL)
      transform:[OCATransformer yes:@"Stop" no:@"Start"]
      connectTo:[OCAUIKit setTitleOfButton:self.startButton
                           forControlState:UIControlStateNormal]];
     
     
+    /// Update label's text using custom transformer.
     [OCAProperty(self, interval, NSTimeInterval)
      transform:[self transformerFromIntervalToString]
      connectTo:OCAProperty(self.label, text, NSString)];
     
+    /// Calculate clock's progress.
     [OCAProperty(self, interval, NSTimeInterval)
      transform:[OCATransformer sequence:@[
                                           [OCAMath modulus:60],
@@ -162,8 +167,11 @@
                                           ]]
      connectTo:OCAProperty(self, clockProgress, CGFloat)];
     
-    [OCAPropertyChange(self, clockProgress, CGFloat)
+    /// Use clock progress to create the shape and assign it to the layer.
+    [[OCAPropertyChange(self, clockProgress, CGFloat)
+      contextualize:[OCAContext disableImplicitAnimations]]
      transform:[OCATransformer sequence:@[
+                                          /// But before, check whether we made full circle (progress from 1 to 0) and create new layer on top.
                                           [OCATransformer sideEffect:
                                            ^(NSArray *change) {
                                                OCAStrongify(self);
@@ -174,7 +182,7 @@
                                                    [self makeNewClockLayer];
                                                }
                                            }],
-                                          [OCAFoundation objectAtIndex:1],
+                                          [OCAFoundation objectAtIndex:1], // Current value is second in the array.
                                           [self transformerFromProgressToCirclePath],
                                           ]]
      connectTo:OCAProperty(self, clockLayer.path, NSObject)];
@@ -204,22 +212,27 @@
 
 - (void)makeNewClockLayer {
     CAShapeLayer *oldClockLayer = self.clockLayer;
+    // Finish the circle, so there is no gap as it sometimes used to be.
     oldClockLayer.path = (__bridge CGPathRef)[[self transformerFromProgressToCirclePath] transformedValue:@1];
+    {
+        /// Animate the previous circle for two minutes. This creates an effect, that new circles are darker, but after two rounds they fade slowly back to original opacity, so they never get too dark.
+        CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:OCAKP(CALayer, opacity)];
+        animation.duration = 120;
+        animation.fromValue = @1;
+        animation.toValue = @0;
+        animation.fillMode = kCAFillModeBoth;
+        animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionLinear];
+        animation.delegate = self;
+        oldClockLayer.opacity = 0;
+        [oldClockLayer addAnimation:animation forKey:animation.keyPath];
+        //TODO: I should remove the layers from hierarchy.
+    }
     
-    CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:OCAKP(CALayer, opacity)];
-    animation.duration = 12;
-    animation.fromValue = @1;
-    animation.toValue = @0;
-    animation.fillMode = kCAFillModeBoth;
-    animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionLinear];
-    animation.delegate = self;
-    oldClockLayer.opacity = 0;
-    [oldClockLayer addAnimation:animation forKey:animation.keyPath];
-    
+    /// Create new clock layer.
     CAShapeLayer *clockLayer = [[CAShapeLayer alloc] init];
     clockLayer.frame = CGRectMake(20, 84, 280, 280);
-    clockLayer.transform = CATransform3DMakeRotation(-M_PI_2, 0, 0, 1);
-    clockLayer.fillColor = [[self.view.tintColor colorWithAlphaComponent:0.25] CGColor];
+    clockLayer.transform = CATransform3DMakeRotation(-M_PI_2, 0, 0, 1); // Rotate, so 0 angle is up.
+    clockLayer.fillColor = [[self.view.tintColor colorWithAlphaComponent:0.25] CGColor]; // Alpha 0.25, so they multiply.
     [self.view.layer insertSublayer:clockLayer above:self.clockLayer];
     self.clockLayer = clockLayer;
 }
@@ -228,24 +241,29 @@
 - (NSValueTransformer *)transformerFromProgressToCirclePath {
     return [OCATransformer fromClass:[NSNumber class] toClass:nil
                            asymetric:^id(NSNumber *progressNumber) {
+                               
+                               /// Creates path to be used in the clock layer.
                                NSTimeInterval progress = progressNumber.doubleValue;
                                
                                CGFloat outerRadius = 140;
                                CGFloat innerRadius = 110;
-                               CGFloat degrees = progress * 360;
-                               
                                CGPoint center = CGPointMake(outerRadius, outerRadius);
+                               CGFloat degrees = progress * 360;
                                UIBezierPath* path = [UIBezierPath bezierPath];
+                               
+                               // Outer arc.
                                [path addArcWithCenter:center
                                                radius:outerRadius
                                            startAngle:0
                                              endAngle:degrees * M_PI/180
                                             clockwise:YES];
                                
+                               // Line with direction to the center, but only 30 points in length.
                                CGPoint vector = OCAPointSubtractPoint(path.currentPoint, center);
                                vector = OCAPointMultiply(vector, innerRadius / outerRadius);
                                [path addLineToPoint:OCAPointAddPoint(center, vector)];
                                
+                               // Inner arc
                                [path addArcWithCenter:center
                                                radius:innerRadius
                                            startAngle:degrees * M_PI/180
@@ -253,7 +271,6 @@
                                             clockwise:NO];
                                
                                [path closePath];
-                               
                                return (id)path.CGPath;
                            }];
 }

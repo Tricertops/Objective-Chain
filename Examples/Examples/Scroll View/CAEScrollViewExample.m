@@ -183,6 +183,8 @@
     [super setupConnections];
     
     
+    //TODO: Connections not deallocating.
+    
     
     // Flash scroll indicators, when becomes fully visible.
     [[OCAProperty(self, fullyVisible, BOOL)

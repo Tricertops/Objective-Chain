@@ -83,6 +83,8 @@
     [super setupConnections];
     
     
+    //TODO: Connections not deallocating.
+    
     
     // Connect Slider changes to temperature property.
     [[self.slider producerForEvent:UIControlEventValueChanged] // Sends the sender: UISlider instance
