@@ -130,7 +130,6 @@
         }
         else {
             // Repeating timer.
-            NSLog(@"%@: Fire %lu", self.shortDescription, (unsigned long)fire);
             [self produceValue:[NSDate date]];
             fire ++;
         }

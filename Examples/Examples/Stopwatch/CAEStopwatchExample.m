@@ -17,7 +17,7 @@
 
 @property (nonatomic, readwrite, strong) OCATimer *timer;
 
-@property (nonatomic, readwrite, strong) NSDateComponents *components;
+@property (nonatomic, readwrite, assign) NSTimeInterval interval;
 
 @property (nonatomic, readwrite, strong) UILabel *label;
 
@@ -81,16 +81,15 @@
 - (void)setupViews {
     [super setupViews];
     
-    self.components = [self zeroDateComponents];
-    
     self.label = ({
         UILabel *label = [[UILabel alloc] init];
-        label.font = [UIFont fontWithName:@"HelveticaNeue-UltraLight" size:40];
+        label.font = [UIFont fontWithName:@"HelveticaNeue-UltraLight" size:80];
+        label.adjustsFontSizeToFitWidth = YES;
+        label.minimumScaleFactor = 0.5;
         label.textAlignment = NSTextAlignmentCenter;
         label.textColor = [UIColor blackColor];
         label.backgroundColor = [UIColor clearColor];
-        label.numberOfLines = 3;
-        label.frame = CGRectMake(20, 84, 280, label.font.lineHeight * label.numberOfLines);
+        label.frame = CGRectMake(20, 84, 280, label.font.lineHeight);
         
         [self.view addSubview:label];
         label;
@@ -111,49 +110,38 @@
          
          [self.timer stop];
          if (fullyVisible) {
-             self.timer = [OCATimer repeat:1 owner:self];
+             self.timer = [OCATimer repeat:0.01 owner:self];
              
              [self.timer
-              transform:[OCAFoundation dateComponents:(NSCalendarUnitHour | NSCalendarUnitMinute | NSCalendarUnitSecond) sinceDate:[NSDate date]]
-              connectTo:OCAProperty(self, components, NSDateComponents)];
+              transform:[OCAFoundation timeIntervalSinceDate:[NSDate date]]
+              connectTo:OCAProperty(self, interval, NSTimeInterval)];
          }
      }];
     
     
-    [OCAProperty(self, components, NSDateComponents)
-     transform:[OCATransformer sequence:
-                @[
-                  [self transformerFromIntervalToStringComponents],
-                  [OCAFoundation joinWithString:@"\n"],
-                  ]]
+    [OCAProperty(self, interval, NSTimeInterval)
+     transform:[self transformerFromIntervalToString]
      connectTo:OCAProperty(self.label, text, NSString)];
     
 }
 
 
-- (NSDateComponents *)zeroDateComponents {
-    NSDateComponents *components = [[NSDateComponents alloc] init];
-    components.second = 0;
-    components.minute = 0;
-    components.hour = 0;
-    return components;
-}
-
-
-- (NSValueTransformer *)transformerFromIntervalToStringComponents {
-    return [OCATransformer fromClass:[NSDateComponents class] toClass:[NSArray class]
-                    asymetric:^NSArray *(NSDateComponents *components) {
+- (NSValueTransformer *)transformerFromIntervalToString {
+    return [OCATransformer fromClass:[NSNumber class] toClass:[NSString class]
+                    asymetric:^NSString *(NSNumber *intervalNumber) {
+                        NSTimeInterval time = intervalNumber.doubleValue;
                         
-                        NSMutableArray *strings = [[NSMutableArray alloc] init];
-                        void(^appendComponent)(NSUInteger, NSString *) = ^(NSUInteger amount, NSString *name){
-                            [strings addObject:[NSString stringWithFormat:@"%lu %@%@", (unsigned long)amount, name, (amount == 1? @"":@"s")]];
-                        };
+                        NSUInteger hours = floor(time / 3600);
+                        time -= hours * 3600;
+                        NSUInteger minutes = floor(time / 60);
+                        time -= minutes * 60;
+                        NSUInteger seconds = floor(time);
+                        time -= seconds;
+                        NSUInteger fractions = floor(time * 100);
                         
-                        if (components.hour > 0) appendComponent(components.hour, @"hour");
-                        if (components.minute > 0) appendComponent(components.minute, @"minute");
-                        appendComponent(MAX(components.second, 0), @"second");
-                        
-                        return strings;
+                        if (hours) return [NSString stringWithFormat:@"%lu:%02lu:%02lu.%02lu", hours, minutes, seconds, fractions];
+                        else if (minutes) return [NSString stringWithFormat:@"%lu:%02lu.%02lu", minutes, seconds, fractions];
+                        else return [NSString stringWithFormat:@"%lu.%02lu", seconds, fractions];
                     }];
 }
 
