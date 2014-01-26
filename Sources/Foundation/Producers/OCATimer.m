@@ -19,6 +19,7 @@
 
 
 @property (atomic, readwrite, strong) dispatch_source_t timer;
+@property (atomic, readwrite, assign) BOOL isRunning;
 
 
 @end
@@ -141,6 +142,7 @@
     
     NSLog(@"%@: Started", self.shortDescription);
     dispatch_resume(self.timer);
+    self.isRunning = YES;
 }
 
 
@@ -149,6 +151,7 @@
     NSLog(@"%@: Stopped", self.shortDescription);
     dispatch_source_cancel(self.timer);
     self.timer = nil;
+    self.isRunning = NO;
 }
 
 

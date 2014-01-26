@@ -92,11 +92,16 @@
 
 #pragma mark Controlling Timer
 
-//TODO: -pause
-//TODO: -resume
+
+//! Flag whether the receiver didn't stop yet.
+@property (atomic, readonly, assign) BOOL isRunning;
 
 //! Stops the timer and finishes production of values. The timer is internally released and if there is no other strong reference, it is deallocated.
 - (void)stop;
+
+
+//TODO: -pause
+//TODO: -resume
 
 
 
