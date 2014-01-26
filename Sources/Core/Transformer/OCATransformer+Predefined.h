@@ -23,6 +23,7 @@
 + (OCATransformer *)pass;
 + (OCATransformer *)discard;
 + (OCATransformer *)replaceWith:(id)replacement;
++ (OCATransformer *)ifNil:(id)replacement;
 + (OCATransformer *)kindOfClass:(Class)class or:(id)replacement;
 + (OCATransformer *)copy;
 

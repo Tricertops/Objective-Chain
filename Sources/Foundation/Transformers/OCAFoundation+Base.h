@@ -12,6 +12,7 @@
 
 
 //TODO: Register default transformers on class basis?
+//TODO: Check all of them to receive nil.
 
 
 

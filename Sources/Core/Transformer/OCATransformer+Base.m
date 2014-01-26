@@ -65,13 +65,15 @@
 
 
 - (id)transformedValue:(id)value {
-    [OCAObject validateObject:&value ofClass:[self.class valueClass]];
-    if ( ! value) return nil; // Skip nils.
+    BOOL inputValid = [OCAObject validateObject:&value ofClass:[self.class valueClass]];
+    if ( ! inputValid) return nil;
     
     OCATransformerBlock block = self.transformationBlock;
     id transformedValue = (block? block(value) : nil);
     
-    [OCAObject validateObject:&transformedValue ofClass:[self.class transformedValueClass]];
+    BOOL outputValid = [OCAObject validateObject:&transformedValue ofClass:[self.class transformedValueClass]];
+    if ( ! outputValid) return nil;
+    
     return transformedValue;
 }
 
