@@ -196,6 +196,17 @@
 }
 
 
++ (OCATransformer *)yes:(id)yesReplacement no:(id)noReplacement {
+    Class outputClass = [OCAObject valueClassForClasses:@[ [yesReplacement classForKeyedArchiver] ?: [NSNull null],
+                                                           [noReplacement classForKeyedArchiver] ?: [NSNull null] ]];
+    
+    return [[OCATransformer fromClass:[NSNumber class] toClass:outputClass asymetric:^id(NSNumber *input) {
+        return (input.boolValue? yesReplacement : noReplacement);
+        
+    }] describe:[NSString stringWithFormat:@"if yes then %@ else %@", yesReplacement, noReplacement]];
+}
+
+
 
 
 

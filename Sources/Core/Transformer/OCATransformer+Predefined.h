@@ -34,6 +34,7 @@
 + (OCATransformer *)convertTo:(Class)finalClass using:(NSArray *)transformers;
 + (OCATransformer *)repeat:(NSUInteger)count transformer:(NSValueTransformer *)transformer;
 + (OCATransformer *)if:(NSPredicate *)predicate then:(NSValueTransformer *)thenTransformer else:(NSValueTransformer *)elseTransformer;
++ (OCATransformer *)yes:(id)replacement no:(id)replacement;
 
 
 #pragma mark Accessors
