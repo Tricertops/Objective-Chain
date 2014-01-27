@@ -66,8 +66,10 @@
         self->_endDate = [endDate laterDate:self->_startDate]; // Not earlier that startDate.
         
         [owner.decomposer addOwnedObject:self cleanup:^(__unsafe_unretained id owner) {
-            NSLog(@"%@: Owner deallocated", self.shortDescription);
-            [self stop];
+            if (self.timer) {
+                NSLog(@"%@: Owner deallocated", self.shortDescription);
+                [self stop];
+            }
         }];
         
         [self start];
@@ -148,10 +150,17 @@
 
 - (void)stop {
     if ( ! self.timer) return;
+    
     NSLog(@"%@: Stopped", self.shortDescription);
     dispatch_source_cancel(self.timer);
     self.timer = nil;
+    [[self.owner decomposer] removeOwnedObject:self];
     self.isRunning = NO;
+}
+
+
+- (void)dealloc {
+    NSLog(@"%@: Deallocated", self.shortDescription);
 }
 
 
