@@ -189,7 +189,7 @@
                                            OCAStrongify(self);
                                            if (self) {
                                                [[[UIAlertView alloc] initWithTitle:@"Memory Leak"
-                                                                          message:[NSString stringWithFormat:@"%@ was not deallocated after being popped!", class]
+                                                                          message:[NSString stringWithFormat:@"“%@” example was not deallocated after being popped!", [class exampleTitle]]
                                                                          delegate:nil
                                                                 cancelButtonTitle:@"Oh 💩!"
                                                                 otherButtonTitles:nil] show];

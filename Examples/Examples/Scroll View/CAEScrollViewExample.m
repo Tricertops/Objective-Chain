@@ -181,7 +181,7 @@
 
 - (void)setupConnections {
     [super setupConnections];
-    
+    OCAWeakify(self);
     
     //TODO: Connections not deallocating.
     
@@ -190,6 +190,7 @@
     [[OCAProperty(self, fullyVisible, BOOL)
      filter:[OCAPredicate isTrue]] // Passes only YES values.
      subscribeEvents:^{ // Not interested in values.
+         OCAStrongify(self);
          [self.scrollView flashScrollIndicators];
      }];
     
@@ -231,6 +232,7 @@
     // Transformer for calculation of scroll progress. Content insets are tricky.
     NSValueTransformer *scrollProgressFromContentOffset = [OCAMath transform:
                                                            ^OCAReal(OCAReal offset) {
+                                                               OCAStrongify(self);
                                                                CGFloat realOffset = offset + self.scrollView.contentInset.top;
                                                                CGFloat maxOffset = (self.scrollView.contentSize.height
                                                                                     - self.scrollView.bounds.size.height
