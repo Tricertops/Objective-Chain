@@ -1,22 +1,22 @@
 //
-//  OCAFoundation+Collections.h
+//  OCATransformer+Collections.h
 //  Objective-Chain
 //
 //  Created by Martin Kiss on 10.1.14.
 //  Copyright (c) 2014 Martin Kiss. All rights reserved.
 //
 
-#import "OCAFoundation+Base.h"
+#import "OCATransformer+Base.h"
 
 
 
 
 
-@interface OCAFoundation (Collections)
+@interface OCATransformer (Collections)
 
 
 
-+ (OCATransformer *)count;
++ (OCATransformer *)countCollection;
 
 
 

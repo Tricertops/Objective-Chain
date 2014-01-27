@@ -1,23 +1,59 @@
 //
-//  OCAFoundation.h
+//  ObjectiveChain.h
 //  Objective-Chain
 //
-//  Created by Martin Kiss on 5.1.14.
-//  Copyright (c) 2014 Martin Kiss. All rights reserved.
+//  Created by Martin Kiss on 30.12.13.
+//  Copyright © 2014 Martin Kiss. All rights reserved.
 //
 
 
 
-#import "OCAProperty.h"
-#import "OCATimer.h"
-#import "OCANotificator.h"
-#import "OCAInvoker.h"
+/// Producers
 
-#import "OCAFoundation+Base.h"
-#import "OCAFoundation+Collections.h"
-#import "OCAFoundation+Strings.h"
-#import "OCAFoundation+Data.h"
-#import "OCAFoundation+Dates.h"
-#import "OCAMath.h"
+#import "OCAProducer.h"
+#import "OCACommand.h"
+#import "OCAHub.h"
+#import "OCAProperty.h"
+#import "OCAInvoker.h"
+#import "OCANotificator.h"
+#import "OCATimer.h"
+
+
+/// Mediators
+
+#import "OCAMediator.h"
+#import "OCABridge.h"
+#import "OCAContext.h"
+#import "OCAFilter.h"
+
+
+/// Consumers
+
+#import "OCAConsumer.h"
+#import "OCASubscriber.h"
+#import "OCAMulticast.h"
+
+
+/// Transformers
+
+#import "OCATransformer.h"
+
+
+/// Predicates
+
+#import "OCAPredicate.h"
+
+
+/// Utilities
+
+#import "OCAKeyPathAccessor.h"
+#import "OCAStructureAccessor.h"
+
+#import "OCAQueue.h"
+#import "OCASemaphore.h"
+
+#import "NSValue+Boxing.h"
+#import "NSArray+Ordinals.h"
+#import "OCADecomposer.h"
 
 

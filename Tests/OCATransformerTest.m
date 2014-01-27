@@ -143,7 +143,7 @@
                                                    return [input componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
                                                }] describe:@"split words"];
     
-    OCATransformer *countWords = [OCATransformer sequence:@[ toWords, [OCAFoundation count] ]];
+    OCATransformer *countWords = [OCATransformer sequence:@[ toWords, [OCATransformer countCollection] ]];
     
     XCTAssertEqualObjects([countWords.class valueClass], [NSString class], @"Sequence has mismatched input class.");
     XCTAssertEqualObjects([countWords.class transformedValueClass], [NSNumber class], @"Sequence has mismatched output class.");
@@ -241,14 +241,14 @@
 
 
 - (void)test_predefinedNonNull {
-    OCATransformer *t = [OCATransformer ifNil:@"A"];
+    OCATransformer *t = [OCATransformer replaceNil:@"A"];
     XCTAssertEqualObjects([t transformedValue:@"B"], @"B");
     XCTAssertNotNil([t transformedValue:nil]);
 }
 
 
 - (void)test_predefinedMap_NSDictionary {
-    OCATransformer *t = [OCAFoundation map:@{
+    OCATransformer *t = [OCATransformer map:@{
                                              @"A": @1,
                                              @"B": @4,
                                              @"C": @8,
@@ -267,7 +267,6 @@
     XCTAssertEqualObjects([t.class transformedValueClass], [NSString class], @"Output class should be detected.");
     XCTAssertEqualObjects([t transformedValue:@"test"], @"test");
     XCTAssertEqualObjects([t transformedValue:@42], @"a");
-    XCTAssertNil([t transformedValue:nil]);
 }
 
 

@@ -1,18 +1,18 @@
 //
-//  OCAFoundation+Dates.m
+//  OCATransformer+NSDate.m
 //  Objective-Chain
 //
 //  Created by Martin Kiss on 10.1.14.
 //  Copyright (c) 2014 Martin Kiss. All rights reserved.
 //
 
-#import "OCAFoundation+Dates.h"
+#import "OCATransformer+NSDate.h"
 
 
 
 
 
-@implementation OCAFoundation (Dates)
+@implementation OCATransformer (NSDate)
 
 
 
@@ -48,7 +48,7 @@
 
 
 + (OCATransformer *)timeIntervalSinceUNIX:(BOOL)unix {
-    return [[OCAFoundation dateFromTimeIntervalSinceUNIX:unix] reversed];
+    return [[OCATransformer dateFromTimeIntervalSinceUNIX:unix] reversed];
 }
 
 
@@ -108,7 +108,7 @@
     formatter.locale = [[NSLocale alloc] initWithLocaleIdentifier:@"en_US_POSIX"];
     formatter.dateFormat = dateFormat;
     
-    return [[OCAFoundation dateWithFormatter:formatter]
+    return [[OCATransformer dateWithFormatter:formatter]
             describe:[NSString stringWithFormat:@"parse POSIX date “%@”", dateFormat]
             reverse:[NSString stringWithFormat:@"format POSIX date “%@”", dateFormat]];
 }
@@ -121,7 +121,7 @@
 
 
 + (OCATransformer *)stringWithDateFormatter:(NSDateFormatter *)formatter {
-    return [[OCAFoundation dateWithFormatter:formatter] reversed];
+    return [[OCATransformer dateWithFormatter:formatter] reversed];
 }
 
 
@@ -129,7 +129,7 @@
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     formatter.dateFormat = dateFormat;
     
-    return [OCAFoundation stringWithDateFormatter:formatter];
+    return [OCATransformer stringWithDateFormatter:formatter];
 }
 
 
@@ -138,7 +138,7 @@
     formatter.dateStyle = dateStyle;
     formatter.timeStyle = timeStyle;
     
-    return [OCAFoundation stringWithDateFormatter:formatter];
+    return [OCATransformer stringWithDateFormatter:formatter];
 }
 
 

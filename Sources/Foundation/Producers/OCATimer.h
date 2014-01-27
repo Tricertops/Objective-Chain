@@ -7,8 +7,7 @@
 //
 
 #import "OCAProducer.h"
-
-@class OCAQueue;
+#import "OCAQueue.h"
 
 
 

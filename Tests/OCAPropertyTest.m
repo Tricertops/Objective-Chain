@@ -117,7 +117,7 @@
                                                         }],
                                                        ]];
     [[combined
-      produceTransformed:@[ [OCAFoundation joinWithString:@" "] ]]
+      produceTransformed:@[ [OCATransformer joinWithString:@" "] ]]
      consumeBy:consumer];
     
     self.lastName = @"Me";
@@ -172,8 +172,8 @@
     [OCAPropertyChange(self, firstName, NSString)
      subscribe:[NSArray class]
      handler:^(NSArray *change) {
-         old = change.first;
-         new = change.second;
+         old = [change oca_valueAtIndex:0];
+         new = [change oca_valueAtIndex:1];
      }];
     
     XCTAssertNil(old);

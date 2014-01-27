@@ -88,7 +88,24 @@
       produceTransformed:@[ [OCATransformer access:OCAKeyPath(UISlider, value, float)] ]] // Get `value` property of sender.
      consumeBy:OCAProperty(self, temperature, float)];
     
-    
+    /*
+     sendWhen:property passes:predicate
+     
+     - Timer
+     sendDates
+     sendInterval (default)
+     sendIntervalFromDate:date
+     
+     - Property
+     sendChanges (default)
+     sendLatest
+     
+     - Notification
+     sendNotification (default)
+     sendSender
+     sendInfoValueForKey:
+     
+     */
     
     // Connect Stepper changes to temperature property.
     [[[self.stepper producerForEvent:UIControlEventValueChanged] // Sends the sender: UIStepper instance

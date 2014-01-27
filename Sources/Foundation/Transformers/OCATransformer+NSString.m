@@ -1,20 +1,22 @@
 //
-//  OCAFoundation+Strings.m
+//  OCATransformer+NSString.m
 //  Objective-Chain
 //
 //  Created by Martin Kiss on 10.1.14.
 //  Copyright (c) 2014 Martin Kiss. All rights reserved.
 //
 
-#import "OCAFoundation+Strings.h"
-#import "OCAFoundation+Data.h"
-#import "OCAFoundation+Collections.h"
+#import "OCATransformer+NSString.h"
+#import "OCATransformer+NSData.h"
+#import "OCATransformer+Collections.h"
+#import "NSArray+Ordinals.h"
+#import "OCAObject.h"
 
 
 
 
 
-@implementation OCAFoundation (Strings)
+@implementation OCATransformer (NSString)
 
 
 
@@ -39,7 +41,7 @@
 
 
 + (OCATransformer *)stringFromData {
-    return [[OCAFoundation dataFromString] reversed];
+    return [[OCATransformer dataFromString] reversed];
 }
 
 
@@ -102,7 +104,7 @@
 
 
 + (OCATransformer *)appendFormat:(NSString *)format, ... NS_FORMAT_FUNCTION(1, 2) {
-    NSString *string = NSStringFromFormat(format);
+    NSString *string = OCAStringFromFormat(format);
     return [[OCATransformer fromClass:[NSString class] toClass:[NSString class]
                            asymetric:^NSString *(NSString *input) {
                                
@@ -147,7 +149,7 @@
 
 
 + (OCATransformer *)splitString:(NSString *)split {
-    return [[OCAFoundation joinWithString:split] reversed];
+    return [[OCATransformer joinWithString:split] reversed];
 }
 
 
@@ -321,7 +323,7 @@
                                   @(NSNumberFormatterScientificStyle): @"format scientific number",
                                   @(NSNumberFormatterSpellOutStyle): @"spell out number",
                                   };
-    return [[OCAFoundation stringWithNumberFormatter:formatter]
+    return [[OCATransformer stringWithNumberFormatter:formatter]
             describe:[nameByStyle objectForKey:@(style)]];
 }
 
@@ -350,7 +352,7 @@
 + (OCATransformer *)stringWithMemoryByteCount {
     NSByteCountFormatter *formatter = [[NSByteCountFormatter alloc] init];
     formatter.countStyle = NSByteCountFormatterCountStyleMemory;
-    return [[OCAFoundation stringWithByteCountFormatter:formatter]
+    return [[OCATransformer stringWithByteCountFormatter:formatter]
             describe:@"format memory size"];
 }
 
@@ -358,7 +360,7 @@
 + (OCATransformer *)stringWithFileByteCount {
     NSByteCountFormatter *formatter = [[NSByteCountFormatter alloc] init];
     formatter.countStyle = NSByteCountFormatterCountStyleMemory;
-    return [[OCAFoundation stringWithByteCountFormatter:formatter]
+    return [[OCATransformer stringWithByteCountFormatter:formatter]
             describe:@"format file size"];
 }
 
@@ -380,7 +382,7 @@
 
 
 + (OCATransformer *)numberWithFormatter:(NSNumberFormatter *)formatter {
-    return [[OCAFoundation stringWithNumberFormatter:formatter] reversed];
+    return [[OCATransformer stringWithNumberFormatter:formatter] reversed];
 }
 
 

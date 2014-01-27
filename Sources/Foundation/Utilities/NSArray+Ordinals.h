@@ -15,18 +15,16 @@
 @interface NSArray (Ordinals)
 
 
-
-- (id)valueAtIndex:(NSInteger)index;
-
-- (id)first;
-- (id)second;
-- (id)third;
-- (id)fourth;
-- (id)fifth;
-- (id)sixth;
-
-- (id)last;
-
+- (id)oca_valueAtIndex:(NSInteger)index;
 
 
 @end
+
+
+
+
+
+extern NSUInteger OCANormalizeIndex(NSInteger index, NSUInteger length);
+extern NSRange OCANormalizeRange(NSRange range, NSUInteger length);
+
+

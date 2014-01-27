@@ -7,7 +7,6 @@
 //
 
 #import "OCAProducer.h"
-#import "OCAConsumer.h"
 
 
 //TODO: OCACondition subclass

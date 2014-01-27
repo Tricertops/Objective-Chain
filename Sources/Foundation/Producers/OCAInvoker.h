@@ -8,7 +8,6 @@
 
 #import "OCAObject.h"
 #import "OCAConsumer.h"
-#import "OCAInvocationCatcher.h"
 #import "OCAProducer.h"
 
 

@@ -7,7 +7,7 @@
 //
 
 #import "OCAObject.h"
-@protocol OCAConsumer;
+#import "OCAConsumer.h"
 
 
 

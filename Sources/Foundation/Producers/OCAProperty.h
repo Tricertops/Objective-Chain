@@ -7,7 +7,6 @@
 //
 
 #import "OCAProducer.h"
-#import "OCAConsumer.h"
 #import "OCAKeyPathAccessor.h"
 
 

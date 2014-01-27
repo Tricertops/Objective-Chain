@@ -1,18 +1,19 @@
 //
-//  OCATransformer+Predefined.m
+//  OCATransformer+Core.m
 //  Objective-Chain
 //
 //  Created by Martin Kiss on 31.12.13.
 //  Copyright © 2014 Martin Kiss. All rights reserved.
 //
 
-#import "OCATransformer+Predefined.h"
+#import "OCATransformer+Core.h"
+#import "OCAPredicate.h"
 
 
 
 
 
-@implementation OCATransformer (Predefined)
+@implementation OCATransformer (Core)
 
 
 
@@ -41,28 +42,144 @@
 }
 
 
-+ (OCATransformer *)ifNil:(id)replacement {
-    return [[OCATransformer fromClass:nil toClass:nil transform:^id(id input) {
-        return input ?: replacement;
+
+
+
+#pragma mark Conditions
+
+
++ (OCATransformer *)if:(NSPredicate *)predicate then:(NSValueTransformer *)thenTransformer else:(NSValueTransformer *)elseTransformer {
+    Class inputClass = [OCAObject valueClassForClasses:@[ [thenTransformer.class valueClass] ?: [NSNull null],
+                                                          [elseTransformer.class valueClass] ?: [NSNull null] ]];
+    Class outputClass = [OCAObject valueClassForClasses:@[ [thenTransformer.class transformedValueClass] ?: [NSNull null],
+                                                           [elseTransformer.class transformedValueClass] ?: [NSNull null] ]];
+    
+    return [[OCATransformer fromClass:inputClass toClass:outputClass transform:^id(id input) {
+        BOOL condition = ( ! predicate || [predicate evaluateWithObject:input]);
+        if (condition)
+            return [thenTransformer transformedValue:input];
+        else
+            return (elseTransformer ? [elseTransformer transformedValue:input] : input);
     } reverse:OCATransformationPass]
-            describe:[NSString stringWithFormat:@"nil replace with %@", replacement]];
+            describe:[NSString stringWithFormat:@"if (%@) then %@ else %@", predicate, thenTransformer, elseTransformer ?: @"pass"]];
+}
+
+
++ (OCATransformer *)passesPredicate:(NSPredicate *)predicate or:(id)replacement {
+    return [OCATransformer if:predicate
+            then:[OCATransformer pass]
+            else:[OCATransformer replaceWith:replacement]];
+}
+
+
++ (OCATransformer *)replaceNil:(id)replacement {
+    return [OCATransformer if:[OCAPredicate isNil]
+            then:[OCATransformer replaceWith:replacement]
+            else:[OCATransformer pass]];
 }
 
 
 + (OCATransformer *)kindOfClass:(Class)class or:(id)replacement {
-    Class commonClass = [replacement classForKeyedArchiver];
-    while (commonClass) {
-        if ([class isSubclassOfClass:commonClass]) break;
-        commonClass = [commonClass superclass];
-    }
-    
-    return [[OCATransformer fromClass:nil toClass:commonClass asymetric:^id(id input) {
-        return ( ! input || [input isKindOfClass:class]? input : replacement);
-    }] describe:[NSString stringWithFormat:@"kind of %@ or %@", class, replacement]];
+    return [OCATransformer if:[OCAPredicate isKindOf:class]
+            then:[[OCATransformer pass] specializeFromClass:nil toClass:class]
+            else:[OCATransformer replaceWith:replacement]];
 }
 
 
-+ (OCATransformer *)copy {
++ (OCATransformer *)ifTrue:(id)yesReplacement else:(id)noReplacement {
+    return [OCATransformer map:@{
+                                 @YES: yesReplacement ?: NSNull.null,
+                                 @NO: noReplacement ?: NSNull.null,
+                                 }];
+}
+
+
+
+
+
+#pragma mark Boolean
+
+
++ (OCATransformer *)evaluatePredicate:(NSPredicate *)predicate {
+    return [OCATransformer if:predicate
+            then:[OCATransformer replaceWith:@YES]
+            else:[OCATransformer replaceWith:@NO]];
+}
+
+
++ (OCATransformer *)negateBoolean {
+    return [OCATransformer if:[OCAPredicate isTrue]
+            then:[OCATransformer replaceWith:@NO]
+            else:[OCATransformer replaceWith:@YES]];
+}
+
+
+
+
+
+#pragma mark Accessors
+
+
++ (OCATransformer *)access:(OCAAccessor *)accessor {
+    return [[OCATransformer fromClass:accessor.objectClass toClass:accessor.valueClass
+                            asymetric:^id(id input) {
+                                return [accessor accessObject:input];
+                            }]
+            describe:accessor.description];
+}
+
+
++ (OCATransformer *)modify:(OCAAccessor *)accessor value:(id)value {
+    return [[OCATransformer fromClass:accessor.objectClass toClass:accessor.objectClass
+                             symetric:^id(id input) {
+                                 return [accessor modifyObject:input withValue:value];
+                             }]
+            describe:[NSString stringWithFormat:@"%@ = %@", accessor, value]];
+}
+
+
++ (OCATransformer *)modify:(OCAAccessor *)accessor transformer:(NSValueTransformer *)transformer {
+    return [[OCATransformer fromClass:accessor.objectClass toClass:accessor.objectClass
+                            transform:^id(id input) {
+                                
+                                id value = [accessor accessObject:input];
+                                value = [transformer transformedValue:value];
+                                return [accessor modifyObject:input withValue:value];
+                                
+                            } reverse:^id(id input) {
+                                id value = [accessor accessObject:input];
+                                value = [transformer reverseTransformedValue:value];
+                                return [accessor modifyObject:input withValue:value];
+                            }]
+            describe:[NSString stringWithFormat:@"transform %@ using %@", accessor, transformer]
+            reverse:[NSString stringWithFormat:@"transform %@ using %@", accessor, [transformer reversed]]];
+}
+
+
++ (OCATransformer *)evaluateExpression:(NSExpression *)expression {
+    return [[OCATransformer fromClass:nil toClass:nil asymetric:^id(id input) {
+        return [expression expressionValueWithObject:input context:nil];
+    }]
+            describe:[NSString stringWithFormat:@"evaluate “%@”", expression]];
+}
+
+
++ (OCATransformer *)map:(NSDictionary *)dictionary {
+    // Using classForKeyedArchiver, because __NSCFString is not very friendly class.
+    Class inputClass = [OCAObject valueClassForClasses:[dictionary.allKeys valueForKey:OCAKP(NSObject, classForKeyedArchiver)]];
+    Class outputClass = [OCAObject valueClassForClasses:[dictionary.allValues valueForKey:OCAKP(NSObject, classForKeyedArchiver)]];
+    
+    return [[OCATransformer fromClass:inputClass toClass:outputClass transform:^id(id input) {
+        return [dictionary objectForKey:input];
+    } reverse:^id(id input){
+        return [[dictionary allKeysForObject:input] firstObject];
+    }]
+            describe:[NSString stringWithFormat:@"map %@ pairs from %@ to %@", @(dictionary.count), inputClass ?: @"various", outputClass ?: @"various"]
+            reverse:[NSString stringWithFormat:@"map %@ pairs from %@ to %@", @(dictionary.count), outputClass ?: @"various", inputClass ?: @"various"]];
+}
+
+
++ (OCATransformer *)makeCopy {
     return [[OCATransformer fromClass:nil toClass:nil symetric:^id(id input) {
         if ([input conformsToProtocol:@protocol(NSCopying)]) return [input copy];
         else return nil;
@@ -180,70 +297,6 @@
 }
 
 
-+ (OCATransformer *)if:(NSPredicate *)predicate then:(NSValueTransformer *)thenTransformer else:(NSValueTransformer *)elseTransformer {
-    Class inputClass = [OCAObject valueClassForClasses:@[ [thenTransformer.class valueClass] ?: [NSNull null],
-                                                          [elseTransformer.class valueClass] ?: [NSNull null] ]];
-    Class outputClass = [OCAObject valueClassForClasses:@[ [thenTransformer.class transformedValueClass] ?: [NSNull null],
-                                                           [elseTransformer.class transformedValueClass] ?: [NSNull null] ]];
-    
-    return [[OCATransformer fromClass:inputClass toClass:outputClass asymetric:^id(id input) {
-        BOOL condition = ( ! predicate || [predicate evaluateWithObject:input]);
-        if (condition)
-            return [thenTransformer transformedValue:input];
-        else
-            return (elseTransformer ? [elseTransformer transformedValue:input] : input);
-    }] describe:[NSString stringWithFormat:@"if (%@) then %@ else %@", predicate, thenTransformer, elseTransformer ?: @"pass"]];
-}
-
-
-+ (OCATransformer *)yes:(id)yesReplacement no:(id)noReplacement {
-    Class outputClass = [OCAObject valueClassForClasses:@[ [yesReplacement classForKeyedArchiver] ?: [NSNull null],
-                                                           [noReplacement classForKeyedArchiver] ?: [NSNull null] ]];
-    
-    return [[OCATransformer fromClass:[NSNumber class] toClass:outputClass asymetric:^id(NSNumber *input) {
-        return (input.boolValue? yesReplacement : noReplacement);
-        
-    }] describe:[NSString stringWithFormat:@"if yes then %@ else %@", yesReplacement, noReplacement]];
-}
-
-
-
-
-
-#pragma mark Struct Accessors
-
-
-+ (OCATransformer *)access:(OCAAccessor *)accessor {
-    return [[OCATransformer fromClass:accessor.objectClass toClass:accessor.valueClass asymetric:^id(id input) {
-        return [accessor accessObject:input];
-    }]
-            describe:accessor.description];
-}
-
-
-+ (OCATransformer *)modify:(OCAAccessor *)accessor value:(id)value {
-    return [[OCATransformer fromClass:accessor.objectClass toClass:accessor.objectClass symetric:^id(id input) {
-        return [accessor modifyObject:input withValue:value];
-    }]
-            describe:[NSString stringWithFormat:@"%@ = %@", accessor, value]];
-}
-
-
-+ (OCATransformer *)modify:(OCAAccessor *)accessor transformer:(NSValueTransformer *)transformer {
-    return [[OCATransformer fromClass:accessor.objectClass toClass:accessor.objectClass transform:^id(id input) {
-        id value = [accessor accessObject:input];
-        value = [transformer transformedValue:value];
-        return [accessor modifyObject:input withValue:value];
-    } reverse:^id(id input) {
-        id value = [accessor accessObject:input];
-        value = [transformer reverseTransformedValue:value];
-        return [accessor modifyObject:input withValue:value];
-    }]
-            describe:[NSString stringWithFormat:@"transform %@ using %@", accessor, transformer]
-            reverse:[NSString stringWithFormat:@"transform %@ using %@", accessor, [transformer reversed]]];
-}
-
-
 
 
 
@@ -258,10 +311,10 @@
 }
 
 
-+ (OCATransformer *)debugPrintWithMarker:(NSString *)marker {
++ (OCATransformer *)debugPrintWithPrefix:(NSString *)prefix {
     return [[OCATransformer sideEffect:^(id value) {
-        NSLog(@"%@: %@", marker ?: @"Debug", value);
-    }] describe:[NSString stringWithFormat:@"[debug print “%@”]", marker]];
+        NSLog(@"%@: %@", prefix ?: @"Debug", value);
+    }] describe:[NSString stringWithFormat:@"[debug print “%@”]", prefix]];
 }
 
 

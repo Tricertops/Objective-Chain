@@ -1,18 +1,19 @@
 //
-//  OCAFoundation+Data.m
+//  OCATransformer+NSData.m
 //  Objective-Chain
 //
 //  Created by Martin Kiss on 10.1.14.
 //  Copyright (c) 2014 Martin Kiss. All rights reserved.
 //
 
-#import "OCAFoundation+Data.h"
+#import "OCATransformer+NSData.h"
+#import "NSArray+Ordinals.h"
 
 
 
 
 
-@implementation OCAFoundation (Data)
+@implementation OCATransformer (NSData)
 
 
 
@@ -93,7 +94,7 @@
 
 
 + (OCATransformer *)unarchive {
-    return [[OCAFoundation archiveBinary:YES] reversed];
+    return [[OCATransformer archiveBinary:YES] reversed];
 }
 
 
@@ -230,7 +231,7 @@
 
 
 + (OCATransformer *)encodeBase64Data {
-    return [[OCAFoundation decodeBase64Data] reversed];
+    return [[OCATransformer decodeBase64Data] reversed];
 }
 
 

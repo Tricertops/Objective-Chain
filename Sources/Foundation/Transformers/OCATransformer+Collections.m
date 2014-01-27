@@ -1,25 +1,26 @@
 //
-//  OCAFoundation+Collections.m
+//  OCATransformer+Collections.m
 //  Objective-Chain
 //
 //  Created by Martin Kiss on 10.1.14.
 //  Copyright (c) 2014 Martin Kiss. All rights reserved.
 //
 
-#import "OCAFoundation+Collections.h"
+#import "OCATransformer+Collections.h"
 #import "NSArray+Ordinals.h"
+#import "NSValue+Boxing.h"
 
 
 
 
 
-@implementation OCAFoundation (Collections)
+@implementation OCATransformer (Collections)
 
 
 
 
 
-+ (OCATransformer *)count {
++ (OCATransformer *)countCollection {
     return [[OCATransformer fromClass:nil toClass:[NSNumber class]
                             asymetric:^id(id input) {
                                 
@@ -232,7 +233,7 @@
 
 
 + (OCATransformer *)randomizeArray {
-    return [[OCAFoundation mutateArray:^(NSMutableArray *array) {
+    return [[OCATransformer mutateArray:^(NSMutableArray *array) {
         for (NSUInteger sourceIndex = 1; sourceIndex < array.count; sourceIndex++) {
             
             NSUInteger destinationRange = array.count - sourceIndex;
@@ -246,7 +247,7 @@
 
 
 + (OCATransformer *)removeNullsFromArray {
-    return [[OCAFoundation mutateArray:^(NSMutableArray *array) {
+    return [[OCATransformer mutateArray:^(NSMutableArray *array) {
         [array removeObjectIdenticalTo:[NSNull null]];
     }]
             describe:@"remove nulls"];
@@ -274,7 +275,7 @@
     return [[OCATransformer fromClass:[NSArray class] toClass:nil
                             asymetric:^id(NSArray *input) {
                                 
-                                return [input valueAtIndex:index];
+                                return [input oca_valueAtIndex:index];
                             }]
             describe:[NSString stringWithFormat:@"index %@", @(index)]];
 }
@@ -355,7 +356,7 @@
                                NSMutableDictionary *output = [[NSMutableDictionary alloc] init];
                                NSUInteger index = 0;
                                for (id key in keys) {
-                                   id value = [input valueAtIndex:index];
+                                   id value = [input oca_valueAtIndex:index];
                                    if (value) {
                                        [output setObject:value forKey:keys];
                                    }
