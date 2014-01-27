@@ -6,14 +6,13 @@
 //  Copyright (c) 2014 Martin Kiss. All rights reserved.
 //
 
-#import "OCAProducer.h"
-#import "OCAConsumer.h"
+#import "OCAMediator.h"
 
 
 
 
 
-@interface OCABridge : OCAProducer < OCAConsumer >
+@interface OCABridge : OCAMediator
 
 
 

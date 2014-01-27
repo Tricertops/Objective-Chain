@@ -6,8 +6,7 @@
 //  Copyright (c) 2014 Martin Kiss. All rights reserved.
 //
 
-#import "OCAProducer.h"
-#import "OCAConsumer.h"
+#import "OCAMediator.h"
 #import "OCAProperty.h"
 #import "OCAQueue.h"
 
@@ -21,7 +20,7 @@ extern OCAContextDefinitionBlock const OCAContextDefaultDefinitionBlock;
 
 
 
-@interface OCAContext : OCAProducer <OCAConsumer>
+@interface OCAContext : OCAMediator
 
 
 

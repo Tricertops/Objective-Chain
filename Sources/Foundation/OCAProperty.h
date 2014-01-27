@@ -57,6 +57,8 @@ typedef enum : NSUInteger {
 
 @property (atomic, readwrite, weak) id value;
 
+//TODO: -sendLatest
+//TODO: -sendChanges
 
 #pragma mark Binding Properties
 

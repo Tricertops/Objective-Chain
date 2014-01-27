@@ -18,6 +18,7 @@
 #import "OCASubscriber.h"
 #import "OCAMulticast.h"
 
+#import "OCAMediator.h"
 #import "OCABridge.h"
 #import "OCAContext.h"
 #import "OCAFilter.h"

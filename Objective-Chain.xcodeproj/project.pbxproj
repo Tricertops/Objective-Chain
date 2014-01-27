@@ -142,6 +142,9 @@
 		5BA548DC18966A090050288D /* OCAInvoker.h in Headers */ = {isa = PBXBuildFile; fileRef = 5BA548DA18966A090050288D /* OCAInvoker.h */; };
 		5BA548DD18966A090050288D /* OCAInvoker.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BA548DB18966A090050288D /* OCAInvoker.m */; };
 		5BA548DE18966A090050288D /* OCAInvoker.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BA548DB18966A090050288D /* OCAInvoker.m */; };
+		5BA548E91896F7640050288D /* OCAMediator.h in Headers */ = {isa = PBXBuildFile; fileRef = 5BA548E71896F7640050288D /* OCAMediator.h */; };
+		5BA548EA1896F7640050288D /* OCAMediator.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BA548E81896F7640050288D /* OCAMediator.m */; };
+		5BA548EB1896F7640050288D /* OCAMediator.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BA548E81896F7640050288D /* OCAMediator.m */; };
 		5BA8A6451875BD950012BA5D /* OCAMathTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BA8A6441875BD950012BA5D /* OCAMathTest.m */; };
 		5BA8A6461875BD950012BA5D /* OCAMathTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BA8A6441875BD950012BA5D /* OCAMathTest.m */; };
 		5BAB04751886A38600882AC4 /* OCAActionTarget.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BAB04741886A38600882AC4 /* OCAActionTarget.m */; };
@@ -291,6 +294,8 @@
 		5BA548D6189668A10050288D /* OCAInvocationCatcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCAInvocationCatcher.m; sourceTree = "<group>"; };
 		5BA548DA18966A090050288D /* OCAInvoker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCAInvoker.h; sourceTree = "<group>"; };
 		5BA548DB18966A090050288D /* OCAInvoker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCAInvoker.m; sourceTree = "<group>"; };
+		5BA548E71896F7640050288D /* OCAMediator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCAMediator.h; sourceTree = "<group>"; };
+		5BA548E81896F7640050288D /* OCAMediator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCAMediator.m; sourceTree = "<group>"; };
 		5BA8A6441875BD950012BA5D /* OCAMathTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCAMathTest.m; sourceTree = "<group>"; };
 		5BAB04731886A38600882AC4 /* OCAActionTarget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCAActionTarget.h; sourceTree = "<group>"; };
 		5BAB04741886A38600882AC4 /* OCAActionTarget.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCAActionTarget.m; sourceTree = "<group>"; };
@@ -587,6 +592,8 @@
 		5B773BC71886F68400C4DF48 /* Bridges */ = {
 			isa = PBXGroup;
 			children = (
+				5BA548E71896F7640050288D /* OCAMediator.h */,
+				5BA548E81896F7640050288D /* OCAMediator.m */,
 				5B773BC91886F68400C4DF48 /* OCABridge.h */,
 				5B773BCA1886F68400C4DF48 /* OCABridge.m */,
 				5B773BFA1887F06400C4DF48 /* OCAContext.h */,
@@ -680,6 +687,7 @@
 				5B2F2FE01881DA7D0028367B /* OCAMath.h in Headers */,
 				5B2F3017188403330028367B /* OCAGeometry+EdgeInsets.h in Headers */,
 				5B2F2FAC1881D9510028367B /* OCASemaphore.h in Headers */,
+				5BA548E91896F7640050288D /* OCAMediator.h in Headers */,
 				5B773BF71887F05700C4DF48 /* OCAProperty.h in Headers */,
 				5B2F2FFE188402A10028367B /* OCAGeometry.h in Headers */,
 				5B773C0F18882B6100C4DF48 /* OCAObject.h in Headers */,
@@ -824,6 +832,7 @@
 			files = (
 				5B773C1118882B6100C4DF48 /* OCAObject.m in Sources */,
 				5B2F2FD11881D9510028367B /* OCAFoundation+Data.m in Sources */,
+				5BA548EB1896F7640050288D /* OCAMediator.m in Sources */,
 				5B2F2FD71881D9510028367B /* OCAFoundation+Strings.m in Sources */,
 				5B2F2F951881D9510028367B /* OCACommand.m in Sources */,
 				5B2F2FAE1881D9510028367B /* OCASemaphore.m in Sources */,
@@ -908,6 +917,7 @@
 				5B2F3009188402DC0028367B /* OCAGeometry+Base.m in Sources */,
 				5B2F2F811881D9510028367B /* OCAMulticast.m in Sources */,
 				5B773BDE1886F69900C4DF48 /* OCAKeyPathAccessor.m in Sources */,
+				5BA548EA1896F7640050288D /* OCAMediator.m in Sources */,
 				5B2F3013188403140028367B /* OCAGeometry+Rectanges.m in Sources */,
 				5B2F301D1884034B0028367B /* OCAGeometry+AffineTransforms.m in Sources */,
 				5B2F2FD31881D9510028367B /* OCAFoundation+Dates.m in Sources */,
