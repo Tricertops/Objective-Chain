@@ -12,6 +12,7 @@
 #import "OCAConnection+OCAFoundation.h"
 #import "OCATimer.h"
 #import "OCANotificator.h"
+#import "OCAInvoker.h"
 
 #import "OCAFoundation+Base.h"
 #import "OCAFoundation+Collections.h"
