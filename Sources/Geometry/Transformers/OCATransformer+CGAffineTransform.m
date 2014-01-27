@@ -1,20 +1,26 @@
 //
-//  OCAGeometry+AffineTransforms.m
+//  OCATransformer+CGAffineTransform.m
 //  Objective-Chain
 //
 //  Created by Martin Kiss on 13.1.14.
 //  Copyright (c) 2014 Martin Kiss. All rights reserved.
 //
 
-#import "OCAGeometry+AffineTransforms.h"
-#import "OCAGeometry+Points.h"
-#import "OCAGeometry+Sizes.h"
+#import "OCATransformer+CGAffineTransform.h"
+#import "OCATransformer+CGPoint.h"
+#import "OCATransformer+CGSize.h"
+#import "OCAPredicate.h"
+#import "NSValue+Boxing.h"
+
+#if OCA_iOS
+    #import <UIKit/UIGeometry.h>
+#endif
 
 
 
 
 
-@implementation OCAGeometry (AffineTransforms)
+@implementation OCATransformer (CGAffineTransform)
 
 
 
@@ -37,14 +43,14 @@
 
 
 + (NSPredicate *)isAffineTransformIdentity {
-    return [OCAGeometry predicateForAffineTransform:^BOOL(CGAffineTransform t) {
+    return [OCATransformer predicateForAffineTransform:^BOOL(CGAffineTransform t) {
         return CGAffineTransformIsIdentity(t);
     }];
 }
 
 
 + (NSPredicate *)isAffineTransformEqualTo:(CGAffineTransform)otherAffineTransform {
-    return [OCAGeometry predicateForAffineTransform:^BOOL(CGAffineTransform t) {
+    return [OCATransformer predicateForAffineTransform:^BOOL(CGAffineTransform t) {
         return CGAffineTransformEqualToTransform(t, otherAffineTransform);
     }];
 }
@@ -172,7 +178,7 @@
 
 
 + (OCATransformer *)concatAffineTransform:(CGAffineTransform)otherAffineTransform {
-    return [[OCAGeometry modifyAffineTransform:^CGAffineTransform(CGAffineTransform t) {
+    return [[OCATransformer modifyAffineTransform:^CGAffineTransform(CGAffineTransform t) {
         
         return CGAffineTransformConcat(t, otherAffineTransform);
     }]
@@ -181,7 +187,7 @@
 
 
 + (OCATransformer *)affineTransformScale:(CGSize)scale {
-    return [[OCAGeometry modifyAffineTransform:^CGAffineTransform(CGAffineTransform t) {
+    return [[OCATransformer modifyAffineTransform:^CGAffineTransform(CGAffineTransform t) {
         
         return CGAffineTransformScale(t, scale.width, scale.height);
         
@@ -195,7 +201,7 @@
 
 
 + (OCATransformer *)affineTransformRotate:(CGFloat)rotation {
-    return [[OCAGeometry modifyAffineTransform:^CGAffineTransform(CGAffineTransform t) {
+    return [[OCATransformer modifyAffineTransform:^CGAffineTransform(CGAffineTransform t) {
         
         return CGAffineTransformRotate(t, rotation);
         
@@ -209,7 +215,7 @@
 
 
 + (OCATransformer *)affineTransformTranslate:(CGPoint)translation {
-    return [[OCAGeometry modifyAffineTransform:^CGAffineTransform(CGAffineTransform t) {
+    return [[OCATransformer modifyAffineTransform:^CGAffineTransform(CGAffineTransform t) {
         
         return CGAffineTransformTranslate(t, translation.x, translation.y);
         
@@ -223,7 +229,7 @@
 
 
 + (OCATransformer *)invertAffineTransform {
-    return [[OCAGeometry modifyAffineTransform:^CGAffineTransform(CGAffineTransform t) {
+    return [[OCATransformer modifyAffineTransform:^CGAffineTransform(CGAffineTransform t) {
         
         return CGAffineTransformInvert(t);
         

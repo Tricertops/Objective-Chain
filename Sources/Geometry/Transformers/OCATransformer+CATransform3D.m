@@ -1,18 +1,20 @@
 //
-//  OCAGeometry+Transform3D.m
+//  OCATransformer+CATransform3D.m
 //  Objective-Chain
 //
 //  Created by Martin Kiss on 13.1.14.
 //  Copyright (c) 2014 Martin Kiss. All rights reserved.
 //
 
-#import "OCAGeometry+Transform3D.h"
+#import "OCATransformer+CATransform3D.h"
+#import "OCAPredicate.h"
+#import "NSValue+Boxing.h"
 
 
 
 
 
-@implementation OCAGeometry (Transform3D)
+@implementation OCATransformer (Transform3D)
 
 
 
@@ -35,21 +37,21 @@
 
 
 + (NSPredicate *)isTransform3DEqualTo:(CATransform3D)otherTransform3D {
-    return [OCAGeometry predicateForTransform3D:^BOOL(CATransform3D t) {
+    return [OCATransformer predicateForTransform3D:^BOOL(CATransform3D t) {
         return CATransform3DEqualToTransform(t, otherTransform3D);
     }];
 }
 
 
 + (NSPredicate *)isTransform3DIdentity {
-    return [OCAGeometry predicateForTransform3D:^BOOL(CATransform3D t) {
+    return [OCATransformer predicateForTransform3D:^BOOL(CATransform3D t) {
         return CATransform3DIsIdentity(t);
     }];
 }
 
 
 + (NSPredicate *)isTransform3DAffineTransform {
-    return [OCAGeometry predicateForTransform3D:^BOOL(CATransform3D t) {
+    return [OCATransformer predicateForTransform3D:^BOOL(CATransform3D t) {
         return CATransform3DIsAffine(t);
     }];
 }
@@ -155,7 +157,7 @@
 
 
 + (OCATransformer *)concatTransform3D:(CATransform3D)otherTransform3D {
-    return [OCAGeometry modifyTransform3D:^CATransform3D(CATransform3D t) {
+    return [OCATransformer modifyTransform3D:^CATransform3D(CATransform3D t) {
         return CATransform3DConcat(t, otherTransform3D);
     }];
 }
@@ -168,7 +170,7 @@
 
 
 + (OCATransformer *)affineTransformFromTransform3D {
-    return [[OCAGeometry transform3DFromAffineTransform] reversed];
+    return [[OCATransformer transform3DFromAffineTransform] reversed];
 }
 
 

@@ -6,21 +6,12 @@
 //  Copyright (c) 2014 Martin Kiss. All rights reserved.
 //
 
-#import "OCAGeometry+Base.h"
+#import "OCATransformer+OCAGeometry.h"
 #import "OCAMath.h"
 
-
-
-
-
-
-
-
-
-
-@implementation OCAGeometry
-
-@end
+#if OCA_iOS
+    #import <UIKit/UIScreen.h> // For default rounding scale.
+#endif
 
 
 

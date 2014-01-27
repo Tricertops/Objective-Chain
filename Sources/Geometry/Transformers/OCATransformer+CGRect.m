@@ -1,15 +1,21 @@
 //
-//  OCAGeometry+Rectanges.m
+//  OCATransformer+CGRect.m
 //  Objective-Chain
 //
 //  Created by Martin Kiss on 13.1.14.
 //  Copyright (c) 2014 Martin Kiss. All rights reserved.
 //
 
-#import "OCAGeometry+Rectanges.h"
-#import "OCAGeometry+Points.h"
-#import "OCAGeometry+Sizes.h"
-#import "OCAGeometry+EdgeInsets.h"
+#import "OCATransformer+CGRect.h"
+#import "OCAPredicate.h"
+#import "OCATransformer+CGPoint.h"
+#import "OCATransformer+CGSize.h"
+#import "OCATransformer+UIEdgeInsets.h"
+#import "NSValue+Boxing.h"
+
+#if OCA_iOS
+    #import <UIKit/UIGeometry.h>
+#endif
 
 
 
@@ -20,7 +26,7 @@
 
 
 
-@implementation OCAGeometry (Rectanges)
+@implementation OCATransformer (CGRect)
 
 
 
@@ -43,61 +49,61 @@
 
 
 + (NSPredicate *)isRectEqualTo:(CGRect)otherRect {
-    return [OCAGeometry predicateForRect:^BOOL(CGRect rect) {
+    return [OCATransformer predicateForRect:^BOOL(CGRect rect) {
         return CGRectEqualToRect(rect, otherRect);
     }];
 }
 
 
 + (NSPredicate *)isRectZero {
-    return [OCAGeometry isRectEqualTo:CGRectZero];
+    return [OCATransformer isRectEqualTo:CGRectZero];
 }
 
 
 + (NSPredicate *)isRectEmpty {
-    return [OCAGeometry predicateForRect:^BOOL(CGRect rect) {
+    return [OCATransformer predicateForRect:^BOOL(CGRect rect) {
         return CGRectIsEmpty(rect);
     }];
 }
 
 
 + (NSPredicate *)isRectNull {
-    return [OCAGeometry predicateForRect:^BOOL(CGRect rect) {
+    return [OCATransformer predicateForRect:^BOOL(CGRect rect) {
         return CGRectIsNull(rect);
     }];
 }
 
 
 + (NSPredicate *)isRectInfinite {
-    return [OCAGeometry predicateForRect:^BOOL(CGRect rect) {
+    return [OCATransformer predicateForRect:^BOOL(CGRect rect) {
         return CGRectIsInfinite(rect);
     }];
 }
 
 
 + (NSPredicate *)isRectContainsPoint:(CGPoint)point {
-    return [OCAGeometry predicateForRect:^BOOL(CGRect rect) {
+    return [OCATransformer predicateForRect:^BOOL(CGRect rect) {
         return CGRectContainsPoint(rect, point);
     }];
 }
 
 
 + (NSPredicate *)isRectContainsRect:(CGRect)otherRect {
-    return [OCAGeometry predicateForRect:^BOOL(CGRect rect) {
+    return [OCATransformer predicateForRect:^BOOL(CGRect rect) {
         return CGRectContainsRect(rect, otherRect);
     }];
 }
 
 
 + (NSPredicate *)isRectContainedInRect:(CGRect)otherRect {
-    return [OCAGeometry predicateForRect:^BOOL(CGRect rect) {
+    return [OCATransformer predicateForRect:^BOOL(CGRect rect) {
         return CGRectContainsRect(otherRect, rect);
     }];
 }
 
 
 + (NSPredicate *)isRectIntersects:(CGRect)otherRect {
-    return [OCAGeometry predicateForRect:^BOOL(CGRect rect) {
+    return [OCATransformer predicateForRect:^BOOL(CGRect rect) {
         return CGRectIntersectsRect(rect, otherRect);
     }];
 }
@@ -205,7 +211,7 @@
 #if OCA_iOS
 + (OCATransformer *)insetRect:(UIEdgeInsets)insets {
     UIEdgeInsets inversedInsets = OCAEdgeInsetsMultiply(insets, -1);
-    return [[OCAGeometry modifyRect:^CGRect(CGRect rect) {
+    return [[OCATransformer modifyRect:^CGRect(CGRect rect) {
         
         return UIEdgeInsetsInsetRect(rect, insets);
         
@@ -221,7 +227,7 @@
 
 + (OCATransformer *)transformRect:(CGAffineTransform)affineTransform {
     CGAffineTransform invertedTransform = CGAffineTransformInvert(affineTransform);
-    return [[OCAGeometry modifyRect:^CGRect(CGRect rect) {
+    return [[OCATransformer modifyRect:^CGRect(CGRect rect) {
         
         return CGRectApplyAffineTransform(rect, affineTransform);
         
@@ -234,7 +240,7 @@
 
 
 + (OCATransformer *)roundRectTo:(CGFloat)scale {
-    return [[OCAGeometry modifyRect:^CGRect(CGRect rect) {
+    return [[OCATransformer modifyRect:^CGRect(CGRect rect) {
         
         return OCARectRound(rect, scale);
         
@@ -247,7 +253,7 @@
 
 
 + (OCATransformer *)floorRectTo:(CGFloat)scale {
-    return [[OCAGeometry modifyRect:^CGRect(CGRect rect) {
+    return [[OCATransformer modifyRect:^CGRect(CGRect rect) {
         
         return OCARectFloor(rect, scale);
         
@@ -260,7 +266,7 @@
 
 
 + (OCATransformer *)ceilRectTo:(CGFloat)scale {
-    return [[OCAGeometry modifyRect:^CGRect(CGRect rect) {
+    return [[OCATransformer modifyRect:^CGRect(CGRect rect) {
         
         return OCARectCeil(rect, scale);
         
@@ -273,7 +279,7 @@
 
 
 + (OCATransformer *)unionWith:(CGRect)otherRect {
-    return [[OCAGeometry modifyRect:^CGRect(CGRect rect) {
+    return [[OCATransformer modifyRect:^CGRect(CGRect rect) {
         
         return CGRectUnion(rect, otherRect);
         
@@ -286,7 +292,7 @@
 
 
 + (OCATransformer *)intersectionWith:(CGRect)otherRect {
-    return [[OCAGeometry modifyRect:^CGRect(CGRect rect) {
+    return [[OCATransformer modifyRect:^CGRect(CGRect rect) {
         
         return CGRectIntersection(rect, otherRect);
         
@@ -299,7 +305,7 @@
 
 
 + (OCATransformer *)standardizeRect {
-    return [[OCAGeometry modifyRect:^CGRect(CGRect rect) {
+    return [[OCATransformer modifyRect:^CGRect(CGRect rect) {
         
         return CGRectStandardize(rect);
         
@@ -318,7 +324,7 @@
 
 
 + (OCATransformer *)stringFromRect {
-    return [[OCAGeometry rectFromString] reversed];
+    return [[OCATransformer rectFromString] reversed];
 }
 
 
@@ -335,7 +341,7 @@
 
 
 + (OCATransformer *)rectCenter {
-    return [[OCAGeometry rectRelativePoint:CGPointMake(0.5, 0.5)]
+    return [[OCATransformer rectRelativePoint:CGPointMake(0.5, 0.5)]
             describe:@"center from rect"];
 }
 

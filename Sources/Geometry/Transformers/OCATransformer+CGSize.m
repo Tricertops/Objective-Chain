@@ -1,13 +1,20 @@
 //
-//  OCAGeometry+Sizes.m
+//  OCATransformer+CGSize.m
 //  Objective-Chain
 //
 //  Created by Martin Kiss on 13.1.14.
 //  Copyright (c) 2014 Martin Kiss. All rights reserved.
 //
 
-#import "OCAGeometry+Sizes.h"
+#import "OCATransformer+CGSize.h"
+#import "OCATransformer+OCAGeometry.h"
+#import "OCAPredicate.h"
 #import "NSArray+Ordinals.h"
+#import "NSValue+Boxing.h"
+
+#if OCA_iOS
+#import <UIKit/UIGeometry.h>
+#endif
 
 
 
@@ -18,7 +25,7 @@
 
 
 
-@implementation OCAGeometry (Sizes)
+@implementation OCATransformer (CGSize)
 
 
 
@@ -41,14 +48,14 @@
 
 
 + (NSPredicate *)isSizeEqualTo:(CGSize)otherSize {
-    return [OCAGeometry predicateForSize:^BOOL(CGSize size) {
+    return [OCATransformer predicateForSize:^BOOL(CGSize size) {
         return CGSizeEqualToSize(size, otherSize);
     }];
 }
 
 
 + (NSPredicate *)isSizeZero {
-    return [OCAGeometry isSizeEqualTo:CGSizeZero];
+    return [OCATransformer isSizeEqualTo:CGSizeZero];
 }
 
 
@@ -82,8 +89,8 @@
     return [[OCATransformer fromClass:[NSArray class] toClass:[NSValue class]
                             transform:^NSValue *(NSArray *input) {
                                 
-                                NSNumber *width = input.first;
-                                NSNumber *height = input.second;
+                                NSNumber *width = [input oca_valueAtIndex:0];
+                                NSNumber *height = [input oca_valueAtIndex:1];
                                 CGSize size = CGSizeMake(width.doubleValue, height.doubleValue);
                                 return OCABox(size);
                                 
@@ -167,7 +174,7 @@
 
 
 + (OCATransformer *)extendSizeBy:(CGSize)otherSize {
-    return [[OCAGeometry modifySize:^CGSize(CGSize size) {
+    return [[OCATransformer modifySize:^CGSize(CGSize size) {
         
         return OCASizeExtendBySize(size, otherSize);
         
@@ -181,12 +188,12 @@
 
 
 + (OCATransformer *)shrinkSizeBy:(CGSize)otherSize {
-    return [[OCAGeometry extendSizeBy:otherSize] reversed];
+    return [[OCATransformer extendSizeBy:otherSize] reversed];
 }
 
 
 + (OCATransformer *)multiplySizeBy:(CGFloat)multiplier {
-    return [[OCAGeometry modifySize:^CGSize(CGSize size) {
+    return [[OCATransformer modifySize:^CGSize(CGSize size) {
         
         return OCASizeMultiply(size, multiplier);
         
@@ -200,7 +207,7 @@
 
 
 + (OCATransformer *)transformSize:(CGAffineTransform)affineTransform {
-    return [[OCAGeometry modifySize:^CGSize(CGSize size) {
+    return [[OCATransformer modifySize:^CGSize(CGSize size) {
         
         return CGSizeApplyAffineTransform(size, affineTransform);
         
@@ -213,7 +220,7 @@
 
 
 + (OCATransformer *)roundSizeTo:(CGFloat)scale {
-    return [[OCAGeometry modifySize:^CGSize(CGSize size) {
+    return [[OCATransformer modifySize:^CGSize(CGSize size) {
         
         return OCASizeRound(size, scale);
         
@@ -226,7 +233,7 @@
 
 
 + (OCATransformer *)floorSizeTo:(CGFloat)scale {
-    return [[OCAGeometry modifySize:^CGSize(CGSize size) {
+    return [[OCATransformer modifySize:^CGSize(CGSize size) {
         
         return OCASizeFloor(size, scale);
         
@@ -239,7 +246,7 @@
 
 
 + (OCATransformer *)ceilSizeTo:(CGFloat)scale {
-    return [[OCAGeometry modifySize:^CGSize(CGSize size) {
+    return [[OCATransformer modifySize:^CGSize(CGSize size) {
         
         return OCASizeCeil(size, scale);
         
@@ -252,7 +259,7 @@
 
 
 + (OCATransformer *)standardizeSize {
-    return [[OCAGeometry modifySize:^CGSize(CGSize size) {
+    return [[OCATransformer modifySize:^CGSize(CGSize size) {
         
         return OCASizeStandardize(size);
         
@@ -272,7 +279,7 @@
 
 
 + (OCATransformer *)stringFromSize {
-    return [[OCAGeometry sizeFromString] reversed];
+    return [[OCATransformer sizeFromString] reversed];
 }
 
 

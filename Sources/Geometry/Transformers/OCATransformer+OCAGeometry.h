@@ -1,31 +1,12 @@
 //
-//  OCAGeometry+Base.h
+//  OCATransformer+OCAGeometry.h
 //  Objective-Chain
 //
-//  Created by Martin Kiss on 13.1.14.
+//  Created by Martin Kiss on 27.1.14.
 //  Copyright (c) 2014 Martin Kiss. All rights reserved.
 //
 
 #import <CoreGraphics/CGGeometry.h>
-#import <CoreGraphics/CGAffineTransform.h>
-
-#import "OCAObject.h"
-
-#if OCA_iOS
-    #import <UIKit/UIGeometry.h>
-    #import <UIKit/UIScreen.h> // For default rounding scale.
-#endif
-
-#import "OCAPredicate.h"
-#import "OCATransformer.h"
-
-
-
-
-
-@interface OCAGeometry : OCAObject
-
-@end
 
 
 

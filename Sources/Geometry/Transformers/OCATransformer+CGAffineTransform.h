@@ -1,18 +1,19 @@
 //
-//  OCAGeometry+AffineTransforms.h
+//  OCATransformer+CGAffineTransform.h
 //  Objective-Chain
 //
 //  Created by Martin Kiss on 13.1.14.
 //  Copyright (c) 2014 Martin Kiss. All rights reserved.
 //
 
-#import "OCAGeometry+Base.h"
+#import <CoreGraphics/CGAffineTransform.h>
+#import "OCATransformer+Base.h"
 
 
 
 
 
-@interface OCAGeometry (AffineTransforms)
+@interface OCATransformer (CGAffineTransform)
 
 
 

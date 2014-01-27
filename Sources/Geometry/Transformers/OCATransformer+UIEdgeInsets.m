@@ -1,13 +1,15 @@
 //
-//  OCAGeometry+EdgeInsets.m
+//  OCATransformer+UIEdgeInsets.m
 //  Objective-Chain
 //
 //  Created by Martin Kiss on 13.1.14.
 //  Copyright (c) 2014 Martin Kiss. All rights reserved.
 //
 
-#import "OCAGeometry+EdgeInsets.h"
-
+#import "OCATransformer+UIEdgeInsets.h"
+#import "OCATransformer+OCAGeometry.h"
+#import "OCAPredicate.h"
+#import "NSValue+Boxing.h"
 
 
 #if OCA_iOS
@@ -16,7 +18,7 @@
 
 
 
-@implementation OCAGeometry (EdgeInsets)
+@implementation OCATransformer (UIEdgeInsets)
 
 
 
@@ -39,14 +41,14 @@
 
 
 + (NSPredicate *)isEdgeInsetsEqualTo:(UIEdgeInsets)otherInsets {
-    return [OCAGeometry predicateForEdgeInsets:^BOOL(UIEdgeInsets insets) {
+    return [OCATransformer predicateForEdgeInsets:^BOOL(UIEdgeInsets insets) {
         return UIEdgeInsetsEqualToEdgeInsets(insets, otherInsets);
     }];
 }
 
 
 + (NSPredicate *)isEdgeInsetsZero {
-    return [OCAGeometry predicateForEdgeInsets:^BOOL(UIEdgeInsets insets) {
+    return [OCATransformer predicateForEdgeInsets:^BOOL(UIEdgeInsets insets) {
         return UIEdgeInsetsEqualToEdgeInsets(insets, UIEdgeInsetsZero);
     }];
 }
@@ -132,7 +134,7 @@
 
 
 + (OCATransformer *)addEdgeInsets:(UIEdgeInsets)otherInsets {
-    return [[OCAGeometry modifyEdgeInsets:^UIEdgeInsets(UIEdgeInsets insets) {
+    return [[OCATransformer modifyEdgeInsets:^UIEdgeInsets(UIEdgeInsets insets) {
         
         return OCAEdgeInsetsAddEdgeInsets(insets, otherInsets);
         
@@ -146,12 +148,12 @@
 
 
 + (OCATransformer *)subtractEdgeInsets:(UIEdgeInsets)otherInsets {
-    return [[OCAGeometry addEdgeInsets:otherInsets] reversed];
+    return [[OCATransformer addEdgeInsets:otherInsets] reversed];
 }
 
 
 + (OCATransformer *)multiplyEdgeInsets:(CGFloat)multiplier {
-    return [[OCAGeometry modifyEdgeInsets:^UIEdgeInsets(UIEdgeInsets insets) {
+    return [[OCATransformer modifyEdgeInsets:^UIEdgeInsets(UIEdgeInsets insets) {
         
         return OCAEdgeInsetsMultiply(insets, multiplier);
         
@@ -165,7 +167,7 @@
 
 
 + (OCATransformer *)roundEdgeInsetsTo:(CGFloat)scale {
-    return [[OCAGeometry modifyEdgeInsets:^UIEdgeInsets(UIEdgeInsets insets) {
+    return [[OCATransformer modifyEdgeInsets:^UIEdgeInsets(UIEdgeInsets insets) {
         
         return OCAEdgeInsetsRound(insets, scale);
         
@@ -178,7 +180,7 @@
 
 
 + (OCATransformer *)ceilEdgeInsetsTo:(CGFloat)scale {
-    return [[OCAGeometry modifyEdgeInsets:^UIEdgeInsets(UIEdgeInsets insets) {
+    return [[OCATransformer modifyEdgeInsets:^UIEdgeInsets(UIEdgeInsets insets) {
         
         return OCAEdgeInsetsCeil(insets, scale);
         
@@ -191,7 +193,7 @@
 
 
 + (OCATransformer *)floorEdgeInsetsTo:(CGFloat)scale {
-    return [[OCAGeometry modifyEdgeInsets:^UIEdgeInsets(UIEdgeInsets insets) {
+    return [[OCATransformer modifyEdgeInsets:^UIEdgeInsets(UIEdgeInsets insets) {
         
         return OCAEdgeInsetsFloor(insets, scale);
         
@@ -210,7 +212,7 @@
 
 
 + (OCATransformer *)stringFromEdgeInsets {
-    return [[OCAGeometry edgeInsetsFromString] reversed];
+    return [[OCATransformer edgeInsetsFromString] reversed];
 }
 
 

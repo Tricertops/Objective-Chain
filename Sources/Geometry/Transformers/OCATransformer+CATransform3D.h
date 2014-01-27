@@ -1,5 +1,5 @@
 //
-//  OCAGeometry+Transform3D.h
+//  OCATransformer+CATransform3D.h
 //  Objective-Chain
 //
 //  Created by Martin Kiss on 13.1.14.
@@ -7,14 +7,13 @@
 //
 
 #import <QuartzCore/CATransform3D.h>
-
-#import "OCAGeometry+Base.h"
-
+#import "OCATransformer+Base.h"
 
 
 
 
-@interface OCAGeometry (Transform3D)
+
+@interface OCATransformer (CATransform3D)
 
 
 

@@ -1,18 +1,24 @@
 //
-//  OCAGeometry+Rectanges.h
+//  OCATransformer+CGRect.h
 //  Objective-Chain
 //
 //  Created by Martin Kiss on 13.1.14.
 //  Copyright (c) 2014 Martin Kiss. All rights reserved.
 //
 
-#import "OCAGeometry+Base.h"
+#import <CoreGraphics/CGGeometry.h>
+#import <CoreGraphics/CGAffineTransform.h>
+#import "OCATransformer+Base.h"
+
+#if OCA_iOS
+    #import <UIKit/UIGeometry.h>
+#endif
 
 
 
 
 
-@interface OCAGeometry (Rectanges)
+@interface OCATransformer (CGRect)
 
 
 

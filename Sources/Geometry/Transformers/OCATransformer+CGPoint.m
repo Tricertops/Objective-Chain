@@ -1,14 +1,20 @@
 //
-//  OCAGeometry+Points.m
+//  OCATransformer+CGPoint.m
 //  Objective-Chain
 //
 //  Created by Martin Kiss on 13.1.14.
 //  Copyright (c) 2014 Martin Kiss. All rights reserved.
 //
 
-#import "OCAGeometry+Points.h"
+#import "OCATransformer+CGPoint.h"
+#import "OCATransformer+OCAGeometry.h"
 #import "OCAPredicate.h"
 #import "NSArray+Ordinals.h"
+#import "NSValue+Boxing.h"
+
+#if OCA_iOS
+#import <UIKit/UIGeometry.h>
+#endif
 
 
 
@@ -19,7 +25,7 @@
 
 
 
-@implementation OCAGeometry (Points)
+@implementation OCATransformer (CGPoint)
 
 
 
@@ -42,33 +48,33 @@
 
 
 + (NSPredicate *)isPointEqualTo:(CGPoint)otherPoint {
-    return [OCAGeometry predicateForPoint:^BOOL(CGPoint point) {
+    return [OCATransformer predicateForPoint:^BOOL(CGPoint point) {
         return CGPointEqualToPoint(point, otherPoint);
     }];
 }
 
 
 + (NSPredicate *)isPointZero {
-    return [OCAGeometry isPointEqualTo:CGPointZero];
+    return [OCATransformer isPointEqualTo:CGPointZero];
 }
 
 
 + (NSPredicate *)isPointFurtherFrom:(CGPoint)otherPoint than:(CGFloat)distance {
-    return [OCAGeometry predicateForPoint:^BOOL(CGPoint point) {
+    return [OCATransformer predicateForPoint:^BOOL(CGPoint point) {
         return (OCAPointDistanceToPoint(point, otherPoint) >= distance);
     }];
 }
 
 
 + (NSPredicate *)isPointCloserTo:(CGPoint)otherPoint than:(CGFloat)distance {
-    return [OCAGeometry predicateForPoint:^BOOL(CGPoint point) {
+    return [OCATransformer predicateForPoint:^BOOL(CGPoint point) {
         return (OCAPointDistanceToPoint(point, otherPoint) <= distance);
     }];
 }
 
 
 + (NSPredicate *)isPointContainedInRect:(CGRect)rect {
-    return [OCAGeometry predicateForPoint:^BOOL(CGPoint point) {
+    return [OCATransformer predicateForPoint:^BOOL(CGPoint point) {
         return CGRectContainsPoint(rect, point);
     }];
 }
@@ -104,8 +110,8 @@
     return [[OCATransformer fromClass:[NSArray class] toClass:[NSValue class]
                             transform:^NSValue *(NSArray *input) {
                                 
-                                NSNumber *x = input.first;
-                                NSNumber *y = input.second;
+                                NSNumber *x = [input oca_valueAtIndex:0];
+                                NSNumber *y = [input oca_valueAtIndex:1];
                                 CGPoint point = CGPointMake(x.doubleValue, y.doubleValue);
                                 return OCABox(point);
                                 
@@ -189,7 +195,7 @@
 
 
 + (OCATransformer *)addPoint:(CGPoint)otherPoint {
-    return [[OCAGeometry modifyPoint:^CGPoint(CGPoint point) {
+    return [[OCATransformer modifyPoint:^CGPoint(CGPoint point) {
         
         return OCAPointAddPoint(point, otherPoint);
         
@@ -203,12 +209,12 @@
 
 
 + (OCATransformer *)subtractPoint:(CGPoint)otherPoint {
-    return [[OCAGeometry addPoint:otherPoint] reversed];
+    return [[OCATransformer addPoint:otherPoint] reversed];
 }
 
 
 + (OCATransformer *)multiplyPointBy:(CGFloat)multiplier {
-    return [[OCAGeometry modifyPoint:^CGPoint(CGPoint point) {
+    return [[OCATransformer modifyPoint:^CGPoint(CGPoint point) {
         
         return OCAPointMultiply(point, multiplier);
         
@@ -222,7 +228,7 @@
 
 
 + (OCATransformer *)transformPoint:(CGAffineTransform)affineTransform {
-    return [[OCAGeometry modifyPoint:^CGPoint(CGPoint point) {
+    return [[OCATransformer modifyPoint:^CGPoint(CGPoint point) {
         
         return CGPointApplyAffineTransform(point, affineTransform);
         
@@ -235,7 +241,7 @@
 
 
 + (OCATransformer *)roundPointTo:(CGFloat)scale {
-    return [[OCAGeometry modifyPoint:^CGPoint(CGPoint point) {
+    return [[OCATransformer modifyPoint:^CGPoint(CGPoint point) {
         
         return OCAPointRound(point, scale);
         
@@ -248,7 +254,7 @@
 
 
 + (OCATransformer *)floorPointTo:(CGFloat)scale {
-    return [[OCAGeometry modifyPoint:^CGPoint(CGPoint point) {
+    return [[OCATransformer modifyPoint:^CGPoint(CGPoint point) {
         
         return OCAPointFloor(point, scale);
         
@@ -261,7 +267,7 @@
 
 
 + (OCATransformer *)ceilPointTo:(CGFloat)scale {
-    return [[OCAGeometry modifyPoint:^CGPoint(CGPoint point) {
+    return [[OCATransformer modifyPoint:^CGPoint(CGPoint point) {
         
         return OCAPointCeil(point, scale);
         
@@ -274,7 +280,7 @@
 
 
 + (OCATransformer *)normalizePoint {
-    return [[OCAGeometry modifyPoint:^CGPoint(CGPoint point) {
+    return [[OCATransformer modifyPoint:^CGPoint(CGPoint point) {
         
         return OCAPointNormalize(point);
         
@@ -292,7 +298,7 @@
 
 
 + (OCATransformer *)stringFromPoint {
-    return [[OCAGeometry pointFromString] reversed];
+    return [[OCATransformer pointFromString] reversed];
 }
 
 

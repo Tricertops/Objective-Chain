@@ -1,18 +1,20 @@
 //
-//  OCAGeometry+Sizes.h
+//  OCATransformer+CGSize.h
 //  Objective-Chain
 //
 //  Created by Martin Kiss on 13.1.14.
 //  Copyright (c) 2014 Martin Kiss. All rights reserved.
 //
 
-#import "OCAGeometry+Base.h"
+#import <CoreGraphics/CGGeometry.h>
+#import <CoreGraphics/CGAffineTransform.h>
+#import "OCATransformer+Base.h"
 
 
 
 
 
-@interface OCAGeometry (Sizes)
+@interface OCATransformer (CGSize)
 
 
 
