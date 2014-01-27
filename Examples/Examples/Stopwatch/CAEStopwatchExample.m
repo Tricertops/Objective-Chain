@@ -126,12 +126,11 @@
     [super setupConnections];
     OCAWeakify(self);
     
-    //TODO: Connections not deallocating.
     
     /// Make the button start and stop the timer instance.
     [[self.startButton producerForEvent:UIControlEventTouchUpInside]
      subscribeEvents:^{
-         OCAStrongify(self); //TODO: Get rid of this using OCAInvocation
+         OCAStrongify(self);
          
          if (self.timer.isRunning) {
              [self.timer stop];

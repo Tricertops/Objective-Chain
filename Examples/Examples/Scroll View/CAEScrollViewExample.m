@@ -182,9 +182,7 @@
 - (void)setupConnections {
     [super setupConnections];
     OCAWeakify(self);
-    
-    //TODO: Connections not deallocating.
-    
+        
     
     // Flash scroll indicators, when becomes fully visible.
     [[OCAProperty(self, fullyVisible, BOOL)

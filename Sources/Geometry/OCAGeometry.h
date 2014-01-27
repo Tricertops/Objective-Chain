@@ -7,7 +7,6 @@
 //
 
 
-//TODO: Conditional for UIKit geometry and CoreAnimation transforms
 
 #import "OCAGeometry+Base.h"
 #import "OCAGeometry+Points.h"

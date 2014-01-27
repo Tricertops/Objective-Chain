@@ -83,9 +83,6 @@
     [super setupConnections];
     
     
-    //TODO: Connections not deallocating.
-    
-    
     // Connect Slider changes to temperature property.
     [[self.slider producerForEvent:UIControlEventValueChanged] // Sends the sender: UISlider instance
      transform:[OCATransformer access:OCAKeyPath(UISlider, value, float)] // Get `value` property of sender.
