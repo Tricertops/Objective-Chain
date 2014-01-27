@@ -205,7 +205,7 @@
              @"leeway": @(self.leeway),
              @"endDate": self.endDate ?: @"nil",
              @"finished": (self.finished? @"YES":@"NO"),
-             @"connections": @(self.connections.count),
+             @"connections": @(self.consumers.count),
              };
 }
 

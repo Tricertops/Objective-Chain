@@ -9,7 +9,6 @@
 #import "OCABridge.h"
 #import "OCAProducer+Subclass.h"
 #import "OCATransformer.h"
-#import "OCAConnection.h"
 
 
 
@@ -30,17 +29,33 @@
 
 
 - (instancetype)initWithValueClass:(Class)valueClass {
-    return [super initWithValueClass:valueClass];
+    NSValueTransformer *transformer = [[OCATransformer pass] specializeFromClass:valueClass toClass:valueClass];
+    return [self initWithTransformer:transformer];
+}
+
+
+- (instancetype)initWithTransformer:(NSValueTransformer *)transformer {
+    self = [super initWithValueClass:[transformer.class transformedValueClass]];
+    if (self) {
+        self->_transformer = transformer ?: [OCATransformer pass];
+    }
+    return self;
 }
 
 
 + (OCABridge *)bridge {
-    return [[self alloc] initWithValueClass:nil];
+    return [[self alloc] initWithTransformer:nil];
 }
 
 
 + (OCABridge *)bridgeForClass:(Class)class {
-    return [[self alloc] initWithValueClass:class];
+    NSValueTransformer *transformer = [[OCATransformer pass] specializeFromClass:class toClass:class];
+    return [[self alloc] initWithTransformer:transformer];
+}
+
+
++ (OCABridge *)bridgeWithTransformer:(NSValueTransformer *)transformer {
+    return [[self alloc] initWithTransformer:transformer];
 }
 
 
@@ -51,12 +66,13 @@
 
 
 - (Class)consumedValueClass {
-    return self.valueClass;
+    return [self.transformer.class valueClass];
 }
 
 
 - (void)consumeValue:(id)value {
-    [self produceValue:value];
+    id transformedValue = [self.transformer transformedValue:value];
+    [self produceValue:transformedValue];
 }
 
 
@@ -96,20 +112,11 @@
 
 
 
-- (OCAProducer *)bridgeOnQueue:(OCAQueue *)queue {
-    OCABridge *bridge = [[OCABridge alloc] initWithValueClass:self.valueClass];
-    (void)[[OCAConnection alloc] initWithProducer:self queue:queue transform:nil consumer:bridge];
+- (OCAProducer *)produceTransformed:(NSArray *)transformers CONVENIENCE {
+    OCABridge *bridge = [[OCABridge alloc] initWithTransformer:[OCATransformer sequence:transformers]];
+    [self addConsumer:bridge];
     return bridge;
 }
-
-
-- (OCAProducer *)bridgeWithTransform:(NSValueTransformer *)transformer {
-    Class class = (transformer? [transformer.class transformedValueClass] : self.valueClass);
-    OCABridge *bridge = [[OCABridge alloc] initWithValueClass:class];
-    (void)[[OCAConnection alloc] initWithProducer:self queue:nil transform:transformer consumer:bridge];
-    return bridge;
-}
-
 
 
 

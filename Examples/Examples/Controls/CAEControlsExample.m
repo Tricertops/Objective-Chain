@@ -84,20 +84,23 @@
     
     
     // Connect Slider changes to temperature property.
-    [[self.slider producerForEvent:UIControlEventValueChanged] // Sends the sender: UISlider instance
-     transform:[OCATransformer access:OCAKeyPath(UISlider, value, float)] // Get `value` property of sender.
-     connectTo:OCAProperty(self, temperature, float)];
+    [[[self.slider producerForEvent:UIControlEventValueChanged] // Sends the sender: UISlider instance
+      produceTransformed:@[ [OCATransformer access:OCAKeyPath(UISlider, value, float)] ]] // Get `value` property of sender.
+     consumeBy:OCAProperty(self, temperature, float)];
+    
+    
     
     // Connect Stepper changes to temperature property.
-    [[self.stepper producerForEvent:UIControlEventValueChanged] // Sends the sender: UIStepper instance
-     transform:[OCATransformer access:OCAKeyPath(UIStepper, value, float)]
-     connectTo:OCAProperty(self, temperature, float)];
+    [[[self.stepper producerForEvent:UIControlEventValueChanged] // Sends the sender: UIStepper instance
+      produceTransformed:@[ [OCATransformer access:OCAKeyPath(UIStepper, value, float)] ]]
+     consumeBy:OCAProperty(self, temperature, float)];
     
     // Connect temperature property back to Slider and Stepper. Now we have two-way binding.
     [OCAProperty(self, temperature, float)
-     connectTo:[OCAMulticast multicast: // Simply group two Consumers into one.
-                @[ OCAProperty(self, slider.value, float),
-                   OCAProperty(self, stepper.value, double) ]]];
+     multicast:@[
+                 OCAProperty(self, slider.value, float),
+                 OCAProperty(self, stepper.value, double),
+                 ]];
     
     
     
@@ -109,18 +112,19 @@
     formatter.positiveSuffix = @"°";
     formatter.negativeSuffix = @"°";
     
-    [OCAProperty(self, temperature, float)
-     transform:[OCAFoundation stringWithNumberFormatter:formatter]
-     connectTo:OCAProperty(self, label.text, NSString)];
+    [[OCAProperty(self, temperature, float)
+      produceTransformed:@[ [OCAFoundation stringWithNumberFormatter:formatter] ]]
+     consumeBy:OCAProperty(self, label.text, NSString)];
     
     
     
     // Disable Slider and Stepper when Switch is off.
-    [[self.switcher producerForEvent:UIControlEventValueChanged] // Sends the sender: UISwith instance
-     transform:[OCATransformer access:OCAKeyPath(UISwitch, on, BOOL)]
-     connectTo:[OCAMulticast multicast:
-                @[ OCAProperty(self, slider.enabled, BOOL),
-                   OCAProperty(self, stepper.enabled, BOOL) ]]];
+    [[[self.switcher producerForEvent:UIControlEventValueChanged] // Sends the sender: UISwith instance
+      produceTransformed:@[ [OCATransformer access:OCAKeyPath(UISwitch, on, BOOL)] ]]
+     multicast:@[
+                 OCAProperty(self, slider.enabled, BOOL),
+                 OCAProperty(self, stepper.enabled, BOOL),
+                 ]];
     
     
     // Simple mapping transformer from BOOL to enum.
@@ -128,14 +132,14 @@
                                                                                @NO:  @(UIViewTintAdjustmentModeDimmed) }];
     
     // Dim tint color of Stepper when disabled.
-    [OCAProperty(self, stepper.enabled, BOOL)
-     transform:mapEnabledToTintAdjustmentMode
-     connectTo:OCAProperty(self, stepper.tintAdjustmentMode, UIViewTintAdjustmentMode)];
+    [[OCAProperty(self, stepper.enabled, BOOL)
+      produceTransformed:@[ mapEnabledToTintAdjustmentMode ]]
+     consumeBy:OCAProperty(self, stepper.tintAdjustmentMode, UIViewTintAdjustmentMode)];
     
     // Dim tint color of Stepper when disabled.
-    [OCAProperty(self, slider.enabled, BOOL)
-     transform:mapEnabledToTintAdjustmentMode
-     connectTo:OCAProperty(self, slider.tintAdjustmentMode, UIViewTintAdjustmentMode)];
+    [[OCAProperty(self, slider.enabled, BOOL)
+      produceTransformed:@[ mapEnabledToTintAdjustmentMode ]]
+     consumeBy:OCAProperty(self, slider.tintAdjustmentMode, UIViewTintAdjustmentMode)];
     
     
     

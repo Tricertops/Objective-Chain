@@ -24,3 +24,13 @@
 
 
 @end
+
+
+
+
+//TODO: Consumer class to serve as target of categories.
+//@interface OCAConsumer : OCAObject
+//
+//@end
+
+

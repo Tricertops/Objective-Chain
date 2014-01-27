@@ -182,45 +182,46 @@
 - (void)setupConnections {
     [super setupConnections];
     OCAWeakify(self);
-        
+    
     
     // Flash scroll indicators, when becomes fully visible.
     [[OCAProperty(self, fullyVisible, BOOL)
-      filter:[OCAPredicate isTrue]] // Passes only YES values.
-     invoke:OCAInvoker(self.scrollView, flashScrollIndicators)];
+      produceFiltered:[OCAPredicate isTrue]] // Passes only YES values.
+     invoke:OCAInvocation(self.scrollView, flashScrollIndicators)];
     
     
     
     // Connect tint color to shape fill colors.
-    [OCAProperty(self.view, tintColor, UIColor)
-     transform:[OCAUIKit colorGetCGColor] // CoreGraphic types doesn't support key-path manipulation.
-     connectTo:[OCAMulticast multicast:
-                @[ OCAProperty(self.starLayer, fillColor, NSObject), // Uses NSObject, because CoreGraphic types cannot be handled.
-                   OCAProperty(self.pentagramLayer, fillColor, NSObject) ]]];
+    [[OCAProperty(self.view, tintColor, UIColor)
+      produceTransformed:@[ [OCAUIKit colorGetCGColor] ]] // CoreGraphic types doesn't support key-path manipulation.
+     multicast:@[
+                 OCAProperty(self.starLayer, fillColor, NSObject), // Uses NSObject, because CoreGraphic types cannot be handled.
+                 OCAProperty(self.pentagramLayer, fillColor, NSObject)
+                 ]];
     
     
     
     // Create intermediate producer for rotation of the star.
     OCAProducer *starRotation = [[OCAPropertyStruct(self.scrollView, contentOffset, y)
-                                  contextualize:[OCAContext disableImplicitAnimations]] // This connection will run with disabled animations.
-                                 bridgeWithTransform:[OCAMath divideBy: - self.starLayer.bounds.size.width]];
+                                  produceInContext:[OCAContext disableImplicitAnimations]] // This connection will run with disabled animations.
+                                 produceTransformed:@[ [OCAMath divideBy: - self.starLayer.bounds.size.width] ]];
     
     // Apply rotation as a layer's transform.
-    [starRotation
-     transform:[OCAGeometry transform3DFromZRotation]
-     connectTo:OCAProperty(self.starLayer, transform, CATransform3D)];
+    [[starRotation
+      produceTransformed:@[ [OCAGeometry transform3DFromZRotation] ]]
+     consumeBy:OCAProperty(self.starLayer, transform, CATransform3D)];
     
     // Calculate shadow offset for correct perspective.
-    [starRotation
-     transform:[OCATransformer sequence:@[
-                                          [OCAFoundation branchArray:@[ // Will create array: [ sin(r), cos(r) ]
-                                                                       [OCAMath sine],
-                                                                       [OCAMath cosine],
-                                                                       ]],
-                                          [OCAGeometry makeSize], // Uses first two elements in array to make size.
-                                          [OCAGeometry multiplySizeBy:20] // Distance to which to move the shadow.
-                                          ]]
-     connectTo:OCAProperty(self.starLayer, shadowOffset, CGSize)];
+    [[starRotation
+      produceTransformed:@[
+                           [OCAFoundation branchArray:@[ // Will create array: [ sin(r), cos(r) ]
+                                                        [OCAMath sine],
+                                                        [OCAMath cosine],
+                                                        ]],
+                           [OCAGeometry makeSize], // Uses first two elements in array to make size.
+                           [OCAGeometry multiplySizeBy:20] // Distance to which to move the shadow.
+                           ]]
+     consumeBy:OCAProperty(self.starLayer, shadowOffset, CGSize)];
     
     
     
@@ -237,23 +238,24 @@
     
     // Creating intermediate producer for paralax effect.
     OCAProducer *paralax = [[OCAPropertyStruct(self.scrollView, contentOffset, y)
-                             contextualize:[OCAContext disableImplicitAnimations]] // Any paralax depencency will not use animations.
-                            bridgeWithTransform:[OCATransformer sequence:
-                                                 @[ scrollProgressFromContentOffset,
-                                                    [OCAMath subtract:0.5],
-                                                    [OCAMath multiplyBy:-2],
-                                                    // Should output values from -1 to 1
-                                                    ]]];
+                             produceInContext:[OCAContext disableImplicitAnimations]] // Any paralax depencency will not use animations.
+                            produceTransformed:@[
+                                                 scrollProgressFromContentOffset,
+                                                 [OCAMath subtract:0.5],
+                                                 [OCAMath multiplyBy:-2],
+                                                 // Should output values from -1 to 1
+                                                 ]];
     
     // Calculate absolute position of the pentagram.
-    [paralax transform:[OCATransformer sequence:
-                        @[ [OCAMath multiplyBy:100],
-                           [OCAMath add:self.view.bounds.size.height / 2], ]]
-             connectTo:OCAPropertyStruct(self.pentagramLayer, position, y)];
+    [[paralax produceTransformed:@[
+                                   [OCAMath multiplyBy:100],
+                                   [OCAMath add:self.view.bounds.size.height / 2], ]]
+     consumeBy:OCAPropertyStruct(self.pentagramLayer, position, y)];
     
     // Calculate relative shadow offset of the pentagram.
-    [paralax transform:[OCAMath multiplyBy:20]
-             connectTo:OCAPropertyStruct(self.pentagramLayer, shadowOffset, height)];
+    [[paralax
+      produceTransformed:@[ [OCAMath multiplyBy:20] ]]
+     consumeBy:OCAPropertyStruct(self.pentagramLayer, shadowOffset, height)];
     
     
 }

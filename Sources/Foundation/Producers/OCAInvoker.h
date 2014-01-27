@@ -18,10 +18,9 @@
 @interface OCAInvoker : OCAObject < OCAConsumer >
 
 
-#define OCAInvoker(TARGET, METHOD)  [[OCAInvoker alloc] initWithInvocation:OCAInvocation(TARGET, METHOD)]
-
 
 - (instancetype)initWithInvocation:(NSInvocation *)invocation;
+//TODO: Allow invoking on the value or replace arguments.
 
 @property (atomic, readonly, weak) id target;
 @property (atomic, readonly, strong) NSInvocation *invocation;
@@ -37,7 +36,8 @@
 @interface OCAProducer (OCAInvoker)
 
 
-- (OCAConnection *)invoke:(OCAInvoker *)invoker;
+- (void)invoke:(NSInvocation *)invocation;
+//TODO: -invokeTarget:selector:object:
 
 
 @end

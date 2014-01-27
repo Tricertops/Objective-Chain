@@ -7,7 +7,6 @@
 //
 
 #import "OCAMulticast.h"
-#import "OCAConnection.h"
 
 
 
@@ -135,9 +134,9 @@
 
 
 
-- (OCAConnection *)multicast:(id<OCAConsumer>)consumer, ... NS_REQUIRES_NIL_TERMINATION {
-    OCAMulticast *multicast = [[OCAMulticast alloc] initWithConsumers:NSArrayFromVariadicArguments(consumer)];
-    return [[OCAConnection alloc] initWithProducer:self queue:nil transform:nil consumer:multicast];
+- (void)multicast:(NSArray *)consumers CONVENIENCE {
+    OCAMulticast *multicast = [[OCAMulticast alloc] initWithConsumers:consumers];
+    [self addConsumer:multicast];
 }
 
 

@@ -7,7 +7,6 @@
 //
 
 #import "OCAProducer.h"
-#import "OCAConnection.h"
 
 
 
@@ -24,13 +23,11 @@
 
 #pragma mark Managing Connections
 
-- (void)willAddConnection:(OCAConnection *)connection;
-- (void)addConnection:(OCAConnection *)connection;
-- (void)didAddConnection:(OCAConnection *)connection;
+- (void)willAddConsumer:(id<OCAConsumer> )consumer;
+- (void)didAddConsumer:(id<OCAConsumer> )consumer;
 
-- (void)willRemoveConnection:(OCAConnection *)connection;
-- (void)removeConnection:(OCAConnection *)connection;
-- (void)didRemoveConnection:(OCAConnection *)connection;
+- (void)willRemoveConsumer:(id<OCAConsumer> )consumer;
+- (void)didRemoveConsumer:(id<OCAConsumer> )consumer;
 
 
 #pragma mark Lifetime of Producer

@@ -6,29 +6,33 @@
 //  Copyright (c) 2014 Martin Kiss. All rights reserved.
 //
 
-#import "OCABridge.h"
+#import "OCAProducer.h"
+#import "OCAConsumer.h"
 #import "OCAProperty.h"
+#import "OCAQueue.h"
 
 
 
 typedef void(^OCAContextExecutionBlock)(void);
 typedef void(^OCAContextDefinitionBlock)(OCAContextExecutionBlock executionBlock);
+extern OCAContextDefinitionBlock const OCAContextDefaultDefinitionBlock;
 
 
 
 
 
-@interface OCAContext : OCABridge
+@interface OCAContext : OCAProducer <OCAConsumer>
 
 
 
 #pragma mark Creating Context
 
-- (instancetype)initWithValueClass:(Class)valueClass definitionBlock:(OCAContextDefinitionBlock)definitionBlock;
+- (instancetype)initWithDefinitionBlock:(OCAContextDefinitionBlock)definitionBlock;
 
 + (OCAContext *)empty;
 + (OCAContext *)custom:(OCAContextDefinitionBlock)block;
 + (OCAContext *)property:(OCAProperty *)property value:(id)value;
++ (OCAContext *)onQueue:(OCAQueue *)queue synchronous:(BOOL)synchronous;
 
 
 #pragma mark Using Context
@@ -48,10 +52,14 @@ typedef void(^OCAContextDefinitionBlock)(OCAContextExecutionBlock executionBlock
 
 
 
+
 @interface OCAProducer (OCAContext)
 
 
-- (OCABridge *)contextualize:(OCAContext *)context;
+- (OCAContext *)produceInContext:(OCAContext *)context CONVENIENCE;
+- (OCAContext *)produceInContextBlock:(OCAContextDefinitionBlock)contextBlock CONVENIENCE;
+- (OCAContext *)produceOnQueue:(OCAQueue *)queue CONVENIENCE;
+//TODO: Methods for specific instances.
 
 
 @end

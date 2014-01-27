@@ -19,10 +19,14 @@
 
 #pragma mark Creating Bridge
 
-- (instancetype)initWithValueClass:(Class)valueClass;
+- (instancetype)initWithTransformer:(NSValueTransformer *)transformer;
 
 + (OCABridge *)bridge;
 + (OCABridge *)bridgeForClass:(Class)class;
++ (OCABridge *)bridgeWithTransformer:(NSValueTransformer *)transformer;
+
+
+@property (atomic, readonly, strong) NSValueTransformer *transformer;
 
 
 #pragma mark Bridge as a Consumer
@@ -42,8 +46,8 @@
 @interface OCAProducer (OCABridge)
 
 
-- (OCABridge *)bridgeOnQueue:(OCAQueue *)queue;
-- (OCABridge *)bridgeWithTransform:(NSValueTransformer *)transformer;
+- (OCABridge *)produceTransformed:(NSArray *)transformers CONVENIENCE;
+//TODO: Convenience for specific transformer instances.
 
 
 @end

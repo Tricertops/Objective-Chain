@@ -69,8 +69,9 @@
 
 
 
-- (OCAConnection *)invoke:(OCAInvoker *)invoker {
-    return [self connectTo:invoker];
+- (void)invoke:(NSInvocation *)invocation {
+    OCAInvoker *invoker = [[OCAInvoker alloc] initWithInvocation:invocation];
+    [self addConsumer:invoker];
 }
 
 

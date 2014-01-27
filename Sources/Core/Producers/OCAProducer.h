@@ -7,9 +7,6 @@
 //
 
 #import "OCAObject.h"
-
-@class OCAConnection;
-@class OCAQueue;
 @protocol OCAConsumer;
 
 
@@ -30,22 +27,22 @@
 @property (atomic, readonly, strong) NSError *error;
 
 
-#pragma mark Connecting to Producer
-
-- (OCAConnection *)connectTo:(id<OCAConsumer>)consumer;
-- (OCAConnection *)transform:(NSValueTransformer *)transformer connectTo:(id<OCAConsumer>)consumer;
-- (OCAConnection *)onQueue:(OCAQueue *)queue transform:(NSValueTransformer *)transformer connectTo:(id<OCAConsumer>)consumer;
-
-
 #pragma mark Inspecting Connections of Producer
 
-@property (atomic, readonly, strong) NSArray *connections;
+@property (atomic, readonly, strong) NSArray *consumers;
+- (void)addConsumer:(id<OCAConsumer> )consumer;
+- (void)removeConsumer:(id<OCAConsumer> )consumer;
 
 
 #pragma mark Describing Producer
 
 - (NSString *)descriptionName;
 - (NSDictionary *)debugDescriptionValues;
+
+
+#pragma mark Covenience Methods
+
+- (void)consumeBy:(id<OCAConsumer>)consumer CONVENIENCE;
 
 
 

@@ -8,7 +8,7 @@
 
 #import "OCAFilter.h"
 #import "OCAProducer+Subclass.h"
-#import "OCAConnection.h"
+#import "OCAPredicate.h"
 
 
 
@@ -27,8 +27,16 @@
 
 #pragma mark Creating Filter
 
-- (instancetype)initWithValueClass:(Class)valueClass predicate:(NSPredicate *)predicate {
-    self = [super init];
+
+- (instancetype)initWithValueClass:(Class)valueClass {
+    NSPredicate *predicate = [OCAPredicate predicateForClass:valueClass block:^BOOL(id object) {
+        return YES; // Pass all of that class.
+    }];
+    return [self initWithPredicate:predicate];
+}
+
+- (instancetype)initWithPredicate:(NSPredicate *)predicate {
+    self = [super initWithValueClass:nil];
     if (self) {
         self->_predicate = predicate ?: [NSPredicate predicateWithValue:YES];
     }
@@ -36,8 +44,8 @@
 }
 
 
-+ (OCAFilter *)evaluate:(NSPredicate *)predicate {
-    return [[self alloc] initWithValueClass:nil predicate:predicate];
++ (OCAFilter *)predicate:(NSPredicate *)predicate {
+    return [[self alloc] initWithPredicate:predicate];
 }
 
 
@@ -57,6 +65,11 @@
 
 
 #pragma mark Filter as a Consumer
+
+
+- (Class)consumedValueClass {
+    return nil;
+}
 
 
 - (void)consumeValue:(id)value {
@@ -114,9 +127,10 @@
 
 
 
-- (OCABridge *)filter:(NSPredicate *)predicate {
-    OCAFilter *filter = [[OCAFilter alloc] initWithValueClass:self.valueClass predicate:predicate];
-    (void)[[OCAConnection alloc] initWithProducer:self queue:nil transform:nil consumer:filter];
+- (OCAFilter *)produceFiltered:(NSPredicate *)predicate {
+    NSPredicate *validatingPredicate = [OCAPredicate predicateForClass:self.valueClass predicate:predicate];
+    OCAFilter *filter = [[OCAFilter alloc] initWithPredicate:validatingPredicate];
+    [self addConsumer:filter];
     return filter;
 }
 

@@ -6,21 +6,22 @@
 //  Copyright (c) 2014 Martin Kiss. All rights reserved.
 //
 
-#import "OCABridge.h"
+#import "OCAProducer.h"
+#import "OCAConsumer.h"
 
 
 
 
 
-@interface OCAFilter : OCABridge
+@interface OCAFilter : OCAProducer <OCAConsumer>
 
 
 
 #pragma mark Creating Filter
 
-- (instancetype)initWithValueClass:(Class)valueClass predicate:(NSPredicate *)predicate;
+- (instancetype)initWithPredicate:(NSPredicate *)predicate;
 
-+ (OCAFilter *)evaluate:(NSPredicate *)predicate;
++ (OCAFilter *)predicate:(NSPredicate *)predicate;
 
 
 #pragma mark Using Filter
@@ -46,7 +47,8 @@
 @interface OCAProducer (OCAFilter)
 
 
-- (OCABridge *)filter:(NSPredicate *)predicate;
+- (OCAFilter *)produceFiltered:(NSPredicate *)predicate CONVENIENCE;
+//TODO: Methods for specific instances.
 
 
 @end

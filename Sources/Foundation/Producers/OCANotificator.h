@@ -36,6 +36,7 @@
 
 #pragma mark Notification Transformations
 
+//TODO: Convenience -sendName, -sendSender, -sendUserInfo, -sendUserInfoValueForKey:
 + (NSValueTransformer *)notificationName;
 + (NSValueTransformer *)notificationSender;
 + (NSValueTransformer *)notificationUserInfo;
@@ -44,6 +45,7 @@
 
 #pragma mark Posting Notifications
 
+//TODO: Move to OCAConsumer class
 + (id<OCAConsumer>)postNotification:(NSString *)name;
 + (id<OCAConsumer>)postNotification:(NSString *)name sender:(NSObject *)object;
 + (id<OCAConsumer>)postNotification:(NSString *)name sender:(NSObject *)object userInfoKey:(id)key;

@@ -50,9 +50,9 @@ typedef void(^OCASubscriberFinishHandler)(NSError *error);
 @interface OCAProducer (OCASubscriber)
 
 
-- (OCAConnection *)subscribeEvents:(OCASubscriberEventHandler)eventHandler;
-- (OCAConnection *)subscribe:(Class)valueClass handler:(OCASubscriberValueHandler)valueHandler;
-- (OCAConnection *)subscribe:(Class)valueClass handler:(OCASubscriberValueHandler)valueHandler finish:(OCASubscriberFinishHandler)finishHandler;
+- (void)subscribeEvents:(OCASubscriberEventHandler)eventHandler CONVENIENCE;
+- (void)subscribe:(Class)valueClass handler:(OCASubscriberValueHandler)valueHandler CONVENIENCE;
+- (void)subscribe:(Class)valueClass handler:(OCASubscriberValueHandler)valueHandler finish:(OCASubscriberFinishHandler)finishHandler CONVENIENCE;
 
 
 @end

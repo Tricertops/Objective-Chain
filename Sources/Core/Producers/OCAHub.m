@@ -90,7 +90,7 @@
     for (OCAProducer *producer in self.mutableProducers) {
         OCAAssert([producer isKindOfClass:[OCAProducer class]], @"Need OCAProducer, not %@", producer.class) continue;
         
-        [producer connectTo:self];
+        [producer addConsumer:self];
     }
 }
 

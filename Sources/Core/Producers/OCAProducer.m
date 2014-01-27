@@ -7,7 +7,7 @@
 //
 
 #import "OCAProducer+Subclass.h"
-#import "OCAConnection+Private.h"
+#import "OCAConsumer.h"
 
 
 
@@ -20,7 +20,7 @@
 @property (atomic, readwrite, assign) BOOL finished;
 @property (atomic, readwrite, strong) NSError *error;
 
-@property (atomic, readonly, strong) NSMutableArray *mutableConnections;
+@property (atomic, readonly, strong) NSMutableArray *mutableConsumers;
 
 
 @end
@@ -53,7 +53,7 @@
         OCAAssert(self.class != [OCAProducer class], @"Cannot instantinate abstract class.") return nil;
         
         self->_valueClass = valueClass;
-        self->_mutableConnections = [[NSMutableArray alloc] init];
+        self->_mutableConsumers = [[NSMutableArray alloc] init];
     }
     return self;
 }
@@ -62,64 +62,66 @@
 
 
 
-#pragma mark Managing Connections
+#pragma mark Managing Consumers
 
 
-- (NSArray *)connections {
-    return [self.mutableConnections copy];
+- (NSArray *)consumers {
+    return [self.mutableConsumers copy];
 }
 
 
-- (void)addConnection:(OCAConnection *)connection {
-    [self willAddConnection:connection];
+- (void)addConsumer:(id<OCAConsumer>)consumer {
+    OCAAssert([self isClass:self.valueClass compatibleWithClass:[consumer consumedValueClass]], @"Incompatible classes: %@ to %@", self.valueClass, [consumer consumedValueClass]) return;
     
-    NSMutableArray *connections = self.mutableConnections;
-    @synchronized(connections) {
-        [connections addObject:connection];
+    [self willAddConsumer:consumer];
+    
+    NSMutableArray *consumers = self.mutableConsumers;
+    @synchronized(consumers) {
+        [consumers addObject:consumer];
     }
     
     if (self.finished) {
         // I we already finished remove immediately.
-        [connection producerDidFinishWithError:self.error];
-        [self removeConnection:connection];
+        [consumer finishConsumingWithError:self.error];
+        [self removeConsumer:consumer];
     }
     else if (self.numberOfSentValues > 0) {
         // It there was at least one sent value, send the last one.
-        [connection producerDidProduceValue:self.lastValue];
+        [consumer consumeValue:self.lastValue];
     }
     
-    [self didAddConnection:connection];
+    [self didAddConsumer:consumer];
 }
 
 
-- (void)willAddConnection:(OCAConnection *)connection {
+- (void)willAddConsumer:(id<OCAConsumer>)consumer {
     
 }
 
 
-- (void)didAddConnection:(OCAConnection *)connection {
+- (void)didAddConsumer:(id<OCAConsumer>)consumer {
     
 }
 
 
-- (void)removeConnection:(OCAConnection *)connection {
-    [self willRemoveConnection:connection];
+- (void)removeConsumer:(id<OCAConsumer>)consumer {
+    [self willRemoveConsumer:consumer];
     
-    NSMutableArray *connections = self.mutableConnections;
-    @synchronized(connections) {
-        [connections removeObjectIdenticalTo:connection];
+    NSMutableArray *consumers = self.mutableConsumers;
+    @synchronized(consumers) {
+        [consumers removeObjectIdenticalTo:consumer];
     }
     
-    [self didRemoveConnection:connection];
+    [self didRemoveConsumer:consumer];
 }
 
 
-- (void)willRemoveConnection:(OCAConnection *)connection {
+- (void)willRemoveConsumer:(id<OCAConsumer>)consumer {
     
 }
 
 
-- (void)didRemoveConnection:(OCAConnection *)connection {
+- (void)didRemoveConsumer:(id<OCAConsumer>)consumer {
     
 }
 
@@ -130,18 +132,8 @@
 #pragma mark Connecting to Producer
 
 
-- (OCAConnection *)connectTo:(id<OCAConsumer>)consumer {
-    return [[OCAConnection alloc] initWithProducer:self queue:nil transform:nil consumer:consumer];
-}
-
-
-- (OCAConnection *)transform:(NSValueTransformer *)transformer connectTo:(id<OCAConsumer>)consumer {
-    return [[OCAConnection alloc] initWithProducer:self queue:nil transform:transformer consumer:consumer];
-}
-
-
-- (OCAConnection *)onQueue:(OCAQueue *)queue transform:(NSValueTransformer *)transformer connectTo:(id<OCAConsumer>)consumer {
-    return [[OCAConnection alloc] initWithProducer:self queue:queue transform:transformer consumer:consumer];
+- (void)consumeBy:(id<OCAConsumer>)consumer {
+    [self addConsumer:consumer];
 }
 
 
@@ -159,10 +151,15 @@
     self.lastValue = value;
     self.numberOfSentValues ++;
     
-    for (OCAConnection *connection in [self.mutableConnections copy]) {
-        [connection producerDidProduceValue:value];
+    for (id<OCAConsumer> consumer in [self.mutableConsumers copy]) {
+        id consumedValue = value; // Always new variable.
+        BOOL consumedValid = [self validateObject:&consumedValue ofClass:[consumer consumedValueClass]];
+        if (consumedValid) {
+            [consumer consumeValue:consumedValue];
+        }
     }
 }
+
 
 - (void)finishProducingWithError:(NSError *)error {
     if (self.finished) return;
@@ -170,12 +167,11 @@
     self.finished = YES;
     self.error = error;
     
-    // Connections will attempt to remove themselves, but now the array is empty.
-    NSArray *connections = [self.mutableConnections copy];
-    [self.mutableConnections setArray:nil];
+    NSArray *consumers = [self.mutableConsumers copy];
+    [self.mutableConsumers setArray:nil];
     
-    for (OCAConnection *connection in connections) {
-        [connection producerDidFinishWithError:error];
+    for (id<OCAConsumer> consumer in consumers) {
+        [consumer finishConsumingWithError:error];
     }
     
 }
@@ -212,7 +208,7 @@
              @"lastValue": self.lastValue ?: @"nil",
              @"finished": (self.finished? @"YES" : @"NO"),
              @"error": self.error ?: @"nil",
-             @"connections": @(self.connections.count),
+             @"consumers": @(self.consumers.count),
              };
 }
 

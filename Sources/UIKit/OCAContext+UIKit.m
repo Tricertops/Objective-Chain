@@ -27,21 +27,21 @@
 
 
 + (OCAContext *)noAnimations {
-    return [[self alloc] initWithValueClass:nil definitionBlock:^(OCAContextExecutionBlock executionBlock) {
+    return [[self alloc] initWithDefinitionBlock:^(OCAContextExecutionBlock executionBlock) {
         [UIView performWithoutAnimation:executionBlock];
     }];
 }
 
 
 + (OCAContext *)animateWithDuration:(NSTimeInterval)duration {
-    return [[self alloc] initWithValueClass:nil definitionBlock:^(OCAContextExecutionBlock executionBlock) {
+    return [[self alloc] initWithDefinitionBlock:^(OCAContextExecutionBlock executionBlock) {
         [UIView animateWithDuration:duration animations:executionBlock];
     }];
 }
 
 
 + (OCAContext *)animateWithDelay:(NSTimeInterval)delay duration:(NSTimeInterval)duration options:(UIViewAnimationOptions)options {
-    return [[self alloc] initWithValueClass:nil definitionBlock:^(OCAContextExecutionBlock executionBlock) {
+    return [[self alloc] initWithDefinitionBlock:^(OCAContextExecutionBlock executionBlock) {
         [UIView animateWithDuration:duration delay:delay options:options animations:executionBlock completion:nil];
     }];
 }
@@ -54,7 +54,7 @@
 
 
 + (OCAContext *)disableImplicitAnimations {
-    return [[self alloc] initWithValueClass:nil definitionBlock:^(OCAContextExecutionBlock executionBlock) {
+    return [[self alloc] initWithDefinitionBlock:^(OCAContextExecutionBlock executionBlock) {
         [CATransaction begin];
         [CATransaction setDisableActions:YES];
         

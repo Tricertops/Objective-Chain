@@ -142,70 +142,70 @@
              [self.timer subscribeEvents:^{
                  OCAStrongify(self);
                  self.interval += self.timer.interval;
-              }];
+             }];
          }
      }];
     
     /// Update button based on Timer's state.
-    [OCAProperty(self, timer.isRunning, BOOL)
-     transform:[OCATransformer yes:@"Stop" no:@"Start"]
-     connectTo:[OCAUIKit setTitleOfButton:self.startButton
+    [[OCAProperty(self, timer.isRunning, BOOL)
+      produceTransformed:@[ [OCATransformer yes:@"Stop" no:@"Start"] ]]
+     consumeBy:[OCAUIKit setTitleOfButton:self.startButton
                           forControlState:UIControlStateNormal]];
     
     
     /// Update label's text using custom transformer.
-    [OCAProperty(self, interval, NSTimeInterval)
-     transform:[self transformerFromIntervalToString]
-     connectTo:OCAProperty(self.label, text, NSString)];
+    [[OCAProperty(self, interval, NSTimeInterval)
+      produceTransformed:@[ [self transformerFromIntervalToString] ]]
+     consumeBy:OCAProperty(self.label, text, NSString)];
     
     /// Calculate clock's progress.
-    [OCAProperty(self, interval, NSTimeInterval)
-     transform:[OCATransformer sequence:@[
-                                          [OCAMath modulus:60],
-                                          [OCAMath divideBy:60],
-                                          ]]
-     connectTo:OCAProperty(self, clockProgress, CGFloat)];
+    [[OCAProperty(self, interval, NSTimeInterval)
+      produceTransformed:@[
+                           [OCAMath modulus:60],
+                           [OCAMath divideBy:60],
+                           ]]
+     consumeBy:OCAProperty(self, clockProgress, CGFloat)];
     
     /// Use clock progress to create the shape and assign it to the layer.
-    [[OCAPropertyChange(self, clockProgress, CGFloat)
-      contextualize:[OCAContext disableImplicitAnimations]]
-     transform:[OCATransformer sequence:@[
-                                          /// But before, check whether we made full circle (progress from 1 to 0) and create new layer on top.
-                                          [OCATransformer sideEffect:
-                                           ^(NSArray *change) {
-                                               OCAStrongify(self);
-                                               CGFloat old = [change.first doubleValue];
-                                               CGFloat new = [change.second doubleValue];
-                                               
-                                               if (old > new) {
-                                                   [self makeNewClockLayer];
-                                               }
-                                           }],
-                                          [OCAFoundation objectAtIndex:1], // Current value is second in the array.
-                                          [self transformerFromProgressToCirclePath],
-                                          ]]
-     connectTo:OCAProperty(self, clockLayer.path, NSObject)];
+    [[[OCAPropertyChange(self, clockProgress, CGFloat)
+       produceInContext:[OCAContext disableImplicitAnimations]]
+      produceTransformed:@[
+                           /// But before, check whether we made full circle (progress from 1 to 0) and create new layer on top.
+                           [OCATransformer sideEffect:
+                            ^(NSArray *change) {
+                                OCAStrongify(self);
+                                CGFloat old = [change.first doubleValue];
+                                CGFloat new = [change.second doubleValue];
+                                
+                                if (old > new) {
+                                    [self makeNewClockLayer];
+                                }
+                            }],
+                           [OCAFoundation objectAtIndex:1], // Current value is second in the array.
+                           [self transformerFromProgressToCirclePath],
+                           ]]
+     consumeBy:OCAProperty(self, clockLayer.path, NSObject)];
     
 }
 
 
 - (NSValueTransformer *)transformerFromIntervalToString {
     return [OCATransformer fromClass:[NSNumber class] toClass:[NSString class]
-                    asymetric:^NSString *(NSNumber *intervalNumber) {
-                        NSTimeInterval time = intervalNumber.doubleValue;
-                        
-                        long hours = floor(time / 3600);
-                        time -= hours * 3600;
-                        long minutes = floor(time / 60);
-                        time -= minutes * 60;
-                        long seconds = floor(time);
-                        time -= seconds;
-                        long fractions = floor(time * 100);
-                        
-                        if (hours) return [NSString stringWithFormat:@"%lu:%02lu:%02lu.%02lu", hours, minutes, seconds, fractions];
-                        else if (minutes) return [NSString stringWithFormat:@"%lu:%02lu.%02lu", minutes, seconds, fractions];
-                        else return [NSString stringWithFormat:@"%lu.%02lu", seconds, fractions];
-                    }];
+                           asymetric:^NSString *(NSNumber *intervalNumber) {
+                               NSTimeInterval time = intervalNumber.doubleValue;
+                               
+                               long hours = floor(time / 3600);
+                               time -= hours * 3600;
+                               long minutes = floor(time / 60);
+                               time -= minutes * 60;
+                               long seconds = floor(time);
+                               time -= seconds;
+                               long fractions = floor(time * 100);
+                               
+                               if (hours) return [NSString stringWithFormat:@"%lu:%02lu:%02lu.%02lu", hours, minutes, seconds, fractions];
+                               else if (minutes) return [NSString stringWithFormat:@"%lu:%02lu.%02lu", minutes, seconds, fractions];
+                               else return [NSString stringWithFormat:@"%lu.%02lu", seconds, fractions];
+                           }];
 }
 
 

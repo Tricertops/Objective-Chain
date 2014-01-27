@@ -81,8 +81,8 @@
 }
 
 
-- (void)willAddConnection:(OCAConnection *)connection {
-    if ( ! self.connections.count) {
+- (void)willAddConsumer:(id<OCAConsumer>)consumer {
+    if ( ! self.consumers.count) {
         OCAWeakify(self);
         __weak NSObject *sender = self.notificationSender;
         
@@ -98,8 +98,8 @@
 }
 
 
-- (void)didRemoveConnection:(OCAConnection *)connection {
-    if ( ! self.connections.count) {
+- (void)didRemoveConsumer:(id<OCAConsumer>)consumer {
+    if ( ! self.consumers.count) {
         [self.notificationCenter.decomposer removeOwnedObject:self];
         
         NSObject *sender = self.notificationSender;
@@ -157,7 +157,9 @@
 
 + (OCAProducer *)notify:(NSString *)name from:(NSObject *)sender transform:(NSValueTransformer *)transformer {
     OCANotificator *notifier = [[self alloc] initWithCenter:nil name:name sender:sender];
-    return [notifier bridgeWithTransform:transformer];
+    OCABridge *bridge = [[OCABridge alloc] initWithTransformer:transformer];
+    [notifier addConsumer:bridge];
+    return bridge;
 }
 
 

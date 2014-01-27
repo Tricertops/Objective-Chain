@@ -13,6 +13,7 @@
 #import "OCAFoundation.h"
 #import "OCAMulticast.h"
 #import "NSArray+Ordinals.h"
+#import "OCABridge.h"
 
 
 
@@ -59,7 +60,7 @@
 
 - (void)test_consumingObjectValues {
     OCACommand *command = [OCACommand class:[NSString class]];
-    [command connectTo:OCAProperty(self, occupation, NSString)];
+    [command consumeBy:OCAProperty(self, occupation, NSString)];
     [command sendValue:@"Dude"];
     XCTAssertEqual(self.occupation, @"Dude");
 }
@@ -67,7 +68,7 @@
 
 - (void)test_consumingNumericValues {
     OCACommand *command = [OCACommand class:[NSNumber class]];
-    [command connectTo:OCAProperty(self, age, NSUInteger)];
+    [command consumeBy:OCAProperty(self, age, NSUInteger)];
     [command sendValue:@21];
     XCTAssertTrue(self.age == 21);
 }
@@ -76,8 +77,7 @@
 - (void)test_producingStringValues {
     NSMutableArray *received = [[NSMutableArray alloc] init];
     [OCAProperty(self, jobTitle, NSString)
-     subscribe:[NSString class]
-     handler:^(NSString *jobTitle) {
+     subscribe:[NSString class] handler:^(NSString *jobTitle) {
          [received addObject:jobTitle ?: @""];
      }];
     self.jobTitle = @"Dude";
@@ -90,8 +90,8 @@
 
 
 - (void)test_twoWayBinding {
-    [OCAProperty(self, jobTitle, NSString) connectTo:OCAProperty(self, occupation, NSString)];
-    [OCAProperty(self, occupation, NSString) connectTo:OCAProperty(self, jobTitle, NSString)];
+    [OCAProperty(self, jobTitle, NSString) consumeBy:OCAProperty(self, occupation, NSString)];
+    [OCAProperty(self, occupation, NSString) consumeBy:OCAProperty(self, jobTitle, NSString)];
     
     XCTAssertEqual(self.jobTitle, self.occupation, @"Properties must be equal.");
     
@@ -116,7 +116,9 @@
                                                             [received addObject:value ?: @""];
                                                         }],
                                                        ]];
-    [combined transform:[OCAFoundation joinWithString:@" "] connectTo:consumer];
+    [[combined
+      produceTransformed:@[ [OCAFoundation joinWithString:@" "] ]]
+     consumeBy:consumer];
     
     self.lastName = @"Me";
     
@@ -127,8 +129,8 @@
 
 - (void)test_bindWithTransform {
     [OCAProperty(self, birthYear, NSUInteger)
-     transform:[OCAMath subtractFrom:2014]
-     bindWith:OCAProperty(self, age, NSUInteger)];
+     bindTransformed:[OCAMath subtractFrom:2014]
+     with:OCAProperty(self, age, NSUInteger)];
     
     XCTAssertTrue(self.age == 22);
     self.birthYear = 1991;
@@ -140,8 +142,8 @@
 
 - (void)test_bindWithStructure {
     [OCAProperty(self, birthYear, NSUInteger)
-     transform:[OCAMath subtractFrom:2014]
-     bindWith:OCAProperty(self, age, NSUInteger)];
+     bindTransformed:[OCAMath subtractFrom:2014]
+     with:OCAProperty(self, age, NSUInteger)];
     
     [OCAProperty(self, birthYear, NSUInteger)
      bindWith:OCAPropertyStruct(self, lifespan, location)];

@@ -6,7 +6,6 @@
 //  Copyright © 2014 Martin Kiss. All rights reserved.
 //
 
-#import "OCAConnection.h"
 #import "OCACommand.h"
 #import "OCATimer.h"
 #import "OCABridge.h"
@@ -17,6 +16,7 @@
 #import "OCASemaphore.h"
 #import "OCAQueue.h"
 #import "OCAFilter.h"
+#import "OCAContext.h"
 
 
 
@@ -73,36 +73,15 @@
 }
 
 
-- (void)test_simpleConnection_disabled {
-    OCACommand *command = [OCACommand class:[NSString class]];
-    
-    NSMutableArray *received = [[NSMutableArray alloc] init];
-    OCAConnection *connection = [command subscribe:nil handler:^(id value) {
-        [received addObject:value];
-    }];
-    
-    [command sendValue:@"A"];
-    connection.enabled = NO;
-    [command sendValue:@"B"];
-    connection.enabled = YES;
-    [command sendValue:@"C"];
-    
-    NSArray *expected = @[ @"A", @"C" ];
-    XCTAssertEqualObjects(received, expected, @"Should not receive while connection is disabled.");
-}
-
-
 - (void)test_simpleConnection_withFilterAndTransform {
     OCACommand *command = [OCACommand class:[NSString class]];
     NSMutableArray *received = [[NSMutableArray alloc] init];
     
-    [[command
-      filter:[NSPredicate predicateWithFormat:@"self BEGINSWITH[c] 'a'"]]
-     transform:[OCATransformer access:OCAKeyPath(NSString, uppercaseString, NSString)]
-     connectTo:[OCASubscriber class:[NSString class] handler:
-                ^(NSString *value) {
-                    [received addObject:value];
-                }]];
+    [[[command produceFiltered:[NSPredicate predicateWithFormat:@"self BEGINSWITH[c] 'a'"]]
+     produceTransformed:@[ [OCATransformer access:OCAKeyPath(NSString, uppercaseString, NSString)] ]]
+     subscribe:[NSString class] handler:^(NSString *value) {
+         [received addObject:value];
+     }];
     
     [command sendValues:@[ @"Auto", @"Magic", @"All", @"Every", @"Alien" ]];
     NSArray *expected = @[ @"AUTO",           @"ALL",           @"ALIEN" ];
@@ -115,16 +94,13 @@
     OCASemaphore *semaphore = [[OCASemaphore alloc] init];
     __block NSUInteger tickCount = 0;
     
-    [timer
-     onQueue:timer.queue
-     transform:nil
-     connectTo:[OCASubscriber
-                class:[NSDate class]
-                handler:^(NSDate *value) {
-                    tickCount ++;
-                } finish:^(NSError *error) {
-                    [semaphore signal];
-                }]];
+    [[timer
+     produceOnQueue:timer.queue]
+     subscribe:[NSDate class] handler:^(NSDate *value) {
+         tickCount ++;
+     } finish:^(NSError *error) {
+         [semaphore signal];
+     }];
     
     BOOL signaled = [semaphore waitFor:2];
     XCTAssertTrue(signaled, @"Timer didn't end in given time.");
@@ -143,7 +119,7 @@
     NSString *hello = @"Hello";
     OCACommand *producer = [OCACommand class:[NSString class]];
     OCABridge *bridge = [OCABridge bridgeForClass:[NSString class]];
-    [producer connectTo:bridge];
+    [producer consumeBy:bridge];
     
     __block BOOL consumer1 = NO;
     [bridge subscribe:[NSString class] handler:^(id value) {
@@ -203,12 +179,8 @@
 - (void)test_classValidation_creatingIncompatible {
     OCACommand *command = [OCACommand class:[NSString class]];
     
-    OCAConnection *connection = [command subscribe:[NSNumber class] handler:nil];
-    XCTAssertNil(connection, @"Connection cannot be created with incompatible classes, yet.");
-    
-    OCATransformer *transformer = [[OCATransformer pass] specializeFromClass:[NSArray class] toClass:nil];
-    OCAConnection *transformedConnection = [command transform:transformer connectTo:[OCABridge bridge]];
-    XCTAssertNil(transformedConnection, @"Connection cannot be created with incompatible classes, yet.");
+    [command subscribe:[NSNumber class] handler:nil];
+    XCTAssertTrue(command.consumers.count == 0, @"Connection cannot be created with incompatible classes, yet.");
 }
 
 
@@ -223,7 +195,7 @@
     [command sendValue:@"A"];
     [command sendValue:@4];
     
-    XCTAssertEqualObjects(received, @[ @"A" ], @"Should not receive while connection is disabled.");
+    XCTAssertEqualObjects(received, @[ @"A" ], @"Should not receive incompatible class.");
 }
 
 
@@ -231,7 +203,7 @@
     OCACommand *stringCommand = [OCACommand class:[NSString class]];
     OCACommand *numberCommand = [OCACommand class:[NSNumber class]];
     OCAHub *hub = [[stringCommand
-                    bridgeWithTransform:[OCATransformer access:OCAKeyPath(NSString, length, NSUInteger)]]
+                    produceTransformed:@[ [OCATransformer access:OCAKeyPath(NSString, length, NSUInteger)] ]]
                    mergeWith:numberCommand];
     
     NSMutableArray *received = [[NSMutableArray alloc] init];
@@ -253,15 +225,15 @@
     NSMutableArray *receivedStrings = [[NSMutableArray alloc] init];
     NSMutableArray *receivedNumbers = [[NSMutableArray alloc] init];
     
-    [command multicast:
-     [OCASubscriber class:[NSString class] handler:
-      ^(NSString *value) {
-          [receivedStrings addObject:value];
-      }],
-     [OCASubscriber class:[NSNumber class] handler:
-      ^(NSNumber *value) {
-          [receivedNumbers addObject:value];
-      }], nil];
+    [command multicast:@[
+                         [OCASubscriber class:[NSString class] handler:
+                          ^(NSString *value) {
+                              [receivedStrings addObject:value];
+                          }],
+                         [OCASubscriber class:[NSNumber class] handler:
+                          ^(NSNumber *value) {
+                              [receivedNumbers addObject:value];
+                          }]]];
     
     [command sendValue:@"5"];
     [command sendValue:@5];
@@ -277,14 +249,14 @@
     OCASemaphore *semaphore = [[OCASemaphore alloc] init];
     __block NSUInteger tickCount = 0;
     
-    [timer onQueue:queue
-         transform:[OCATransformer access:OCAKeyPath(NSDate, timeIntervalSinceNow, NSTimeInterval)]
-         connectTo:[OCASubscriber class:[NSNumber class] handler:
-                    ^(NSNumber *timeInterval) {
-                        tickCount++;
-                    } finish:^(NSError *error) {
-                        [semaphore signal];
-                    }]];
+    [[[timer
+       produceOnQueue:queue]
+      produceTransformed:@[ [OCATransformer access:OCAKeyPath(NSDate, timeIntervalSinceNow, NSTimeInterval)] ]]
+     subscribe:[NSNumber class] handler:^(NSNumber *timeInterval) {
+         tickCount++;
+     } finish:^(NSError *error) {
+         [semaphore signal];
+     }];
     
     BOOL signaled = [semaphore waitFor:20];
     XCTAssertTrue(signaled, @"Timer didn't end in given time.");

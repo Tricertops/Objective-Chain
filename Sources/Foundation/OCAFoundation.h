@@ -9,7 +9,6 @@
 
 
 #import "OCAProperty.h"
-#import "OCAConnection+OCAFoundation.h"
 #import "OCATimer.h"
 #import "OCANotificator.h"
 #import "OCAInvoker.h"

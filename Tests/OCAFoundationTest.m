@@ -12,7 +12,6 @@
 #import "OCACommand.h"
 #import "OCADecomposer.h"
 #import "OCABridge.h"
-#import "OCAConnection.h"
 
 
 
@@ -46,17 +45,18 @@
     
     __block BOOL passed = NO;
     __block BOOL finished = NO;
-    [notificator connectTo:[OCASubscriber class:[NSNotification class] handler:
-                            ^(NSNotification *notification) {
-                                passed = [notification.name isEqualToString:notificationName];
-                            } finish:^(NSError *error) {
-                                finished = YES;
-                            }]];
+    [notificator subscribe:[NSNotification class]
+                   handler:^(NSNotification *notification) {
+                       passed = [notification.name isEqualToString:notificationName];
+                   }
+                    finish:^(NSError *error) {
+                        finished = YES;
+                    }];
     [notificator.decomposer addOwnedObject:self cleanup:nil];
     notificator = nil; // Releasing ownership of Notificator, but it should live until Object is deallocated.
     
     OCACommand *command = [[OCACommand alloc] init];
-    [command connectTo:[OCANotificator postNotification:notificationName sender:object]];
+    [command consumeBy:[OCANotificator postNotification:notificationName sender:object]];
     [command sendValue:nil];
     
     XCTAssertTrue(passed, @"Command must invoke notification, notification must invoke block.");
@@ -65,24 +65,9 @@
 
 - (void)test_sharingNotificators {
     OCANotificator *first = [OCANotificator notify:NSCurrentLocaleDidChangeNotification];
-    [first connectTo:[OCABridge bridge]]; // This works only after the instance is connected at least once.
+    [first consumeBy:[OCABridge bridge]]; // This works only after the instance is connected at least once.
     OCANotificator *second = [OCANotificator notify:NSCurrentLocaleDidChangeNotification];
     XCTAssertTrue(first == second);
-}
-
-
-- (void)test_deallocationOfNotificators {
-    NSString *name = @"bkhsuhgrjlnshilag";
-    OCANotificator *notificator = [[OCANotificator alloc] initWithCenter:nil name:name sender:nil];
-    __block BOOL deallocated = NO;
-    [notificator.decomposer addOwnedObject:self cleanup:^(__unsafe_unretained id owner){
-        deallocated = YES;
-    }];
-    OCAConnection *connection = [notificator connectTo:[OCABridge bridge]];
-    notificator = nil;
-    [connection close];
-    
-    XCTAssertTrue(deallocated, @"");
 }
 
 

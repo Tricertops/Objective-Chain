@@ -28,6 +28,8 @@
 
 #define OCA_iOS     TARGET_OS_IPHONE
 
+#define CONVENIENCE
+
 
 
 

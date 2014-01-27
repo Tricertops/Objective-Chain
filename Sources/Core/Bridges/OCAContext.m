@@ -25,6 +25,14 @@
 
 
 
+OCAContextDefinitionBlock const OCAContextDefaultDefinitionBlock = ^(OCAContextExecutionBlock executionBlock){
+    executionBlock();
+};
+
+
+
+
+
 
 
 
@@ -40,38 +48,31 @@
 
 
 - (instancetype)initWithValueClass:(Class)valueClass {
-    return [self initWithValueClass:valueClass definitionBlock:nil];
+    return [self initWithDefinitionBlock:nil];
 }
 
 
-- (instancetype)initWithValueClass:(Class)valueClass definitionBlock:(OCAContextDefinitionBlock)definitionBlock {
-    self = [super initWithValueClass:valueClass];
+- (instancetype)initWithDefinitionBlock:(OCAContextDefinitionBlock)definitionBlock {
+    self = [super initWithValueClass:nil];
     if (self) {
-        self->_definitionBlock = definitionBlock ?: [OCAContext defaultDefinitionBlock];
+        self->_definitionBlock = definitionBlock ?: OCAContextDefaultDefinitionBlock;
     }
     return self;
 }
 
 
-+ (OCAContextDefinitionBlock)defaultDefinitionBlock {
-    return ^(OCAContextExecutionBlock executionBlock){
-        executionBlock();
-    };
-}
-
-
 + (OCAContext *)empty {
-    return [[self alloc] initWithValueClass:nil definitionBlock:nil];
+    return [[self alloc] initWithDefinitionBlock:nil];
 }
 
 
 + (OCAContext *)custom:(OCAContextDefinitionBlock)block {
-    return [[self alloc] initWithValueClass:nil definitionBlock:block];
+    return [[self alloc] initWithDefinitionBlock:block];
 }
 
 
 + (OCAContext *)property:(OCAProperty *)property value:(id)value {
-    return [[self alloc] initWithValueClass:nil definitionBlock:^(OCAContextExecutionBlock executionBlock) {
+    return [[self alloc] initWithDefinitionBlock:^(OCAContextExecutionBlock executionBlock) {
         id originalValue = [property value];
         [property setValue:value];
         
@@ -82,6 +83,20 @@
 }
 
 
++ (OCAContext *)onQueue:(OCAQueue *)queue synchronous:(BOOL)synchronous {
+    if (synchronous) {
+        return [[self alloc] initWithDefinitionBlock:^(OCAContextExecutionBlock executionBlock) {
+            [queue performBlockAndWait:executionBlock];
+        }];
+    }
+    else {
+        return [[self alloc] initWithDefinitionBlock:^(OCAContextExecutionBlock executionBlock) {
+            [queue performBlockAndTryWait:executionBlock];
+        }];
+    }
+}
+
+
 
 
 
@@ -89,12 +104,8 @@
 
 
 - (void)execute:(OCAContextExecutionBlock)executionBlock {
-    __block BOOL wasExecuted = NO;
-    self.definitionBlock(^{
-        wasExecuted = YES;
-        executionBlock();
-    });
-    OCAAssert(wasExecuted, @"The block have to be executed!") executionBlock(); // As a fallback, execute it anyway, without the context.
+    //TODO: Can be somehow controlled and verified.
+    self.definitionBlock(executionBlock);
 }
 
 
@@ -102,6 +113,11 @@
 
 
 #pragma mark Context as a Consumer
+
+
+- (Class)consumedValueClass {
+    return nil;
+}
 
 
 - (void)consumeValue:(id)value {
@@ -147,8 +163,24 @@
 
 
 
-- (OCABridge *)contextualize:(OCAContext *)context {
-    (void)[[OCAConnection alloc] initWithProducer:self queue:nil transform:nil consumer:context];
+- (OCAContext *)produceInContext:(OCAContext *)context CONVENIENCE {
+    [self addConsumer:context];
+    return context;
+}
+
+
+- (OCAContext *)produceInContextBlock:(OCAContextDefinitionBlock)contextBlock {
+    OCAContext *context = [[OCAContext alloc] initWithDefinitionBlock:contextBlock];
+    [self addConsumer:context];
+    return context;
+}
+
+
+- (OCAContext *)produceOnQueue:(OCAQueue *)queue CONVENIENCE {
+    OCAContext *context = [[OCAContext alloc] initWithDefinitionBlock:^(OCAContextExecutionBlock executionBlock) {
+        [queue performBlockAndTryWait:executionBlock];
+    }];
+    [self addConsumer:context];
     return context;
 }
 

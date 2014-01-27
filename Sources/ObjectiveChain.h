@@ -10,8 +10,6 @@
 
 /***  Core  ***/
 
-#import "OCAConnection.h"
-
 #import "OCAProducer.h"
 #import "OCACommand.h"
 #import "OCAHub.h"
