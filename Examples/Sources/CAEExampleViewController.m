@@ -181,6 +181,21 @@
     [super viewDidAppear:animated];
     self.partiallyVisible = NO;
     self.fullyVisible = NO;
+    
+    Class class = self.class;
+    OCAWeakify(self);
+    [[NSOperationQueue mainQueue] performSelector:@selector(addOperationWithBlock:)
+                                       withObject:^{
+                                           OCAStrongify(self);
+                                           if (self) {
+                                               [[[UIAlertView alloc] initWithTitle:@"Memory Leak"
+                                                                          message:[NSString stringWithFormat:@"%@ was not deallocated after being popped!", class]
+                                                                         delegate:nil
+                                                                cancelButtonTitle:@"Oh 💩!"
+                                                                otherButtonTitles:nil] show];
+                                           }
+                                       }
+                                       afterDelay:0.5];
 }
 
 
