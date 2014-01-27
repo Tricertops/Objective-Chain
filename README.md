@@ -8,6 +8,8 @@ Project is inspired by [ReactiveCocoa](https://github.com/ReactiveCocoa/Reactive
 Aim is to build reusable and scalable solution for **MVVM** bindings.
 
 
+##### Project is in early stages of development. Everything you see here can change at any point in time. Follow the [Roadmap](https://github.com/iMartinKiss/Objective-Chain/issues/1) for progress. Thanks!
+
 
 Intro
 -----
@@ -64,10 +66,6 @@ Basic library ***Foundation*** provides transformers for many standard classes l
 
 More modules will be added, mainly **UIKit** additions.
 
-
----
-
-### [Project in development…](https://github.com/iMartinKiss/Objective-Chain/issues/1)
 
 ---
 
