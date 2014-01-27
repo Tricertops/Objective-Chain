@@ -195,13 +195,13 @@
                     asymetric:^NSString *(NSNumber *intervalNumber) {
                         NSTimeInterval time = intervalNumber.doubleValue;
                         
-                        NSUInteger hours = floor(time / 3600);
+                        long hours = floor(time / 3600);
                         time -= hours * 3600;
-                        NSUInteger minutes = floor(time / 60);
+                        long minutes = floor(time / 60);
                         time -= minutes * 60;
-                        NSUInteger seconds = floor(time);
+                        long seconds = floor(time);
                         time -= seconds;
-                        NSUInteger fractions = floor(time * 100);
+                        long fractions = floor(time * 100);
                         
                         if (hours) return [NSString stringWithFormat:@"%lu:%02lu:%02lu.%02lu", hours, minutes, seconds, fractions];
                         else if (minutes) return [NSString stringWithFormat:@"%lu:%02lu.%02lu", minutes, seconds, fractions];
