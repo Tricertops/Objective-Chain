@@ -154,8 +154,8 @@
     NSLog(@"%@: Stopped", self.shortDescription);
     dispatch_source_cancel(self.timer);
     self.timer = nil;
-    [[self.owner decomposer] removeOwnedObject:self];
     self.isRunning = NO;
+    [[self.owner decomposer] removeOwnedObject:self];
 }
 
 
