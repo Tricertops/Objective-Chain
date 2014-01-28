@@ -46,6 +46,8 @@
 
 
 - (OCABridge *)produceTransformed:(NSArray *)transformers CONVENIENCE;
+- (OCABridge *)produceReplacement:(id)replacement CONVENIENCE;
+
 //TODO: Convenience for specific transformer instances.
 
 
