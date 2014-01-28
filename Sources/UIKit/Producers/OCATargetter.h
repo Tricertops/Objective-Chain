@@ -64,3 +64,13 @@
 @end
 
 
+
+
+
+@interface UITextField (OCATargetter)
+
+- (OCAProducer *)producerForText;
+
+@end
+
+
