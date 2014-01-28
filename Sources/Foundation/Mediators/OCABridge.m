@@ -126,6 +126,27 @@
 }
 
 
+- (OCABridge *)produceMapped:(NSDictionary *)map CONVENIENCE {
+    OCABridge *bridge = [[OCABridge alloc] initWithTransformer:[OCATransformer map:map]];
+    [self addConsumer:bridge];
+    return bridge;
+}
+
+
+- (OCABridge *)produceIfYes:(id)yesReplacement ifNo:(id)noReplacement CONVENIENCE {
+    OCABridge *bridge = [[OCABridge alloc] initWithTransformer:[OCATransformer ifYes:yesReplacement ifNo:noReplacement]];
+    [self addConsumer:bridge];
+    return bridge;
+}
+
+
+- (OCABridge *)produceNegatedBoolean CONVENIENCE {
+    OCABridge *bridge = [[OCABridge alloc] initWithTransformer:[OCATransformer negateBoolean]];
+    [self addConsumer:bridge];
+    return bridge;
+}
+
+
 
 
 @end
