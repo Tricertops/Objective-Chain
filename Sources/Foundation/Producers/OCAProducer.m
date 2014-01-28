@@ -125,6 +125,13 @@
 }
 
 
+- (void)removeAllConsumers {
+    for (id<OCAConsumer> consumer in self.consumers) {
+        [self removeConsumer:consumer];
+    }
+}
+
+
 
 
 
@@ -171,6 +178,7 @@
     
     for (id<OCAConsumer> consumer in consumers) {
         [consumer finishConsumingWithError:error];
+        [self removeConsumer:consumer];
     }
     
 }
