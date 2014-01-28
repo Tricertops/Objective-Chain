@@ -1,5 +1,5 @@
 //
-//  OCAActionTarget.h
+//  OCAControlTarget.h
 //  Objective-Chain
 //
 //  Created by Martin Kiss on 15.1.14.
@@ -7,14 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
-
 #import "OCAProducer.h"
 
 
 
 
 
-@interface OCAActionTarget : OCAProducer
+@interface OCAControlTarget : OCAProducer
 
 
 
@@ -31,10 +30,12 @@
 
 
 
-@interface UIControl (OCAActionTarget)
+@interface UIControl (OCAControlTarget)
 
 
-- (OCAProducer *)producerForEvent:(UIControlEvents)event;
+- (OCAControlTarget *)producerForEvent:(UIControlEvents)event;
+//TODO: producerForTouchUpInside
+//TODO: producerForValueChanged
 
 
 @end

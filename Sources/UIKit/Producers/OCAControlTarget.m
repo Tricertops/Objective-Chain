@@ -1,12 +1,12 @@
 //
-//  OCAActionTarget.m
+//  OCAControlTarget.m
 //  Objective-Chain
 //
 //  Created by Martin Kiss on 15.1.14.
 //  Copyright (c) 2014 Martin Kiss. All rights reserved.
 //
 
-#import "OCAActionTarget.h"
+#import "OCAControlTarget.h"
 #import "OCAProducer+Subclass.h"
 #import "OCADecomposer.h"
 
@@ -19,7 +19,7 @@
 
 
 
-@implementation OCAActionTarget
+@implementation OCAControlTarget
 
 
 
@@ -31,7 +31,7 @@
         OCAAssert(control != nil, @"Need a control.") return nil;
         OCAAssert(events != 0, @"Need events.") return nil;
         
-        OCAActionTarget *existingTarget = [OCAActionTarget existingActionTargetForControl:control events:events];
+        OCAControlTarget *existingTarget = [OCAControlTarget existingControlTargetForControl:control events:events];
         if (existingTarget) return existingTarget;
         
         self->_control = control;
@@ -47,8 +47,8 @@
 }
 
 
-+ (OCAActionTarget *)existingActionTargetForControl:(UIControl *)control events:(UIControlEvents)events {
-    return [control.decomposer findOwnedObjectOfClass:self usingBlock:^BOOL(OCAActionTarget *ownedTarget) {
++ (instancetype)existingControlTargetForControl:(UIControl *)control events:(UIControlEvents)events {
+    return [control.decomposer findOwnedObjectOfClass:self usingBlock:^BOOL(OCAControlTarget *ownedTarget) {
         return (ownedTarget.events == events);
     }];
 }
@@ -92,14 +92,14 @@
 
 
 
-@implementation UIControl (OCAActionTarget)
+@implementation UIControl (OCAControlTarget)
 
 
 
 
 
-- (OCAProducer *)producerForEvent:(UIControlEvents)event {
-    return [[OCAActionTarget alloc] initWithControl:self events:event];
+- (OCAControlTarget *)producerForEvent:(UIControlEvents)event {
+    return [[OCAControlTarget alloc] initWithControl:self events:event];
 }
 
 
