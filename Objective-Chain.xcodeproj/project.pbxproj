@@ -160,6 +160,10 @@
 		5BA549E61897A6ED0050288D /* OCAGeometry+Functions.h in Headers */ = {isa = PBXBuildFile; fileRef = 5BA549E41897A6ED0050288D /* OCAGeometry+Functions.h */; };
 		5BA549E71897A6ED0050288D /* OCAGeometry+Functions.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BA549E51897A6ED0050288D /* OCAGeometry+Functions.m */; };
 		5BA549E81897A6ED0050288D /* OCAGeometry+Functions.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BA549E51897A6ED0050288D /* OCAGeometry+Functions.m */; };
+		5BA549F71897A8060050288D /* OCAUIKit+Base.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BA549EC1897A8060050288D /* OCAUIKit+Base.m */; };
+		5BA549F81897A8060050288D /* OCAContext+UIKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BA549EF1897A8060050288D /* OCAContext+UIKit.m */; };
+		5BA549F91897A8060050288D /* OCAActionTarget.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BA549F31897A8060050288D /* OCAActionTarget.m */; };
+		5BA549FA1897A8060050288D /* OCATransformer+UIColor.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BA549F61897A8060050288D /* OCATransformer+UIColor.m */; };
 		5BA8A6451875BD950012BA5D /* OCAMathTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BA8A6441875BD950012BA5D /* OCAMathTest.m */; };
 		5BA8A6461875BD950012BA5D /* OCAMathTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BA8A6441875BD950012BA5D /* OCAMathTest.m */; };
 		5BAB21B51884199500459B56 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5BAB21B41884199500459B56 /* UIKit.framework */; };
@@ -313,6 +317,15 @@
 		5BA549E01897A5820050288D /* OCAPredicate+CATransform3D.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "OCAPredicate+CATransform3D.m"; sourceTree = "<group>"; };
 		5BA549E41897A6ED0050288D /* OCAGeometry+Functions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "OCAGeometry+Functions.h"; sourceTree = "<group>"; };
 		5BA549E51897A6ED0050288D /* OCAGeometry+Functions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "OCAGeometry+Functions.m"; sourceTree = "<group>"; };
+		5BA549EB1897A8060050288D /* OCAUIKit+Base.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "OCAUIKit+Base.h"; sourceTree = "<group>"; };
+		5BA549EC1897A8060050288D /* OCAUIKit+Base.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "OCAUIKit+Base.m"; sourceTree = "<group>"; };
+		5BA549EE1897A8060050288D /* OCAContext+UIKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "OCAContext+UIKit.h"; sourceTree = "<group>"; };
+		5BA549EF1897A8060050288D /* OCAContext+UIKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "OCAContext+UIKit.m"; sourceTree = "<group>"; };
+		5BA549F01897A8060050288D /* OCAUIKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCAUIKit.h; sourceTree = "<group>"; };
+		5BA549F21897A8060050288D /* OCAActionTarget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCAActionTarget.h; sourceTree = "<group>"; };
+		5BA549F31897A8060050288D /* OCAActionTarget.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCAActionTarget.m; sourceTree = "<group>"; };
+		5BA549F51897A8060050288D /* OCATransformer+UIColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "OCATransformer+UIColor.h"; sourceTree = "<group>"; };
+		5BA549F61897A8060050288D /* OCATransformer+UIColor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "OCATransformer+UIColor.m"; sourceTree = "<group>"; };
 		5BA8A6441875BD950012BA5D /* OCAMathTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCAMathTest.m; sourceTree = "<group>"; };
 		5BAB21B41884199500459B56 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/System/Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
 		5BB7CD321879BE51006916AB /* OCAFoundationTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCAFoundationTest.m; sourceTree = "<group>"; };
@@ -382,6 +395,7 @@
 				5B2F2F7E1881D9510028367B /* ObjectiveChain.h */,
 				5BA548EC1896FBED0050288D /* Foundation */,
 				5BA5499C18970D6F0050288D /* Geometry */,
+				5BA549E91897A8060050288D /* UIKit */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -619,6 +633,54 @@
 				5BA549AD18970D6F0050288D /* OCATransformer+UIEdgeInsets.m */,
 				5BA549A218970D6F0050288D /* OCATransformer+CATransform3D.h */,
 				5BA549A318970D6F0050288D /* OCATransformer+CATransform3D.m */,
+			);
+			path = Transformers;
+			sourceTree = "<group>";
+		};
+		5BA549E91897A8060050288D /* UIKit */ = {
+			isa = PBXGroup;
+			children = (
+				5BA549F01897A8060050288D /* OCAUIKit.h */,
+				5BA549F11897A8060050288D /* Producers */,
+				5BA549EA1897A8060050288D /* Consumers */,
+				5BA549ED1897A8060050288D /* Mediators */,
+				5BA549F41897A8060050288D /* Transformers */,
+			);
+			path = UIKit;
+			sourceTree = "<group>";
+		};
+		5BA549EA1897A8060050288D /* Consumers */ = {
+			isa = PBXGroup;
+			children = (
+				5BA549EB1897A8060050288D /* OCAUIKit+Base.h */,
+				5BA549EC1897A8060050288D /* OCAUIKit+Base.m */,
+			);
+			path = Consumers;
+			sourceTree = "<group>";
+		};
+		5BA549ED1897A8060050288D /* Mediators */ = {
+			isa = PBXGroup;
+			children = (
+				5BA549EE1897A8060050288D /* OCAContext+UIKit.h */,
+				5BA549EF1897A8060050288D /* OCAContext+UIKit.m */,
+			);
+			path = Mediators;
+			sourceTree = "<group>";
+		};
+		5BA549F11897A8060050288D /* Producers */ = {
+			isa = PBXGroup;
+			children = (
+				5BA549F21897A8060050288D /* OCAActionTarget.h */,
+				5BA549F31897A8060050288D /* OCAActionTarget.m */,
+			);
+			path = Producers;
+			sourceTree = "<group>";
+		};
+		5BA549F41897A8060050288D /* Transformers */ = {
+			isa = PBXGroup;
+			children = (
+				5BA549F51897A8060050288D /* OCATransformer+UIColor.h */,
+				5BA549F61897A8060050288D /* OCATransformer+UIColor.m */,
 			);
 			path = Transformers;
 			sourceTree = "<group>";
@@ -886,6 +948,7 @@
 				5BA5495C1896FBED0050288D /* OCANotificator.m in Sources */,
 				5BA5497E1896FBED0050288D /* OCATransformer+Core.m in Sources */,
 				5BA549B918970D6F0050288D /* OCATransformer+CGPoint.m in Sources */,
+				5BA549F81897A8060050288D /* OCAContext+UIKit.m in Sources */,
 				5BA5494D1896FBED0050288D /* OCAObject.m in Sources */,
 				5BA549851896FBED0050288D /* OCAKeyPathAccessor.m in Sources */,
 				5BA5493A1896FBED0050288D /* OCAMulticast.m in Sources */,
@@ -897,7 +960,9 @@
 				5BA5493D1896FBED0050288D /* OCASubscriber.m in Sources */,
 				5BA5496C1896FBED0050288D /* OCAMath.m in Sources */,
 				5BA5498E1896FBED0050288D /* NSValue+Boxing.m in Sources */,
+				5BA549F91897A8060050288D /* OCAActionTarget.m in Sources */,
 				5BA549501896FBED0050288D /* OCAPredicate.m in Sources */,
+				5BA549FA1897A8060050288D /* OCATransformer+UIColor.m in Sources */,
 				5BA549751896FBED0050288D /* OCATransformer+NSData.m in Sources */,
 				5BA549401896FBED0050288D /* OCABridge.m in Sources */,
 				5BA549561896FBED0050288D /* OCAHub.m in Sources */,
@@ -910,6 +975,7 @@
 				5BA549881896FBED0050288D /* OCAStructureAccessor.m in Sources */,
 				5BA549531896FBED0050288D /* OCACommand.m in Sources */,
 				5BA549431896FBED0050288D /* OCAContext.m in Sources */,
+				5BA549F71897A8060050288D /* OCAUIKit+Base.m in Sources */,
 				5BA549971896FBED0050288D /* OCAQueue.m in Sources */,
 				5BA549601896FBED0050288D /* OCAProducer.m in Sources */,
 				5BA549BF18970D6F0050288D /* OCATransformer+CGSize.m in Sources */,

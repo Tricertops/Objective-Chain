@@ -1,30 +1,30 @@
 //
-//  OCAUIKit+Colors.m
+//  OCATransformer+UIColor.m
 //  Objective-Chain
 //
 //  Created by Martin Kiss on 15.1.14.
 //  Copyright (c) 2014 Martin Kiss. All rights reserved.
 //
 
-#import "OCAUIKit+Colors.h"
+#import "OCATransformer+UIColor.h"
 
 
 
 
 
-@implementation OCAUIKit (Colors)
 
 
 
 
 
-#pragma mark -
-#pragma mark Transformers
-#pragma mark -
+@implementation OCATransformer (UIColor)
+
+
+
 
 
 + (OCATransformer *)colorFromCGColor {
-    return [[OCAUIKit colorGetCGColor] reversed];
+    return [[OCATransformer colorGetCGColor] reversed];
 }
 
 

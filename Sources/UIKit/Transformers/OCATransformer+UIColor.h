@@ -1,34 +1,26 @@
 //
-//  OCAUIKit+Colors.h
+//  OCATransformer+UIColor.h
 //  Objective-Chain
 //
 //  Created by Martin Kiss on 15.1.14.
 //  Copyright (c) 2014 Martin Kiss. All rights reserved.
 //
 
-#import "OCAUIKit+Base.h"
+#import <UIKit/UIColor.h>
+#import "OCATransformer+Base.h"
 
 
 
 
 
-@interface OCAUIKit (Colors)
+@interface OCATransformer (UIColor)
 
-
-
-
-
-#pragma mark -
-#pragma mark Transformers
-#pragma mark -
 
 
 + (OCATransformer *)colorFromCGColor;
 + (OCATransformer *)colorGetCGColor;
 
 + (OCATransformer *)colorWithAlpha:(CGFloat)alpha;
-
-
 
 
 
