@@ -110,29 +110,37 @@
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
     //TODO: OCAKeyValueChange class
     
-    OCAStructureAccessor *structureAccessor = self.accessor.structureAccessor;
+    NSKeyValueChange kind = [[change objectForKey:NSKeyValueChangeKindKey] integerValue];
     
-    id old = [change objectForKey:NSKeyValueChangeOldKey];
-    BOOL isInitial = (old == nil);
-    
-    if (old == NSNull.null) old = nil;
-    if (structureAccessor) {
-        old = [structureAccessor accessObject:old];
-    }
-    
-    id new = [change objectForKey:NSKeyValueChangeNewKey];
-    if (new == NSNull.null) new = nil;
-    if (structureAccessor) {
-        new = [structureAccessor accessObject:new];
-    }
-    
-    if ( ! isInitial && OCAEqual(old, new)) return;
-    
-    if (self.options & OCAPropertyOptionIncludePreviousValue) {
-        [self produceValue:@[ old ?: NSNull.null, new ?: NSNull.null ]];
+    if (kind == NSKeyValueChangeSetting) {
+        OCAStructureAccessor *structureAccessor = self.accessor.structureAccessor;
+        
+        id old = [change objectForKey:NSKeyValueChangeOldKey];
+        BOOL isInitial = (old == nil);
+        
+        if (old == NSNull.null) old = nil;
+        if (structureAccessor) {
+            old = [structureAccessor accessObject:old];
+        }
+        
+        id new = [change objectForKey:NSKeyValueChangeNewKey];
+        if (new == NSNull.null) new = nil;
+        if (structureAccessor) {
+            new = [structureAccessor accessObject:new];
+        }
+        
+        if ( ! isInitial && OCAEqual(old, new)) return;
+        
+        if (self.options & OCAPropertyOptionIncludePreviousValue) {
+            [self produceValue:@[ old ?: NSNull.null, new ?: NSNull.null ]];
+        }
+        else {
+            [self produceValue:new];
+        }
     }
     else {
-        [self produceValue:new];
+        //TODO: Handle relationships
+        [self produceValue:[object valueForKeyPath:keyPath]];
     }
 }
 
