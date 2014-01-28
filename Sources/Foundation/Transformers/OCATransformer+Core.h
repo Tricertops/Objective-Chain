@@ -34,7 +34,7 @@
 + (OCATransformer *)passesPredicate:(NSPredicate *)predicate or:(id)replacement;
 + (OCATransformer *)replaceNil:(id)replacement;
 + (OCATransformer *)kindOfClass:(Class)class or:(id)replacement;
-+ (OCATransformer *)ifTrue:(id)yesReplacement else:(id)noReplacement;
++ (OCATransformer *)ifYes:(id)yesReplacement ifNo:(id)noReplacement;
 
 
 
