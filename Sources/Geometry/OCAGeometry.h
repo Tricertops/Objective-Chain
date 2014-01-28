@@ -10,7 +10,20 @@
 
 
 #import "OCATransformer+OCAGeometry.h"
+#import "OCATransformer+CGPoint.h"
+#import "OCATransformer+CGSize.h"
+#import "OCATransformer+CGRect.h"
+#import "OCATransformer+CGAffineTransform.h"
+#import "OCATransformer+UIEdgeInsets.h"
+#import "OCATransformer+CATransform3D.h"
+//TODO: CGPath
 
-#import "OCAPredicate.h"
+
+#import "OCAPredicate+CGPoint.h"
+#import "OCAPredicate+CGSize.h"
+#import "OCAPredicate+CGRect.h"
+#import "OCAPredicate+CGAffineTransform.h"
+#import "OCAPredicate+UIEdgeInsets.h"
+#import "OCAPredicate+CATransform3D.h"
 
 

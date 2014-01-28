@@ -25,23 +25,6 @@
 
 
 #pragma mark -
-#pragma mark Predicates
-#pragma mark -
-
-+ (NSPredicate *)predicateForRect:(BOOL(^)(CGRect rect))block;
-+ (NSPredicate *)isRectEqualTo:(CGRect)otherRect;
-+ (NSPredicate *)isRectZero;
-+ (NSPredicate *)isRectEmpty;
-+ (NSPredicate *)isRectNull;
-+ (NSPredicate *)isRectInfinite;
-+ (NSPredicate *)isRectContainsPoint:(CGPoint)point;
-+ (NSPredicate *)isRectContainsRect:(CGRect)otherRect;
-+ (NSPredicate *)isRectContainedInRect:(CGRect)otherRect;
-+ (NSPredicate *)isRectIntersects:(CGRect)otherRect;
-
-
-
-#pragma mark -
 #pragma mark Transformers
 #pragma mark -
 
@@ -81,23 +64,5 @@
 
 
 @end
-
-
-
-
-
-#pragma mark -
-#pragma mark Functions
-#pragma mark -
-
-extern CGRect OCARectFromString(NSString *);
-extern NSString * OCAStringFromRect(CGRect);
-
-extern CGRect OCARectRound(CGRect rect, CGFloat scale);
-extern CGRect OCARectCeil(CGRect rect, CGFloat scale);
-extern CGRect OCARectFloor(CGRect rect, CGFloat scale);
-
-extern CGPoint OCARectGetRelativePoint(CGRect rect, CGPoint point);
-extern CGFloat OCARectGetEdge(CGRect, CGRectEdge);
 
 

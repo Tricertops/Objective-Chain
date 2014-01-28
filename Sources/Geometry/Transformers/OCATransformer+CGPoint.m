@@ -8,13 +8,7 @@
 
 #import "OCATransformer+CGPoint.h"
 #import "OCATransformer+OCAGeometry.h"
-#import "OCAPredicate.h"
 #import "NSArray+Ordinals.h"
-#import "NSValue+Boxing.h"
-
-#if OCA_iOS
-#import <UIKit/UIGeometry.h>
-#endif
 
 
 
@@ -29,63 +23,6 @@
 
 
 
-
-
-#pragma mark -
-#pragma mark Predicates
-#pragma mark -
-
-
-+ (NSPredicate *)predicateForPoint:(BOOL(^)(CGPoint point))block {
-    return [OCAPredicate predicateForClass:[NSValue class] block:^BOOL(NSValue *value) {
-        CGPoint point;
-        BOOL success = [value unboxValue:&point objCType:@encode(CGPoint)];
-        if ( ! success)  return NO;
-        
-        return block(point);
-    }];
-}
-
-
-+ (NSPredicate *)isPointEqualTo:(CGPoint)otherPoint {
-    return [OCATransformer predicateForPoint:^BOOL(CGPoint point) {
-        return CGPointEqualToPoint(point, otherPoint);
-    }];
-}
-
-
-+ (NSPredicate *)isPointZero {
-    return [OCATransformer isPointEqualTo:CGPointZero];
-}
-
-
-+ (NSPredicate *)isPointFurtherFrom:(CGPoint)otherPoint than:(CGFloat)distance {
-    return [OCATransformer predicateForPoint:^BOOL(CGPoint point) {
-        return (OCAPointDistanceToPoint(point, otherPoint) >= distance);
-    }];
-}
-
-
-+ (NSPredicate *)isPointCloserTo:(CGPoint)otherPoint than:(CGFloat)distance {
-    return [OCATransformer predicateForPoint:^BOOL(CGPoint point) {
-        return (OCAPointDistanceToPoint(point, otherPoint) <= distance);
-    }];
-}
-
-
-+ (NSPredicate *)isPointContainedInRect:(CGRect)rect {
-    return [OCATransformer predicateForPoint:^BOOL(CGPoint point) {
-        return CGRectContainsPoint(rect, point);
-    }];
-}
-
-
-
-
-
-#pragma mark -
-#pragma mark Transformers
-#pragma mark -
 
 
 #pragma mark Creating Points
@@ -339,98 +276,5 @@
 
 
 @end
-
-
-
-
-
-
-
-
-
-
-#pragma mark -
-#pragma mark Functions
-#pragma mark -
-
-
-CGPoint OCAPointFromString(NSString *string) {
-#if OCA_iOS
-    return CGPointFromString(string);
-#else
-    return NSPointToCGPoint(NSPointFromString(string));
-#endif
-}
-
-
-NSString * OCAStringFromPoint(CGPoint point) {
-#if OCA_iOS
-    return NSStringFromCGPoint(point);
-#else
-    return NSStringFromPoint(NSPointFromCGPoint(point));
-#endif
-}
-
-
-CGPoint OCAPointAddPoint(CGPoint a, CGPoint b) {
-    a.x += b.x;
-    a.y += b.y;
-    return a;
-}
-
-
-CGPoint OCAPointSubtractPoint(CGPoint a, CGPoint b) {
-    a.x -= b.x;
-    a.y -= b.y;
-    return a;
-}
-
-
-CGPoint OCAPointMultiply(CGPoint p, CGFloat m) {
-    p.x *= m;
-    p.y *= m;
-    return p;
-}
-
-
-CGPoint OCAPointNormalize(CGPoint p) {
-    return OCAPointMultiply(p, 1 / OCAPointGetMagnitude(p));
-}
-
-
-CGPoint OCAPointRound(CGPoint p, CGFloat s) {
-    p.x = OCAGeometryRound(p.x, s);
-    p.y = OCAGeometryRound(p.y, s);
-    return p;
-}
-
-
-CGPoint OCAPointFloor(CGPoint p, CGFloat s) {
-    p.x = OCAGeometryFloor(p.x, s);
-    p.y = OCAGeometryFloor(p.y, s);
-    return p;
-}
-
-
-CGPoint OCAPointCeil(CGPoint p, CGFloat s) {
-    p.x = OCAGeometryCeil(p.x, s);
-    p.y = OCAGeometryCeil(p.y, s);
-    return p;
-}
-
-
-CGFloat OCAPointDistanceToPoint(CGPoint a, CGPoint b) {
-    return OCAPointGetMagnitude(OCAPointSubtractPoint(a, b));
-}
-
-
-CGFloat OCAPointGetMagnitude(CGPoint p) {
-    return sqrt((p.x * p.x) + (p.y * p.y));
-}
-
-
-CGFloat OCAPointGetAngle(CGPoint p) {
-    return atan2(p.x, p.y);
-}
 
 

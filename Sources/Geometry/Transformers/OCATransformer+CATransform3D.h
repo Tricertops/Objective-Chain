@@ -17,24 +17,6 @@
 
 
 
-
-
-#pragma mark -
-#pragma mark Predicates
-#pragma mark -
-
-+ (NSPredicate *)predicateForTransform3D:(BOOL(^)(CATransform3D t))block;
-+ (NSPredicate *)isTransform3DIdentity;
-+ (NSPredicate *)isTransform3DEqualTo:(CATransform3D)otherTransform3D;
-+ (NSPredicate *)isTransform3DAffineTransform;
-
-
-
-#pragma mark -
-#pragma mark Transformers
-#pragma mark -
-
-
 #pragma mark Creating 3D Transforms
 
 + (OCATransformer *)transform3DFromScaleWithZ:(CGFloat)zScale;
@@ -54,8 +36,6 @@
 #pragma mark Disposing 3D Transforms
 
 + (OCATransformer *)affineTransformFromTransform3D;
-
-
 
 
 

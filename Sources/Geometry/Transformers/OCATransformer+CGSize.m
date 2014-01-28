@@ -8,13 +8,7 @@
 
 #import "OCATransformer+CGSize.h"
 #import "OCATransformer+OCAGeometry.h"
-#import "OCAPredicate.h"
 #import "NSArray+Ordinals.h"
-#import "NSValue+Boxing.h"
-
-#if OCA_iOS
-#import <UIKit/UIGeometry.h>
-#endif
 
 
 
@@ -29,42 +23,6 @@
 
 
 
-
-
-#pragma mark -
-#pragma mark Predicates
-#pragma mark -
-
-
-+ (NSPredicate *)predicateForSize:(BOOL(^)(CGSize size))block {
-    return [OCAPredicate predicateForClass:[NSValue class] block:^BOOL(NSValue *value) {
-        CGSize size;
-        BOOL success = [value unboxValue:&size objCType:@encode(CGSize)];
-        if ( ! success) return NO;
-        
-        return block(size);
-    }];
-}
-
-
-+ (NSPredicate *)isSizeEqualTo:(CGSize)otherSize {
-    return [OCATransformer predicateForSize:^BOOL(CGSize size) {
-        return CGSizeEqualToSize(size, otherSize);
-    }];
-}
-
-
-+ (NSPredicate *)isSizeZero {
-    return [OCATransformer isSizeEqualTo:CGSizeZero];
-}
-
-
-
-
-
-#pragma mark -
-#pragma mark Transformers
-#pragma mark -
 
 
 #pragma mark Creating Sizes
@@ -309,95 +267,5 @@
 
 
 @end
-
-
-
-
-
-
-
-
-
-
-#pragma mark -
-#pragma mark Functions
-#pragma mark -
-
-
-CGSize OCASizeFromString(NSString *string) {
-#if OCA_iOS
-    return CGSizeFromString(string);
-#else
-    return NSSizeToCGSize(NSSizeFromString(string));
-#endif
-}
-
-
-NSString * OCAStringFromSize(CGSize size) {
-#if OCA_iOS
-    return NSStringFromCGSize(size);
-#else
-    return NSStringFromSize(NSSizeFromCGSize(size));
-#endif
-}
-
-
-CGSize OCASizeExtendBySize(CGSize a, CGSize b) {
-    a.width += b.width;
-    a.height += b.height;
-    return a;
-}
-
-
-CGSize OCASizeShrinkBySize(CGSize a, CGSize b) {
-    a.width -= b.width;
-    a.height -= b.height;
-    return a;
-}
-
-
-CGSize OCASizeMultiply(CGSize s, CGFloat m) {
-    s.width *= m;
-    s.height *= m;
-    return s;
-}
-
-
-CGSize OCASizeRound(CGSize size, CGFloat scale) {
-    size.width = OCAGeometryRound(size.width, scale);
-    size.height = OCAGeometryRound(size.height, scale);
-    return size;
-}
-
-
-CGSize OCASizeFloor(CGSize size, CGFloat scale) {
-    size.width = OCAGeometryFloor(size.width, scale);
-    size.height = OCAGeometryFloor(size.height, scale);
-    return size;
-}
-
-
-CGSize OCASizeCeil(CGSize size, CGFloat scale) {
-    size.width = OCAGeometryCeil(size.width, scale);
-    size.height = OCAGeometryCeil(size.height, scale);
-    return size;
-}
-
-
-CGSize OCASizeStandardize(CGSize size) {
-    size.width = ABS(size.width);
-    size.height = ABS(size.height);
-    return size;
-}
-
-
-CGFloat OCASizeGetArea(CGSize size) {
-    return (size.width * size.height);
-}
-
-
-CGFloat OCASizeGetRatio(CGSize size) {
-    return (size.width / size.height);
-}
 
 

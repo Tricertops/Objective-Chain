@@ -20,21 +20,6 @@
 
 
 
-#pragma mark -
-#pragma mark Predicates
-#pragma mark -
-
-+ (NSPredicate *)predicateForSize:(BOOL(^)(CGSize size))block;
-+ (NSPredicate *)isSizeEqualTo:(CGSize)otherSize;
-+ (NSPredicate *)isSizeZero;
-
-
-
-#pragma mark -
-#pragma mark Transformers
-#pragma mark -
-
-
 #pragma mark Creating Sizes
 
 + (OCATransformer *)sizeFromString;
@@ -67,28 +52,5 @@
 
 
 @end
-
-
-
-
-
-#pragma mark -
-#pragma mark Functions
-#pragma mark -
-
-extern CGSize OCASizeFromString(NSString *);
-extern NSString * OCAStringFromSize(CGSize);
-
-extern CGSize OCASizeExtendBySize(CGSize, CGSize);
-extern CGSize OCASizeShrinkBySize(CGSize, CGSize);
-extern CGSize OCASizeMultiply(CGSize, CGFloat);
-extern CGSize OCASizeStandardize(CGSize size);
-
-extern CGSize OCASizeRound(CGSize size, CGFloat scale);
-extern CGSize OCASizeFloor(CGSize size, CGFloat scale);
-extern CGSize OCASizeCeil(CGSize size, CGFloat scale);
-
-extern CGFloat OCASizeGetArea(CGSize size);
-extern CGFloat OCASizeGetRatio(CGSize size);
 
 

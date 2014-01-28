@@ -18,25 +18,9 @@
 
 
 
+
 @interface OCATransformer (UIEdgeInsets)
 
-
-
-
-
-#pragma mark -
-#pragma mark Predicates
-#pragma mark -
-
-+ (NSPredicate *)predicateForEdgeInsets:(BOOL(^)(UIEdgeInsets insets))block;
-+ (NSPredicate *)isEdgeInsetsEqualTo:(UIEdgeInsets)otherInsets;
-+ (NSPredicate *)isEdgeInsetsZero;
-
-
-
-#pragma mark -
-#pragma mark Transformers
-#pragma mark -
 
 
 #pragma mark Creating Edge Insets
@@ -65,27 +49,7 @@
 
 
 
-
-
 @end
-
-
-
-
-
-#pragma mark -
-#pragma mark Functions
-#pragma mark -
-
-extern UIEdgeInsets OCAEdgeInsetsAddEdgeInsets(UIEdgeInsets, UIEdgeInsets);
-extern UIEdgeInsets OCAEdgeInsetsSubtractEdgeInsets(UIEdgeInsets, UIEdgeInsets);
-extern UIEdgeInsets OCAEdgeInsetsMultiply(UIEdgeInsets insets, CGFloat multipler);
-
-extern UIEdgeInsets OCAEdgeInsetsRound(UIEdgeInsets insets, CGFloat scale);
-extern UIEdgeInsets OCAEdgeInsetsFloor(UIEdgeInsets insets, CGFloat scale);
-extern UIEdgeInsets OCAEdgeInsetsCeil(UIEdgeInsets insets, CGFloat scale);
-
-
 
 #endif // OCA_iOS
 

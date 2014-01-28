@@ -7,10 +7,9 @@
 //
 
 #import "OCATransformer+CGAffineTransform.h"
+#import "OCATransformer+OCAGeometry.h"
 #import "OCATransformer+CGPoint.h"
 #import "OCATransformer+CGSize.h"
-#import "OCAPredicate.h"
-#import "NSValue+Boxing.h"
 
 #if OCA_iOS
     #import <UIKit/UIGeometry.h>
@@ -24,44 +23,6 @@
 
 
 
-
-
-#pragma mark -
-#pragma mark Predicates
-#pragma mark -
-
-
-+ (NSPredicate *)predicateForAffineTransform:(BOOL(^)(CGAffineTransform t))block {
-    return [OCAPredicate predicateForClass:[NSValue class] block:^BOOL(NSValue *value) {
-        CGAffineTransform t;
-        BOOL success = [value unboxValue:&t objCType:@encode(CGAffineTransform)];
-        if ( ! success)  return NO;
-        
-        return block(t);
-    }];
-}
-
-
-+ (NSPredicate *)isAffineTransformIdentity {
-    return [OCATransformer predicateForAffineTransform:^BOOL(CGAffineTransform t) {
-        return CGAffineTransformIsIdentity(t);
-    }];
-}
-
-
-+ (NSPredicate *)isAffineTransformEqualTo:(CGAffineTransform)otherAffineTransform {
-    return [OCATransformer predicateForAffineTransform:^BOOL(CGAffineTransform t) {
-        return CGAffineTransformEqualToTransform(t, otherAffineTransform);
-    }];
-}
-
-
-
-
-
-#pragma mark -
-#pragma mark Transformers
-#pragma mark -
 
 
 #pragma mark Creating Affine Transforms

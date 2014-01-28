@@ -17,23 +17,6 @@
 
 
 
-
-
-#pragma mark -
-#pragma mark Predicates
-#pragma mark -
-
-+ (NSPredicate *)predicateForAffineTransform:(BOOL(^)(CGAffineTransform t))block;
-+ (NSPredicate *)isAffineTransformIdentity;
-+ (NSPredicate *)isAffineTransformEqualTo:(CGAffineTransform)otherAffineTransform;
-
-
-
-#pragma mark -
-#pragma mark Transformers
-#pragma mark -
-
-
 #pragma mark Creating Affine Transforms
 
 + (OCATransformer *)affineTransformFromScales;
@@ -53,8 +36,6 @@
 + (OCATransformer *)affineTransformRotate:(CGFloat)rotation;
 + (OCATransformer *)affineTransformTranslate:(CGPoint)translation;
 + (OCATransformer *)invertAffineTransform;
-
-
 
 
 

@@ -7,15 +7,10 @@
 //
 
 #import "OCATransformer+CGRect.h"
-#import "OCAPredicate.h"
+#import "OCATransformer+OCAGeometry.h"
 #import "OCATransformer+CGPoint.h"
 #import "OCATransformer+CGSize.h"
 #import "OCATransformer+UIEdgeInsets.h"
-#import "NSValue+Boxing.h"
-
-#if OCA_iOS
-    #import <UIKit/UIGeometry.h>
-#endif
 
 
 
@@ -30,91 +25,6 @@
 
 
 
-
-
-#pragma mark -
-#pragma mark Predicates
-#pragma mark -
-
-
-+ (NSPredicate *)predicateForRect:(BOOL(^)(CGRect rect))block {
-    return [OCAPredicate predicateForClass:[NSValue class] block:^BOOL(NSValue *value) {
-        CGRect rect;
-        BOOL success = [value unboxValue:&rect objCType:@encode(CGRect)];
-        if ( ! success) return NO;
-        
-        return block(rect);
-    }];
-}
-
-
-+ (NSPredicate *)isRectEqualTo:(CGRect)otherRect {
-    return [OCATransformer predicateForRect:^BOOL(CGRect rect) {
-        return CGRectEqualToRect(rect, otherRect);
-    }];
-}
-
-
-+ (NSPredicate *)isRectZero {
-    return [OCATransformer isRectEqualTo:CGRectZero];
-}
-
-
-+ (NSPredicate *)isRectEmpty {
-    return [OCATransformer predicateForRect:^BOOL(CGRect rect) {
-        return CGRectIsEmpty(rect);
-    }];
-}
-
-
-+ (NSPredicate *)isRectNull {
-    return [OCATransformer predicateForRect:^BOOL(CGRect rect) {
-        return CGRectIsNull(rect);
-    }];
-}
-
-
-+ (NSPredicate *)isRectInfinite {
-    return [OCATransformer predicateForRect:^BOOL(CGRect rect) {
-        return CGRectIsInfinite(rect);
-    }];
-}
-
-
-+ (NSPredicate *)isRectContainsPoint:(CGPoint)point {
-    return [OCATransformer predicateForRect:^BOOL(CGRect rect) {
-        return CGRectContainsPoint(rect, point);
-    }];
-}
-
-
-+ (NSPredicate *)isRectContainsRect:(CGRect)otherRect {
-    return [OCATransformer predicateForRect:^BOOL(CGRect rect) {
-        return CGRectContainsRect(rect, otherRect);
-    }];
-}
-
-
-+ (NSPredicate *)isRectContainedInRect:(CGRect)otherRect {
-    return [OCATransformer predicateForRect:^BOOL(CGRect rect) {
-        return CGRectContainsRect(otherRect, rect);
-    }];
-}
-
-
-+ (NSPredicate *)isRectIntersects:(CGRect)otherRect {
-    return [OCATransformer predicateForRect:^BOOL(CGRect rect) {
-        return CGRectIntersectsRect(rect, otherRect);
-    }];
-}
-
-
-
-
-
-#pragma mark -
-#pragma mark Transformers
-#pragma mark -
 
 
 #pragma mark Creating Rectangles
@@ -368,77 +278,5 @@
 
 
 @end
-
-
-
-
-
-
-
-
-
-
-#pragma mark -
-#pragma mark Functions
-#pragma mark -
-
-
-CGRect OCARectFromString(NSString *string) {
-#if OCA_iOS
-    return CGRectFromString(string);
-#else
-    return NSRectToCGRect(NSRectFromString(string));
-#endif
-}
-
-
-NSString * OCAStringFromRect(CGRect rect) {
-#if OCA_iOS
-    return NSStringFromCGRect(rect);
-#else
-    return NSStringFromRect(NSRectFromCGRect(rect));
-#endif
-}
-
-
-CGRect OCARectRound(CGRect rect, CGFloat scale) {
-    rect.origin = OCAPointRound(rect.origin, scale);
-    rect.size = OCASizeRound(rect.size, scale);
-    return rect;
-}
-
-
-CGRect OCARectCeil(CGRect rect, CGFloat scale) {
-    rect.origin = OCAPointCeil(rect.origin, scale);
-    rect.size = OCASizeCeil(rect.size, scale);
-    return rect;
-}
-
-
-CGRect OCARectFloor(CGRect rect, CGFloat scale) {
-    rect.origin = OCAPointFloor(rect.origin, scale);
-    rect.size = OCASizeFloor(rect.size, scale);
-    return rect;
-}
-
-
-CGPoint OCARectGetRelativePoint(CGRect rect, CGPoint relative) {
-    CGPoint point;
-    point.x = rect.origin.x + (rect.size.width * relative.x);
-    point.y = rect.origin.y + (rect.size.height * relative.y);
-    return point;
-}
-
-
-CGFloat OCARectGetEdge(CGRect rect, CGRectEdge edge) {
-    CGFloat(*edgeFunction)(CGRect) = NULL;
-    switch (edge) {
-        case CGRectMinXEdge: edgeFunction = &CGRectGetMinX; break;
-        case CGRectMaxXEdge: edgeFunction = &CGRectGetMaxX; break;
-        case CGRectMinYEdge: edgeFunction = &CGRectGetMinY; break;
-        case CGRectMaxYEdge: edgeFunction = &CGRectGetMaxY; break;
-    }
-    return edgeFunction(rect);
-}
 
 

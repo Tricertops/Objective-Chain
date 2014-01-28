@@ -8,11 +8,14 @@
 
 #import "OCATransformer+UIEdgeInsets.h"
 #import "OCATransformer+OCAGeometry.h"
-#import "OCAPredicate.h"
-#import "NSValue+Boxing.h"
 
 
 #if OCA_iOS
+
+
+
+
+
 
 
 
@@ -22,44 +25,6 @@
 
 
 
-
-
-#pragma mark -
-#pragma mark Predicates
-#pragma mark -
-
-
-+ (NSPredicate *)predicateForEdgeInsets:(BOOL(^)(UIEdgeInsets insets))block {
-    return [OCAPredicate predicateForClass:[NSValue class] block:^BOOL(NSValue *value) {
-        UIEdgeInsets insets;
-        BOOL success = [value unboxValue:&insets objCType:@encode(UIEdgeInsets)];
-        if ( ! success) return NO;
-        
-        return block(insets);
-    }];
-}
-
-
-+ (NSPredicate *)isEdgeInsetsEqualTo:(UIEdgeInsets)otherInsets {
-    return [OCATransformer predicateForEdgeInsets:^BOOL(UIEdgeInsets insets) {
-        return UIEdgeInsetsEqualToEdgeInsets(insets, otherInsets);
-    }];
-}
-
-
-+ (NSPredicate *)isEdgeInsetsZero {
-    return [OCATransformer predicateForEdgeInsets:^BOOL(UIEdgeInsets insets) {
-        return UIEdgeInsetsEqualToEdgeInsets(insets, UIEdgeInsetsZero);
-    }];
-}
-
-
-
-
-
-#pragma mark -
-#pragma mark Transformers
-#pragma mark -
 
 
 #pragma mark Creating Edge Insets
@@ -242,74 +207,6 @@
 
 
 @end
-
-
-
-
-
-
-
-
-
-
-#pragma mark -
-#pragma mark Functions
-#pragma mark -
-
-
-UIEdgeInsets OCAEdgeInsetsAddEdgeInsets(UIEdgeInsets a, UIEdgeInsets b) {
-    a.top += b.top;
-    a.left += b.left;
-    a.right += b.right;
-    a.bottom += b.bottom;
-    return a;
-}
-
-
-UIEdgeInsets OCAEdgeInsetsSubtractEdgeInsets(UIEdgeInsets a, UIEdgeInsets b) {
-    a.top -= b.top;
-    a.left -= b.left;
-    a.right -= b.right;
-    a.bottom -= b.bottom;
-    return a;
-}
-
-
-UIEdgeInsets OCAEdgeInsetsMultiply(UIEdgeInsets insets, CGFloat multipler) {
-    insets.top *= multipler;
-    insets.left *= multipler;
-    insets.right *= multipler;
-    insets.bottom *= multipler;
-    return insets;
-}
-
-
-UIEdgeInsets OCAEdgeInsetsRound(UIEdgeInsets insets, CGFloat scale) {
-    insets.top = OCAGeometryRound(insets.top, scale);
-    insets.left = OCAGeometryRound(insets.left, scale);
-    insets.right = OCAGeometryRound(insets.right, scale);
-    insets.bottom = OCAGeometryRound(insets.bottom, scale);
-    return insets;
-}
-
-
-UIEdgeInsets OCAEdgeInsetsFloor(UIEdgeInsets insets, CGFloat scale) {
-    insets.top = OCAGeometryFloor(insets.top, scale);
-    insets.left = OCAGeometryFloor(insets.left, scale);
-    insets.right = OCAGeometryFloor(insets.right, scale);
-    insets.bottom = OCAGeometryFloor(insets.bottom, scale);
-    return insets;
-}
-
-
-UIEdgeInsets OCAEdgeInsetsCeil(UIEdgeInsets insets, CGFloat scale) {
-    insets.top = OCAGeometryCeil(insets.top, scale);
-    insets.left = OCAGeometryCeil(insets.left, scale);
-    insets.right = OCAGeometryCeil(insets.right, scale);
-    insets.bottom = OCAGeometryCeil(insets.bottom, scale);
-    return insets;
-}
-
 
 
 #endif // OCA_iOS
