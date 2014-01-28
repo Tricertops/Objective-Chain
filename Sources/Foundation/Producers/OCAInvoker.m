@@ -34,6 +34,11 @@
 }
 
 
++ (instancetype)invocation:(NSInvocation *)invocation {
+    return [[self alloc] initWithInvocation:invocation];
+}
+
+
 - (Class)consumedValueClass {
     return nil;
 }

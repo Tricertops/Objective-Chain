@@ -19,6 +19,7 @@
 
 
 - (instancetype)initWithInvocation:(NSInvocation *)invocation;
++ (instancetype)invocation:(NSInvocation *)invocation;
 //TODO: Allow invoking on the value or replace arguments.
 
 @property (atomic, readonly, weak) id target;
