@@ -1,5 +1,5 @@
 //
-//  OCAUIKit+Base.h
+//  OCAUIKit+UIButton.h
 //  Objective-Chain
 //
 //  Created by Martin Kiss on 15.1.14.
