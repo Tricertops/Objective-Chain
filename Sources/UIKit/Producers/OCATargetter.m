@@ -9,7 +9,8 @@
 #import "OCATargetter.h"
 #import "OCAProducer+Subclass.h"
 #import "OCADecomposer.h"
-
+#import "OCABridge.h"
+#import "OCATransformer.h"
 
 
 
@@ -166,5 +167,27 @@
 
 @end
 
+
+
+
+
+
+
+
+
+@implementation UITextField (OCATargetter)
+
+
+- (OCAProducer *)producerForText {
+    OCATargetter *target = [[OCATargetter alloc] initWithOwner:self];
+    [self addTarget:target action:target.action forControlEvents:UIControlEventEditingChanged];
+    
+    OCABridge *bridge = [[OCABridge alloc] initWithTransformer:[OCATransformer access:OCAKeyPath(UITextField, text, NSString)]];
+    [target addConsumer:bridge];
+    return bridge;
+}
+
+
+@end
 
 
