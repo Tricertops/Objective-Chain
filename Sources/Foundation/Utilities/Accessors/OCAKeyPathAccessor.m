@@ -86,6 +86,9 @@
         [object setValue:modifiedStructure forKeyPath:self.keyPath];
     }
     else {
+        if (value == nil && [self.valueClass isSubclassOfClass:[NSNumber class]]) {
+            value = @0;
+        }
         [object setValue:value forKeyPath:self.keyPath];
     }
     
