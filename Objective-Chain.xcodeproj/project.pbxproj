@@ -162,7 +162,7 @@
 		5BA549E81897A6ED0050288D /* OCAGeometry+Functions.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BA549E51897A6ED0050288D /* OCAGeometry+Functions.m */; };
 		5BA549F71897A8060050288D /* OCAUIKit+UIButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BA549EC1897A8060050288D /* OCAUIKit+UIButton.m */; };
 		5BA549F81897A8060050288D /* OCAContext+UIKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BA549EF1897A8060050288D /* OCAContext+UIKit.m */; };
-		5BA549F91897A8060050288D /* OCAControlTarget.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BA549F31897A8060050288D /* OCAControlTarget.m */; };
+		5BA549F91897A8060050288D /* OCATargetter.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BA549F31897A8060050288D /* OCATargetter.m */; };
 		5BA549FA1897A8060050288D /* OCATransformer+UIColor.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BA549F61897A8060050288D /* OCATransformer+UIColor.m */; };
 		5BA8A6451875BD950012BA5D /* OCAMathTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BA8A6441875BD950012BA5D /* OCAMathTest.m */; };
 		5BA8A6461875BD950012BA5D /* OCAMathTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BA8A6441875BD950012BA5D /* OCAMathTest.m */; };
@@ -322,8 +322,8 @@
 		5BA549EE1897A8060050288D /* OCAContext+UIKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "OCAContext+UIKit.h"; sourceTree = "<group>"; };
 		5BA549EF1897A8060050288D /* OCAContext+UIKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "OCAContext+UIKit.m"; sourceTree = "<group>"; };
 		5BA549F01897A8060050288D /* OCAUIKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCAUIKit.h; sourceTree = "<group>"; };
-		5BA549F21897A8060050288D /* OCAControlTarget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCAControlTarget.h; sourceTree = "<group>"; };
-		5BA549F31897A8060050288D /* OCAControlTarget.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCAControlTarget.m; sourceTree = "<group>"; };
+		5BA549F21897A8060050288D /* OCATargetter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCATargetter.h; sourceTree = "<group>"; };
+		5BA549F31897A8060050288D /* OCATargetter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCATargetter.m; sourceTree = "<group>"; };
 		5BA549F51897A8060050288D /* OCATransformer+UIColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "OCATransformer+UIColor.h"; sourceTree = "<group>"; };
 		5BA549F61897A8060050288D /* OCATransformer+UIColor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "OCATransformer+UIColor.m"; sourceTree = "<group>"; };
 		5BA8A6441875BD950012BA5D /* OCAMathTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCAMathTest.m; sourceTree = "<group>"; };
@@ -670,8 +670,8 @@
 		5BA549F11897A8060050288D /* Producers */ = {
 			isa = PBXGroup;
 			children = (
-				5BA549F21897A8060050288D /* OCAControlTarget.h */,
-				5BA549F31897A8060050288D /* OCAControlTarget.m */,
+				5BA549F21897A8060050288D /* OCATargetter.h */,
+				5BA549F31897A8060050288D /* OCATargetter.m */,
 			);
 			path = Producers;
 			sourceTree = "<group>";
@@ -960,7 +960,7 @@
 				5BA5493D1896FBED0050288D /* OCASubscriber.m in Sources */,
 				5BA5496C1896FBED0050288D /* OCAMath.m in Sources */,
 				5BA5498E1896FBED0050288D /* NSValue+Boxing.m in Sources */,
-				5BA549F91897A8060050288D /* OCAControlTarget.m in Sources */,
+				5BA549F91897A8060050288D /* OCATargetter.m in Sources */,
 				5BA549501896FBED0050288D /* OCAPredicate.m in Sources */,
 				5BA549FA1897A8060050288D /* OCATransformer+UIColor.m in Sources */,
 				5BA549751896FBED0050288D /* OCATransformer+NSData.m in Sources */,
