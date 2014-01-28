@@ -179,26 +179,38 @@
 #pragma mark Notification Transformations
 
 
-+ (NSValueTransformer *)notificationName {
-    return [OCATransformer access:OCAKeyPath(NSNotification, name, NSString)];
+- (OCAProducer *)produceName {
+    OCATransformer *transformer = [OCATransformer access:OCAKeyPath(NSNotification, name, NSString)];
+    OCABridge *bridge = [[OCABridge alloc] initWithTransformer:transformer];
+    [self addConsumer:bridge];
+    return bridge;
 }
 
 
-+ (NSValueTransformer *)notificationSender {
-    return [OCATransformer access:OCAKeyPath(NSNotification, object, NSString)];
+- (OCAProducer *)produceSender {
+    OCATransformer *transformer = [OCATransformer access:OCAKeyPath(NSNotification, object, NSString)];
+    OCABridge *bridge = [[OCABridge alloc] initWithTransformer:transformer];
+    [self addConsumer:bridge];
+    return bridge;
 }
 
 
-+ (NSValueTransformer *)notificationUserInfo {
-    return [OCATransformer access:OCAKeyPath(NSNotification, userInfo, NSDictionary)];
+- (OCAProducer *)produceUserInfo {
+    OCATransformer *transformer = [OCATransformer access:OCAKeyPath(NSNotification, userInfo, NSString)];
+    OCABridge *bridge = [[OCABridge alloc] initWithTransformer:transformer];
+    [self addConsumer:bridge];
+    return bridge;
 }
 
 
-+ (NSValueTransformer *)notificationUserInfoKey:(NSString *)key {
-    return [OCATransformer sequence:@[
-                                      [OCATransformer access:OCAKeyPath(NSNotification, userInfo, NSDictionary)],
-                                      [OCATransformer access:OCAKeyPathUnsafe(key)],
-                                      ]];
+- (OCAProducer *)produceUserInfoForKey:(NSString *)key {
+    OCATransformer *transformer = [OCATransformer sequence:@[
+                                                             [OCATransformer access:OCAKeyPath(NSNotification, userInfo, NSDictionary)],
+                                                             [OCATransformer access:OCAKeyPathUnsafe(key)],
+                                                             ]];
+    OCABridge *bridge = [[OCABridge alloc] initWithTransformer:transformer];
+    [self addConsumer:bridge];
+    return bridge;
 }
 
 

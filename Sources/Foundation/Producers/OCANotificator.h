@@ -35,11 +35,10 @@
 
 #pragma mark Notification Transformations
 
-//TODO: Convenience -sendName, -sendSender, -sendUserInfo, -sendUserInfoValueForKey:
-+ (NSValueTransformer *)notificationName;
-+ (NSValueTransformer *)notificationSender;
-+ (NSValueTransformer *)notificationUserInfo;
-+ (NSValueTransformer *)notificationUserInfoKey:(NSString *)key;
+- (OCAProducer *)produceName CONVENIENCE;
+- (OCAProducer *)produceSender CONVENIENCE;
+- (OCAProducer *)produceUserInfo CONVENIENCE;
+- (OCAProducer *)produceUserInfoForKey:(NSString *)key CONVENIENCE;
 
 
 #pragma mark Posting Notifications
