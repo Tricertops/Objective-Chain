@@ -7,7 +7,7 @@
 //
 
 #import "OCAPredicate+UIEdgeInsets.h"
-#import "OCATransformer+OCAGeometry.h"
+#import "OCAGeometry+Functions.h"
 
 
 
@@ -16,6 +16,9 @@
 
 
 
+
+
+#if OCA_iOS
 
 
 @implementation OCAPredicate (UIEdgeInsets)
@@ -53,5 +56,8 @@
 
 
 @end
+
+
+#endif
 
 

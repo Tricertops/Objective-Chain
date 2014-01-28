@@ -7,7 +7,7 @@
 //
 
 #import "OCAPredicate+CGPoint.h"
-#import "OCATransformer+OCAGeometry.h"
+#import "OCAGeometry+Functions.h"
 
 
 

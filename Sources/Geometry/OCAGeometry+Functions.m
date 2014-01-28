@@ -1,12 +1,12 @@
 //
-//  OCAGeometry+Base.m
+//  OCAGeometry+Functions.m
 //  Objective-Chain
 //
 //  Created by Martin Kiss on 13.1.14.
 //  Copyright (c) 2014 Martin Kiss. All rights reserved.
 //
 
-#import "OCATransformer+OCAGeometry.h"
+#import "OCAGeometry+Functions.h"
 #import "OCAMath.h"
 
 #if OCA_iOS

@@ -1,5 +1,5 @@
 //
-//  OCATransformer+OCAGeometry.h
+//  OCAGeometry+Functions.h
 //  Objective-Chain
 //
 //  Created by Martin Kiss on 27.1.14.
