@@ -193,7 +193,7 @@
     
     // Connect tint color to shape fill colors.
     [[OCAProperty(self.view, tintColor, UIColor)
-      produceTransformed:@[ [OCAUIKit colorGetCGColor] ]] // CoreGraphic types doesn't support key-path manipulation.
+      produceTransformed:@[ [OCATransformer colorGetCGColor] ]] // CoreGraphic types doesn't support key-path manipulation.
      multicast:@[
                  OCAProperty(self.starLayer, fillColor, NSObject), // Uses NSObject, because CoreGraphic types cannot be handled.
                  OCAProperty(self.pentagramLayer, fillColor, NSObject)
@@ -208,18 +208,18 @@
     
     // Apply rotation as a layer's transform.
     [[starRotation
-      produceTransformed:@[ [OCAGeometry transform3DFromZRotation] ]]
+      produceTransformed:@[ [OCATransformer transform3DFromZRotation] ]]
      consumeBy:OCAProperty(self.starLayer, transform, CATransform3D)];
     
     // Calculate shadow offset for correct perspective.
     [[starRotation
       produceTransformed:@[
-                           [OCAFoundation branchArray:@[ // Will create array: [ sin(r), cos(r) ]
+                           [OCATransformer branchArray:@[ // Will create array: [ sin(r), cos(r) ]
                                                         [OCAMath sine],
                                                         [OCAMath cosine],
                                                         ]],
-                           [OCAGeometry makeSize], // Uses first two elements in array to make size.
-                           [OCAGeometry multiplySizeBy:20] // Distance to which to move the shadow.
+                           [OCATransformer makeSize], // Uses first two elements in array to make size.
+                           [OCATransformer multiplySizeBy:20] // Distance to which to move the shadow.
                            ]]
      consumeBy:OCAProperty(self.starLayer, shadowOffset, CGSize)];
     

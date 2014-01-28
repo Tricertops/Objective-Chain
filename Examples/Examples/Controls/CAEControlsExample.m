@@ -130,7 +130,7 @@
     formatter.negativeSuffix = @"°";
     
     [[OCAProperty(self, temperature, float)
-      produceTransformed:@[ [OCAFoundation stringWithNumberFormatter:formatter] ]]
+      produceTransformed:@[ [OCATransformer stringWithNumberFormatter:formatter] ]]
      consumeBy:OCAProperty(self, label.text, NSString)];
     
     
@@ -145,8 +145,8 @@
     
     
     // Simple mapping transformer from BOOL to enum.
-    NSValueTransformer *mapEnabledToTintAdjustmentMode = [OCAFoundation map:@{ @YES: @(UIViewTintAdjustmentModeAutomatic),
-                                                                               @NO:  @(UIViewTintAdjustmentModeDimmed) }];
+    NSValueTransformer *mapEnabledToTintAdjustmentMode = [OCATransformer ifYes:@(UIViewTintAdjustmentModeAutomatic)
+                                                                          ifNo:@(UIViewTintAdjustmentModeDimmed)];
     
     // Dim tint color of Stepper when disabled.
     [[OCAProperty(self, stepper.enabled, BOOL)

@@ -148,7 +148,7 @@
     
     /// Update button based on Timer's state.
     [[OCAProperty(self, timer.isRunning, BOOL)
-      produceTransformed:@[ [OCATransformer yes:@"Stop" no:@"Start"] ]]
+      produceTransformed:@[ [OCATransformer ifYes:@"Stop" ifNo:@"Start"] ]]
      consumeBy:[OCAUIKit setTitleOfButton:self.startButton
                           forControlState:UIControlStateNormal]];
     
@@ -174,14 +174,14 @@
                            [OCATransformer sideEffect:
                             ^(NSArray *change) {
                                 OCAStrongify(self);
-                                CGFloat old = [change.first doubleValue];
-                                CGFloat new = [change.second doubleValue];
+                                CGFloat old = [[change oca_valueAtIndex:0] doubleValue];
+                                CGFloat new = [[change oca_valueAtIndex:1] doubleValue];
                                 
                                 if (old > new) {
                                     [self makeNewClockLayer];
                                 }
                             }],
-                           [OCAFoundation objectAtIndex:1], // Current value is second in the array.
+                           [OCATransformer objectAtIndex:1], // Current value is second in the array.
                            [self transformerFromProgressToCirclePath],
                            ]]
      consumeBy:OCAProperty(self, clockLayer.path, NSObject)];
