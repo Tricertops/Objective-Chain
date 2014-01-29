@@ -71,6 +71,8 @@
 
 - (OCAProducer *)producerForText;
 
+- (OCAProducer *)producerForEndEditing;
+
 @end
 
 

@@ -188,6 +188,16 @@
 }
 
 
+- (OCAProducer *)producerForEndEditing {
+    OCATargetter *target = [[OCATargetter alloc] initWithOwner:self];
+    [self addTarget:target action:target.action forControlEvents:UIControlEventEditingDidEnd];
+    
+    OCABridge *bridge = [[OCABridge alloc] initWithTransformer:[OCATransformer access:OCAKeyPath(UITextField, text, NSString)]];
+    [target addConsumer:bridge];
+    return bridge;
+}
+
+
 @end
 
 
