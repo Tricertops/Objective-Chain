@@ -25,6 +25,7 @@
 
 - (instancetype)initWithObjectClass:(Class)objectClass
                             keyPath:(NSString *)keyPath
+                           objCType:(const char *)objCType
                          valueClass:(Class)valueClass;
 
 - (instancetype)initWithObjectClass:(Class)objectClass
@@ -36,7 +37,9 @@
 
 @property (atomic, readonly, strong) Class objectClass;
 @property (atomic, readonly, copy) NSString *keyPath;
+@property (atomic, readonly, assign) const char *objCType;
 @property (atomic, readonly, strong) Class valueClass;
+@property (atomic, readonly, assign) BOOL isWrapping;
 
 @property (atomic, readonly, strong) OCAStructureAccessor *structureAccessor;
 
@@ -61,6 +64,7 @@
     BOOL isNumeric = [NSValue objCTypeIsNumeric:(type+1)]; \
     [[OCAKeyPathAccessor alloc] initWithObjectClass:[CLASS class] \
                                             keyPath:OCAKP(CLASS, KEYPATH) \
+                                           objCType:(isObject? type : (type+1)) \
                                          valueClass:(isObject? NSClassFromString(@#TYPE) \
                                                      : (isNumeric? [NSNumber class] : [NSValue class]))]; \
 }) \
@@ -76,6 +80,7 @@
     BOOL isNumeric = [NSValue objCTypeIsNumeric:(type+1)]; \
     [[OCAKeyPathAccessor alloc] initWithObjectClass:[OBJECT class] \
                                             keyPath:OCAKPObject(OBJECT, KEYPATH) \
+                                           objCType:(isObject? type : (type+1)) \
                                          valueClass:(isObject? NSClassFromString(@#TYPE) \
                                                      : (isNumeric? [NSNumber class] : [NSValue class]))]; \
 }) \
@@ -111,7 +116,7 @@
 
 #define OCAKeyPathAccessorCreateUnsafe(KEYPATH) \
 (OCAKeyPathAccessor *)({ \
-    [[OCAKeyPathAccessor alloc] initWithObjectClass:nil keyPath:KEYPATH valueClass:nil]; \
+    [[OCAKeyPathAccessor alloc] initWithObjectClass:nil keyPath:KEYPATH objCType:NULL valueClass:nil]; \
 }) \
 
 

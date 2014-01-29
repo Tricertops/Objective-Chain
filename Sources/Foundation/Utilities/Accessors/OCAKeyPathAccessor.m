@@ -34,23 +34,39 @@
 #pragma mark Creating Key-Path Accessor
 
 
-- (instancetype)initWithObjectClass:(Class)objectClass keyPath:(NSString *)keyPath valueClass:(Class)valueClass {
+- (instancetype)initWithObjectClass:(Class)objectClass keyPath:(NSString *)keyPath objCType:(const char *)objCType valueClass:(__unsafe_unretained Class)valueClass {
     self = [super init];
     if (self) {
         OCAAssert(keyPath.length > 0, @"Missing key-path.") return nil;
         
         self->_objectClass = objectClass;
         self->_keyPath = keyPath;
-        self->_valueClass = valueClass;
+        self->_objCType = objCType;
+        
+        BOOL isObject = (objCType && strcmp(@encode(id), objCType) == 0);
+        BOOL isNumeric = [NSValue objCTypeIsNumeric:objCType];
+        if (isNumeric) {
+            OCAAssert(valueClass == nil || valueClass == [NSNumber class], @"Provided wrongs wrapper class.");
+            self->_valueClass = [NSNumber class];
+            self->_isWrapping = YES;
+        }
+        else if ( ! isObject) {
+            OCAAssert(valueClass == nil || valueClass == [NSValue class], @"Provided wrongs wrapper class.");
+            self->_valueClass = [NSValue class];
+            self->_isWrapping = YES;
+        }
+        else {
+            self->_valueClass = valueClass;
+            self->_isWrapping = NO;
+        }
     }
     return self;
 }
 
 
 - (instancetype)initWithObjectClass:(Class)objectClass keyPath:(NSString *)keyPath structureAccessor:(OCAStructureAccessor *)structureAccessor {
-    self = [self initWithObjectClass:objectClass keyPath:keyPath valueClass:[structureAccessor valueClass]];
+    self = [self initWithObjectClass:objectClass keyPath:keyPath objCType:[structureAccessor memberType] valueClass:[structureAccessor valueClass]];
     if (self) {
-        OCAAssert(keyPath.length > 0, @"Missing key-path.") return nil;
         OCAAssert(structureAccessor != nil, @"") return nil;
         
         self->_structureAccessor = structureAccessor;
@@ -86,8 +102,15 @@
         [object setValue:modifiedStructure forKeyPath:self.keyPath];
     }
     else {
-        if (value == nil && [self.valueClass isSubclassOfClass:[NSNumber class]]) {
-            value = @0;
+        if (value == nil && self.isWrapping) {
+            if ([self.valueClass isSubclassOfClass:[NSNumber class]]) {
+                // Properties that are BOOL or NSUInteger must not be set with nil, but rather a zero.
+                value = @0;
+            }
+            else {
+                OCAAssert(NO, @"Cannot automatically replace nil for this type '%s', yet.", self.objCType);
+                return object;
+            }
         }
         [object setValue:value forKeyPath:self.keyPath];
     }
