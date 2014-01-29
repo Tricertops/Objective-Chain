@@ -56,15 +56,15 @@
 }
 
 
-- (NSArray *)arrayFromCollection:(id)colection {
-    if ([colection isKindOfClass:[NSArray class]]) {
-        return (NSArray *)colection;
+- (NSArray *)arrayFromCollection:(id)collection {
+    if ([collection isKindOfClass:[NSArray class]]) {
+        return (NSArray *)collection;
     }
-    else if ([colection isKindOfClass:[NSSet class]]) {
-        return [(NSSet *)colection allObjects];
+    else if ([collection isKindOfClass:[NSSet class]]) {
+        return [(NSSet *)collection allObjects];
     }
-    else if ([colection isKindOfClass:[NSOrderedSet class]]) {
-        return [(NSOrderedSet *)colection array];
+    else if ([collection isKindOfClass:[NSOrderedSet class]]) {
+        return [(NSOrderedSet *)collection array];
     }
     OCAAssert(NO, @"Some other collection class? %@", [collection class]);
     return nil;
@@ -172,8 +172,8 @@
     self = [super initWithObject:object keyPath:keyPath change:dictionary];
     if (self.class == [OCAKeyValueChangeReplacement class]) {
         
-        self->_newObjects = [self arrayFromCollection:[dictionary objectForKey:NSKeyValueChangeNewKey]];
-        self->_oldObjects = [self arrayFromCollection:[dictionary objectForKey:NSKeyValueChangeOldKey]];
+        self->_removedObjects = [self arrayFromCollection:[dictionary objectForKey:NSKeyValueChangeOldKey]];
+        self->_insertedObjects = [self arrayFromCollection:[dictionary objectForKey:NSKeyValueChangeNewKey]];
         self->_replacedIndexes = [dictionary objectForKey:NSKeyValueChangeIndexesKey];
     }
     return self;
