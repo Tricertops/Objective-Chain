@@ -177,6 +177,9 @@
 		5BD9ECEE1871E1370069044C /* OCAConnectionTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BD9ECEC1871E1370069044C /* OCAConnectionTest.m */; };
 		5BD9ED0D1873351C0069044C /* OCATransformerTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BD9ED0C1873351C0069044C /* OCATransformerTest.m */; };
 		5BD9ED0E1873351C0069044C /* OCATransformerTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BD9ED0C1873351C0069044C /* OCATransformerTest.m */; };
+		5BEA02AF189999640065DD89 /* OCAKeyValueChange.h in Headers */ = {isa = PBXBuildFile; fileRef = 5BEA02AD189999640065DD89 /* OCAKeyValueChange.h */; };
+		5BEA02B0189999640065DD89 /* OCAKeyValueChange.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BEA02AE189999640065DD89 /* OCAKeyValueChange.m */; };
+		5BEA02B1189999640065DD89 /* OCAKeyValueChange.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BEA02AE189999640065DD89 /* OCAKeyValueChange.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -333,6 +336,8 @@
 		5BD8AEA11876B41200EE2029 /* OCAAccessorTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCAAccessorTest.m; sourceTree = "<group>"; };
 		5BD9ECEC1871E1370069044C /* OCAConnectionTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCAConnectionTest.m; sourceTree = "<group>"; };
 		5BD9ED0C1873351C0069044C /* OCATransformerTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCATransformerTest.m; sourceTree = "<group>"; };
+		5BEA02AD189999640065DD89 /* OCAKeyValueChange.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCAKeyValueChange.h; sourceTree = "<group>"; };
+		5BEA02AE189999640065DD89 /* OCAKeyValueChange.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCAKeyValueChange.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -570,6 +575,8 @@
 				5BA549351896FBED0050288D /* OCAQueue.m */,
 				5BA549361896FBED0050288D /* OCASemaphore.h */,
 				5BA549371896FBED0050288D /* OCASemaphore.m */,
+				5BEA02AD189999640065DD89 /* OCAKeyValueChange.h */,
+				5BEA02AE189999640065DD89 /* OCAKeyValueChange.m */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -715,6 +722,7 @@
 				5BA5495B1896FBED0050288D /* OCANotificator.h in Headers */,
 				5BA5496B1896FBED0050288D /* OCAMath.h in Headers */,
 				5BA5498A1896FBED0050288D /* NSArray+Ordinals.h in Headers */,
+				5BEA02AF189999640065DD89 /* OCAKeyValueChange.h in Headers */,
 				5BA549C818979F500050288D /* OCAPredicate+CGPoint.h in Headers */,
 				5BA549621896FBED0050288D /* OCAProperty.h in Headers */,
 				5BA549C118970D6F0050288D /* OCATransformer+UIEdgeInsets.h in Headers */,
@@ -913,6 +921,7 @@
 				5BA549B718970D6F0050288D /* OCATransformer+CGAffineTransform.m in Sources */,
 				5BA549671896FBED0050288D /* OCATimer.m in Sources */,
 				5BA5495A1896FBED0050288D /* OCAInvoker.m in Sources */,
+				5BEA02B1189999640065DD89 /* OCAKeyValueChange.m in Sources */,
 				5BA549921896FBED0050288D /* OCADecomposer.m in Sources */,
 				5BA549E31897A5820050288D /* OCAPredicate+CATransform3D.m in Sources */,
 				5BA549E81897A6ED0050288D /* OCAGeometry+Functions.m in Sources */,
@@ -948,6 +957,7 @@
 				5BA5495C1896FBED0050288D /* OCANotificator.m in Sources */,
 				5BA5497E1896FBED0050288D /* OCATransformer+Core.m in Sources */,
 				5BA549B918970D6F0050288D /* OCATransformer+CGPoint.m in Sources */,
+				5BEA02B0189999640065DD89 /* OCAKeyValueChange.m in Sources */,
 				5BA549F81897A8060050288D /* OCAContext+UIKit.m in Sources */,
 				5BA5494D1896FBED0050288D /* OCAObject.m in Sources */,
 				5BA549851896FBED0050288D /* OCAKeyPathAccessor.m in Sources */,
