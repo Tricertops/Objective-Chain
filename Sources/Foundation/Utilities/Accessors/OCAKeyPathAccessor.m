@@ -56,7 +56,7 @@
             self->_isWrapping = YES;
         }
         else {
-            self->_valueClass = valueClass;
+            self->_valueClass = (valueClass == [NSObject class]? nil : valueClass); // NSObject is useless, better use nil.
             self->_isWrapping = NO;
         }
     }
