@@ -112,7 +112,14 @@
 
 
 
-- (OCABridge *)produceTransformed:(NSArray *)transformers CONVENIENCE {
+- (OCABridge *)produceTransform:(NSValueTransformer *)transformer CONVENIENCE {
+    OCABridge *bridge = [[OCABridge alloc] initWithTransformer:transformer];
+    [self addConsumer:bridge];
+    return bridge;
+}
+
+
+- (OCABridge *)produceTransforms:(NSArray *)transformers CONVENIENCE {
     OCABridge *bridge = [[OCABridge alloc] initWithTransformer:[OCATransformer sequence:transformers]];
     [self addConsumer:bridge];
     return bridge;

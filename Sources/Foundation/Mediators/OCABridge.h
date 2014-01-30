@@ -45,7 +45,8 @@
 @interface OCAProducer (OCABridge)
 
 
-- (OCABridge *)produceTransformed:(NSArray *)transformers CONVENIENCE;
+- (OCABridge *)produceTransform:(NSValueTransformer *)transformer CONVENIENCE;
+- (OCABridge *)produceTransforms:(NSArray *)transformers CONVENIENCE;
 - (OCABridge *)produceReplacement:(id)replacement CONVENIENCE;
 - (OCABridge *)produceMapped:(NSDictionary *)map CONVENIENCE;
 - (OCABridge *)produceIfYes:(id)yesReplacement ifNo:(id)noReplacement CONVENIENCE;

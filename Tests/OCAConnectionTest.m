@@ -78,7 +78,7 @@
     NSMutableArray *received = [[NSMutableArray alloc] init];
     
     [[[command produceFiltered:[NSPredicate predicateWithFormat:@"self BEGINSWITH[c] 'a'"]]
-     produceTransformed:@[ [OCATransformer access:OCAKeyPath(NSString, uppercaseString, NSString)] ]]
+     produceTransforms:@[ [OCATransformer access:OCAKeyPath(NSString, uppercaseString, NSString)] ]]
      subscribe:[NSString class] handler:^(NSString *value) {
          [received addObject:value];
      }];
@@ -203,7 +203,7 @@
     OCACommand *stringCommand = [OCACommand class:[NSString class]];
     OCACommand *numberCommand = [OCACommand class:[NSNumber class]];
     OCAHub *hub = [[stringCommand
-                    produceTransformed:@[ [OCATransformer access:OCAKeyPath(NSString, length, NSUInteger)] ]]
+                    produceTransforms:@[ [OCATransformer access:OCAKeyPath(NSString, length, NSUInteger)] ]]
                    mergeWith:numberCommand];
     
     NSMutableArray *received = [[NSMutableArray alloc] init];
@@ -251,7 +251,7 @@
     
     [[[timer
        produceOnQueue:queue]
-      produceTransformed:@[ [OCATransformer access:OCAKeyPath(NSDate, timeIntervalSinceNow, NSTimeInterval)] ]]
+      produceTransforms:@[ [OCATransformer access:OCAKeyPath(NSDate, timeIntervalSinceNow, NSTimeInterval)] ]]
      subscribe:[NSNumber class] handler:^(NSNumber *timeInterval) {
          tickCount++;
      } finish:^(NSError *error) {

@@ -125,7 +125,7 @@
                                                         }],
                                                        ]];
     [[combined
-      produceTransformed:@[ [OCATransformer joinWithString:@" "] ]]
+      produceTransforms:@[ [OCATransformer joinWithString:@" "] ]]
      consumeBy:consumer];
     
     self.lastName = @"Me";
