@@ -147,6 +147,14 @@
 }
 
 
+- (OCABridge *)produceDebugLogs:(NSString *)prefix CONVENIENCE {
+    NSString *debugPrefix = [NSString stringWithFormat:@"%@: %@", self.shortDescription, prefix];
+    OCABridge *bridge = [[OCABridge alloc] initWithTransformer:[OCATransformer debugPrintWithPrefix:debugPrefix]];
+    [self addConsumer:bridge];
+    return bridge;
+}
+
+
 
 
 @end

@@ -50,6 +50,7 @@
 - (OCABridge *)produceMapped:(NSDictionary *)map CONVENIENCE;
 - (OCABridge *)produceIfYes:(id)yesReplacement ifNo:(id)noReplacement CONVENIENCE;
 - (OCABridge *)produceNegatedBoolean CONVENIENCE;
+- (OCABridge *)produceDebugLogs:(NSString *)prefix CONVENIENCE;
 
 //TODO: Convenience for specific transformer instances.
 
