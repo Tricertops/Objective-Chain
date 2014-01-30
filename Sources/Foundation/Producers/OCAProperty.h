@@ -8,19 +8,11 @@
 
 #import "OCAProducer.h"
 #import "OCAKeyPathAccessor.h"
+#import "OCAKeyValueChange.h"
 
 
 
 
-typedef enum : NSUInteger {
-    OCAPropertyOptionDefault = 0,
-    
-    OCAPropertyOptionIncludePreviousValue = 1 << 0,
-//TODO: OCAPropertyOptionSkipInitialValue = 1 << 1,
-//TODO: OCAPropertyOptionSendDuplicates = 1 << 2,
-//TODO: OCAPropertyOptionObservePrior = 1 << 3,
-    
-} OCAPropertyOptions;
 
 
 
@@ -33,12 +25,13 @@ typedef enum : NSUInteger {
 
 #pragma mark Creating Property Bridge
 
-#define OCAProperty(OBJECT, KEYPATH, TYPE)                      OCAPropertyCreate(OBJECT, KEYPATH, TYPE, OCAPropertyOptionDefault)
-#define OCAPropertyChange(OBJECT, KEYPATH, TYPE)                OCAPropertyCreate(OBJECT, KEYPATH, TYPE, OCAPropertyOptionIncludePreviousValue)
-#define OCAPropertyStruct(OBJECT, KEYPATH, MEMBER)              OCAPropertyCreateWithStructure(OBJECT, KEYPATH, MEMBER, OCAPropertyOptionDefault)
-#define OCAPropertyStructChange(OBJECT, KEYPATH, MEMBER)        OCAPropertyCreateWithStructure(OBJECT, KEYPATH, MEMBER, OCAPropertyOptionIncludePreviousValue)
+#define OCAProperty(OBJECT, KEYPATH, TYPE)                  OCAPropertyCreate(OBJECT, KEYPATH, TYPE, NO)
+#define OCAPropertyPrior(OBJECT, KEYPATH, TYPE)             OCAPropertyCreate(OBJECT, KEYPATH, TYPE, YES)
 
-- (instancetype)initWithObject:(NSObject *)object keyPathAccessor:(OCAKeyPathAccessor *)accessor options:(OCAPropertyOptions)options;
+#define OCAPropertyStruct(OBJECT, KEYPATH, MEMBER)          OCAPropertyCreateWithStructure(OBJECT, KEYPATH, MEMBER, NO)
+#define OCAPropertyStructPrior(OBJECT, KEYPATH, MEMBER)     OCAPropertyCreateWithStructure(OBJECT, KEYPATH, MEMBER, YES)
+
+- (instancetype)initWithObject:(NSObject *)object keyPathAccessor:(OCAKeyPathAccessor *)accessor isPrior:(BOOL)isPrior;
 
 
 #pragma mark Attributes of Property Bridge
@@ -47,7 +40,7 @@ typedef enum : NSUInteger {
 @property (atomic, readonly, copy) NSString *keyPath;
 @property (atomic, readonly, copy) NSString *memberPath;
 @property (atomic, readonly, strong) Class valueClass;
-@property (atomic, readonly, assign) OCAPropertyOptions options;
+@property (atomic, readonly, assign) BOOL isPrior;
 
 @property (atomic, readonly, strong) OCAKeyPathAccessor *accessor;
 
@@ -72,24 +65,24 @@ typedef enum : NSUInteger {
 
 
 
-#define OCAPropertyCreate(OBJECT, KEYPATH, TYPE, OPTIONS) \
+#define OCAPropertyCreate(OBJECT, KEYPATH, TYPE, PRIOR) \
 (OCAProperty *)({ \
     typeof(OBJECT) o = (OBJECT);\
     [[OCAProperty alloc] initWithObject:o \
                               keyPathAccessor:OCAKeyPathAccessorCreateFromObject(o, KEYPATH, TYPE) \
-                                      options:OPTIONS]; \
+                                      isPrior:PRIOR]; \
 }) \
 
 
 
 
 
-#define OCAPropertyCreateWithStructure(OBJECT, KEYPATH, MEMBER, OPTIONS) \
+#define OCAPropertyCreateWithStructure(OBJECT, KEYPATH, MEMBER, PRIOR) \
 (OCAProperty *)({ \
     typeof(OBJECT) o = (OBJECT);\
     [[OCAProperty alloc] initWithObject:o \
                               keyPathAccessor:OCAKeyPathAccessorCreateWithStructureFromObject(o, KEYPATH, MEMBER) \
-                                      options:OPTIONS]; \
+                                      isPrior:PRIOR]; \
 }) \
 
 

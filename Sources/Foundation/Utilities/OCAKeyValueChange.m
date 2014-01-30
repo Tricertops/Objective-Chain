@@ -12,11 +12,16 @@
 
 
 
+
+
+
+
+
 @implementation OCAKeyValueChange
 
 
 
-- (instancetype)initWithObject:(NSObject *)object keyPath:(NSString *)keyPath change:(NSDictionary *)dictionary {
+- (instancetype)initWithObject:(NSObject *)object keyPath:(NSString *)keyPath change:(NSDictionary *)dictionary structureAccessor:(OCAStructureAccessor *)accessor {
     self = [super init];
     if (self) {
         OCAAssert(object != nil, @"Missing object.") return nil;
@@ -28,7 +33,7 @@
         OCAAssert(class != Nil, @"Invalid change dictionary.") return nil;
         
         if (self.class == [OCAKeyValueChange class]) {
-            return [[class alloc] initWithObject:object keyPath:keyPath change:dictionary];
+            return [[class alloc] initWithObject:object keyPath:keyPath change:dictionary structureAccessor:accessor];
         }
         
         // Only subclasses:
@@ -36,8 +41,11 @@
         self->_object = object;
         self->_keyPath = keyPath;
         self->_changeDictionary = dictionary;
+        self->_accessor = accessor;
         self->_kind = kind;
-        self->_latestValue = [object valueForKeyPath:keyPath];
+        
+        id latestValue = [object valueForKeyPath:keyPath];
+        self->_latestValue = (accessor? [accessor accessObject:latestValue] : latestValue);
         self->_isPrior = [[dictionary objectForKey:NSKeyValueChangeNotificationIsPriorKey] boolValue];
         
     }
@@ -71,6 +79,26 @@
 }
 
 
+- (OCAKeyValueChangeSetting *)asSettingChange {
+    return nil;
+}
+
+
+- (OCAKeyValueChangeInsertion *)asInsertionChange {
+    return nil;
+}
+
+
+- (OCAKeyValueChangeRemoval *)asRemovalChange {
+    return nil;
+}
+
+
+- (OCAKeyValueChangeReplacement *)asReplacementChange {
+    return nil;
+}
+
+
 
 @end
 
@@ -86,15 +114,26 @@
 
 
 
-- (instancetype)initWithObject:(NSObject *)object keyPath:(NSString *)keyPath change:(NSDictionary *)dictionary {
-    self = [super initWithObject:object keyPath:keyPath change:dictionary];
+- (instancetype)initWithObject:(NSObject *)object keyPath:(NSString *)keyPath change:(NSDictionary *)dictionary structureAccessor:(OCAStructureAccessor *)accessor {
+    self = [super initWithObject:object keyPath:keyPath change:dictionary structureAccessor:accessor];
     if (self.class == [OCAKeyValueChangeSetting class]) {
         
         id old = [dictionary objectForKey:NSKeyValueChangeOldKey];
-        self->_isInitial = (self.kind == NSKeyValueChangeSetting && old && ! self.isPrior);
-        self->_previousValue = (old == NSNull.null? nil : old);
+        self->_isInitial = (self.kind == NSKeyValueChangeSetting && old == nil && ! self.isPrior);
+        id previousValue = (old == NSNull.null? nil : old);
+        self->_previousValue = (accessor? [accessor accessObject:previousValue] : previousValue);
     }
     return self;
+}
+
+
+- (OCAKeyValueChangeSetting *)asSettingChange {
+    return self;
+}
+
+
+- (BOOL)isLatestEqualToPrevious {
+    return OCAEqual(self->_previousValue, self.latestValue);
 }
 
 
@@ -114,13 +153,18 @@
 
 
 
-- (instancetype)initWithObject:(NSObject *)object keyPath:(NSString *)keyPath change:(NSDictionary *)dictionary {
-    self = [super initWithObject:object keyPath:keyPath change:dictionary];
+- (instancetype)initWithObject:(NSObject *)object keyPath:(NSString *)keyPath change:(NSDictionary *)dictionary structureAccessor:(OCAStructureAccessor *)accessor {
+    self = [super initWithObject:object keyPath:keyPath change:dictionary structureAccessor:nil];
     if (self.class == [OCAKeyValueChangeInsertion class]) {
         
         self->_insertedObjects = [self arrayFromCollection:[dictionary objectForKey:NSKeyValueChangeNewKey]];
         self->_insertedIndexes = [dictionary objectForKey:NSKeyValueChangeIndexesKey];
     }
+    return self;
+}
+
+
+- (OCAKeyValueChangeInsertion *)asInsertionChange {
     return self;
 }
 
@@ -141,13 +185,18 @@
 
 
 
-- (instancetype)initWithObject:(NSObject *)object keyPath:(NSString *)keyPath change:(NSDictionary *)dictionary {
-    self = [super initWithObject:object keyPath:keyPath change:dictionary];
+- (instancetype)initWithObject:(NSObject *)object keyPath:(NSString *)keyPath change:(NSDictionary *)dictionary structureAccessor:(OCAStructureAccessor *)accessor {
+    self = [super initWithObject:object keyPath:keyPath change:dictionary structureAccessor:nil];
     if (self.class == [OCAKeyValueChangeRemoval class]) {
         
         self->_removedObjects = [self arrayFromCollection:[dictionary objectForKey:NSKeyValueChangeOldKey]];
         self->_removedIndexes = [dictionary objectForKey:NSKeyValueChangeIndexesKey];
     }
+    return self;
+}
+
+
+- (OCAKeyValueChangeRemoval *)asRemovalChange {
     return self;
 }
 
@@ -168,14 +217,19 @@
 
 
 
-- (instancetype)initWithObject:(NSObject *)object keyPath:(NSString *)keyPath change:(NSDictionary *)dictionary {
-    self = [super initWithObject:object keyPath:keyPath change:dictionary];
+- (instancetype)initWithObject:(NSObject *)object keyPath:(NSString *)keyPath change:(NSDictionary *)dictionary structureAccessor:(OCAStructureAccessor *)accessor {
+    self = [super initWithObject:object keyPath:keyPath change:dictionary structureAccessor:nil];
     if (self.class == [OCAKeyValueChangeReplacement class]) {
         
         self->_removedObjects = [self arrayFromCollection:[dictionary objectForKey:NSKeyValueChangeOldKey]];
         self->_insertedObjects = [self arrayFromCollection:[dictionary objectForKey:NSKeyValueChangeNewKey]];
         self->_replacedIndexes = [dictionary objectForKey:NSKeyValueChangeIndexesKey];
     }
+    return self;
+}
+
+
+- (OCAKeyValueChangeReplacement *)asReplacementChange {
     return self;
 }
 

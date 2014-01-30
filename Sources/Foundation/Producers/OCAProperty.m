@@ -16,6 +16,23 @@
 
 
 
+@interface OCAPropertyChangePrivateBridge : OCABridge @end
+@implementation OCAPropertyChangePrivateBridge
+
+- (Class)consumedValueClass {
+    return nil;
+}
+
+- (NSString *)descriptionName {
+    return @"PropertyChangePrivateBridge";
+}
+
+@end
+
+
+
+
+
 
 
 
@@ -30,23 +47,24 @@
 #pragma mark Creating Property Bridge
 
 
-- (instancetype)initWithObject:(NSObject *)object keyPathAccessor:(OCAKeyPathAccessor *)accessor options:(OCAPropertyOptions)options {
+- (instancetype)initWithObject:(NSObject *)object keyPathAccessor:(OCAKeyPathAccessor *)accessor isPrior:(BOOL)isPrior {
     self = [super init];
     if (self) {
         OCAAssert(object != nil, @"Need an object.") return nil;
         
-        OCAProperty *existing = [OCAProperty existingPropertyOnObject:object keyPathAccessor:accessor options:options];
+        OCAProperty *existing = [OCAProperty existingPropertyOnObject:object keyPathAccessor:accessor isPrior:isPrior];
         if (existing) return existing;
         
         self->_object = object;
         self->_accessor = accessor;
-        self->_options = options;
+        self->_isPrior = isPrior;
         
         [object addObserver:self
                  forKeyPath:accessor.keyPath
                     options:(NSKeyValueObservingOptionInitial
                              | NSKeyValueObservingOptionOld
-                             | NSKeyValueObservingOptionNew)
+                             | NSKeyValueObservingOptionNew
+                             | (isPrior? NSKeyValueObservingOptionPrior : kNilOptions))
                     context:nil];
         
         //TODO: Attach and detach on demand.
@@ -60,12 +78,27 @@
 }
 
 
-+ (instancetype)existingPropertyOnObject:(NSObject *)object keyPathAccessor:(OCAKeyPathAccessor *)accessor options:(OCAPropertyOptions)options {
++ (instancetype)existingPropertyOnObject:(NSObject *)object keyPathAccessor:(OCAKeyPathAccessor *)accessor isPrior:(BOOL)isPrior {
     return [object.decomposer findOwnedObjectOfClass:self usingBlock:^BOOL(OCAProperty *ownedProperty) {
         BOOL equalAccessor = [ownedProperty.accessor isEqual:accessor];
-        BOOL equalOptions = (ownedProperty.options == options);
-        return (equalAccessor && equalOptions);
+        BOOL equalIsPrior = (ownedProperty.isPrior == isPrior);
+        return (equalAccessor && equalIsPrior);
     }];
+}
+
+
+- (NSUInteger)hash {
+    return [self.object hash] ^ self.accessor.hash ^ @(self.isPrior).hash;
+}
+
+
+- (BOOL)isEqual:(OCAProperty *)other {
+    if (self == other) return YES;
+    if ( ! [other isKindOfClass:[OCAProperty class]]) return NO;
+    
+    return (self.object == other.object
+            && OCAEqual(self.accessor, other.accessor)
+            && self.isPrior == other.isPrior);
 }
 
 
@@ -79,9 +112,40 @@
 }
 
 
-- (Class)valueClass {
-    if (self.options & OCAPropertyOptionIncludePreviousValue) return [NSArray class];
-    else return self.accessor.valueClass;
+- (void)addConsumer:(id<OCAConsumer>)consumer {
+    OCAPropertyChangePrivateBridge * privateBridge = nil;
+    if ([consumer isKindOfClass:[OCAPropertyChangePrivateBridge class]]) {
+        privateBridge = consumer;
+    }
+    else {
+        // Trick: Public consumers will get bridged so they will not receive Change objects.
+        OCAKeyPathAccessor *latestAccessor = [[OCAKeyPathAccessor alloc] initWithObjectClass:[OCAKeyValueChange class]
+                                                                                     keyPath:OCAKP(OCAKeyValueChange, latestValue)
+                                                                                    objCType:@encode(id)
+                                                                                  valueClass:self.accessor.valueClass];
+        privateBridge = [[OCAPropertyChangePrivateBridge alloc] initWithTransformer:[OCATransformer access:latestAccessor]];
+        [privateBridge addConsumer:consumer];
+    }
+    [super addConsumer:privateBridge];
+}
+
+
+- (void)didAddConsumer:(id<OCAConsumer>)consumer {
+    OCAAssert([consumer isKindOfClass:[OCAPropertyChangePrivateBridge class]], @"Need private consumer.");
+    
+    if (self.finished) {
+        // I we already finished remove immediately.
+        [consumer finishConsumingWithError:self.error];
+        [self removeConsumer:consumer];
+    }
+    else {
+        // Trick: Get real last value as Change object. Bypasses overriden implementation intended for public.
+        OCAKeyValueChange *lastChange = [super lastValue];
+        if (lastChange) {
+            // It there was at least one sent value, send the last one.
+            [consumer consumeValue:lastChange];
+        }
+    }
 }
 
 
@@ -107,57 +171,31 @@
 #pragma mark Producing Values
 
 
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
-    //TODO: OCAKeyValueChange class
-    
-    NSKeyValueChange kind = [[change objectForKey:NSKeyValueChangeKindKey] integerValue];
-    
-    if (kind == NSKeyValueChangeSetting) {
-        OCAStructureAccessor *structureAccessor = self.accessor.structureAccessor;
-        
-        id old = [change objectForKey:NSKeyValueChangeOldKey];
-        BOOL isInitial = (old == nil);
-        
-        if (old == NSNull.null) old = nil;
-        if (structureAccessor) {
-            old = [structureAccessor accessObject:old];
-        }
-        
-        id new = [change objectForKey:NSKeyValueChangeNewKey];
-        if (new == NSNull.null) new = nil;
-        if (structureAccessor) {
-            new = [structureAccessor accessObject:new];
-        }
-        
-        if ( ! isInitial && OCAEqual(old, new)) return;
-        
-        if (self.options & OCAPropertyOptionIncludePreviousValue) {
-            [self produceValue:@[ old ?: NSNull.null, new ?: NSNull.null ]];
-        }
-        else {
-            [self produceValue:new];
-        }
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)dictionary context:(void *)context {
+    OCAKeyValueChange *change = [[OCAKeyValueChange alloc] initWithObject:object
+                                                                  keyPath:keyPath
+                                                                   change:dictionary
+                                                        structureAccessor:self.accessor.structureAccessor];
+    if ([change asSettingChange]) {
+        OCAKeyValueChangeSetting *setting = [change asSettingChange];
+        if ( ! [setting isInitial] && [setting isLatestEqualToPrevious]) return;
     }
-    else {
-        //TODO: Handle relationships
-        [self produceValue:[object valueForKeyPath:keyPath]];
-    }
+    
+    [self produceValue:change];
 }
 
 
 - (id)lastValue {
-    id object = self.object;
-    
-    if (self.options & OCAPropertyOptionIncludePreviousValue)
-        // We never store the previous property value, so we just return NSNull.
-        return @[ NSNull.null, [self.accessor accessObject:object] ];
-    else
-        return [self.accessor accessObject:object];
+    // Trick: Return unwrapped latest value for public.
+    OCAKeyValueChange *lastChange = [super lastValue];
+    OCAAssert([lastChange isKindOfClass:[OCAKeyValueChange class]], @"Property need objectified changes") return nil;
+    return lastChange.latestValue;
 }
 
 
-- (void)setLastValue:(id)value {
-    // Nothing. Don't store last value.
+- (void)setLastValue:(id)lastValue {
+    OCAAssert([lastValue isKindOfClass:[OCAKeyValueChange class]], @"Property need objectified changes") return;
+    [super setLastValue:lastValue];
 }
 
 
@@ -173,6 +211,7 @@
 
 
 - (void)consumeValue:(id)value {
+    //TODO: Consume changes
     [self.accessor modifyObject:self.object withValue:value];
 }
 

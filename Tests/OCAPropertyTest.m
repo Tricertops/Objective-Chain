@@ -166,22 +166,22 @@
 
 
 - (void)test_changesWithPrevious {
-    __block NSString *old = nil;
-    __block NSString *new = nil;
-    
-    [OCAPropertyChange(self, firstName, NSString)
-     subscribe:[NSArray class]
-     handler:^(NSArray *change) {
-         old = [change oca_valueAtIndex:0];
-         new = [change oca_valueAtIndex:1];
-     }];
-    
-    XCTAssertNil(old);
-    XCTAssertEqualObjects(new, @"Martin");
-    
-    self.firstName = @"Juraj";
-    XCTAssertEqualObjects(old, @"Martin");
-    XCTAssertEqualObjects(new, @"Juraj");
+//    __block NSString *old = nil;
+//    __block NSString *new = nil;
+//    
+//    [OCAPropertyChange(self, firstName, NSString)
+//     subscribe:[NSArray class]
+//     handler:^(NSArray *change) {
+//         old = [change oca_valueAtIndex:0];
+//         new = [change oca_valueAtIndex:1];
+//     }];
+//    
+//    XCTAssertNil(old);
+//    XCTAssertEqualObjects(new, @"Martin");
+//    
+//    self.firstName = @"Juraj";
+//    XCTAssertEqualObjects(old, @"Martin");
+//    XCTAssertEqualObjects(new, @"Juraj");
 }
 
 

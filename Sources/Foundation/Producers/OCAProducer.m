@@ -79,16 +79,6 @@
         [consumers addObject:consumer];
     }
     
-    if (self.finished) {
-        // I we already finished remove immediately.
-        [consumer finishConsumingWithError:self.error];
-        [self removeConsumer:consumer];
-    }
-    else if (self.numberOfSentValues > 0) {
-        // It there was at least one sent value, send the last one.
-        [consumer consumeValue:self.lastValue];
-    }
-    
     [self didAddConsumer:consumer];
 }
 
@@ -99,7 +89,15 @@
 
 
 - (void)didAddConsumer:(id<OCAConsumer>)consumer {
-    
+    if (self.finished) {
+        // I we already finished remove immediately.
+        [consumer finishConsumingWithError:self.error];
+        [self removeConsumer:consumer];
+    }
+    else if (self.numberOfSentValues > 0) {
+        // It there was at least one sent value, send the last one.
+        [consumer consumeValue:self.lastValue];
+    }
 }
 
 
