@@ -19,6 +19,15 @@
 @interface OCAPropertyChangePrivateBridge : OCABridge @end
 @implementation OCAPropertyChangePrivateBridge
 
++ (instancetype)privateBridgeForKeyPath:(NSString *)keyPath valueClass:(Class)valueClass {
+    OCAKeyPathAccessor *accessor = [[OCAKeyPathAccessor alloc] initWithObjectClass:[OCAKeyValueChange class]
+                                                                           keyPath:keyPath
+                                                                          objCType:@encode(id)
+                                                                        valueClass:valueClass];
+    OCAPropertyChangePrivateBridge *privateBridge = [[OCAPropertyChangePrivateBridge alloc] initWithTransformer:[OCATransformer access:accessor]];
+    return privateBridge;
+}
+
 - (Class)consumedValueClass {
     return nil;
 }
@@ -119,11 +128,7 @@
     }
     else {
         // Trick: Public consumers will get bridged so they will not receive Change objects.
-        OCAKeyPathAccessor *latestAccessor = [[OCAKeyPathAccessor alloc] initWithObjectClass:[OCAKeyValueChange class]
-                                                                                     keyPath:OCAKP(OCAKeyValueChange, latestValue)
-                                                                                    objCType:@encode(id)
-                                                                                  valueClass:self.accessor.valueClass];
-        privateBridge = [[OCAPropertyChangePrivateBridge alloc] initWithTransformer:[OCATransformer access:latestAccessor]];
+        privateBridge = [OCAPropertyChangePrivateBridge privateBridgeForKeyPath:OCAKP(OCAKeyValueChange, latestValue) valueClass:self.accessor.valueClass];
         [privateBridge addConsumer:consumer];
     }
     [super addConsumer:privateBridge];
@@ -245,6 +250,62 @@
              @"lastValue": self.lastValue,
              @"accessor": self.accessor,
              };
+}
+
+
+
+
+
+#pragma mark Deriving Producers
+
+
+- (OCAProducer *)produceLatest {
+    // Trick: Public consumers will get bridged so they will not receive Change objects.
+    OCAPropertyChangePrivateBridge *bridge = [OCAPropertyChangePrivateBridge privateBridgeForKeyPath:OCAKP(OCAKeyValueChange, latestValue) valueClass:self.accessor.valueClass];
+    [self addConsumer:bridge];
+    return bridge;
+}
+
+
+- (OCAProducer *)producePreviousWithLatest {
+    OCAKeyPathAccessor *previousAccessor = [[OCAKeyPathAccessor alloc] initWithObjectClass:[OCAKeyValueChangeSetting class]
+                                                                                   keyPath:OCAKP(OCAKeyValueChangeSetting, previousValue)
+                                                                                  objCType:@encode(id)
+                                                                                valueClass:self.accessor.valueClass];
+    OCAKeyPathAccessor *latestAccessor = [[OCAKeyPathAccessor alloc] initWithObjectClass:[OCAKeyValueChangeSetting class]
+                                                                                 keyPath:OCAKP(OCAKeyValueChangeSetting, latestValue)
+                                                                                objCType:@encode(id)
+                                                                              valueClass:self.accessor.valueClass];
+    // Combine previous and latest values.
+    NSValueTransformer *transformer = [OCATransformer branchArray:@[
+                                                                    [OCATransformer access:previousAccessor],
+                                                                    [OCATransformer access:latestAccessor],
+                                                                    ]];
+    OCAPropertyChangePrivateBridge *bridge = [[OCAPropertyChangePrivateBridge alloc] initWithTransformer:transformer];
+    [self addConsumer:bridge];
+    return bridge;
+}
+
+
+- (OCAProducer *)produceKeyPath {
+    OCAPropertyChangePrivateBridge *bridge = [OCAPropertyChangePrivateBridge privateBridgeForKeyPath:OCAKP(OCAKeyValueChange, keyPath) valueClass:[NSString class]];
+    [self addConsumer:bridge];
+    return bridge;
+}
+
+
+- (OCAProducer *)produceObject {
+    OCAPropertyChangePrivateBridge *bridge = [OCAPropertyChangePrivateBridge privateBridgeForKeyPath:OCAKP(OCAKeyValueChange, object) valueClass:[self.object class]];
+    [self addConsumer:bridge];
+    return bridge;
+}
+
+
+- (OCAProducer *)produceChanges {
+    // Only passing bridge.
+    OCAPropertyChangePrivateBridge *bridge = [[OCAPropertyChangePrivateBridge alloc] initWithTransformer:nil];
+    [self addConsumer:bridge];
+    return bridge;
 }
 
 

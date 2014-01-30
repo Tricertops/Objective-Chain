@@ -49,8 +49,15 @@
 
 @property (atomic, readwrite, weak) id value;
 
-//TODO: -sendLatest
-//TODO: -sendChanges
+
+#pragma mark Deriving Producers
+
+- (OCAProducer *)produceLatest;
+- (OCAProducer *)producePreviousWithLatest;
+- (OCAProducer *)produceKeyPath;
+- (OCAProducer *)produceObject;
+- (OCAProducer *)produceChanges;
+
 
 #pragma mark Binding Properties
 

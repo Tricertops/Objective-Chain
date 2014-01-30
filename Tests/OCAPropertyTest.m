@@ -74,6 +74,14 @@
 }
 
 
+- (void)test_consumingNils {
+    OCACommand *command = [OCACommand class:[NSNumber class]];
+    [command consumeBy:OCAProperty(self, birthYear, NSUInteger)];
+    [command sendValue:nil];
+    XCTAssertTrue(self.age == 0);
+}
+
+
 - (void)test_producingStringValues {
     NSMutableArray *received = [[NSMutableArray alloc] init];
     [OCAProperty(self, jobTitle, NSString)
@@ -166,22 +174,24 @@
 
 
 - (void)test_changesWithPrevious {
-//    __block NSString *old = nil;
-//    __block NSString *new = nil;
-//    
-//    [OCAPropertyChange(self, firstName, NSString)
-//     subscribe:[NSArray class]
-//     handler:^(NSArray *change) {
-//         old = [change oca_valueAtIndex:0];
-//         new = [change oca_valueAtIndex:1];
-//     }];
-//    
-//    XCTAssertNil(old);
-//    XCTAssertEqualObjects(new, @"Martin");
-//    
-//    self.firstName = @"Juraj";
-//    XCTAssertEqualObjects(old, @"Martin");
-//    XCTAssertEqualObjects(new, @"Juraj");
+    __block NSString *old = nil;
+    __block NSString *new = nil;
+    
+    OCAProperty *property = OCAProperty(self, firstName, NSString);
+    OCAProducer *producer = [property producePreviousWithLatest];
+    [producer
+     subscribe:[NSArray class]
+     handler:^(NSArray *change) {
+         old = [change oca_valueAtIndex:0];
+         new = [change oca_valueAtIndex:1];
+     }];
+    
+    XCTAssertNil(old);
+    XCTAssertEqualObjects(new, @"Martin");
+    
+    self.firstName = @"Juraj";
+    XCTAssertEqualObjects(old, @"Martin");
+    XCTAssertEqualObjects(new, @"Juraj");
 }
 
 
