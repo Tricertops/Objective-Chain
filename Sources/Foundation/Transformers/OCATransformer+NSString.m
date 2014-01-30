@@ -53,7 +53,7 @@
                                 NSMutableString *output = [format mutableCopy];
                                 for (NSObject *object in array) {
                                     NSRange range = [output rangeOfString:@"%@"];
-                                    [output replaceCharactersInRange:range withString:object.description];
+                                    [output replaceCharactersInRange:range withString:(object == NSNull.null? @"" : object.description)];
                                 }
                                 return output;
                             }]
