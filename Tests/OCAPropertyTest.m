@@ -74,6 +74,14 @@
 }
 
 
+- (void)test_consumingNils {
+    OCACommand *command = [OCACommand class:[NSNumber class]];
+    [command consumeBy:OCAProperty(self, birthYear, NSUInteger)];
+    [command sendValue:nil];
+    XCTAssertTrue(self.age == 0);
+}
+
+
 - (void)test_producingStringValues {
     NSMutableArray *received = [[NSMutableArray alloc] init];
     [OCAProperty(self, jobTitle, NSString)
@@ -117,7 +125,7 @@
                                                         }],
                                                        ]];
     [[combined
-      produceTransformed:@[ [OCATransformer joinWithString:@" "] ]]
+      produceTransforms:@[ [OCATransformer joinWithString:@" "] ]]
      consumeBy:consumer];
     
     self.lastName = @"Me";
@@ -169,7 +177,9 @@
     __block NSString *old = nil;
     __block NSString *new = nil;
     
-    [OCAPropertyChange(self, firstName, NSString)
+    OCAProperty *property = OCAProperty(self, firstName, NSString);
+    OCAProducer *producer = [property producePreviousWithLatest];
+    [producer
      subscribe:[NSArray class]
      handler:^(NSArray *change) {
          old = [change oca_valueAtIndex:0];

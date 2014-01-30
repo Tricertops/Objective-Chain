@@ -112,8 +112,51 @@
 
 
 
-- (OCAProducer *)produceTransformed:(NSArray *)transformers CONVENIENCE {
+- (OCABridge *)produceTransform:(NSValueTransformer *)transformer CONVENIENCE {
+    OCABridge *bridge = [[OCABridge alloc] initWithTransformer:transformer];
+    [self addConsumer:bridge];
+    return bridge;
+}
+
+
+- (OCABridge *)produceTransforms:(NSArray *)transformers CONVENIENCE {
     OCABridge *bridge = [[OCABridge alloc] initWithTransformer:[OCATransformer sequence:transformers]];
+    [self addConsumer:bridge];
+    return bridge;
+}
+
+
+- (OCABridge *)produceReplacement:(id)replacement CONVENIENCE {
+    OCABridge *bridge = [[OCABridge alloc] initWithTransformer:[OCATransformer replaceWith:replacement]];
+    [self addConsumer:bridge];
+    return bridge;
+}
+
+
+- (OCABridge *)produceMapped:(NSDictionary *)map CONVENIENCE {
+    OCABridge *bridge = [[OCABridge alloc] initWithTransformer:[OCATransformer map:map]];
+    [self addConsumer:bridge];
+    return bridge;
+}
+
+
+- (OCABridge *)produceIfYes:(id)yesReplacement ifNo:(id)noReplacement CONVENIENCE {
+    OCABridge *bridge = [[OCABridge alloc] initWithTransformer:[OCATransformer ifYes:yesReplacement ifNo:noReplacement]];
+    [self addConsumer:bridge];
+    return bridge;
+}
+
+
+- (OCABridge *)produceNegatedBoolean CONVENIENCE {
+    OCABridge *bridge = [[OCABridge alloc] initWithTransformer:[OCATransformer negateBoolean]];
+    [self addConsumer:bridge];
+    return bridge;
+}
+
+
+- (OCABridge *)produceDebugLogs:(NSString *)prefix CONVENIENCE {
+    NSString *debugPrefix = [NSString stringWithFormat:@"%@: %@", self.shortDescription, prefix];
+    OCABridge *bridge = [[OCABridge alloc] initWithTransformer:[OCATransformer debugPrintWithPrefix:debugPrefix]];
     [self addConsumer:bridge];
     return bridge;
 }

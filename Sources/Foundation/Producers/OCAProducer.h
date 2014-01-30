@@ -32,6 +32,7 @@
 @property (atomic, readonly, strong) NSArray *consumers;
 - (void)addConsumer:(id<OCAConsumer> )consumer;
 - (void)removeConsumer:(id<OCAConsumer> )consumer;
+- (void)removeAllConsumers;
 
 
 #pragma mark Describing Producer

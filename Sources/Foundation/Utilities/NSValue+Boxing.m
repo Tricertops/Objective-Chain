@@ -94,6 +94,8 @@ NSValueConditional(TYPE) { \
 
 
 + (BOOL)objCTypeIsNumeric:(const char *)type {
+    if ( ! type) return NO;
+    
     NSValueConditional(char) return YES;
     NSValueConditional(short) return YES;
     NSValueConditional(int) return YES;
