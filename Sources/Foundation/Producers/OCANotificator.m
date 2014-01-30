@@ -188,7 +188,7 @@
 
 
 - (OCAProducer *)produceSender {
-    OCATransformer *transformer = [OCATransformer access:OCAKeyPath(NSNotification, object, NSString)];
+    OCATransformer *transformer = [OCATransformer access:OCAKeyPath(NSNotification, object, NSObject)];
     OCABridge *bridge = [[OCABridge alloc] initWithTransformer:transformer];
     [self addConsumer:bridge];
     return bridge;
@@ -196,7 +196,7 @@
 
 
 - (OCAProducer *)produceUserInfo {
-    OCATransformer *transformer = [OCATransformer access:OCAKeyPath(NSNotification, userInfo, NSString)];
+    OCATransformer *transformer = [OCATransformer access:OCAKeyPath(NSNotification, userInfo, NSDictionary)];
     OCABridge *bridge = [[OCABridge alloc] initWithTransformer:transformer];
     [self addConsumer:bridge];
     return bridge;
