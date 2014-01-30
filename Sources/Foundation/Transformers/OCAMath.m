@@ -366,6 +366,18 @@
 }
 
 
++ (OCATransformer *)randomUpTo:(NSUInteger)bound {
+    return [[OCAMath transform:^OCAReal(OCAReal x) {
+        if (bound == NSUIntegerMax) return arc4random();
+        else return arc4random_uniform((u_int32_t)bound);
+    } reverse:^OCAReal(OCAReal y) {
+        return y;
+    }]
+            describe:[NSString stringWithFormat:@"random up to %@", @(bound)]
+            reverse:@"pass"];
+}
+
+
 
 
 

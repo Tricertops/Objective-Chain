@@ -91,6 +91,11 @@ typedef OCAReal(^OCARealTransformBlock)(OCAReal x);
 + (OCATransformer *)maximum;
 
 
+#pragma mark Random
+
++ (OCATransformer *)randomUpTo:(NSUInteger)bound;
+
+
 
 @end
 
