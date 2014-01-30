@@ -61,6 +61,8 @@
         self->_notificationName = name;
         self->_notificationSender = sender;
         
+        [self produceValue:[NSNotification notificationWithName:name object:sender]];
+        
         [center addObserver:self selector:@selector(produceValue:) name:name object:sender];
     }
     return self;
