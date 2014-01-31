@@ -69,8 +69,16 @@
 }
 
 
+- (id<OCAConsumer>)replacementConsumerForConsumer:(id<OCAConsumer>)consumer {
+    OCAAssert([self isClass:self.valueClass compatibleWithClass:[consumer consumedValueClass]], @"Incompatible classes: %@ to %@", self.valueClass, [consumer consumedValueClass]) return nil;
+    return consumer;
+}
+
+
 - (void)addConsumer:(id<OCAConsumer>)consumer {
-    OCAAssert([self isClass:self.valueClass compatibleWithClass:[consumer consumedValueClass]], @"Incompatible classes: %@ to %@", self.valueClass, [consumer consumedValueClass]) return;
+    if ( ! consumer) return;
+    consumer = [self replacementConsumerForConsumer:consumer];
+    if ( ! consumer) return;
     
     [self willAddConsumer:consumer];
     
@@ -147,9 +155,13 @@
 #pragma mark Lifetime of Producer
 
 
+- (BOOL)validateProducedValue:(id)value {
+    return [self validateObject:&value ofClass:self.valueClass];
+}
+
+
 - (void)produceValue:(id)value {
-    BOOL valid = [self validateObject:&value ofClass:self.valueClass];
-    if ( ! valid) return;
+    if ( ! [self validateProducedValue:value]) return;
     
     if (self.finished) return;
     self.lastValue = value;
