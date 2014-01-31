@@ -135,6 +135,15 @@
 }
 
 
+- (OCAFilter *)produceNotNil CONVENIENCE {
+    NSPredicate *predicate = [[OCAPredicate isNil] negate];
+    NSPredicate *validatingPredicate = [OCAPredicate predicateForClass:self.valueClass predicate:predicate];
+    OCAFilter *filter = [[OCAFilter alloc] initWithPredicate:validatingPredicate];
+    [self addConsumer:filter];
+    return filter;
+}
+
+
 
 
 

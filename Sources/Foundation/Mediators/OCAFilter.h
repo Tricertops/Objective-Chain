@@ -47,6 +47,7 @@
 
 
 - (OCAFilter *)produceFiltered:(NSPredicate *)predicate CONVENIENCE;
+- (OCAFilter *)produceNotNil CONVENIENCE;
 //TODO: Methods for specific instances.
 
 
