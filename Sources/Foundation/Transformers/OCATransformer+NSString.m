@@ -53,8 +53,11 @@
                                 NSMutableString *output = [format mutableCopy];
                                 for (NSObject *object in array) {
                                     NSRange range = [output rangeOfString:@"%@"];
+                                    if (range.location == NSNotFound) break;
                                     [output replaceCharactersInRange:range withString:(object == NSNull.null? @"" : object.description)];
                                 }
+                                // Replace the rest, if there is anything left.
+                                [output replaceOccurrencesOfString:@"%@" withString:@"—" options:kNilOptions range:NSMakeRange(0, output.length)];
                                 return output;
                             }]
             describe:[NSString stringWithFormat:@"format string “%@”", format]];
