@@ -43,7 +43,10 @@
 
 - (instancetype)initWithType:(OCAHubType)type producers:(NSArray *)producers {
     Class valueClass = nil;
-    Class consumedValueClass = nil;//[self valueClassForClasses:[producers valueForKeyPath:OCAKP(OCAProducer, valueClass)]];
+    Class consumedValueClass = nil;
+    
+    NSArray *valueClasses = [producers valueForKeyPath:OCAKP(OCAProducer, valueClass)];
+    consumedValueClass = [self valueClassForClasses:valueClasses];
     
     if (type == OCAHubTypeMerge) {
         valueClass = consumedValueClass;
