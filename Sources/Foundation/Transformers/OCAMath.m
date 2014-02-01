@@ -339,30 +339,42 @@
 
 
 + (OCATransformer *)sum {
-    return [[[OCATransformer access:OCAKeyPathUnsafe(NSSumKeyValueOperator)]
+    return [[[OCATransformer access:OCAKeyPathUnsafe(@"@sum.self")]
              specializeFromClass:[NSArray class] toClass:[NSNumber class]]
             describe:@"sum up"];
 }
 
 
 + (OCATransformer *)average {
-    return [[[OCATransformer access:OCAKeyPathUnsafe(NSAverageKeyValueOperator)]
+    return [[[OCATransformer access:OCAKeyPathUnsafe(@"@avg.self")]
              specializeFromClass:[NSArray class] toClass:[NSNumber class]]
             describe:@"average"];
 }
 
 
 + (OCATransformer *)minimum {
-    return [[[OCATransformer access:OCAKeyPathUnsafe(NSMinimumKeyValueOperator)]
+    return [[[OCATransformer access:OCAKeyPathUnsafe(@"@min.self")]
              specializeFromClass:[NSArray class] toClass:[NSNumber class]]
             describe:@"find minimum"];
 }
 
 
 + (OCATransformer *)maximum {
-    return [[[OCATransformer access:OCAKeyPathUnsafe(NSMaximumKeyValueOperator)]
+    return [[[OCATransformer access:OCAKeyPathUnsafe(@"@max.self")]
              specializeFromClass:[NSArray class] toClass:[NSNumber class]]
             describe:@"find maximum"];
+}
+
+
++ (OCATransformer *)randomUpTo:(NSUInteger)bound {
+    return [[OCAMath transform:^OCAReal(OCAReal x) {
+        if (bound == NSUIntegerMax) return arc4random();
+        else return arc4random_uniform((u_int32_t)bound);
+    } reverse:^OCAReal(OCAReal y) {
+        return y;
+    }]
+            describe:[NSString stringWithFormat:@"random up to %@", @(bound)]
+            reverse:@"pass"];
 }
 
 

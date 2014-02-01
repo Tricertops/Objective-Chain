@@ -349,22 +349,22 @@
 }
 
 
-+ (OCATransformer *)keyedArray:(NSArray *)keys {
++ (OCATransformer *)keyedArray:(NSArray *)keysArray {
     return [[OCATransformer fromClass:[NSArray class] toClass:[NSDictionary class]
                            asymetric:^NSDictionary *(NSArray *input) {
                                
                                NSMutableDictionary *output = [[NSMutableDictionary alloc] init];
                                NSUInteger index = 0;
-                               for (id key in keys) {
+                               for (id key in keysArray) {
                                    id value = [input oca_valueAtIndex:index];
                                    if (value) {
-                                       [output setObject:value forKey:keys];
+                                       [output setObject:value forKey:key];
                                    }
                                    index++;
                                }
                                return output;
                            }]
-            describe:[NSString stringWithFormat:@"keyed array {%@}", [keys componentsJoinedByString:@", "]]];
+            describe:[NSString stringWithFormat:@"keyed array {%@}", [keysArray componentsJoinedByString:@", "]]];
 }
 
 

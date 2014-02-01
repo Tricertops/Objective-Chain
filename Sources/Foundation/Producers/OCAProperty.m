@@ -57,7 +57,7 @@
 
 
 - (instancetype)initWithObject:(NSObject *)object keyPathAccessor:(OCAKeyPathAccessor *)accessor isPrior:(BOOL)isPrior {
-    self = [super init];
+    self = [super initWithValueClass:accessor.valueClass];
     if (self) {
         OCAAssert(object != nil, @"Need an object.") return nil;
         
@@ -121,23 +121,21 @@
 }
 
 
-- (void)addConsumer:(id<OCAConsumer>)consumer {
-    OCAPropertyChangePrivateBridge * privateBridge = nil;
+- (id<OCAConsumer>)replacementConsumerForConsumer:(id<OCAConsumer>)consumer {
     if ([consumer isKindOfClass:[OCAPropertyChangePrivateBridge class]]) {
-        privateBridge = consumer;
+        return consumer;
     }
     else {
         // Trick: Public consumers will get bridged so they will not receive Change objects.
-        privateBridge = [OCAPropertyChangePrivateBridge privateBridgeForKeyPath:OCAKP(OCAKeyValueChange, latestValue) valueClass:self.accessor.valueClass];
+        OCAPropertyChangePrivateBridge *privateBridge = [OCAPropertyChangePrivateBridge privateBridgeForKeyPath:OCAKP(OCAKeyValueChange, latestValue) valueClass:self.accessor.valueClass];
         [privateBridge addConsumer:consumer];
+        
+        return privateBridge;
     }
-    [super addConsumer:privateBridge];
 }
 
 
-- (void)didAddConsumer:(id<OCAConsumer>)consumer {
-    OCAAssert([consumer isKindOfClass:[OCAPropertyChangePrivateBridge class]], @"Need private consumer.");
-    
+- (void)didAddConsumer:(id<OCAConsumer>)consumer {    
     if (self.finished) {
         // I we already finished remove immediately.
         [consumer finishConsumingWithError:self.error];
@@ -187,6 +185,11 @@
     }
     
     [self produceValue:change];
+}
+
+
+- (BOOL)validateProducedValue:(id)value {
+    return [self validateObject:&value ofClass:[OCAKeyValueChange class]];
 }
 
 

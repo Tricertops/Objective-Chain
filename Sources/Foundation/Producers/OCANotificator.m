@@ -61,6 +61,8 @@
         self->_notificationName = name;
         self->_notificationSender = sender;
         
+        [self produceValue:[NSNotification notificationWithName:name object:sender]];
+        
         [center addObserver:self selector:@selector(produceValue:) name:name object:sender];
     }
     return self;
@@ -188,7 +190,7 @@
 
 
 - (OCAProducer *)produceSender {
-    OCATransformer *transformer = [OCATransformer access:OCAKeyPath(NSNotification, object, NSString)];
+    OCATransformer *transformer = [OCATransformer access:OCAKeyPath(NSNotification, object, NSObject)];
     OCABridge *bridge = [[OCABridge alloc] initWithTransformer:transformer];
     [self addConsumer:bridge];
     return bridge;
@@ -196,7 +198,7 @@
 
 
 - (OCAProducer *)produceUserInfo {
-    OCATransformer *transformer = [OCATransformer access:OCAKeyPath(NSNotification, userInfo, NSString)];
+    OCATransformer *transformer = [OCATransformer access:OCAKeyPath(NSNotification, userInfo, NSDictionary)];
     OCABridge *bridge = [[OCABridge alloc] initWithTransformer:transformer];
     [self addConsumer:bridge];
     return bridge;

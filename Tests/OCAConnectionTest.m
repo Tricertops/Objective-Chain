@@ -90,7 +90,7 @@
 
 
 - (void)test_OCATimer_periodicProductionOfDatesOfLimitedCount {
-    OCATimer *timer = [OCATimer repeat:0.1 until:[NSDate dateWithTimeIntervalSinceNow:1.1]];
+    OCATimer *timer = [OCATimer backgroundTimerWithInterval:0.1 untilDate:[NSDate dateWithTimeIntervalSinceNow:1.1]];
     OCASemaphore *semaphore = [[OCASemaphore alloc] init];
     __block NSUInteger tickCount = 0;
     
@@ -244,7 +244,7 @@
 
 
 - (void)test_OCATimer_withConnectionOnDifferentQueue {
-    OCATimer *timer = [OCATimer repeat:0.1 until:[NSDate dateWithTimeIntervalSinceNow:1.1]];
+    OCATimer *timer = [OCATimer backgroundTimerWithInterval:0.1 untilDate:[NSDate dateWithTimeIntervalSinceNow:1.1]];
     OCAQueue *queue = [OCAQueue serialQueue:@"Testing Queue"];
     OCASemaphore *semaphore = [[OCASemaphore alloc] init];
     __block NSUInteger tickCount = 0;
@@ -258,7 +258,7 @@
          [semaphore signal];
      }];
     
-    BOOL signaled = [semaphore waitFor:20];
+    BOOL signaled = [semaphore waitFor:2];
     XCTAssertTrue(signaled, @"Timer didn't end in given time.");
     XCTAssertTrue(tickCount == 10, @"Timer didn't fire required number of times.");
 }

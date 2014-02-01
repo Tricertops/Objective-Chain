@@ -53,7 +53,7 @@
         OCAAssert(leeway >= 0, @"Works only with non-negative leeway.") return nil;
         
         self->_owner = owner;
-        self->_queue = [[OCAQueue alloc] initWithName:@"Timer Queue" concurrent:NO targetQueue:targetQueue ?: [OCAQueue background]];
+        self->_queue = [[OCAQueue alloc] initWithName:@"Timer Queue" concurrent:NO targetQueue:targetQueue ?: [OCAQueue current]];
         if (startDate) {
             self->_startDate = [[NSDate date] laterDate:startDate]; // Not earlier than now.
         }
@@ -77,18 +77,28 @@
 }
 
 
-+ (instancetype)fireAt:(NSDate *)fireDate {
++ (instancetype)timerForDate:(NSDate *)fireDate {
     return [[self alloc] initWithOwner:nil queue:nil startDate:fireDate interval:0 leeway:0 endDate:nil];
 }
 
 
-+ (instancetype)repeat:(NSTimeInterval)seconds owner:(id)owner {
++ (instancetype)timerWithInterval:(NSTimeInterval)seconds owner:(id)owner {
     return [[self alloc] initWithOwner:owner queue:nil startDate:nil interval:seconds leeway:0 endDate:nil];
 }
 
 
-+ (instancetype)repeat:(NSTimeInterval)seconds until:(NSDate *)date {
++ (instancetype)timerWithInterval:(NSTimeInterval)seconds untilDate:(NSDate *)date {
     return [[self alloc] initWithOwner:nil queue:nil startDate:nil interval:seconds leeway:0 endDate:date];
+}
+
+
++ (instancetype)backgroundTimerWithInterval:(NSTimeInterval)seconds owner:(id)owner {
+    return [[self alloc] initWithOwner:owner queue:[OCAQueue background] startDate:nil interval:seconds leeway:0 endDate:nil];
+}
+
+
++ (instancetype)backgroundTimerWithInterval:(NSTimeInterval)seconds untilDate:(NSDate *)date {
+    return [[self alloc] initWithOwner:nil queue:[OCAQueue background] startDate:nil interval:seconds leeway:0 endDate:date];
 }
 
 

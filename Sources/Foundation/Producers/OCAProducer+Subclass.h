@@ -23,6 +23,7 @@
 
 #pragma mark Managing Connections
 
+- (id<OCAConsumer>)replacementConsumerForConsumer:(id<OCAConsumer>)consumer;
 - (void)willAddConsumer:(id<OCAConsumer> )consumer;
 - (void)didAddConsumer:(id<OCAConsumer> )consumer;
 
@@ -34,6 +35,7 @@
 
 @property (atomic, readwrite, strong) id lastValue;
 
+- (BOOL)validateProducedValue:(id)value;
 - (void)produceValue:(id)value NS_REQUIRES_SUPER;
 - (void)finishProducingWithError:(NSError *)error NS_REQUIRES_SUPER;
 

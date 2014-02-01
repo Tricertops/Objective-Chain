@@ -53,18 +53,20 @@
                        leeway:(NSTimeInterval)leeway
                       endDate:(NSDate *)endDate;
 
-//! Creates timer, that fires only once at the given \c fireDate.
-+ (instancetype)fireAt:(NSDate *)fireDate;
+//! Creates timer on current queue that fires only once at the given \c fireDate.
++ (instancetype)timerForDate:(NSDate *)fireDate;
 
-/*!
- Creates timer that repeats each \c seconds with optional owner.
- 
- @see -[OCATimer initWithOwner:queue:startDate:interval:leeway:endDate:]
- !*/
-+ (instancetype)repeat:(NSTimeInterval)seconds owner:(id)owner;
+//! Creates timer on current queue that repeats each \c seconds with optional owner.
++ (instancetype)timerWithInterval:(NSTimeInterval)seconds owner:(id)owner;
 
-//! Creates timer that repeats each \c seconds with optional end date.
-+ (instancetype)repeat:(NSTimeInterval)seconds until:(NSDate *)date;
+//! Creates timer on current queue that repeats each \c seconds with optional end date.
++ (instancetype)timerWithInterval:(NSTimeInterval)seconds untilDate:(NSDate *)date;
+
+//! Creates timer on background queue that repeats each \c seconds with optional owner.
++ (instancetype)backgroundTimerWithInterval:(NSTimeInterval)seconds owner:(id)owner;
+
+//! Creates timer on background queue that repeats each \c seconds with optional end date.
++ (instancetype)backgroundTimerWithInterval:(NSTimeInterval)seconds untilDate:(NSDate *)date;
 
 
 

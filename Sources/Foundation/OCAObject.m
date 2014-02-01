@@ -22,17 +22,13 @@
 
 
 + (Class)valueClassForClasses:(NSArray *)classes {
-    NSMutableArray *concreteClasses = [[NSMutableArray alloc] init];
-    for (Class class in classes) {
-        if (class != NSNull.null && class != [NSObject class]) {
-            [concreteClasses addObject:class];
-        }
-    }
+    if ([classes containsObject:[NSObject class]]) return [NSObject class];
+    if ([classes containsObject:NSNull.null]) return nil;
     
-    Class finalClass = concreteClasses.firstObject;
+    Class finalClass = classes.firstObject;
     while (finalClass) {
         BOOL isCommonToAll = YES;
-        for (Class class in concreteClasses) {
+        for (Class class in classes) {
             BOOL isSuperclass = [class isSubclassOfClass:finalClass];
             isCommonToAll &= isSuperclass;
             if ( ! isCommonToAll) break;
