@@ -12,22 +12,30 @@
 
 
 
-/// Command is a Producer, that allows explicit sending of values.
+/// Command is a Producer that allows manually sending values. Using Command is an alternative to subclassing the Producer.
 @interface OCACommand : OCAProducer
 
 
 
 #pragma mark Creating Command
 
+/// Initializes Command that produces values of given class.
 - (instancetype)initWithValueClass:(Class)valueClass;
 
-+ (instancetype)class:(Class)valueClass;
+/// Creates Command that produces values of given class.
++ (instancetype)commandForClass:(Class)valueClass;
+
 
 
 #pragma mark Using Command
 
+/// Produces value to all Consumers.
 - (void)sendValue:(id)value;
+
+/// Produces values in array to all Consumers.
 - (void)sendValues:(NSArray *)values;
+
+/// Marks the Command as finished and sends the errro to Consumers.
 - (void)finishWithError:(NSError *)error;
 
 

@@ -31,12 +31,7 @@
     return [super initWithValueClass:valueClass];
 }
 
-
-+ (instancetype)command {
-    return [[self alloc] init];
-}
-
-+ (instancetype)class:(Class)valueClass {
++ (instancetype)commandForClass:(Class)valueClass {
     return [[self alloc] initWithValueClass:valueClass];
 }
 
@@ -61,17 +56,6 @@
 
 - (void)finishWithError:(NSError *)error {
     [self finishProducingWithError:error];
-}
-
-
-
-
-
-#pragma mark Describing Command
-
-
-- (NSString *)descriptionName {
-    return @"Command";
 }
 
 
