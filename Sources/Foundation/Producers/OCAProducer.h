@@ -8,8 +8,10 @@
 
 #import "OCAObject.h"
 #import "OCAConsumer.h"
-@class  OCAHub;
+@class OCAHub;
 @class OCABridge;
+@class OCAContext;
+@class OCAQueue;
 
 
 
@@ -76,6 +78,9 @@
 - (OCAHub *)dependOn:(OCAProducer *)producer, ... NS_REQUIRES_NIL_TERMINATION;
 
 - (OCABridge *)transformValues:(NSValueTransformer *)transformer, ... NS_REQUIRES_NIL_TERMINATION;
+
+- (OCAContext *)produceInContext:(OCAContext *)context;
+- (OCAContext *)switchToQueue:(OCAQueue *)queue;
 
 
 

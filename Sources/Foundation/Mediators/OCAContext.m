@@ -13,18 +13,6 @@
 
 
 
-@interface OCAContext ()
-
-
-@property (atomic, readonly, strong) OCAContextDefinitionBlock definitionBlock;
-
-
-@end
-
-
-
-
-
 OCAContextDefinitionBlock const OCAContextDefaultDefinitionBlock = ^(OCAContextExecutionBlock executionBlock){
     executionBlock();
 };
@@ -97,6 +85,37 @@ OCAContextDefinitionBlock const OCAContextDefaultDefinitionBlock = ^(OCAContextE
 }
 
 
++ (OCAContext *)lock:(id<NSLocking>)lock {
+    OCAAssert(lock != nil, @"Lock is missing.") return nil;
+    return [[OCAContext alloc] initWithDefinitionBlock:^(OCAContextExecutionBlock executionBlock) {
+        [lock lock];
+        
+        executionBlock();
+        
+        [lock unlock];
+    }];
+}
+
+
++ (OCAContext *)synchronized:(id)object {
+    OCAAssert(object != nil, @"Object is missing.") return nil;
+    return [[OCAContext alloc] initWithDefinitionBlock:^(OCAContextExecutionBlock executionBlock) {
+        @synchronized(object) {
+            executionBlock();
+        }
+    }];
+}
+
+
++ (OCAContext *)autoreleasepool {
+    return [[OCAContext alloc] initWithDefinitionBlock:^(OCAContextExecutionBlock executionBlock) {
+        @autoreleasepool {
+            executionBlock();
+        }
+    }];
+}
+
+
 
 
 
@@ -104,7 +123,6 @@ OCAContextDefinitionBlock const OCAContextDefaultDefinitionBlock = ^(OCAContextE
 
 
 - (void)execute:(OCAContextExecutionBlock)executionBlock {
-    //TODO: Can be somehow controlled and verified.
     self.definitionBlock(executionBlock);
 }
 
@@ -134,55 +152,6 @@ OCAContextDefinitionBlock const OCAContextDefaultDefinitionBlock = ^(OCAContextE
 }
 
 
-
-
-
-#pragma mark Describing Context
-
-
-- (NSString *)descriptionName {
-    return @"Context";
-}
-
-
-
-
-
-@end
-
-
-
-
-
-
-
-
-
-
-@implementation OCAProducer (OCAContext)
-
-
-
-- (OCAContext *)produceInContext:(OCAContext *)context CONVENIENCE {
-    [self addConsumer:context];
-    return context;
-}
-
-
-- (OCAContext *)produceInContextBlock:(OCAContextDefinitionBlock)contextBlock {
-    OCAContext *context = [[OCAContext alloc] initWithDefinitionBlock:contextBlock];
-    [self addConsumer:context];
-    return context;
-}
-
-
-- (OCAContext *)produceOnQueue:(OCAQueue *)queue CONVENIENCE {
-    OCAContext *context = [[OCAContext alloc] initWithDefinitionBlock:^(OCAContextExecutionBlock executionBlock) {
-        [queue performBlockAndTryWait:executionBlock];
-    }];
-    [self addConsumer:context];
-    return context;
-}
 
 
 

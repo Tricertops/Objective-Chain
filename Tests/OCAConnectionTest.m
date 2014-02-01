@@ -98,7 +98,7 @@
     __block NSUInteger tickCount = 0;
     
     [[timer
-     produceOnQueue:timer.queue]
+     switchToQueue:timer.queue]
      subscribe:[NSDate class] handler:^(NSDate *value) {
          tickCount ++;
      } finish:^(NSError *error) {
@@ -216,7 +216,7 @@
     __block NSUInteger tickCount = 0;
     
     [[[timer
-       produceOnQueue:queue]
+       switchToQueue:queue]
       transformValues:[OCATransformer access:OCAKeyPath(NSDate, timeIntervalSinceNow, NSTimeInterval)], nil]
      subscribe:[NSNumber class] handler:^(NSNumber *timeInterval) {
          tickCount++;

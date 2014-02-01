@@ -9,6 +9,7 @@
 #import "OCAProducer+Subclass.h"
 #import "OCAHub.h"
 #import "OCABridge.h"
+#import "OCAContext.h"
 #import "OCATransformer+Core.h"
 #import "OCAVariadic.h"
 
@@ -283,6 +284,24 @@
     OCABridge *bridge = [[OCABridge alloc] initWithTransformer:transformer];
     [self addConsumer:bridge];
     return bridge;
+}
+
+
+
+
+
+- (OCAContext *)produceInContext:(OCAContext *)context {
+    [self addConsumer:context];
+    return context;
+}
+
+
+- (OCAContext *)switchToQueue:(OCAQueue *)queue {
+    OCAContext *context = [[OCAContext alloc] initWithDefinitionBlock:^(OCAContextExecutionBlock executionBlock) {
+        [queue performBlockAndTryWait:executionBlock];
+    }];
+    [self addConsumer:context];
+    return context;
 }
 
 
