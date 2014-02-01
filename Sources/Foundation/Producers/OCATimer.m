@@ -128,14 +128,12 @@
         BOOL isAfterEndDate = (endDate && [endDate timeIntervalSinceNow] <= 0);
         if (isAfterEndDate) {
             // Not producing value after endDate.
-            NSLog(@"%@: Reached end date", self.shortDescription);
             [self stop];
             return;
         }
         
         if (isNonRepeating) {
             // One fire is enough.
-            NSLog(@"%@: Single fire", self.shortDescription);
             [self produceValue:[NSDate date]];
             [self stop];
             return;
@@ -151,7 +149,6 @@
         [self finishProducingWithError:nil];
     });
     
-    NSLog(@"%@: Started", self.shortDescription);
     dispatch_resume(self.timer);
     self.isRunning = YES;
 }
@@ -160,7 +157,6 @@
 - (void)stop {
     if ( ! self.timer) return;
     
-    NSLog(@"%@: Stopped", self.shortDescription);
     dispatch_source_cancel(self.timer);
     self.timer = nil;
     self.isRunning = NO;
@@ -169,53 +165,7 @@
 
 
 - (void)dealloc {
-    NSLog(@"%@: Deallocated", self.shortDescription);
-}
-
-
-
-
-
-#pragma mark Describing Timer
-
-
-- (NSString *)descriptionName {
-    return @"Timer";
-}
-
-
-- (NSString *)description {
-    NSMutableString *d = [[NSMutableString alloc] init];
-    if (self.finished) {
-        [d appendString:@"Finished "];
-    }
-    [d appendString:self.shortDescription];
-    BOOL isRepeating = (self.interval > 0);
-    if ( ! isRepeating) {
-        [d appendFormat:@" at %@", self.startDate];
-    }
-    if (isRepeating) {
-        [d appendFormat:@" for %@s", @(self.interval)];
-    }
-    if (self.endDate) {
-        [d appendFormat:@" until %@", self.endDate];
-    }
-    [d appendFormat:@" on %@", self.queue.shortDescription];
-    return d;
-}
-
-
-- (NSDictionary *)debugDescriptionValues {
-    return @{
-             @"owner": self.owner ?: @"nil",
-             @"queue": self.queue ?: @"nil",
-             @"startDate": self.startDate ?: @"nil",
-             @"interval": @(self.interval),
-             @"leeway": @(self.leeway),
-             @"endDate": self.endDate ?: @"nil",
-             @"finished": (self.finished? @"YES":@"NO"),
-             @"connections": @(self.consumers.count),
-             };
+    [self stop];
 }
 
 

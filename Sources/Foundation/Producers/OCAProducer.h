@@ -25,32 +25,32 @@
 
 #pragma mark State of the Producer
 
-/// Class of the values produced by the receiver.
+//! Class of the values produced by the receiver.
 @property (atomic, readonly, strong) Class valueClass;
 
-/// Value that was last produced by the receiver.
+//! Value that was last produced by the receiver.
 @property (atomic, readonly, strong) id lastValue;
 
-/// Flag whether the receiver finished producing values. Once the Producer finishes, it al Consumers are informed about it.
+//! Flag whether the receiver finished producing values. Once the Producer finishes, it al Consumers are informed about it.
 @property (atomic, readonly, assign) BOOL finished;
 
-/// If the receiver is finished, contains error that caused the producer to finish, or nil of there was none.
+//! If the receiver is finished, contains error that caused the producer to finish, or nil of there was none.
 @property (atomic, readonly, strong) NSError *error;
 
 
 
 #pragma mark Managing Consumers
 
-/// A list of all Consumers of the receiver, so any values produced are passed to them. Consumers are retained.
+//! A list of all Consumers of the receiver, so any values produced are passed to them. Consumers are retained.
 @property (atomic, readonly, strong) NSArray *consumers;
 
-/// Add the Consumer object into the list and the Consumer will receive all following values until removed.
+//! Add the Consumer object into the list and the Consumer will receive all following values until removed.
 - (void)addConsumer:(id<OCAConsumer> )consumer;
 
-/// Remove the Consumer object into the list so it no longer receives new values from this Producer.
+//! Remove the Consumer object into the list so it no longer receives new values from this Producer.
 - (void)removeConsumer:(id<OCAConsumer> )consumer;
 
-/// Remove all Consumers from the list.
+//! Remove all Consumers from the list.
 - (void)removeAllConsumers;
 
 

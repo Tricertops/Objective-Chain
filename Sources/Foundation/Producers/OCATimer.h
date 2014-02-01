@@ -13,9 +13,7 @@
 
 
 
-/*!
- Timer is a Producer, that periodically sends dates (\c NSDate instances).
- !*/
+//! Timer is a Producer, that periodically sends values (time intervals by default).
 @interface OCATimer : OCAProducer
 
 
@@ -24,28 +22,27 @@
 
 #pragma mark Creating Timer
 
-
 /*!
- Designated initializer for a Timer producer.
+ *  Designated initializer.
+ *
+ *  @param owner       Object that created the timer or nil. Lifetime of the timer will be tied with the owner, so when the owner deallocates, the timer will stop.
+ *  @param targetQueue Queue on which the timer produces values – instances of NSDate. If nil, default background queue is used.
+ *  @param startDate   Date on which the timer fires for the first time. If nil, current time is used.
+ *  @param interval    Time interval for repeating timer. If zero or negative, the timer fires only once.
+ *  @param leeway      The amount of time, that the timer can defer fire.
+ *  @param endDate     Date on which the timer stops itself and no new values are produced. May be nil, in which case the timer never stops itself.
  
- @param owner       Object that created the timer or \c nil. Lifetime of the timer will be tied with the owner, so when the owner deallocates, the timer will stop.
- @param targetQueue Queue on which the timer produces values – instances of \c NSDate. If \c nil, default background queue is used.
- @param startDate   Date on which the timer fires for the first time. If \c nil, current time is used.
- @param interval    Time interval for repeating timer. If zero or negative, the timer fires only once.
- @param leeway      The amount of time, that the timer can defer fire.
- @param endDate     Date on which the timer stops itself and no new values are produced. May be \c nil, in which case the timer never stops itself.
- 
- @discussion
- To create non-repeating timer, use interval of zero or use endDate the same as startDate.
- 
- The timer uses targetQueue to create its own private serial queue to send values. This ensures, that they are delivered serially, even when the target queue is concurrent.
- 
- Timer can be stopped in 3 ways:
- 
+ *  @discussion
+ *  To create non-repeating timer, use interval of zero or use endDate the same as startDate.
+ *
+ *  The timer uses targetQueue to create its own private serial queue to send values. This ensures, that they are delivered serially, even if the target queue is concurrent.
+ *
+ *  Timer can be stopped in 3 ways:
+ *
     1. Its owner deallocates.
-    2. End date is reached.
-    3. You call the \c -stop method.
- !*/
+    2. The endDate is reached.
+    3. You call the -stop method.
+ */
 - (instancetype)initWithOwner:(id)owner
                         queue:(OCAQueue *)targetQueue
                     startDate:(NSDate *)startDate
@@ -91,18 +88,14 @@
 @property (atomic, readonly, copy) NSDate *endDate;
 
 
-#pragma mark Controlling Timer
 
+#pragma mark Controlling Timer
 
 //! Flag whether the receiver didn't stop yet.
 @property (atomic, readonly, assign) BOOL isRunning;
 
 //! Stops the timer and finishes production of values. The timer is internally released and if there is no other strong reference, it is deallocated.
 - (void)stop;
-
-
-//TODO: -pause
-//TODO: -resume
 
 
 
