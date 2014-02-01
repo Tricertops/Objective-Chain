@@ -8,6 +8,7 @@
 
 #import "OCAHub.h"
 #import "OCAProducer+Subclass.h"
+#import "NSArray+Ordinals.h"
 
 
 
@@ -41,18 +42,10 @@
 
 
 - (instancetype)initWithType:(OCAHubType)type producers:(NSArray *)producers {
-    Class valueClass = nil;
-    Class consumedValueClass = nil;
     
     NSArray *valueClasses = [producers valueForKeyPath:OCAKP(OCAProducer, valueClass)];
-    consumedValueClass = [self valueClassForClasses:valueClasses];
-    
-    if (type == OCAHubTypeMerge) {
-        valueClass = consumedValueClass;
-    }
-    else if (type == OCAHubTypeCombine) {
-        valueClass = [NSArray class];
-    }
+    Class consumedValueClass = [OCAHub consumedValueClassForType:type valueClasses:valueClasses];
+    Class valueClass = [OCAHub producedValueClassForType:type valueClasses:valueClasses];
     
     self = [super initWithValueClass:valueClass];
     if (self) {
@@ -63,6 +56,24 @@
         [self openConnections];
     }
     return self;
+}
+
+
++ (Class)consumedValueClassForType:(OCAHubType)type valueClasses:(NSArray *)valueClasses {
+    switch (type) {
+        case OCAHubTypeMerge: return [self valueClassForClasses:valueClasses];
+        case OCAHubTypeCombine: return [self valueClassForClasses:valueClasses];
+        case OCAHubTypeDependency: return [valueClasses oca_valueAtIndex:0];
+    }
+}
+
+
++ (Class)producedValueClassForType:(OCAHubType)type valueClasses:(NSArray *)valueClasses {
+    switch (type) {
+        case OCAHubTypeMerge: return [self valueClassForClasses:valueClasses];
+        case OCAHubTypeCombine: return [NSArray class];
+        case OCAHubTypeDependency: return [valueClasses oca_valueAtIndex:0];
+    }
 }
 
 
@@ -89,7 +100,7 @@
 
 - (void)openConnections {
     for (OCAProducer *producer in self.mutableProducers) {
-        OCAAssert([producer isKindOfClass:[OCAProducer class]], @"Need OCAProducer, not %@", producer.class) continue;
+        OCAAssert([producer isKindOfClass:[OCAProducer class]], @"Hub needs Producers, not %@", producer.class) continue;
         
         [producer addConsumer:self];
     }
@@ -97,12 +108,20 @@
 
 
 - (void)consumeValue:(id)value {
-    if (self.type == OCAHubTypeMerge) {
-        [self produceValue:value];
-    }
-    else if (self.type == OCAHubTypeCombine) {
-        NSArray *latestValues = [self.producers valueForKeyPath:OCAKP(OCAProducer, lastValue)];
-        [self produceValue:latestValues];
+    switch (self.type) {
+        case OCAHubTypeMerge: {
+            [self produceValue:value];
+            break;
+        }
+        case OCAHubTypeCombine: {
+            NSArray *latestValues = [self.producers valueForKeyPath:OCAKP(OCAProducer, lastValue)];
+            [self produceValue:latestValues];
+            break;
+        }
+        case OCAHubTypeDependency: {
+            OCAProducer *first = self.producers.firstObject;
+            [self produceValue:first.lastValue];
+        }
     }
 }
 
@@ -112,58 +131,49 @@
         [self finishProducingWithError:error];
     }
     else {
-        for (OCAProducer *producer in [self.mutableProducers copy]) {
-            if (producer.finished) {
-                [self.mutableProducers removeObjectIdenticalTo:producer];
+        switch (self.type) {
+            case OCAHubTypeMerge: {
+                [self removeFinishedProducers];
+                if ( ! self.mutableProducers.count) {
+                    [self finishProducingWithError:nil];
+                }
+                break;
+            }
+            case OCAHubTypeCombine: {
+                if ([self areAllProducersFinished]) {
+                    [self finishProducingWithError:error];
+                }
+                break;
+            }
+            case OCAHubTypeDependency: {
+                OCAProducer *first = self.producers.firstObject;
+                if (first.finished) {
+                    [self finishProducingWithError:nil];
+                }
+                [self removeFinishedProducers];
             }
         }
-        if (self.mutableProducers.count == 0) {
-            [self finishProducingWithError:nil];
+    }
+}
+
+
+- (void)removeFinishedProducers {
+    NSIndexSet *finishedIndexes = [self.mutableProducers indexesOfObjectsPassingTest:
+                                   ^BOOL(OCAProducer *producer, NSUInteger idx, BOOL *stop) {
+                                       return producer.finished;
+                                   }];
+    [self.mutableProducers removeObjectsAtIndexes:finishedIndexes];
+}
+
+
+- (BOOL)areAllProducersFinished {
+    for (OCAProducer *producer in self.mutableProducers) {
+        if ( ! producer.finished) {
+            return NO;
         }
     }
+    return YES;
 }
-
-
-
-
-
-#pragma mark Describing Hub
-
-
-- (NSString *)descriptionName {
-    NSString *typeName = (self.type == OCAHubTypeMerge? @"Merge"
-                          : (self.type == OCAHubTypeCombine? @"Combination"
-                             : @"Unknown"));
-    return [typeName stringByAppendingString:@" Hub"];
-}
-
-
-- (NSString *)description {
-    NSString *adjective = (self.finished? @"Finished " : @"");
-    NSString *d = [NSString stringWithFormat:@"%@%@", adjective, self.shortDescription];
-    
-    if (self.type == OCAHubTypeMerge) {
-        NSString *className = [[self.valueClass description] stringByAppendingString:@"s"] ?: @"something";
-        d = [d stringByAppendingFormat:@" of %@", className];
-    }
-    NSArray *producerShortDescriptions = [self.producers valueForKeyPath:OCAKP(OCAProducer, shortDescription)];
-    d = [d stringByAppendingFormat:@" from { %@ }", [producerShortDescriptions componentsJoinedByString:@", "]];
-    return d;
-    // Merge Hub (0x0) of NSStrings from { Command (0x0), Bridge of NSStrings (0x0) }
-    // Finished Combine Hub from { Finished Timer (0x0), Merge Hub (0x0) }
-}
-
-
-- (NSDictionary *)debugDescriptionValues {
-    NSMutableDictionary *dictionary = [[super debugDescriptionValues] mutableCopy];
-    
-    id type = (self.type == OCAHubTypeMerge? @"OCAHubTypeMerge" : (self.type == OCAHubTypeCombine? @"OCAHubTypeMerge" : @(self.type)));
-    [dictionary setValue:type forKey:@"type"];
-    [dictionary setValue:[self.producers debugDescription] forKey:@"producers"];
-    
-    return dictionary;
-}
-
 
 
 

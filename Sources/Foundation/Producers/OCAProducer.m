@@ -236,7 +236,7 @@
 
 
 
-@implementation OCAProducer (Convenience)
+@implementation OCAProducer (Chaining)
 
 
 
@@ -249,17 +249,24 @@
 
 
 
-- (OCAHub *)mergeWith:(OCAProducer *)producer, ... NS_REQUIRES_NIL_TERMINATION  CONVENIENCE {
+- (OCAHub *)mergeWith:(OCAProducer *)producer, ... NS_REQUIRES_NIL_TERMINATION {
     NSMutableArray *producers = OCAArrayFromVariadicArguments(producer);
     [producers insertObject:self atIndex:0];
     return [[OCAHub alloc] initWithType:OCAHubTypeMerge producers:producers];
 }
 
 
-- (OCAHub *)combineWith:(OCAProducer *)producer, ... NS_REQUIRES_NIL_TERMINATION  CONVENIENCE {
+- (OCAHub *)combineWith:(OCAProducer *)producer, ... NS_REQUIRES_NIL_TERMINATION {
     NSMutableArray *producers = OCAArrayFromVariadicArguments(producer);
     [producers insertObject:self atIndex:0];
     return [[OCAHub alloc] initWithType:OCAHubTypeCombine producers:producers];
+}
+
+
+- (OCAHub *)dependOn:(OCAProducer *)producer, ... NS_REQUIRES_NIL_TERMINATION {
+    NSMutableArray *producers = OCAArrayFromVariadicArguments(producer);
+    [producers insertObject:self atIndex:0];
+    return [[OCAHub alloc] initWithType:OCAHubTypeDependency producers:producers];
 }
 
 

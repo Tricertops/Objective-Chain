@@ -49,7 +49,7 @@
     id sentValue = @"Sent";
     __block id receivedValue = @"Received";
     
-    OCACommand *command = [OCACommand class:[NSString class]];
+    OCACommand *command = [OCACommand commandForClass:[NSString class]];
     [command subscribe:[NSString class] handler:^(id value) {
         receivedValue = value;
     }];
@@ -74,7 +74,7 @@
 
 
 - (void)test_simpleConnection_withFilterAndTransform {
-    OCACommand *command = [OCACommand class:[NSString class]];
+    OCACommand *command = [OCACommand commandForClass:[NSString class]];
     NSMutableArray *received = [[NSMutableArray alloc] init];
     
     [[[command produceFiltered:[NSPredicate predicateWithFormat:@"self BEGINSWITH[c] 'a'"]]
@@ -117,7 +117,7 @@
      */
     
     NSString *hello = @"Hello";
-    OCACommand *producer = [OCACommand class:[NSString class]];
+    OCACommand *producer = [OCACommand commandForClass:[NSString class]];
     OCABridge *bridge = [OCABridge bridgeForClass:[NSString class]];
     [producer connectTo:bridge];
     
@@ -139,45 +139,8 @@
 }
 
 
-- (void)test_OCAHub_joinProducers {
-    /*  P1-,
-            \
-        P2---H---C
-            /
-        P3-'
-     */
-    
-    OCACommand *producer1 = [OCACommand class:[NSString class]];
-    OCACommand *producer2 = [OCACommand class:[NSString class]];
-    OCACommand *producer3 = [OCACommand class:[NSString class]];
-    NSArray *producers = @[ producer1, producer2, producer3 ];
-    OCAHub *hubMerge = [OCAHub merge:producers];
-    XCTAssertEqualObjects(hubMerge.valueClass, [NSString class], @"Merging hub should know class.");
-    OCAHub *hubCombine = [OCAHub combine:producers];
-    XCTAssertEqualObjects(hubCombine.valueClass, [NSArray class], @"Combining hub must produce arrays.");
-    
-    NSMutableArray *merged = [NSMutableArray array];
-    [hubMerge subscribe:[NSString class] handler:^(id value) {
-        [merged addObject:value];
-    }];
-    
-    NSMutableArray *combined = [NSMutableArray array];
-    [hubCombine subscribe:[NSArray class] handler:^(NSArray *value) {
-        [combined setArray:value];
-    }];
-    
-    [producer1 sendValue:@"A"];
-    [producer2 sendValue:@"B"];
-    [producer3 sendValue:@"C"];
-    
-    NSArray *expected = @[ @"A", @"B", @"C" ];
-    XCTAssertEqualObjects(merged, expected, @"Objects received one after another.");
-    XCTAssertEqualObjects(combined, expected, @"Objects received at once");
-}
-
-
 - (void)test_classValidation_creatingIncompatible {
-    OCACommand *command = [OCACommand class:[NSString class]];
+    OCACommand *command = [OCACommand commandForClass:[NSString class]];
     
     [command subscribe:[NSNumber class] handler:nil];
     XCTAssertTrue(command.consumers.count == 0, @"Connection cannot be created with incompatible classes, yet.");
@@ -185,7 +148,7 @@
 
 
 - (void)test_classValidation_sendWrongClass {
-    OCACommand *command = [OCACommand class:[NSString class]];
+    OCACommand *command = [OCACommand commandForClass:[NSString class]];
     
     NSMutableArray *received = [[NSMutableArray alloc] init];
     [command subscribe:[NSString class] handler:^(id value) {
@@ -200,8 +163,8 @@
 
 
 - (void)test_simpleHubWithBridge {
-    OCACommand *stringCommand = [OCACommand class:[NSString class]];
-    OCACommand *numberCommand = [OCACommand class:[NSNumber class]];
+    OCACommand *stringCommand = [OCACommand commandForClass:[NSString class]];
+    OCACommand *numberCommand = [OCACommand commandForClass:[NSNumber class]];
     OCAHub *hub = [[stringCommand
                     produceTransforms:@[ [OCATransformer access:OCAKeyPath(NSString, length, NSUInteger)] ]]
                    mergeWith:numberCommand, nil];

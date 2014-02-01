@@ -13,6 +13,7 @@
 typedef enum : NSInteger {
     OCAHubTypeMerge,
     OCAHubTypeCombine,
+    OCAHubTypeDependency,
 } OCAHubType;
 
 
