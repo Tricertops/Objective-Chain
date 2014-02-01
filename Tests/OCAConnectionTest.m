@@ -119,7 +119,7 @@
     NSString *hello = @"Hello";
     OCACommand *producer = [OCACommand class:[NSString class]];
     OCABridge *bridge = [OCABridge bridgeForClass:[NSString class]];
-    [producer consumeBy:bridge];
+    [producer connectTo:bridge];
     
     __block BOOL consumer1 = NO;
     [bridge subscribe:[NSString class] handler:^(id value) {
@@ -204,7 +204,7 @@
     OCACommand *numberCommand = [OCACommand class:[NSNumber class]];
     OCAHub *hub = [[stringCommand
                     produceTransforms:@[ [OCATransformer access:OCAKeyPath(NSString, length, NSUInteger)] ]]
-                   mergeWith:numberCommand];
+                   mergeWith:numberCommand, nil];
     
     NSMutableArray *received = [[NSMutableArray alloc] init];
     [hub subscribe:[NSNumber class] handler:^(NSNumber *value) {

@@ -7,6 +7,8 @@
 //
 
 #import "OCAProducer+Subclass.h"
+#import "OCAHub.h"
+#import "OCAVariadic.h"
 
 
 
@@ -41,6 +43,7 @@
 
 #pragma mark Creating Producer
 
+
 - (instancetype)init {
     return [self initWithValueClass:nil];
 }
@@ -49,7 +52,7 @@
 - (instancetype)initWithValueClass:(Class)valueClass {
     self = [super init];
     if (self) {
-        OCAAssert(self.class != [OCAProducer class], @"Cannot instantinate abstract class.") return nil;
+        OCAAssert(self.class != [OCAProducer class], @"Cannot instantinate abstract class. You may want to use OCACommand to produce values manually.") return nil;
         
         self->_valueClass = valueClass;
         self->_mutableConsumers = [[NSMutableArray alloc] init];
@@ -141,17 +144,6 @@
 
 
 
-#pragma mark Connecting to Producer
-
-
-- (void)consumeBy:(id<OCAConsumer>)consumer {
-    [self addConsumer:consumer];
-}
-
-
-
-
-
 #pragma mark Lifetime of Producer
 
 
@@ -227,6 +219,47 @@
              @"error": self.error ?: @"nil",
              @"consumers": @(self.consumers.count),
              };
+}
+
+
+
+
+
+@end
+
+
+
+
+
+
+
+
+
+
+@implementation OCAProducer (Convenience)
+
+
+
+
+- (void)connectTo:(id<OCAConsumer>)consumer {
+    [self addConsumer:consumer];
+}
+
+
+
+
+
+- (OCAHub *)mergeWith:(OCAProducer *)producer, ... NS_REQUIRES_NIL_TERMINATION  CONVENIENCE {
+    NSMutableArray *producers = OCAArrayFromVariadicArguments(producer);
+    [producers insertObject:self atIndex:0];
+    return [[OCAHub alloc] initWithType:OCAHubTypeMerge producers:producers];
+}
+
+
+- (OCAHub *)combineWith:(OCAProducer *)producer, ... NS_REQUIRES_NIL_TERMINATION  CONVENIENCE {
+    NSMutableArray *producers = OCAArrayFromVariadicArguments(producer);
+    [producers insertObject:self atIndex:0];
+    return [[OCAHub alloc] initWithType:OCAHubTypeCombine producers:producers];
 }
 
 

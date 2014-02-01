@@ -8,7 +8,6 @@
 
 #import "OCAHub.h"
 #import "OCAProducer+Subclass.h"
-//#import "OCATransformer.h"
 
 
 
@@ -165,35 +164,6 @@
     return dictionary;
 }
 
-
-
-
-
-
-@end
-
-
-
-
-
-
-
-
-
-@implementation OCAProducer (OCAHub)
-
-
-
-
-
-- (OCAHub *)mergeWith:(OCAProducer *)producer {
-    return [[OCAHub alloc] initWithType:OCAHubTypeMerge producers:@[ self, producer ]];
-}
-
-
-- (OCAHub *)combineWith:(OCAProducer *)producer {
-    return [[OCAHub alloc] initWithType:OCAHubTypeCombine producers:@[ self, producer ]];
-}
 
 
 

@@ -60,7 +60,7 @@
 
 - (void)test_consumingObjectValues {
     OCACommand *command = [OCACommand class:[NSString class]];
-    [command consumeBy:OCAProperty(self, occupation, NSString)];
+    [command connectTo:OCAProperty(self, occupation, NSString)];
     [command sendValue:@"Dude"];
     XCTAssertEqual(self.occupation, @"Dude");
 }
@@ -68,7 +68,7 @@
 
 - (void)test_consumingNumericValues {
     OCACommand *command = [OCACommand class:[NSNumber class]];
-    [command consumeBy:OCAProperty(self, age, NSUInteger)];
+    [command connectTo:OCAProperty(self, age, NSUInteger)];
     [command sendValue:@21];
     XCTAssertTrue(self.age == 21);
 }
@@ -76,7 +76,7 @@
 
 - (void)test_consumingNils {
     OCACommand *command = [OCACommand class:[NSNumber class]];
-    [command consumeBy:OCAProperty(self, birthYear, NSUInteger)];
+    [command connectTo:OCAProperty(self, birthYear, NSUInteger)];
     [command sendValue:nil];
     XCTAssertTrue(self.age == 0);
 }
@@ -98,8 +98,8 @@
 
 
 - (void)test_twoWayBinding {
-    [OCAProperty(self, jobTitle, NSString) consumeBy:OCAProperty(self, occupation, NSString)];
-    [OCAProperty(self, occupation, NSString) consumeBy:OCAProperty(self, jobTitle, NSString)];
+    [OCAProperty(self, jobTitle, NSString) connectTo:OCAProperty(self, occupation, NSString)];
+    [OCAProperty(self, occupation, NSString) connectTo:OCAProperty(self, jobTitle, NSString)];
     
     XCTAssertEqual(self.jobTitle, self.occupation, @"Properties must be equal.");
     
@@ -126,7 +126,7 @@
                                                        ]];
     [[combined
       produceTransforms:@[ [OCATransformer joinWithString:@" "] ]]
-     consumeBy:consumer];
+     connectTo:consumer];
     
     self.lastName = @"Me";
     

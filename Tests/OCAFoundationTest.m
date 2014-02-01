@@ -56,7 +56,7 @@
     notificator = nil; // Releasing ownership of Notificator, but it should live until Object is deallocated.
     
     OCACommand *command = [[OCACommand alloc] init];
-    [command consumeBy:[OCANotificator postNotification:notificationName sender:object]];
+    [command connectTo:[OCANotificator postNotification:notificationName sender:object]];
     [command sendValue:nil];
     
     XCTAssertTrue(passed, @"Command must invoke notification, notification must invoke block.");
@@ -65,7 +65,7 @@
 
 - (void)test_sharingNotificators {
     OCANotificator *first = [OCANotificator notify:NSCurrentLocaleDidChangeNotification];
-    [first consumeBy:[OCABridge bridge]]; // This works only after the instance is connected at least once.
+    [first connectTo:[OCABridge bridge]]; // This works only after the instance is connected at least once.
     OCANotificator *second = [OCANotificator notify:NSCurrentLocaleDidChangeNotification];
     XCTAssertTrue(first == second);
 }

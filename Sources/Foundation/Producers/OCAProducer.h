@@ -35,16 +35,30 @@
 - (void)removeAllConsumers;
 
 
-#pragma mark Describing Producer
 
-- (NSString *)descriptionName;
-- (NSDictionary *)debugDescriptionValues;
+@end
 
 
-#pragma mark Covenience Methods
 
-- (void)consumeBy:(id<OCAConsumer>)consumer CONVENIENCE;
+
+
+/*! List of convenience methods of Producer, that allows you to create complex chains in-line.
+ *  Many of them return conrcrete Producer subclasses so you can immediately call another chaining method on them.
+ */
+@interface OCAProducer (Chaining)
+
+
+
+- (void)connectTo:(id<OCAConsumer>)consumer;
+
+- (OCAHub *)mergeWith:(OCAProducer *)producer, ... NS_REQUIRES_NIL_TERMINATION;
+- (OCAHub *)combineWith:(OCAProducer *)producer, ... NS_REQUIRES_NIL_TERMINATION;
+//TODO: - (OCAHub *)dependOn:(OCAProducer *)producer, ... NS_REQUIRES_NIL_TERMINATION;
 
 
 
 @end
+
+
+
+
