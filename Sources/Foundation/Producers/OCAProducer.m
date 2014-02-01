@@ -8,6 +8,8 @@
 
 #import "OCAProducer+Subclass.h"
 #import "OCAHub.h"
+#import "OCABridge.h"
+#import "OCATransformer+Core.h"
 #import "OCAVariadic.h"
 
 
@@ -267,6 +269,20 @@
     NSMutableArray *producers = OCAArrayFromVariadicArguments(producer);
     [producers insertObject:self atIndex:0];
     return [[OCAHub alloc] initWithType:OCAHubTypeDependency producers:producers];
+}
+
+
+
+
+
+- (OCABridge *)transformValues:(NSValueTransformer *)firstTransformer, ... NS_REQUIRES_NIL_TERMINATION {
+    NSArray *transformersArray = OCAArrayFromVariadicArguments(firstTransformer);
+    NSValueTransformer *transformer = (transformersArray.count <= 1
+                                       ? transformersArray.firstObject
+                                       : [OCATransformer sequence:transformersArray]);
+    OCABridge *bridge = [[OCABridge alloc] initWithTransformer:transformer];
+    [self addConsumer:bridge];
+    return bridge;
 }
 
 

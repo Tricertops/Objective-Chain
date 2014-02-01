@@ -77,8 +77,11 @@
     OCACommand *command = [OCACommand commandForClass:[NSString class]];
     NSMutableArray *received = [[NSMutableArray alloc] init];
     
-    [[[command produceFiltered:[NSPredicate predicateWithFormat:@"self BEGINSWITH[c] 'a'"]]
-     produceTransforms:@[ [OCATransformer access:OCAKeyPath(NSString, uppercaseString, NSString)] ]]
+    [[[command
+       produceFiltered:[NSPredicate predicateWithFormat:@"self BEGINSWITH[c] 'a'"]]
+      transformValues:
+      [OCATransformer access:OCAKeyPath(NSString, uppercaseString, NSString)],
+      nil]
      subscribe:[NSString class] handler:^(NSString *value) {
          [received addObject:value];
      }];
@@ -165,9 +168,9 @@
 - (void)test_simpleHubWithBridge {
     OCACommand *stringCommand = [OCACommand commandForClass:[NSString class]];
     OCACommand *numberCommand = [OCACommand commandForClass:[NSNumber class]];
-    OCAHub *hub = [[stringCommand
-                    produceTransforms:@[ [OCATransformer access:OCAKeyPath(NSString, length, NSUInteger)] ]]
-                   mergeWith:numberCommand, nil];
+    OCAHub *hub = [[stringCommand transformValues:
+                    [OCATransformer access:OCAKeyPath(NSString, length, NSUInteger)],
+                    nil] mergeWith:numberCommand, nil];
     
     NSMutableArray *received = [[NSMutableArray alloc] init];
     [hub subscribe:[NSNumber class] handler:^(NSNumber *value) {
@@ -214,7 +217,7 @@
     
     [[[timer
        produceOnQueue:queue]
-      produceTransforms:@[ [OCATransformer access:OCAKeyPath(NSDate, timeIntervalSinceNow, NSTimeInterval)] ]]
+      transformValues:[OCATransformer access:OCAKeyPath(NSDate, timeIntervalSinceNow, NSTimeInterval)], nil]
      subscribe:[NSNumber class] handler:^(NSNumber *timeInterval) {
          tickCount++;
      } finish:^(NSError *error) {

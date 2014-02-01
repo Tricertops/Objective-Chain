@@ -9,6 +9,7 @@
 #import "OCAObject.h"
 #import "OCAConsumer.h"
 @class  OCAHub;
+@class OCABridge;
 
 
 
@@ -73,6 +74,8 @@
 - (OCAHub *)mergeWith:(OCAProducer *)producer, ... NS_REQUIRES_NIL_TERMINATION;
 - (OCAHub *)combineWith:(OCAProducer *)producer, ... NS_REQUIRES_NIL_TERMINATION;
 - (OCAHub *)dependOn:(OCAProducer *)producer, ... NS_REQUIRES_NIL_TERMINATION;
+
+- (OCABridge *)transformValues:(NSValueTransformer *)transformer, ... NS_REQUIRES_NIL_TERMINATION;
 
 
 

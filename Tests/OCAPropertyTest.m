@@ -124,9 +124,9 @@
                                                             [received addObject:value ?: @""];
                                                         }],
                                                        ]];
-    [[combined
-      produceTransforms:@[ [OCATransformer joinWithString:@" "] ]]
-     connectTo:consumer];
+    [[combined transformValues:
+      [OCATransformer joinWithString:@" "],
+      nil] connectTo:consumer];
     
     self.lastName = @"Me";
     

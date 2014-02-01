@@ -12,48 +12,31 @@
 
 
 
+//! Bridge is a Mediator (Producer and Consumer), that simply passes values further with optional transformation.
 @interface OCABridge : OCAMediator
 
 
 
 #pragma mark Creating Bridge
 
+/*! Designated initializer. Initializes new Bridge that uses given transformer to transform values. Pass nil for no transformation on values.
+ *  The receiver will use transformer's +valueClass and +transformedValueClass methods to declare its own -valueClass and -consumedValueClass.
+ */
 - (instancetype)initWithTransformer:(NSValueTransformer *)transformer;
 
-+ (OCABridge *)bridge;
+//! Creates new Bridge, that passes values of given class. If class is nil, it passes all values to its Consumers.
 + (OCABridge *)bridgeForClass:(Class)class;
-+ (OCABridge *)bridgeWithTransformer:(NSValueTransformer *)transformer;
+
+//! Create new Bridge, that uses sequence of transformers to transform values passed then to Consumers.
++ (OCABridge *)bridgeWithTransformers:(NSValueTransformer *)transformer, ... NS_REQUIRES_NIL_TERMINATION;
 
 
+
+#pragma mark Transformer
+
+//! Property that contains the transformer passed to initializer, if any.
 @property (atomic, readonly, strong) NSValueTransformer *transformer;
 
-
-#pragma mark Bridge as a Consumer
-
-- (Class)consumedValueClass;
-- (void)consumeValue:(id)value;
-- (void)finishConsumingWithError:(NSError *)error;
-
-
-
-@end
-
-
-
-
-
-@interface OCAProducer (OCABridge)
-
-
-- (OCABridge *)produceTransform:(NSValueTransformer *)transformer CONVENIENCE;
-- (OCABridge *)produceTransforms:(NSArray *)transformers CONVENIENCE;
-- (OCABridge *)produceReplacement:(id)replacement CONVENIENCE;
-- (OCABridge *)produceMapped:(NSDictionary *)map CONVENIENCE;
-- (OCABridge *)produceIfYes:(id)yesReplacement ifNo:(id)noReplacement CONVENIENCE;
-- (OCABridge *)produceNegatedBoolean CONVENIENCE;
-- (OCABridge *)produceDebugLogs:(NSString *)prefix CONVENIENCE;
-
-//TODO: Convenience for specific transformer instances.
 
 
 @end
