@@ -45,16 +45,16 @@
 
 
 - (instancetype)initWithValueClass:(Class)valueClass {
-    return [self initWithDelay:0 continuous:NO];
+    return [self initWithInterval:0 continuous:NO];
 }
 
 
-- (instancetype)initWithDelay:(NSTimeInterval)delay continuous:(BOOL)continuous {
+- (instancetype)initWithInterval:(NSTimeInterval)interval continuous:(BOOL)continuous {
     self = [super initWithValueClass:nil];
     if (self) {
-        OCAAssert(delay >= 0, @"I am not a time traveller.") delay = 0;
+        OCAAssert(interval >= 0, @"I am not a time traveller.") interval = 0;
         
-        self->_delay = delay;
+        self->_interval = interval;
         self->_isContinuous = continuous;
         
         OCAWeakify(self);
@@ -73,13 +73,13 @@
 }
 
 
-+ (OCAThrottle *)throttleWithDelay:(NSTimeInterval)delay {
-    return [[self alloc] initWithDelay:delay continuous:NO];
++ (OCAThrottle *)throttleWithInterval:(NSTimeInterval)delay {
+    return [[self alloc] initWithInterval:delay continuous:NO];
 }
 
 
-+ (OCAThrottle *)throttleWithDelay:(NSTimeInterval)delay continuous:(BOOL)continuous {
-    return [[self alloc] initWithDelay:delay continuous:continuous];
++ (OCAThrottle *)throttleWithInterval:(NSTimeInterval)delay continuous:(BOOL)continuous {
+    return [[self alloc] initWithInterval:delay continuous:continuous];
 }
 
 
@@ -90,7 +90,7 @@
 
 
 - (void)consumeValue:(id)value {
-    if (self.delay == 0) {
+    if (self.interval == 0) {
         [self produceValue:value];
         return;
     }
@@ -98,7 +98,7 @@
     if (self.isContinuous && self.timer.isRunning) return;
         
     [self.timer stop];
-    NSDate *fireDate = [NSDate dateWithTimeIntervalSinceNow:self.delay];
+    NSDate *fireDate = [NSDate dateWithTimeIntervalSinceNow:self.interval];
     self.timer = [[OCATimer alloc] initWithOwner:self queue:nil startDate:fireDate interval:0 leeway:0 endDate:nil];
     self.isThrottled = YES;
     self.lastThrottledValue = value;
@@ -112,10 +112,6 @@
     self.lastThrottledValue = nil;
     [self finishProducingWithError:error];
 }
-
-
-
-
 
 
 

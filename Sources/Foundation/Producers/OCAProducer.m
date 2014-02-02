@@ -345,15 +345,15 @@
 
 
 
-- (OCAThrottle *)throttle:(NSTimeInterval)delay {
-    OCAThrottle *throttle = [[OCAThrottle alloc] initWithDelay:delay continuous:NO];
+- (OCAThrottle *)throttle:(NSTimeInterval)interval {
+    OCAThrottle *throttle = [[OCAThrottle alloc] initWithInterval:interval continuous:NO];
     [self addConsumer:throttle];
     return throttle;
 }
 
 
-- (OCAThrottle *)throttleContinuous:(NSTimeInterval)delay {
-    OCAThrottle *throttle = [[OCAThrottle alloc] initWithDelay:delay continuous:YES];
+- (OCAThrottle *)throttleContinuous:(NSTimeInterval)interval {
+    OCAThrottle *throttle = [[OCAThrottle alloc] initWithInterval:interval continuous:YES];
     [self addConsumer:throttle];
     return throttle;
 }

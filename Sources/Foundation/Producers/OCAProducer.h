@@ -89,8 +89,8 @@
 - (OCAFilter *)skipFirst:(NSUInteger)count;
 - (OCAFilter *)skipEqual;
 
-- (OCAThrottle *)throttle:(NSTimeInterval)delay;
-- (OCAThrottle *)throttleContinuous:(NSTimeInterval)delay;
+- (OCAThrottle *)throttle:(NSTimeInterval)interval;
+- (OCAThrottle *)throttleContinuous:(NSTimeInterval)interval;
 
 
 
