@@ -35,6 +35,7 @@
     return [self initWithPredicate:predicate];
 }
 
+
 - (instancetype)initWithPredicate:(NSPredicate *)predicate {
     self = [super initWithValueClass:nil];
     if (self) {
@@ -44,7 +45,30 @@
 }
 
 
-+ (OCAFilter *)predicate:(NSPredicate *)predicate {
++ (OCAFilter *)filterWithPredicate:(NSPredicate *)predicate {
+    return [[self alloc] initWithPredicate:predicate];
+}
+
+
++ (OCAFilter *)filterThatSkipsFirst:(NSUInteger)countToSkip {
+    // This instance uses __block variable that outlives the block scope.
+    __block NSUInteger countOfValues = 0;
+    NSPredicate *predicate = [NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
+        countOfValues ++;
+        return (countOfValues > countToSkip);
+    }];
+    return [[self alloc] initWithPredicate:predicate];
+}
+
+
++ (OCAFilter *)filterThatSkipsEqual {
+    // This instance uses __block variable that outlives the block scope.
+    __block id previouslyEvaluatedObject = nil; //TODO: Don't retain the previous forever. Maybe class and hash comparision would be enough.
+    NSPredicate *predicate = [NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
+        BOOL isEqual = OCAEqual(previouslyEvaluatedObject, evaluatedObject);
+        previouslyEvaluatedObject = evaluatedObject;
+        return ! isEqual;
+    }];
     return [[self alloc] initWithPredicate:predicate];
 }
 
@@ -81,66 +105,6 @@
 
 - (void)finishConsumingWithError:(NSError *)error {
     [self finishProducingWithError:error];
-}
-
-
-
-
-
-#pragma mark Describing Filter
-
-
-- (NSString *)descriptionName {
-    return @"Filter";
-}
-
-
-- (NSString *)description {
-    return [NSString stringWithFormat:@"%@ %@", self.shortDescription, self.predicate];
-}
-
-
-- (NSDictionary *)debugDescriptionValues {
-    return @{
-             @"predicate": self.predicate ?: @"nil",
-             };
-}
-
-
-
-
-
-@end
-
-
-
-
-
-
-
-
-
-
-@implementation OCAProducer (OCAFilter)
-
-
-
-
-
-- (OCAFilter *)produceFiltered:(NSPredicate *)predicate {
-    NSPredicate *validatingPredicate = [OCAPredicate predicateForClass:self.valueClass predicate:predicate];
-    OCAFilter *filter = [[OCAFilter alloc] initWithPredicate:validatingPredicate];
-    [self addConsumer:filter];
-    return filter;
-}
-
-
-- (OCAFilter *)produceNotNil CONVENIENCE {
-    NSPredicate *predicate = [[OCAPredicate isNil] negate];
-    NSPredicate *validatingPredicate = [OCAPredicate predicateForClass:self.valueClass predicate:predicate];
-    OCAFilter *filter = [[OCAFilter alloc] initWithPredicate:validatingPredicate];
-    [self addConsumer:filter];
-    return filter;
 }
 
 

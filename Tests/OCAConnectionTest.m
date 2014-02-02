@@ -78,7 +78,7 @@
     NSMutableArray *received = [[NSMutableArray alloc] init];
     
     [[[command
-       produceFiltered:[NSPredicate predicateWithFormat:@"self BEGINSWITH[c] 'a'"]]
+       filterValues:[NSPredicate predicateWithFormat:@"self BEGINSWITH[c] 'a'"]]
       transformValues:
       [OCATransformer access:OCAKeyPath(NSString, uppercaseString, NSString)],
       nil]

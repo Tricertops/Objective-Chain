@@ -12,6 +12,7 @@
 @class OCABridge;
 @class OCAContext;
 @class OCAQueue;
+@class OCAFilter;
 
 
 
@@ -81,6 +82,11 @@
 
 - (OCAContext *)produceInContext:(OCAContext *)context;
 - (OCAContext *)switchToQueue:(OCAQueue *)queue;
+
+- (OCAFilter *)filterValues:(NSPredicate *)predicate;
+- (OCAFilter *)skipNil;
+- (OCAFilter *)skipFirst:(NSUInteger)count;
+- (OCAFilter *)skipEqual;
 
 
 

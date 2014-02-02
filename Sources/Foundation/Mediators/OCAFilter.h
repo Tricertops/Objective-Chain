@@ -12,43 +12,35 @@
 
 
 
+//! Filter is a Mediator, that evaluates predicates on the values. If the object evaluates to Yes, it is passed further, otherwise no action is made.
 @interface OCAFilter : OCAMediator
 
 
 
 #pragma mark Creating Filter
 
+//! Designated initializer. Pass a predicate object you wish to evaluate on the values.
 - (instancetype)initWithPredicate:(NSPredicate *)predicate;
 
-+ (OCAFilter *)predicate:(NSPredicate *)predicate;
+//! Returns new Filer with given predicate.
++ (OCAFilter *)filterWithPredicate:(NSPredicate *)predicate;
+
+//! Returns new Filter, that remembers number of consumed objects and passes all of them once it receives more than \c count.
++ (OCAFilter *)filterThatSkipsFirst:(NSUInteger)count;
+
+//! Returns new Filter, that stores previously evaluated object and passes new objects only is they are not equal (as defined by isEqual: method).
++ (OCAFilter *)filterThatSkipsEqual;
+
 
 
 #pragma mark Using Filter
 
+//! Predicate as passed to the initializer.
 @property (atomic, readonly, strong) NSPredicate *predicate;
 
+//! This allows you to use Filter out of chain.
 - (BOOL)validateObject:(id)object;
 
-
-#pragma mark Filter as a Consumer
-
-- (void)consumeValue:(id)value;
-- (void)finishConsumingWithError:(NSError *)error;
-
-
-
-@end
-
-
-
-
-
-@interface OCAProducer (OCAFilter)
-
-
-- (OCAFilter *)produceFiltered:(NSPredicate *)predicate CONVENIENCE;
-- (OCAFilter *)produceNotNil CONVENIENCE;
-//TODO: Methods for specific instances.
 
 
 @end

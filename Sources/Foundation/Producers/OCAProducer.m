@@ -10,7 +10,9 @@
 #import "OCAHub.h"
 #import "OCABridge.h"
 #import "OCAContext.h"
+#import "OCAFilter.h"
 #import "OCATransformer+Core.h"
+#import "OCAPredicate.h"
 #import "OCAVariadic.h"
 
 
@@ -302,6 +304,40 @@
     }];
     [self addConsumer:context];
     return context;
+}
+
+
+
+
+
+- (OCAFilter *)filterValues:(NSPredicate *)predicate {
+    OCAFilter *filter = [[OCAFilter alloc] initWithPredicate:predicate];
+    [self addConsumer:filter];
+    return filter;
+}
+
+
+- (OCAFilter *)skipNil {
+    NSPredicate *predicate = [NSPredicate predicateWithBlock:^BOOL(id object, NSDictionary *b) {
+        return (object != nil);
+    }];
+    OCAFilter *filter = [[OCAFilter alloc] initWithPredicate:predicate];
+    [self addConsumer:filter];
+    return filter;
+}
+
+
+- (OCAFilter *)skipFirst:(NSUInteger)count {
+    OCAFilter *filter = [OCAFilter filterThatSkipsFirst:count];
+    [self addConsumer:filter];
+    return filter;
+}
+
+
+- (OCAFilter *)skipEqual {
+    OCAFilter *filter = [OCAFilter filterThatSkipsEqual];
+    [self addConsumer:filter];
+    return filter;
 }
 
 
