@@ -11,6 +11,7 @@
 #import "OCABridge.h"
 #import "OCAContext.h"
 #import "OCAFilter.h"
+#import "OCAThrottle.h"
 #import "OCATransformer+Core.h"
 #import "OCAPredicate.h"
 #import "OCAVariadic.h"
@@ -338,6 +339,23 @@
     OCAFilter *filter = [OCAFilter filterThatSkipsEqual];
     [self addConsumer:filter];
     return filter;
+}
+
+
+
+
+
+- (OCAThrottle *)throttle:(NSTimeInterval)delay {
+    OCAThrottle *throttle = [[OCAThrottle alloc] initWithDelay:delay continuous:NO];
+    [self addConsumer:throttle];
+    return throttle;
+}
+
+
+- (OCAThrottle *)throttleContinuous:(NSTimeInterval)delay {
+    OCAThrottle *throttle = [[OCAThrottle alloc] initWithDelay:delay continuous:YES];
+    [self addConsumer:throttle];
+    return throttle;
 }
 
 

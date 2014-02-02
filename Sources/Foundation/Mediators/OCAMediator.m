@@ -19,7 +19,6 @@
 
 
 - (Class)consumedValueClass {
-    OCAAssert(NO, @"You can't use this abstract class!");
     return nil;
 }
 

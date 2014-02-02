@@ -13,6 +13,7 @@
 @class OCAContext;
 @class OCAQueue;
 @class OCAFilter;
+@class OCAThrottle;
 
 
 
@@ -87,6 +88,9 @@
 - (OCAFilter *)skipNil;
 - (OCAFilter *)skipFirst:(NSUInteger)count;
 - (OCAFilter *)skipEqual;
+
+- (OCAThrottle *)throttle:(NSTimeInterval)delay;
+- (OCAThrottle *)throttleContinuous:(NSTimeInterval)delay;
 
 
 
