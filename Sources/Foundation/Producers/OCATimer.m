@@ -49,7 +49,7 @@
 - (instancetype)initWithOwner:(NSObject *)owner queue:(OCAQueue *)targetQueue startDate:(NSDate *)startDate interval:(NSTimeInterval)interval leeway:(NSTimeInterval)leeway endDate:(NSDate *)endDate {
     self = [super initWithValueClass:[NSDate class]];
     if (self) {
-        OCAAssert(interval > 0, @"Works only with positive intervals.") return nil;
+        OCAAssert(interval >= 0, @"Works only with positive intervals.") return nil;
         OCAAssert(leeway >= 0, @"Works only with non-negative leeway.") return nil;
         
         self->_owner = owner;
@@ -66,7 +66,6 @@
         
         [owner.decomposer addOwnedObject:self cleanup:^(__unsafe_unretained id owner) {
             if (self.timer) {
-                NSLog(@"%@: Owner deallocated", self.shortDescription);
                 [self stop];
             }
         }];
