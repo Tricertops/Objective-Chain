@@ -23,8 +23,16 @@
 
 
 
+- (instancetype)init {
+    return [self initWithRepresentedClass:nil];
+}
+
+
 - (instancetype)initWithRepresentedClass:(Class)class {
-    self->_representedClass = class;
+    self = [super init];
+    if (self) {
+        self->_representedClass = class;
+    }
     return self;
 }
 

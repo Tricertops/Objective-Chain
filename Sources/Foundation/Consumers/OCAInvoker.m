@@ -43,11 +43,8 @@
         OCAAssert(invocation != nil, @"Need invocation");
         
         self->_invocation = invocation;
-        [self findPlaceholders];
-        
-        // Target may be one of the placeholders and is now nullified.
-        self->_target = invocation.target;
-        self.invocation.target = nil;
+        [self findPlaceholders]; // Includes replacing the target,
+        [invocation retainArguments];
     }
     return self;
 }
@@ -65,38 +62,42 @@
     NSInvocation *invocation = self->_invocation;
     NSUInteger count = invocation.methodSignature.numberOfArguments;
     for (NSUInteger index = 0; index < count; index++) {
+        // At least two arguments are always there.
         
         const char *cType = [invocation.methodSignature getArgumentTypeAtIndex:index];
         NSString *type = @(cType);
-        if ([type isEqualToString:@(@encode(id))]) {
+        if ( ! [type isEqualToString:@(@encode(id))]) continue;
             // Found object argument.
             
-            __unsafe_unretained id argumentUnretained = nil;
-            [invocation getArgument:&argumentUnretained atIndex:index];
-            id argument = argumentUnretained;
-            if ([argument isKindOfClass:[OCAPlaceholderObject class]]) {
-                // Found placeholder. This may be even the target.
-                
-                OCAPlaceholderObject *placeholder = (OCAPlaceholderObject *)argument;
-                [indexes addIndex:index];
-                [placeholders addObject:placeholder];
-                
-                // Remove it from there.
-                id nothing = nil;
-                [invocation setArgument:&nothing atIndex:index];
-                
-            }
-            
+        __unsafe_unretained id unsafe_argument = nil;
+        [invocation getArgument:&unsafe_argument atIndex:index];
+        id argument = unsafe_argument; // Retain it.
+        
+        if (index == 0 && argument && ! [argument isKindOfClass:[OCAPlaceholderObject class]]) {
+            // Target is always replaced by placeholder and is stored weakly.
+            self->_target = argument;
+            argument = [[OCAPlaceholderObject alloc] initWithRepresentedClass:[argument class]];
         }
         
+        if ([argument isKindOfClass:[OCAPlaceholderObject class]]) {
+            // Found placeholder. This may be the target or other argument.
+            
+            OCAPlaceholderObject *placeholder = (OCAPlaceholderObject *)argument;
+            [indexes addIndex:index];
+            [placeholders addObject:placeholder];
+            
+            // Remove it from there.
+            id nothing = nil;
+            [invocation setArgument:&nothing atIndex:index];
+        }
     }
+    
     self->_placeholderIndexes = indexes;
     self->_placeholders = placeholders;
 }
 
 
 - (void)invokeWithSubstitutions:(NSArray *)substitutions {
-    NSInvocation *invocation = self->_invocation;
     __block NSUInteger index = 0;
     [self.placeholderIndexes enumerateIndexesUsingBlock:^(NSUInteger argumentIndex, BOOL *stop) {
         
@@ -104,17 +105,18 @@
         id substitution = [substitutions oca_valueAtIndex:index];
         BOOL valid = [self validateObject:&substitution ofClass:placeholder.representedClass];
         if (valid) {
-            [invocation setArgument:&substitution atIndex:argumentIndex];
+            [self.invocation setArgument:&substitution atIndex:argumentIndex];
         }
         
         index ++;
     }];
-    if ( ! [self.placeholderIndexes containsIndex:0]) {
-        // Target was not placeholder.
-        self.invocation.target = self.target;
-    }
     [self.invocation invoke];
     self.invocation.target = nil;
+    
+    [self.placeholderIndexes enumerateIndexesUsingBlock:^(NSUInteger argumentIndex, BOOL *stop) {
+        id nothing = nil;
+        [self.invocation setArgument:&nothing atIndex:argumentIndex];
+    }];
 }
 
 
@@ -124,12 +126,12 @@
 
 
 - (void)consumeValue:(id)value {
-    NSArray *substitutions = nil;
+    NSMutableArray *substitutions = [NSMutableArray arrayWithObjects:self->_target, nil]; // May be nil, so empty.
     if ([value isKindOfClass:[NSArray class]]) {
-        substitutions = value;
+        [substitutions addObjectsFromArray:(NSArray *)value];
     }
-    else {
-        substitutions = @[ value ?: NSNull.null ];
+    else if (value) {
+        [substitutions addObject:value];
     }
     [self invokeWithSubstitutions:substitutions];
 }

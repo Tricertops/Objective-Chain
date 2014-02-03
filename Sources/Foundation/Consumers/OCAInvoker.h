@@ -29,9 +29,6 @@
 @property (atomic, readonly, strong) NSInvocation *invocation;
 
 
-- (void)invokeWithSubstitutions:(NSArray *)substitutions;
-
-
 
 @end
 
