@@ -13,6 +13,7 @@
 #import "OCAFilter.h"
 #import "OCAThrottle.h"
 #import "OCASubscriber.h"
+#import "OCAInvoker.h"
 #import "OCATransformer+Core.h"
 #import "OCAPredicate.h"
 #import "OCAVariadic.h"
@@ -388,6 +389,15 @@
 - (void)subscribeForClass:(Class)class handler:(void(^)(id value))handler finish:(void(^)(NSError *error))finishHandler {
     OCASubscriber *subscriber = [[OCASubscriber alloc] initWithValueClass:class valueHandler:handler finishHandler:finishHandler];
     [self addConsumer:subscriber];
+}
+
+
+
+
+
+- (void)invoke:(NSInvocation *)invocation {
+    OCAInvoker *invoker = [[OCAInvoker alloc] initWithInvocation:invocation];
+    [self addConsumer:invoker];
 }
 
 

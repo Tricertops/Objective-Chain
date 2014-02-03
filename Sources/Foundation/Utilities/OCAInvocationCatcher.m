@@ -33,7 +33,9 @@
 - (void)forwardInvocation:(NSInvocation *)invocation {
     [invocation invokeWithTarget:nil];
     invocation.target = self.target;
+    [invocation retainArguments];
     self->_lastInvocation = invocation;
+    self->_target = nil;
 }
 
 

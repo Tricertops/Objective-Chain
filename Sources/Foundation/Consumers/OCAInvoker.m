@@ -7,6 +7,23 @@
 //
 
 #import "OCAInvoker.h"
+#import "NSArray+Ordinals.h"
+
+
+
+
+
+@interface OCAInvoker ()
+
+
+@property (atomic, readonly, strong) NSIndexSet *placeholderIndexes;
+@property (atomic, readonly, strong) NSArray *placeholders;
+
+
+@end
+
+
+
 
 
 
@@ -26,16 +43,78 @@
         OCAAssert(invocation != nil, @"Need invocation");
         
         self->_invocation = invocation;
-        self->_target = invocation.target;
+        [self findPlaceholders];
         
+        // Target may be one of the placeholders and is now nullified.
+        self->_target = invocation.target;
         self.invocation.target = nil;
     }
     return self;
 }
 
 
-+ (instancetype)invocation:(NSInvocation *)invocation {
++ (instancetype)invoke:(NSInvocation *)invocation {
     return [[self alloc] initWithInvocation:invocation];
+}
+
+
+- (void)findPlaceholders {
+    NSMutableIndexSet *indexes = [[NSMutableIndexSet alloc] init];
+    NSMutableArray *placeholders = [[NSMutableArray alloc] init];
+    
+    NSInvocation *invocation = self->_invocation;
+    NSUInteger count = invocation.methodSignature.numberOfArguments;
+    for (NSUInteger index = 0; index < count; index++) {
+        
+        const char *cType = [invocation.methodSignature getArgumentTypeAtIndex:index];
+        NSString *type = @(cType);
+        if ([type isEqualToString:@(@encode(id))]) {
+            // Found object argument.
+            
+            __unsafe_unretained id argumentUnretained = nil;
+            [invocation getArgument:&argumentUnretained atIndex:index];
+            id argument = argumentUnretained;
+            if ([argument isKindOfClass:[OCAPlaceholderObject class]]) {
+                // Found placeholder. This may be even the target.
+                
+                OCAPlaceholderObject *placeholder = (OCAPlaceholderObject *)argument;
+                [indexes addIndex:index];
+                [placeholders addObject:placeholder];
+                
+                // Remove it from there.
+                id nothing = nil;
+                [invocation setArgument:&nothing atIndex:index];
+                
+            }
+            
+        }
+        
+    }
+    self->_placeholderIndexes = indexes;
+    self->_placeholders = placeholders;
+}
+
+
+- (void)invokeWithSubstitutions:(NSArray *)substitutions {
+    NSInvocation *invocation = self->_invocation;
+    __block NSUInteger index = 0;
+    [self.placeholderIndexes enumerateIndexesUsingBlock:^(NSUInteger argumentIndex, BOOL *stop) {
+        
+        OCAPlaceholderObject *placeholder = [self.placeholders objectAtIndex:index];
+        id substitution = [substitutions oca_valueAtIndex:index];
+        BOOL valid = [self validateObject:&substitution ofClass:placeholder.representedClass];
+        if (valid) {
+            [invocation setArgument:&substitution atIndex:argumentIndex];
+        }
+        
+        index ++;
+    }];
+    if ( ! [self.placeholderIndexes containsIndex:0]) {
+        // Target was not placeholder.
+        self.invocation.target = self.target;
+    }
+    [self.invocation invoke];
+    self.invocation.target = nil;
 }
 
 
@@ -45,8 +124,14 @@
 
 
 - (void)consumeValue:(id)value {
-    [self.invocation invokeWithTarget:self.target];
-    self.invocation.target = nil;
+    NSArray *substitutions = nil;
+    if ([value isKindOfClass:[NSArray class]]) {
+        substitutions = value;
+    }
+    else {
+        substitutions = @[ value ?: NSNull.null ];
+    }
+    [self invokeWithSubstitutions:substitutions];
 }
 
 
@@ -56,28 +141,6 @@
 }
 
 
-
-
-
-@end
-
-
-
-
-
-
-
-
-
-
-@implementation OCAProducer (OCAInvoker)
-
-
-
-- (void)invoke:(NSInvocation *)invocation {
-    OCAInvoker *invoker = [[OCAInvoker alloc] initWithInvocation:invocation];
-    [self addConsumer:invoker];
-}
 
 
 

@@ -67,7 +67,6 @@
 @class OCAQueue;
 @class OCAFilter;
 @class OCAThrottle;
-@class OCASubscriber;
 
 
 
@@ -101,6 +100,8 @@
 - (void)subscribe:(void(^)(void))handler;
 - (void)subscribeForClass:(Class)class handler:(void(^)(id value))handler;
 - (void)subscribeForClass:(Class)class handler:(void(^)(id value))handler finish:(void(^)(NSError *error))handler;
+
+- (void)invoke:(NSInvocation *)invocation;
 
 
 

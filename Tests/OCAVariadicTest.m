@@ -48,14 +48,14 @@
 
 - (void)test_variadic_array {
     NSArray *expected = @[ @"A", @"B" ];
-    NSArray *result = [self variadic:OCAVariadicArray(expected)];
+    NSArray *result = [self variadic:OCAVariadic(expected)];
     XCTAssertEqualObjects(result, expected);
 }
 
 
 - (void)test_variadic_mixed {
     NSArray *tail = @[ @"C", @"D" ];
-    NSArray *result = [self variadic:@"A", @"B", OCAVariadicArray(tail)];
+    NSArray *result = [self variadic:@"A", @"B", OCAVariadic(tail)];
     NSArray *expected = @[ @"A", @"B", @"C", @"D" ];
     XCTAssertEqualObjects(result, expected);
 }

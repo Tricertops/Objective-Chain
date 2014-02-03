@@ -9,6 +9,7 @@
 #import "OCAObject.h"
 #import "OCAConsumer.h"
 #import "OCAProducer.h"
+#import "OCAPlaceholderObject.h"
 
 
 
@@ -19,25 +20,17 @@
 
 
 - (instancetype)initWithInvocation:(NSInvocation *)invocation;
-+ (instancetype)invocation:(NSInvocation *)invocation;
-//TODO: Allow invoking on the value or replace arguments.
+
++ (instancetype)invoke:(NSInvocation *)invocation;
+
 
 @property (atomic, readonly, weak) id target;
+
 @property (atomic, readonly, strong) NSInvocation *invocation;
 
 
+- (void)invokeWithSubstitutions:(NSArray *)substitutions;
 
-@end
-
-
-
-
-
-@interface OCAProducer (OCAInvoker)
-
-
-- (void)invoke:(NSInvocation *)invocation;
-//TODO: -invokeTarget:selector:object:
 
 
 @end

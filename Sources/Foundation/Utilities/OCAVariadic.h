@@ -36,8 +36,8 @@
 
 
 
-/// Helper macro for providing an array to variable argument method. Such method must handle these cases, for exampel using OCAArrayFromVariadicArguments.
-#define OCAVariadicArray(array)     (id)(array), nil
+/// Helper macro for providing an array to variable argument method. Such method must handle these cases, for example using OCAArrayFromVariadicArguments.
+#define OCAVariadic(ARRAY)     (id)(ARRAY), nil
 
 
 

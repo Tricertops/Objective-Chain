@@ -25,7 +25,7 @@
 
 
 - (instancetype)initWithTarget:(id)target;
-@property (nonatomic, readonly, weak) id target;
+@property (nonatomic, readonly, strong) id target;
 
 
 - (void)forwardInvocation:(NSInvocation *)invocation;
