@@ -14,9 +14,8 @@
 #import "OCACommand.h"
 #import "OCAHub.h"
 #import "OCAProperty.h"
-#import "OCAInvoker.h"
-#import "OCANotificator.h"
 #import "OCATimer.h"
+#import "OCANotificator.h"
 
 
 /// Mediators
@@ -25,6 +24,7 @@
 #import "OCABridge.h"
 #import "OCAContext.h"
 #import "OCAFilter.h"
+#import "OCAThrottle.h"
 
 
 /// Consumers
@@ -32,6 +32,7 @@
 #import "OCAConsumer.h"
 #import "OCASubscriber.h"
 #import "OCAMulticast.h"
+#import "OCAInvoker.h"
 
 
 /// Transformers
@@ -56,5 +57,8 @@
 #import "NSArray+Ordinals.h"
 #import "OCADecomposer.h"
 #import "OCAInvocationCatcher.h"
+#import "OCAKeyValueChange.h"
+#import "OCAVariadic.h"
+#import "OCAPlaceholderObject.h"
 
 
