@@ -9,6 +9,7 @@
 #import "OCAObject.h"
 #import "OCAConsumer.h"
 @class OCAHub;
+@class OCAMediator;
 @class OCABridge;
 @class OCAContext;
 @class OCAQueue;
@@ -74,6 +75,7 @@
 
 
 - (void)connectTo:(id<OCAConsumer>)consumer;
+- (OCAMediator *)chainTo:(OCAMediator *)mediator;
 
 - (OCAHub *)mergeWith:(OCAProducer *)producer, ... NS_REQUIRES_NIL_TERMINATION;
 - (OCAHub *)combineWith:(OCAProducer *)producer, ... NS_REQUIRES_NIL_TERMINATION;

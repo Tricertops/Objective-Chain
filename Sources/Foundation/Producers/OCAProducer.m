@@ -252,6 +252,12 @@
 }
 
 
+- (OCAMediator *)chainTo:(OCAMediator *)mediator {
+    [self addConsumer:mediator];
+    return mediator;
+}
+
+
 
 
 
