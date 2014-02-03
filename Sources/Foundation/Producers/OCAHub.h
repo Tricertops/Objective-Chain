@@ -27,8 +27,8 @@ typedef enum : NSInteger {
 #pragma mark Creating Hub
 
 - (instancetype)initWithType:(OCAHubType)type producers:(NSArray *)producers;
-+ (instancetype)merge:(NSArray *)producers;
-+ (instancetype)combine:(NSArray *)producers;
++ (instancetype)merge:(OCAProducer *)producers, ... NS_REQUIRES_NIL_TERMINATION;
++ (instancetype)combine:(OCAProducer *)producers, ... NS_REQUIRES_NIL_TERMINATION;
 
 
 #pragma mark Attributes of Hub

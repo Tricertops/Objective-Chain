@@ -9,6 +9,7 @@
 #import "OCAHub.h"
 #import "OCAProducer+Subclass.h"
 #import "NSArray+Ordinals.h"
+#import "OCAVariadic.h"
 
 
 
@@ -77,13 +78,13 @@
 }
 
 
-+ (instancetype)merge:(NSArray *)producers {
-    return [[self alloc] initWithType:OCAHubTypeMerge producers:producers];
++ (instancetype)merge:(OCAProducer *)producers, ... NS_REQUIRES_NIL_TERMINATION {
+    return [[self alloc] initWithType:OCAHubTypeMerge producers:OCAArrayFromVariadicArguments(producers)];
 }
 
 
-+ (instancetype)combine:(NSArray *)producers {
-    return [[self alloc] initWithType:OCAHubTypeCombine producers:producers];
++ (instancetype)combine:(OCAProducer *)producers, ... NS_REQUIRES_NIL_TERMINATION {
+    return [[self alloc] initWithType:OCAHubTypeCombine producers:OCAArrayFromVariadicArguments(producers)];
 }
 
 
