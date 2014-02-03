@@ -22,42 +22,42 @@
 
 
 + (id<OCAConsumer>)setTitleOfButton:(UIButton *)button forControlState:(UIControlState)state {
-    return [OCASubscriber class:[NSString class] handler:^(NSString *input) {
+    return [OCASubscriber subscribeForClass:[NSString class] handler:^(NSString *input) {
         [button setTitle:input forState:state];
     }];
 }
 
 
 + (id<OCAConsumer>)setAttributedTitleOfButton:(UIButton *)button forControlState:(UIControlState)state {
-    return [OCASubscriber class:[NSAttributedString class] handler:^(NSAttributedString *input) {
+    return [OCASubscriber subscribeForClass:[NSAttributedString class] handler:^(NSAttributedString *input) {
         [button setAttributedTitle:input forState:state];
     }];
 }
 
 
 + (id<OCAConsumer>)setTitleColorOfButton:(UIButton *)button forControlState:(UIControlState)state {
-    return [OCASubscriber class:[UIColor class] handler:^(UIColor *input) {
+    return [OCASubscriber subscribeForClass:[UIColor class] handler:^(UIColor *input) {
         [button setTitleColor:input forState:state];
     }];
 }
 
 
 + (id<OCAConsumer>)setTitleShadowColorOfButton:(UIButton *)button forControlState:(UIControlState)state {
-    return [OCASubscriber class:[UIColor class] handler:^(UIColor *input) {
+    return [OCASubscriber subscribeForClass:[UIColor class] handler:^(UIColor *input) {
         [button setTitleShadowColor:input forState:state];
     }];
 }
 
 
 + (id<OCAConsumer>)setImageOfButton:(UIButton *)button forControlState:(UIControlState)state {
-    return [OCASubscriber class:[UIImage class] handler:^(UIImage *input) {
+    return [OCASubscriber subscribeForClass:[UIImage class] handler:^(UIImage *input) {
         [button setImage:input forState:state];
     }];
 }
 
 
 + (id<OCAConsumer>)setBackgroundImageOfButton:(UIButton *)button forControlState:(UIControlState)state {
-    return [OCASubscriber class:[UIImage class] handler:^(UIImage *input) {
+    return [OCASubscriber subscribeForClass:[UIImage class] handler:^(UIImage *input) {
         [button setBackgroundImage:input forState:state];
     }];
 }

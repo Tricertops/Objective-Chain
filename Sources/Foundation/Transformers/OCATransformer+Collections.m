@@ -284,7 +284,7 @@
 + (OCATransformer *)joinWithString:(NSString *)string {
     return [[OCATransformer fromClass:[NSArray class] toClass:[NSString class]
                             transform:^NSString *(NSArray *input) {
-                                
+                                //TODO: Ignore NSNull
                                 return [input componentsJoinedByString:string];
                                 
                             } reverse:^NSArray *(NSString *input) {
