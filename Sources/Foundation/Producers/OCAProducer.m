@@ -12,6 +12,7 @@
 #import "OCAContext.h"
 #import "OCAFilter.h"
 #import "OCAThrottle.h"
+#import "OCASubscriber.h"
 #import "OCATransformer+Core.h"
 #import "OCAPredicate.h"
 #import "OCAVariadic.h"
@@ -362,6 +363,31 @@
     OCAThrottle *throttle = [[OCAThrottle alloc] initWithInterval:interval continuous:YES];
     [self addConsumer:throttle];
     return throttle;
+}
+
+
+
+
+
+- (void)subscribe:(void(^)(void))handler {
+    if ( ! handler) return;
+    OCASubscriber *subscriber = [[OCASubscriber alloc] initWithValueClass:nil valueHandler:^(id value) {
+        handler();
+    } finishHandler:nil];
+    [self addConsumer:subscriber];
+}
+
+
+- (void)subscribeForClass:(Class)class handler:(void(^)(id value))handler {
+    if ( ! handler) return;
+    OCASubscriber *subscriber = [[OCASubscriber alloc] initWithValueClass:class valueHandler:handler finishHandler:nil];
+    [self addConsumer:subscriber];
+}
+
+
+- (void)subscribeForClass:(Class)class handler:(void(^)(id value))handler finish:(void(^)(NSError *error))finishHandler {
+    OCASubscriber *subscriber = [[OCASubscriber alloc] initWithValueClass:class valueHandler:handler finishHandler:finishHandler];
+    [self addConsumer:subscriber];
 }
 
 

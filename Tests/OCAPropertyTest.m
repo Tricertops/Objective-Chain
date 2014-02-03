@@ -85,7 +85,7 @@
 - (void)test_producingStringValues {
     NSMutableArray *received = [[NSMutableArray alloc] init];
     [OCAProperty(self, jobTitle, NSString)
-     subscribe:[NSString class] handler:^(NSString *jobTitle) {
+     subscribeForClass:[NSString class] handler:^(NSString *jobTitle) {
          [received addObject:jobTitle ?: @""];
      }];
     self.jobTitle = @"Dude";
@@ -119,7 +119,7 @@
     NSMutableArray *received = [[NSMutableArray alloc] init];
     OCAMulticast *consumer = [OCAMulticast multicast:@[
                                                        OCAProperty(self, fullName, NSString),
-                                                       [OCASubscriber class:[NSString class] handler:
+                                                       [OCASubscriber subscribeForClass:[NSString class] handler:
                                                         ^(NSString *value) {
                                                             [received addObject:value ?: @""];
                                                         }],
@@ -180,7 +180,7 @@
     OCAProperty *property = OCAProperty(self, firstName, NSString);
     OCAProducer *producer = [property producePreviousWithLatest];
     [producer
-     subscribe:[NSArray class]
+     subscribeForClass:[NSArray class]
      handler:^(NSArray *change) {
          old = [change oca_valueAtIndex:0];
          new = [change oca_valueAtIndex:1];

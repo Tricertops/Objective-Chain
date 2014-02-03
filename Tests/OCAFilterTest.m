@@ -44,7 +44,7 @@
     self.command = [OCACommand commandForClass:[NSString class]];
     NSMutableArray *received = [[NSMutableArray alloc] init];
     self.received = received;
-    self.subscriber = [OCASubscriber class:[NSString class] handler:^(NSString *value) {
+    self.subscriber = [OCASubscriber subscribeForClass:[NSString class] handler:^(NSString *value) {
         [received addObject:value];
     }];
 }

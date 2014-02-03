@@ -8,13 +8,6 @@
 
 #import "OCAObject.h"
 #import "OCAConsumer.h"
-@class OCAHub;
-@class OCAMediator;
-@class OCABridge;
-@class OCAContext;
-@class OCAQueue;
-@class OCAFilter;
-@class OCAThrottle;
 
 
 
@@ -67,6 +60,17 @@
 
 
 
+@class OCAHub;
+@class OCAMediator;
+@class OCABridge;
+@class OCAContext;
+@class OCAQueue;
+@class OCAFilter;
+@class OCAThrottle;
+@class OCASubscriber;
+
+
+
 /*! List of convenience methods of Producer, that allows you to create complex chains in-line.
  *  Many of them return conrcrete Producer subclasses so you can immediately call another chaining method on them.
  */
@@ -93,6 +97,10 @@
 
 - (OCAThrottle *)throttle:(NSTimeInterval)interval;
 - (OCAThrottle *)throttleContinuous:(NSTimeInterval)interval;
+
+- (void)subscribe:(void(^)(void))handler;
+- (void)subscribeForClass:(Class)class handler:(void(^)(id value))handler;
+- (void)subscribeForClass:(Class)class handler:(void(^)(id value))handler finish:(void(^)(NSError *error))handler;
 
 
 

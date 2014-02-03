@@ -8,11 +8,9 @@
 
 #import "OCAObject.h"
 #import "OCAConsumer.h"
-#import "OCAProducer.h"
 
 
 
-typedef void(^OCASubscriberEventHandler)(void);
 typedef void(^OCASubscriberValueHandler)(id value);
 typedef void(^OCASubscriberFinishHandler)(NSError *error);
 
@@ -20,39 +18,31 @@ typedef void(^OCASubscriberFinishHandler)(NSError *error);
 
 
 
-/// Subscriber is concrete Consumer, that can be customized with blocks.
+/*! Subscriber is concrete universal Consumer, that can be customized using blocks. It is best alternative to implementing your own Consumer class.
+ *  NOTE: Since Subscriber uses blocks and is retained by Producers, you have to be careful about retain cycles. Best way to avoid them is not to use Subscriber at all. There may be better alternatives to achieve your goal, for example Invoker or Property can handle many cases without creating retain cycles.
+ */
 @interface OCASubscriber : OCAObject < OCAConsumer >
 
 
 
 #pragma mark Creating Subscriber
 
-- (instancetype)initWithValueClass:(Class)valueClass valueHandler:(OCASubscriberValueHandler)valueHandler finishHandler:(OCASubscriberFinishHandler)finishHandler;
+//! Designated initializer. Use specific value class to opt-in to class-checking. All arguments may be nil.
+- (instancetype)initWithValueClass:(Class)valueClass
+                      valueHandler:(OCASubscriberValueHandler)valueHandler
+                     finishHandler:(OCASubscriberFinishHandler)finishHandler;
 
-+ (instancetype)events:(OCASubscriberEventHandler)eventHandler;
-+ (instancetype)class:(Class)valueClass handler:(OCASubscriberValueHandler)valueHandler;
-+ (instancetype)class:(Class)valueClass handler:(OCASubscriberValueHandler)valueHandler finish:(OCASubscriberFinishHandler)finishHandler;
+//! Returns new Subscriber, that invokes given block once a value is received, but the value itself is ignored.
++ (instancetype)subscribe:(void(^)(void))handler;
 
+//! Returns new Subscriber with given value class and value handler.
++ (instancetype)subscribeForClass:(Class)valueClass handler:(OCASubscriberValueHandler)valueHandler;
 
-#pragma mark Attributes of Subscriber
-
-@property (atomic, readonly, strong) Class valueClass;
-
-
-
-@end
-
+//! Returns new Subscriber with given value class, value handler and finish handler.
++ (instancetype)subscribeForClass:(Class)valueClass handler:(OCASubscriberValueHandler)valueHandler finish:(OCASubscriberFinishHandler)finishHandler;
 
 
-
-
-/// Additions to directly subscribe block to a Producer.
-@interface OCAProducer (OCASubscriber)
-
-
-- (void)subscribeEvents:(OCASubscriberEventHandler)eventHandler CONVENIENCE;
-- (void)subscribe:(Class)valueClass handler:(OCASubscriberValueHandler)valueHandler CONVENIENCE;
-- (void)subscribe:(Class)valueClass handler:(OCASubscriberValueHandler)valueHandler finish:(OCASubscriberFinishHandler)finishHandler CONVENIENCE;
+@property (atomic, readonly, strong) Class consumedValueClass;
 
 
 @end

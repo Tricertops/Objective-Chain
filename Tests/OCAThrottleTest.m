@@ -34,11 +34,11 @@
     
     NSMutableArray *received = [[NSMutableArray alloc] init];
     [[command throttle:0.05]
-     subscribe:[NSNumber class] handler:^(NSNumber *value) {
+     subscribeForClass:[NSNumber class] handler:^(NSNumber *value) {
          @synchronized(received) {
              [received addObject:value];
          }
-    }];
+     }];
     OCASemaphore *semaphore = [[OCASemaphore alloc] initWithValue:0];
     
     [[OCAQueue background] performBlockAndWait:^{
@@ -64,7 +64,7 @@
     
     NSMutableArray *received = [[NSMutableArray alloc] init];
     [[command throttleContinuous:0.1]
-     subscribe:[NSNumber class] handler:^(NSNumber *value) {
+     subscribeForClass:[NSNumber class] handler:^(NSNumber *value) {
          @synchronized(received) {
              [received addObject:value];
          }

@@ -50,7 +50,7 @@
     __block id receivedValue = @"Received";
     
     OCACommand *command = [OCACommand commandForClass:[NSString class]];
-    [command subscribe:[NSString class] handler:^(id value) {
+    [command subscribeForClass:[NSString class] handler:^(id value) {
         receivedValue = value;
     }];
     
@@ -65,7 +65,7 @@
     [command finishWithError:nil];
     
     __block BOOL finished = NO;
-    [command subscribe:nil handler:nil finish:^(NSError *error) {
+    [command subscribeForClass:nil handler:nil finish:^(NSError *error) {
         finished = YES;
     }];
     
@@ -82,7 +82,7 @@
       transformValues:
       [OCATransformer access:OCAKeyPath(NSString, uppercaseString, NSString)],
       nil]
-     subscribe:[NSString class] handler:^(NSString *value) {
+     subscribeForClass:[NSString class] handler:^(NSString *value) {
          [received addObject:value];
      }];
     
@@ -99,7 +99,7 @@
     
     [[timer
      switchToQueue:timer.queue]
-     subscribe:[NSDate class] handler:^(NSDate *value) {
+     subscribeForClass:[NSDate class] handler:^(NSDate *value) {
          tickCount ++;
      } finish:^(NSError *error) {
          [semaphore signal];
@@ -125,15 +125,15 @@
     [producer connectTo:bridge];
     
     __block BOOL consumer1 = NO;
-    [bridge subscribe:[NSString class] handler:^(id value) {
+    [bridge subscribeForClass:[NSString class] handler:^(id value) {
         consumer1 = (value == hello);
     }];
     __block BOOL consumer2 = NO;
-    [bridge subscribe:[NSString class] handler:^(id value) {
+    [bridge subscribeForClass:[NSString class] handler:^(id value) {
         consumer2 = (value == hello);
     }];
     __block BOOL consumer3 = NO;
-    [bridge subscribe:[NSString class] handler:^(id value) {
+    [bridge subscribeForClass:[NSString class] handler:^(id value) {
         consumer3 = (value == hello);
     }];
     
@@ -145,7 +145,7 @@
 - (void)test_classValidation_creatingIncompatible {
     OCACommand *command = [OCACommand commandForClass:[NSString class]];
     
-    [command subscribe:[NSNumber class] handler:nil];
+    [command subscribeForClass:[NSNumber class] handler:nil];
     XCTAssertTrue(command.consumers.count == 0, @"Connection cannot be created with incompatible classes, yet.");
 }
 
@@ -154,7 +154,7 @@
     OCACommand *command = [OCACommand commandForClass:[NSString class]];
     
     NSMutableArray *received = [[NSMutableArray alloc] init];
-    [command subscribe:[NSString class] handler:^(id value) {
+    [command subscribeForClass:[NSString class] handler:^(id value) {
         [received addObject:value];
     }];
     
@@ -173,7 +173,7 @@
                     nil] mergeWith:numberCommand, nil];
     
     NSMutableArray *received = [[NSMutableArray alloc] init];
-    [hub subscribe:[NSNumber class] handler:^(NSNumber *value) {
+    [hub subscribeForClass:[NSNumber class] handler:^(NSNumber *value) {
         [received addObject:value];
     }];
     
@@ -192,11 +192,11 @@
     NSMutableArray *receivedNumbers = [[NSMutableArray alloc] init];
     
     [command multicast:@[
-                         [OCASubscriber class:[NSString class] handler:
+                         [OCASubscriber subscribeForClass:[NSString class] handler:
                           ^(NSString *value) {
                               [receivedStrings addObject:value];
                           }],
-                         [OCASubscriber class:[NSNumber class] handler:
+                         [OCASubscriber subscribeForClass:[NSNumber class] handler:
                           ^(NSNumber *value) {
                               [receivedNumbers addObject:value];
                           }]]];
@@ -218,7 +218,7 @@
     [[[timer
        switchToQueue:queue]
       transformValues:[OCATransformer access:OCAKeyPath(NSDate, timeIntervalSinceNow, NSTimeInterval)], nil]
-     subscribe:[NSNumber class] handler:^(NSNumber *timeInterval) {
+     subscribeForClass:[NSNumber class] handler:^(NSNumber *timeInterval) {
          tickCount++;
      } finish:^(NSError *error) {
          [semaphore signal];

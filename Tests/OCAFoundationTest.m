@@ -45,13 +45,13 @@
     
     __block BOOL passed = NO;
     __block BOOL finished = NO;
-    [notificator subscribe:[NSNotification class]
-                   handler:^(NSNotification *notification) {
-                       passed = [notification.name isEqualToString:notificationName];
-                   }
-                    finish:^(NSError *error) {
-                        finished = YES;
-                    }];
+    [notificator subscribeForClass:[NSNotification class]
+                           handler:^(NSNotification *notification) {
+                               passed = [notification.name isEqualToString:notificationName];
+                           }
+                            finish:^(NSError *error) {
+                                finished = YES;
+                            }];
     [notificator.decomposer addOwnedObject:self cleanup:nil];
     notificator = nil; // Releasing ownership of Notificator, but it should live until Object is deallocated.
     

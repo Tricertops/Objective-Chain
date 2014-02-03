@@ -48,7 +48,7 @@
     XCTAssertEqualObjects(hubMerge.valueClass, [NSString class], @"Merging hub should know class.");
     
     NSMutableArray *received = [NSMutableArray array];
-    [hubMerge subscribe:[NSString class] handler:^(id value) {
+    [hubMerge subscribeForClass:[NSString class] handler:^(id value) {
         [received addObject:value];
     }];
     
@@ -66,7 +66,7 @@
     XCTAssertEqualObjects(hubCombine.valueClass, [NSArray class], @"Combining hub must produce arrays.");
     
     NSMutableArray *received = [NSMutableArray array];
-    [hubCombine subscribe:[NSArray class] handler:^(id value) {
+    [hubCombine subscribeForClass:[NSArray class] handler:^(id value) {
         [received addObject:value];
     }];
     
@@ -86,7 +86,7 @@
     XCTAssertEqualObjects(hubDependency.valueClass, [NSString class], @"Dependency hub should know class.");
     
     NSMutableArray *received = [NSMutableArray array];
-    [hubDependency subscribe:[NSString class] handler:^(id value) {
+    [hubDependency subscribeForClass:[NSString class] handler:^(id value) {
         [received addObject:value];
     }];
     
