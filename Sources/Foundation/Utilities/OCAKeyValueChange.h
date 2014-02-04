@@ -21,7 +21,7 @@
 
 
 - (instancetype)initWithObject:(NSObject *)object keyPath:(NSString *)keyPath change:(NSDictionary *)dictionary structureAccessor:(OCAStructureAccessor *)accessor;
-@property (nonatomic, readonly, strong) id object;
+@property (nonatomic, readonly, weak) id object;
 @property (nonatomic, readonly, copy) NSString *keyPath;
 @property (nonatomic, readonly, copy) NSDictionary *changeDictionary;
 @property (nonatomic, readonly, strong) OCAStructureAccessor *accessor;
