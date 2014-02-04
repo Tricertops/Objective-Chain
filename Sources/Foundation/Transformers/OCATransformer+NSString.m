@@ -33,10 +33,10 @@
 
 + (OCATransformer *)stringFromFile {
     return [[OCATransformer fromClass:[NSString class] toClass:[NSString class]
-                           asymetric:^NSString *(NSString *input) {
-                               
-                               return [NSString stringWithContentsOfFile:input encoding:NSUTF8StringEncoding error:nil];
-                           }]
+                            asymetric:^NSString *(NSString *input) {
+                                
+                                return [NSString stringWithContentsOfFile:input encoding:NSUTF8StringEncoding error:nil];
+                            }]
             describe:@"string from file"];
 }
 
@@ -110,10 +110,10 @@
 + (OCATransformer *)appendFormat:(NSString *)format, ... NS_FORMAT_FUNCTION(1, 2) {
     NSString *string = OCAStringFromFormat(format);
     return [[OCATransformer fromClass:[NSString class] toClass:[NSString class]
-                           asymetric:^NSString *(NSString *input) {
-                               
-                               return [input stringByAppendingString:string];
-                           }]
+                            asymetric:^NSString *(NSString *input) {
+                                
+                                return [input stringByAppendingString:string];
+                            }]
             describe:[NSString stringWithFormat:@"append “%@”", string]];
 }
 
@@ -334,19 +334,36 @@
 
 + (OCATransformer *)stringWithNumberFormatter:(NSNumberFormatter *)formatter {
     return [[OCATransformer fromClass:[NSNumber class] toClass:[NSString class]
-                           transform:^NSString *(NSNumber *input) {
-                               
-                               return [formatter stringFromNumber:input];
-                               
-                           } reverse:^NSNumber *(NSString *input) {
-                               
-                               return [formatter numberFromString:input];
-                           }]
+                            transform:^NSString *(NSNumber *input) {
+                                
+                                return [formatter stringFromNumber:input];
+                                
+                            } reverse:^NSNumber *(NSString *input) {
+                                
+                                return [formatter numberFromString:input];
+                            }]
             describe:[NSString stringWithFormat:@"format number using %@", formatter]
             reverse:[NSString stringWithFormat:@"parse number using %@", formatter]];
 }
 
-
++ (OCATransformer *)stringFromNumber {
+    return [[OCATransformer fromClass:[NSNumber class] toClass:[NSString class]
+                           transform:^NSString *(NSNumber *input) {
+                               
+                               return input.stringValue;
+                               
+                           } reverse:^NSNumber *(NSString *input) {
+                               
+                               if ( ! input.length) return nil;
+                               double scannedDouble;
+                               NSScanner *scanner = [NSScanner scannerWithString:input];
+                               BOOL success = [scanner scanDouble:&scannedDouble];
+                               return success ? @(scannedDouble) : nil;
+                               
+                           }]
+            describe:@"string from number"
+            reverse:@"number from string"];
+}
 
 
 
@@ -371,10 +388,10 @@
 
 + (OCATransformer *)stringWithByteCountFormatter:(NSByteCountFormatter *)formatter {
     return [[OCATransformer fromClass:[NSNumber class] toClass:[NSString class]
-                           asymetric:^NSString *(NSNumber *input) {
-                               
-                               return [formatter stringFromByteCount:input.longLongValue];
-                           }]
+                            asymetric:^NSString *(NSNumber *input) {
+                                
+                                return [formatter stringFromByteCount:input.longLongValue];
+                            }]
             describe:@"format byte count"];
 }
 
@@ -389,7 +406,9 @@
     return [[OCATransformer stringWithNumberFormatter:formatter] reversed];
 }
 
-
++ (OCATransformer *)numberFromString {
+    return [[OCATransformer stringFromNumber] reversed];
+}
 
 
 
@@ -403,14 +422,14 @@
 
 + (OCATransformer *)URLFromString {
     return [[OCATransformer fromClass:[NSString class] toClass:[NSURL class]
-                           transform:^NSURL *(NSString *input) {
-                               
-                               return [NSURL URLWithString:input];
-                               
-                           } reverse:^NSString *(NSURL *input) {
-                               
-                               return [input absoluteString];
-                           }]
+                            transform:^NSURL *(NSString *input) {
+                                
+                                return [NSURL URLWithString:input];
+                                
+                            } reverse:^NSString *(NSURL *input) {
+                                
+                                return [input absoluteString];
+                            }]
             describe:@"URL from string"
             reverse:@"string from URL"];
 }
