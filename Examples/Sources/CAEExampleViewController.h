@@ -38,7 +38,7 @@
 #pragma mark Setup the Example
 
 - (void)setupViews;
-- (void)setupConnections;
+- (void)setupChains;
 
 
 #pragma mark State Properties

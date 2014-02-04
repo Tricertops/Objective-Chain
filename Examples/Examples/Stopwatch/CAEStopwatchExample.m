@@ -62,7 +62,7 @@
 
 
 + (NSString *)exampleDescription {
-    return @"This example uses Timer object, calculates elapsed time, and displays it as formatted text and as a circular progress. Total of 6 connections.";
+    return @"This example uses Timer object, calculates elapsed time, and displays it as formatted text and as a circular progress. Total of 6 chains.";
 }
 
 
@@ -122,14 +122,14 @@
 }
 
 
-- (void)setupConnections {
-    [super setupConnections];
+- (void)setupChains {
+    [super setupChains];
     OCAWeakify(self);
     
     
     /// Make the button start and stop the timer instance.
     [[self.startButton producerForEvent:UIControlEventTouchUpInside]
-     subscribeEvents:^{
+     subscribe:^{
          OCAStrongify(self);
          
          if (self.timer.isRunning) {
@@ -138,8 +138,8 @@
          }
          else {
              /// Create and subscribe to the Timer.
-             self.timer = [OCATimer repeat:0.01 owner:self];
-             [self.timer subscribeEvents:^{
+             self.timer = [OCATimer timerWithInterval:0.01 owner:self];
+             [self.timer subscribe:^{
                  OCAStrongify(self);
                  self.interval += self.timer.interval;
              }];
@@ -147,44 +147,40 @@
      }];
     
     /// Update button based on Timer's state.
-    [[OCAProperty(self, timer.isRunning, BOOL)
-      produceTransformed:@[ [OCATransformer ifYes:@"Stop" ifNo:@"Start"] ]]
-     consumeBy:[OCAUIKit setTitleOfButton:self.startButton
-                          forControlState:UIControlStateNormal]];
+    [[OCAProperty(self, timer.isRunning, BOOL) transformValues:
+      [OCATransformer ifYes:@"Stop" ifNo:@"Start"],
+      nil] connectTo:[OCAUIKit setTitleOfButton:self.startButton
+                                forControlState:UIControlStateNormal]];
     
     
     /// Update label's text using custom transformer.
-    [[OCAProperty(self, interval, NSTimeInterval)
-      produceTransformed:@[ [self transformerFromIntervalToString] ]]
-     consumeBy:OCAProperty(self.label, text, NSString)];
+    [[OCAProperty(self, interval, NSTimeInterval) transformValues:
+      [self transformerFromIntervalToString],
+      nil] connectTo:OCAProperty(self.label, text, NSString)];
     
     /// Calculate clock's progress.
-    [[OCAProperty(self, interval, NSTimeInterval)
-      produceTransformed:@[
-                           [OCAMath modulus:60],
-                           [OCAMath divideBy:60],
-                           ]]
-     consumeBy:OCAProperty(self, clockProgress, CGFloat)];
+    [[OCAProperty(self, interval, NSTimeInterval) transformValues:
+      [OCAMath modulus:60],
+      [OCAMath divideBy:60],
+      nil] connectTo:OCAProperty(self, clockProgress, CGFloat)];
     
     /// Use clock progress to create the shape and assign it to the layer.
-    [[[OCAPropertyChange(self, clockProgress, CGFloat)
-       produceInContext:[OCAContext disableImplicitAnimations]]
-      produceTransformed:@[
-                           /// But before, check whether we made full circle (progress from 1 to 0) and create new layer on top.
-                           [OCATransformer sideEffect:
-                            ^(NSArray *change) {
-                                OCAStrongify(self);
-                                CGFloat old = [[change oca_valueAtIndex:0] doubleValue];
-                                CGFloat new = [[change oca_valueAtIndex:1] doubleValue];
-                                
-                                if (old > new) {
-                                    [self makeNewClockLayer];
-                                }
-                            }],
-                           [OCATransformer objectAtIndex:1], // Current value is second in the array.
-                           [self transformerFromProgressToCirclePath],
-                           ]]
-     consumeBy:OCAProperty(self, clockLayer.path, NSObject)];
+    [[[[OCAProperty(self, clockProgress, CGFloat) producePreviousWithLatest]
+       produceInContext:[OCAContext disableImplicitAnimations]] transformValues:
+      /// But before, check whether we made full circle (progress from 1 to 0) and create new layer on top.
+      [OCATransformer sideEffect:
+       ^(NSArray *change) {
+           OCAStrongify(self);
+           CGFloat old = [[change oca_valueAtIndex:0] doubleValue];
+           CGFloat new = [[change oca_valueAtIndex:1] doubleValue];
+           
+           if (old > new) {
+               [self makeNewClockLayer];
+           }
+       }],
+      [OCATransformer objectAtIndex:1], // Current value is second in the array.
+      [self transformerFromProgressToCirclePath],
+      nil] connectTo:OCAProperty(self, clockLayer.path, NSObject)];
     
 }
 

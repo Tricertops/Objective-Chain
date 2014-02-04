@@ -79,38 +79,19 @@
 #pragma mark Creating & Loading
 
 
-- (void)setupConnections {
-    [super setupConnections];
+- (void)setupChains {
+    [super setupChains];
     
     
     // Connect Slider changes to temperature property.
-    [[[self.slider producerForEvent:UIControlEventValueChanged] // Sends the sender: UISlider instance
-      produceTransformed:@[ [OCATransformer access:OCAKeyPath(UISlider, value, float)] ]] // Get `value` property of sender.
-     consumeBy:OCAProperty(self, temperature, float)];
-    
-    /*
-     sendWhen:property passes:predicate
-     
-     - Timer
-     sendDates
-     sendInterval (default)
-     sendIntervalFromDate:date
-     
-     - Property
-     sendChanges (default)
-     sendLatest
-     
-     - Notification
-     sendNotification (default)
-     sendSender
-     sendInfoValueForKey:
-     
-     */
+    [[[self.slider producerForEvent:UIControlEventValueChanged] transformValues:
+      [OCATransformer access:OCAKeyPath(UISlider, value, float)],
+      nil] connectTo:OCAProperty(self, temperature, float)];
     
     // Connect Stepper changes to temperature property.
-    [[[self.stepper producerForEvent:UIControlEventValueChanged] // Sends the sender: UIStepper instance
-      produceTransformed:@[ [OCATransformer access:OCAKeyPath(UIStepper, value, float)] ]]
-     consumeBy:OCAProperty(self, temperature, float)];
+    [[[self.stepper producerForEvent:UIControlEventValueChanged] transformValues:
+      [OCATransformer access:OCAKeyPath(UIStepper, value, float)],
+      nil] connectTo:OCAProperty(self, temperature, float)];
     
     // Connect temperature property back to Slider and Stepper. Now we have two-way binding.
     [OCAProperty(self, temperature, float)
@@ -129,19 +110,19 @@
     formatter.positiveSuffix = @"°";
     formatter.negativeSuffix = @"°";
     
-    [[OCAProperty(self, temperature, float)
-      produceTransformed:@[ [OCATransformer stringWithNumberFormatter:formatter] ]]
-     consumeBy:OCAProperty(self, label.text, NSString)];
+    [[OCAProperty(self, temperature, float) transformValues:
+      [OCATransformer stringWithNumberFormatter:formatter],
+      nil] connectTo:OCAProperty(self, label.text, NSString)];
     
     
     
     // Disable Slider and Stepper when Switch is off.
-    [[[self.switcher producerForEvent:UIControlEventValueChanged] // Sends the sender: UISwith instance
-      produceTransformed:@[ [OCATransformer access:OCAKeyPath(UISwitch, on, BOOL)] ]]
-     multicast:@[
-                 OCAProperty(self, slider.enabled, BOOL),
-                 OCAProperty(self, stepper.enabled, BOOL),
-                 ]];
+    [[[self.switcher producerForEvent:UIControlEventValueChanged] transformValues:
+      [OCATransformer access:OCAKeyPath(UISwitch, on, BOOL)],
+      nil] multicast:@[
+                       OCAProperty(self, slider.enabled, BOOL),
+                       OCAProperty(self, stepper.enabled, BOOL),
+                       ]];
     
     
     // Simple mapping transformer from BOOL to enum.
@@ -149,14 +130,14 @@
                                                                           ifNo:@(UIViewTintAdjustmentModeDimmed)];
     
     // Dim tint color of Stepper when disabled.
-    [[OCAProperty(self, stepper.enabled, BOOL)
-      produceTransformed:@[ mapEnabledToTintAdjustmentMode ]]
-     consumeBy:OCAProperty(self, stepper.tintAdjustmentMode, UIViewTintAdjustmentMode)];
+    [[OCAProperty(self, stepper.enabled, BOOL) transformValues:
+      mapEnabledToTintAdjustmentMode,
+      nil] connectTo:OCAProperty(self, stepper.tintAdjustmentMode, UIViewTintAdjustmentMode)];
     
     // Dim tint color of Stepper when disabled.
-    [[OCAProperty(self, slider.enabled, BOOL)
-      produceTransformed:@[ mapEnabledToTintAdjustmentMode ]]
-     consumeBy:OCAProperty(self, slider.tintAdjustmentMode, UIViewTintAdjustmentMode)];
+    [[OCAProperty(self, slider.enabled, BOOL)transformValues:
+      mapEnabledToTintAdjustmentMode,
+      nil] connectTo:OCAProperty(self, slider.tintAdjustmentMode, UIViewTintAdjustmentMode)];
     
     
     

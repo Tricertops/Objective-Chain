@@ -126,7 +126,7 @@
     self.view.backgroundColor = [UIColor groupTableViewBackgroundColor];
     
     [self setupViews];
-    [self setupConnections];
+    [self setupChains];
 }
 
 
@@ -151,7 +151,7 @@
 }
 
 
-- (void)setupConnections {
+- (void)setupChains {
     
 }
 

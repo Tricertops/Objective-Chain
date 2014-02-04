@@ -57,7 +57,7 @@
 
 
 + (NSString *)exampleDescription {
-    return @"This example observes scroll view content offset to rotate and move views (layers). Content offset is transformed into Star rotation, which is also applied to its shadow to preserve perspective look. Then the content offset is used to calculate paralax offset of Pentagon with its shadow. Also applies tint color to the shapes. Total of 8 connections.";
+    return @"This example observes scroll view content offset to rotate and move views (layers). Content offset is transformed into Star rotation, which is also applied to its shadow to preserve perspective look. Then the content offset is used to calculate paralax offset of Pentagon with its shadow. Also applies tint color to the shapes. Total of 8 chains.";
 }
 
 
@@ -179,49 +179,44 @@
 }
 
 
-- (void)setupConnections {
-    [super setupConnections];
+- (void)setupChains {
+    [super setupChains];
     OCAWeakify(self);
     
     
     // Flash scroll indicators, when becomes fully visible.
     [[OCAProperty(self, fullyVisible, BOOL)
-      produceFiltered:[OCAPredicate isTrue]] // Passes only YES values.
+      filterValues:[OCAPredicate isTrue]]
      invoke:OCAInvocation(self.scrollView, flashScrollIndicators)];
     
     
     
     // Connect tint color to shape fill colors.
-    [[OCAProperty(self.view, tintColor, UIColor)
-      produceTransformed:@[ [OCATransformer colorGetCGColor] ]] // CoreGraphic types doesn't support key-path manipulation.
-     multicast:@[
-                 OCAProperty(self.starLayer, fillColor, NSObject), // Uses NSObject, because CoreGraphic types cannot be handled.
-                 OCAProperty(self.pentagramLayer, fillColor, NSObject)
-                 ]];
+    [[OCAProperty(self.view, tintColor, UIColor) transformValues:
+      [OCATransformer colorGetCGColor], // CoreGraphic types doesn't support key-path manipulation.
+      nil] multicast:@[
+                       OCAProperty(self.starLayer, fillColor, NSObject), // Uses NSObject, because CoreGraphic types cannot be handled.
+                       OCAProperty(self.pentagramLayer, fillColor, NSObject)
+                       ]];
     
     
     
     // Create intermediate producer for rotation of the star.
-    OCAProducer *starRotation = [[OCAPropertyStruct(self.scrollView, contentOffset, y)
-                                  produceInContext:[OCAContext disableImplicitAnimations]] // This connection will run with disabled animations.
-                                 produceTransformed:@[ [OCAMath divideBy: - self.starLayer.bounds.size.width] ]];
+    OCAProducer *starRotation = [[OCAPropertyStruct(self.scrollView, contentOffset, y) transformValues:
+                                  [OCAMath divideBy: - self.starLayer.bounds.size.width],
+                                  nil] produceInContext:[OCAContext disableImplicitAnimations]]; // This will run with disabled animations.
     
     // Apply rotation as a layer's transform.
-    [[starRotation
-      produceTransformed:@[ [OCATransformer transform3DFromZRotation] ]]
-     consumeBy:OCAProperty(self.starLayer, transform, CATransform3D)];
+    [[starRotation transformValues:
+      [OCATransformer transform3DFromZRotation],
+      nil] connectTo:OCAProperty(self.starLayer, transform, CATransform3D)];
     
     // Calculate shadow offset for correct perspective.
-    [[starRotation
-      produceTransformed:@[
-                           [OCATransformer branchArray:@[ // Will create array: [ sin(r), cos(r) ]
-                                                        [OCAMath sine],
-                                                        [OCAMath cosine],
-                                                        ]],
-                           [OCATransformer makeSize], // Uses first two elements in array to make size.
-                           [OCATransformer multiplySizeBy:20] // Distance to which to move the shadow.
-                           ]]
-     consumeBy:OCAProperty(self.starLayer, shadowOffset, CGSize)];
+    [[starRotation transformValues:
+      [OCATransformer branchArray:@[ [OCAMath sine], [OCAMath cosine] ]], // Will create array with two elements.
+      [OCATransformer makeSize], // Uses first two elements in array to make size.
+      [OCATransformer multiplySizeBy:20], // Distance to which to move the shadow.
+      nil] connectTo:OCAProperty(self.starLayer, shadowOffset, CGSize)];
     
     
     
@@ -237,25 +232,23 @@
                                                            }];
     
     // Creating intermediate producer for paralax effect.
-    OCAProducer *paralax = [[OCAPropertyStruct(self.scrollView, contentOffset, y)
-                             produceInContext:[OCAContext disableImplicitAnimations]] // Any paralax depencency will not use animations.
-                            produceTransformed:@[
-                                                 scrollProgressFromContentOffset,
-                                                 [OCAMath subtract:0.5],
-                                                 [OCAMath multiplyBy:-2],
-                                                 // Should output values from -1 to 1
-                                                 ]];
+    OCAProducer *paralax = [[OCAPropertyStruct(self.scrollView, contentOffset, y) transformValues:
+                             scrollProgressFromContentOffset,
+                             [OCAMath subtract:0.5],
+                             [OCAMath multiplyBy:-2],
+                             // Should output values from -1 to 1
+                             nil] produceInContext:[OCAContext disableImplicitAnimations]]; // Any paralax depencency will not use animations.
     
     // Calculate absolute position of the pentagram.
-    [[paralax produceTransformed:@[
-                                   [OCAMath multiplyBy:100],
-                                   [OCAMath add:self.view.bounds.size.height / 2], ]]
-     consumeBy:OCAPropertyStruct(self.pentagramLayer, position, y)];
+    [[paralax transformValues:
+      [OCAMath multiplyBy:100],
+      [OCAMath add:self.view.bounds.size.height / 2],
+      nil] connectTo:OCAPropertyStruct(self.pentagramLayer, position, y)];
     
     // Calculate relative shadow offset of the pentagram.
-    [[paralax
-      produceTransformed:@[ [OCAMath multiplyBy:20] ]]
-     consumeBy:OCAPropertyStruct(self.pentagramLayer, shadowOffset, height)];
+    [[paralax transformValues:
+      [OCAMath multiplyBy:20],
+      nil] connectTo:OCAPropertyStruct(self.pentagramLayer, shadowOffset, height)];
     
     
 }
