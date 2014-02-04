@@ -217,7 +217,6 @@
         animation.toValue = @0;
         animation.fillMode = kCAFillModeBoth;
         animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionLinear];
-        animation.delegate = self;
         oldClockLayer.opacity = 0;
         [oldClockLayer addAnimation:animation forKey:animation.keyPath];
         //TODO: I should remove the layers from hierarchy.
