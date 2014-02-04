@@ -9,6 +9,7 @@
 #import "OCAFilter.h"
 #import "OCACommand.h"
 #import "OCASubscriber.h"
+#import "OCAPredicate.h"
 
 
 
@@ -52,7 +53,7 @@
 
 - (void)test_simplePredicate {
     [[self.command
-      filterValues:[NSPredicate predicateWithFormat:@"self BEGINSWITH 'A'"]]
+      filterValues:[OCAPredicate beginsWith:@"A"]]
      connectTo:self.subscriber];
     
     [self.command sendValues:@[ @"Hello", @"Aloha", @"Hi", @"Ahoy" ]];

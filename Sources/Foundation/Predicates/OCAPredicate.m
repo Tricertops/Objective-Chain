@@ -227,7 +227,7 @@
 + (NSPredicate *)operator:(NSPredicateOperatorType)operator options:(NSComparisonPredicateOptions)options value:(id)value {
     return [NSComparisonPredicate predicateWithLeftExpression:[NSExpression expressionForEvaluatedObject]
                                               rightExpression:[NSExpression expressionForConstantValue:value]
-                                                     modifier:kNilOptions
+                                                     modifier:NSDirectPredicateModifier
                                                          type:operator
                                                       options:options];
 }

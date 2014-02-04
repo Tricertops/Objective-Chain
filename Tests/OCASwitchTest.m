@@ -9,6 +9,7 @@
 #import "OCASwitch.h"
 #import "OCACommand.h"
 #import "OCASubscriber.h"
+#import "OCAPredicate.h"
 
 
 
@@ -31,7 +32,7 @@
 - (void)test_ {
     __block NSNumber *result = nil;
     OCACommand *command = [OCACommand commandForClass:[NSString class]];
-    [command switchIf:[NSPredicate predicateWithFormat:@"self BEGINSWITH 'A'"]
+    [command switchIf:[OCAPredicate beginsWith:@"A"]
                  then:[OCASubscriber subscribe:
                        ^{
                            result = @YES;
