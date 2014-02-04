@@ -168,8 +168,7 @@
     [[[[OCAProperty(self, clockProgress, CGFloat) producePreviousWithLatest]
        produceInContext:[OCAContext disableImplicitAnimations]] transformValues:
       /// But before, check whether we made full circle (progress from 1 to 0) and create new layer on top.
-      [OCATransformer sideEffect:
-       ^(NSArray *change) {
+      [OCATransformer sideEffect:^(NSArray *change) {
            OCAStrongify(self);
            CGFloat old = [[change oca_valueAtIndex:0] doubleValue];
            CGFloat new = [[change oca_valueAtIndex:1] doubleValue];

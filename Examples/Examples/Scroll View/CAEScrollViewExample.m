@@ -194,10 +194,10 @@
     // Connect tint color to shape fill colors.
     [[OCAProperty(self.view, tintColor, UIColor) transformValues:
       [OCATransformer colorGetCGColor], // CoreGraphic types doesn't support key-path manipulation.
-      nil] multicast:@[
-                       OCAProperty(self.starLayer, fillColor, NSObject), // Uses NSObject, because CoreGraphic types cannot be handled.
-                       OCAProperty(self.pentagramLayer, fillColor, NSObject)
-                       ]];
+      nil] connectToMany:
+     OCAProperty(self.starLayer, fillColor, NSObject), // Uses NSObject, because CoreGraphic types cannot be handled.
+     OCAProperty(self.pentagramLayer, fillColor, NSObject),
+     nil];
     
     
     

@@ -254,6 +254,14 @@
 }
 
 
+- (void)connectToMany:(id<OCAConsumer>)firstConsumer, ... NS_REQUIRES_NIL_TERMINATION {
+    NSArray *consumers = OCAArrayFromVariadicArguments(firstConsumer);
+    for (id<OCAConsumer> consumer in consumers) {
+        [self addConsumer:consumer];
+    }
+}
+
+
 - (OCAMediator *)chainTo:(OCAMediator *)mediator {
     [self addConsumer:mediator];
     return mediator;

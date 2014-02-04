@@ -78,6 +78,7 @@
 
 
 - (void)connectTo:(id<OCAConsumer>)consumer;
+- (void)connectToMany:(id<OCAConsumer>)consumer, ... NS_REQUIRES_NIL_TERMINATION;
 - (OCAMediator *)chainTo:(OCAMediator *)mediator;
 
 - (OCAHub *)mergeWith:(OCAProducer *)producer, ... NS_REQUIRES_NIL_TERMINATION;

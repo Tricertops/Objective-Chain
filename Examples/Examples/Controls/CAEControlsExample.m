@@ -95,10 +95,10 @@
     
     // Connect temperature property back to Slider and Stepper. Now we have two-way binding.
     [OCAProperty(self, temperature, float)
-     multicast:@[
-                 OCAProperty(self, slider.value, float),
-                 OCAProperty(self, stepper.value, double),
-                 ]];
+     connectToMany:
+     OCAProperty(self, slider.value, float),
+     OCAProperty(self, stepper.value, double),
+     nil];
     
     
     
@@ -119,10 +119,10 @@
     // Disable Slider and Stepper when Switch is off.
     [[[self.switcher producerForEvent:UIControlEventValueChanged] transformValues:
       [OCATransformer access:OCAKeyPath(UISwitch, on, BOOL)],
-      nil] multicast:@[
-                       OCAProperty(self, slider.enabled, BOOL),
-                       OCAProperty(self, stepper.enabled, BOOL),
-                       ]];
+      nil] connectToMany:
+     OCAProperty(self, slider.enabled, BOOL),
+     OCAProperty(self, stepper.enabled, BOOL),
+     nil];
     
     
     // Simple mapping transformer from BOOL to enum.
