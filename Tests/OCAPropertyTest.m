@@ -11,7 +11,6 @@
 #import "OCASubscriber.h"
 #import "OCAHub.h"
 #import "OCAFoundation.h"
-#import "OCAMulticast.h"
 #import "NSArray+Ordinals.h"
 #import "OCABridge.h"
 
@@ -112,21 +111,20 @@
 
 
 - (void)test_combineTwoIntoOne {
-    OCAProducer *combined = [OCAHub combine:@[
-                                              OCAProperty(self, firstName, NSString),
-                                              OCAProperty(self, lastName, NSString),
-                                              ]];
+    OCAProducer *combined = [OCAHub combine:
+                             OCAProperty(self, firstName, NSString),
+                             OCAProperty(self, lastName, NSString),
+                             nil];
     NSMutableArray *received = [[NSMutableArray alloc] init];
-    OCAMulticast *consumer = [OCAMulticast multicast:@[
-                                                       OCAProperty(self, fullName, NSString),
-                                                       [OCASubscriber subscribeForClass:[NSString class] handler:
-                                                        ^(NSString *value) {
-                                                            [received addObject:value ?: @""];
-                                                        }],
-                                                       ]];
     [[combined transformValues:
       [OCATransformer joinWithString:@" "],
-      nil] connectTo:consumer];
+      nil] connectToMany:
+     OCAProperty(self, fullName, NSString),
+     [OCASubscriber subscribeForClass:[NSString class]
+                              handler:^(NSString *value) {
+                                  [received addObject:value ?: @""];
+                              }],
+     nil];
     
     self.lastName = @"Me";
     

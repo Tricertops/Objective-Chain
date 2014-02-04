@@ -9,6 +9,7 @@
 #import "OCAHub.h"
 #import "OCACommand.h"
 #import "OCASubscriber.h"
+#import "OCAVariadic.h"
 
 
 
@@ -44,7 +45,7 @@
 
 
 - (void)test_merge {
-    OCAHub *hubMerge = [OCAHub merge:self.commands];
+    OCAHub *hubMerge = [OCAHub merge:OCAVariadic(self.commands)];
     XCTAssertEqualObjects(hubMerge.valueClass, [NSString class], @"Merging hub should know class.");
     
     NSMutableArray *received = [NSMutableArray array];
@@ -62,7 +63,7 @@
 
 
 - (void)test_combine {
-    OCAHub *hubCombine = [OCAHub combine:self.commands];
+    OCAHub *hubCombine = [OCAHub combine:OCAVariadic(self.commands)];
     XCTAssertEqualObjects(hubCombine.valueClass, [NSArray class], @"Combining hub must produce arrays.");
     
     NSMutableArray *received = [NSMutableArray array];
