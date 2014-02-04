@@ -104,6 +104,9 @@
 
 - (void)invoke:(NSInvocation *)invocation;
 
+- (void)switchIf:(NSPredicate *)predicate then:(id<OCAConsumer>)consumer else:(id<OCAConsumer>)consumer;
+- (void)switchYes:(id<OCAConsumer>)consumer no:(id<OCAConsumer>)consumer;
+
 
 
 @end

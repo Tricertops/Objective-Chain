@@ -14,6 +14,7 @@
 #import "OCAThrottle.h"
 #import "OCASubscriber.h"
 #import "OCAInvoker.h"
+#import "OCASwitch.h"
 #import "OCATransformer+Core.h"
 #import "OCAPredicate.h"
 #import "OCAVariadic.h"
@@ -406,6 +407,26 @@
 - (void)invoke:(NSInvocation *)invocation {
     OCAInvoker *invoker = [[OCAInvoker alloc] initWithInvocation:invocation];
     [self addConsumer:invoker];
+}
+
+
+
+
+- (void)switchIf:(NSPredicate *)predicate then:(id<OCAConsumer>)thenConsumer else:(id<OCAConsumer>)elseConsumer {
+    OCASwitch *ifSwitch = [[OCASwitch alloc] initWithDictionary:@{
+                                                                  predicate: thenConsumer,
+                                                                  [predicate negate]: elseConsumer,
+                                                                  }];
+    [self addConsumer:ifSwitch];
+}
+
+
+- (void)switchYes:(id<OCAConsumer>)trueConsumer no:(id<OCAConsumer>)falseConsumer {
+    OCASwitch *booleanSwitch = [[OCASwitch alloc] initWithDictionary:@{
+                                                                  [OCAPredicate isTrue]: trueConsumer,
+                                                                  [OCAPredicate isFalse]: falseConsumer,
+                                                                  }];
+    [self addConsumer:booleanSwitch];
 }
 
 

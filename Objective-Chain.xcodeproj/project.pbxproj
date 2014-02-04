@@ -46,6 +46,11 @@
 		5B88205318A028DE00D2DDEB /* OCADebug.h in Headers */ = {isa = PBXBuildFile; fileRef = 5B88205118A028DE00D2DDEB /* OCADebug.h */; };
 		5B88205418A028DE00D2DDEB /* OCADebug.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B88205218A028DE00D2DDEB /* OCADebug.m */; };
 		5B88205518A028DE00D2DDEB /* OCADebug.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B88205218A028DE00D2DDEB /* OCADebug.m */; };
+		5B88205918A0DFE000D2DDEB /* OCASwitch.h in Headers */ = {isa = PBXBuildFile; fileRef = 5B88205718A0DFE000D2DDEB /* OCASwitch.h */; };
+		5B88205A18A0DFE000D2DDEB /* OCASwitch.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B88205818A0DFE000D2DDEB /* OCASwitch.m */; };
+		5B88205B18A0DFE000D2DDEB /* OCASwitch.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B88205818A0DFE000D2DDEB /* OCASwitch.m */; };
+		5B88205D18A0E56100D2DDEB /* OCASwitchTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B88205C18A0E56100D2DDEB /* OCASwitchTest.m */; };
+		5B88205E18A0E56100D2DDEB /* OCASwitchTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B88205C18A0E56100D2DDEB /* OCASwitchTest.m */; };
 		5B8F4DB1187EF60800D75EEE /* OCAPropertyTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B8F4DB0187EF60800D75EEE /* OCAPropertyTest.m */; };
 		5B8F4DB2187EF60800D75EEE /* OCAPropertyTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B8F4DB0187EF60800D75EEE /* OCAPropertyTest.m */; };
 		5BA549381896FBED0050288D /* OCAConsumer.h in Headers */ = {isa = PBXBuildFile; fileRef = 5BA548EE1896FBED0050288D /* OCAConsumer.h */; };
@@ -260,6 +265,9 @@
 		5B882036189FB17500D2DDEB /* OCAInvokerTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCAInvokerTest.m; sourceTree = "<group>"; };
 		5B88205118A028DE00D2DDEB /* OCADebug.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCADebug.h; sourceTree = "<group>"; };
 		5B88205218A028DE00D2DDEB /* OCADebug.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCADebug.m; sourceTree = "<group>"; };
+		5B88205718A0DFE000D2DDEB /* OCASwitch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCASwitch.h; sourceTree = "<group>"; };
+		5B88205818A0DFE000D2DDEB /* OCASwitch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCASwitch.m; sourceTree = "<group>"; };
+		5B88205C18A0E56100D2DDEB /* OCASwitchTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCASwitchTest.m; sourceTree = "<group>"; };
 		5B8F4DB0187EF60800D75EEE /* OCAPropertyTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCAPropertyTest.m; sourceTree = "<group>"; };
 		5BA548EE1896FBED0050288D /* OCAConsumer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCAConsumer.h; sourceTree = "<group>"; };
 		5BA548F11896FBED0050288D /* OCASubscriber.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCASubscriber.h; sourceTree = "<group>"; };
@@ -494,6 +502,7 @@
 				5B88201C189E813B00D2DDEB /* OCAFilterTest.m */,
 				5B882029189E8EC000D2DDEB /* OCAThrottleTest.m */,
 				5B882036189FB17500D2DDEB /* OCAInvokerTest.m */,
+				5B88205C18A0E56100D2DDEB /* OCASwitchTest.m */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -522,6 +531,8 @@
 				5BA548F21896FBED0050288D /* OCASubscriber.m */,
 				5B88200C189D099900D2DDEB /* OCAInvoker.h */,
 				5B88200D189D099900D2DDEB /* OCAInvoker.m */,
+				5B88205718A0DFE000D2DDEB /* OCASwitch.h */,
+				5B88205818A0DFE000D2DDEB /* OCASwitch.m */,
 			);
 			path = Consumers;
 			sourceTree = "<group>";
@@ -770,6 +781,7 @@
 				5BA5498D1896FBED0050288D /* NSValue+Boxing.h in Headers */,
 				5BA5494F1896FBED0050288D /* OCAPredicate.h in Headers */,
 				5BA549711896FBED0050288D /* OCATransformer+Collections.h in Headers */,
+				5B88205918A0DFE000D2DDEB /* OCASwitch.h in Headers */,
 				5BA5495F1896FBED0050288D /* OCAProducer.h in Headers */,
 				5BA549451896FBED0050288D /* OCAFilter.h in Headers */,
 				5BA549651896FBED0050288D /* OCATimer.h in Headers */,
@@ -940,6 +952,7 @@
 				5B882010189D099900D2DDEB /* OCAInvoker.m in Sources */,
 				5BA549471896FBED0050288D /* OCAFilter.m in Sources */,
 				5BA549701896FBED0050288D /* OCATransformer+Base.m in Sources */,
+				5B88205B18A0DFE000D2DDEB /* OCASwitch.m in Sources */,
 				5BA549641896FBED0050288D /* OCAProperty.m in Sources */,
 				5BA5494A1896FBED0050288D /* OCAMediator.m in Sources */,
 				5BA5493E1896FBED0050288D /* OCASubscriber.m in Sources */,
@@ -986,6 +999,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5BB7CD341879BE51006916AB /* OCAFoundationTest.m in Sources */,
+				5B88205E18A0E56100D2DDEB /* OCASwitchTest.m in Sources */,
 				5BD8AEA31876B41200EE2029 /* OCAAccessorTest.m in Sources */,
 				5BB7CD5B187B397E006916AB /* OCAQueueTest.m in Sources */,
 				5BD9ED0E1873351C0069044C /* OCATransformerTest.m in Sources */,
@@ -1023,6 +1037,7 @@
 				5BA5498E1896FBED0050288D /* NSValue+Boxing.m in Sources */,
 				5BA549F91897A8060050288D /* OCATargetter.m in Sources */,
 				5BA549501896FBED0050288D /* OCAPredicate.m in Sources */,
+				5B88205A18A0DFE000D2DDEB /* OCASwitch.m in Sources */,
 				5BA549FA1897A8060050288D /* OCATransformer+UIColor.m in Sources */,
 				5BA549751896FBED0050288D /* OCATransformer+NSData.m in Sources */,
 				5BA549401896FBED0050288D /* OCABridge.m in Sources */,
@@ -1065,6 +1080,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5BB7CD331879BE51006916AB /* OCAFoundationTest.m in Sources */,
+				5B88205D18A0E56100D2DDEB /* OCASwitchTest.m in Sources */,
 				5BD8AEA21876B41200EE2029 /* OCAAccessorTest.m in Sources */,
 				5BB7CD5A187B397E006916AB /* OCAQueueTest.m in Sources */,
 				5BD9ED0D1873351C0069044C /* OCATransformerTest.m in Sources */,
