@@ -194,19 +194,8 @@
 }
 
 
-+ (NSPredicate *)access:(OCAAccessor *)booleanAccessor {
-    return [OCAPredicate predicateForClass:booleanAccessor.valueClass block:^BOOL(id object) {
-        id value = [booleanAccessor accessObject:object];
-        if ( ! value) return NO;
-        if (value == NSNull.null) return NO;
-        if ([value respondsToSelector:@selector(boolValue)]) return [object boolValue];
-        return YES;
-    }];
-}
-
-
 + (NSPredicate *)compare:(OCAAccessor *)accessor format:(NSString *)operatorFormat value:(id)rightValue {
-    return [OCAPredicate predicateForClass:accessor.valueClass block:^BOOL(id object) {
+    return [OCAPredicate predicateForClass:accessor.objectClass block:^BOOL(id object) {
         id leftValue = [accessor accessObject:object];
         // Now, a double substitution!
         NSString *format = [NSString stringWithFormat:@"%%@ %@ %%@", operatorFormat];
@@ -217,7 +206,7 @@
 
 
 + (NSPredicate *)compare:(OCAAccessor *)accessor using:(NSPredicate *)predicate {
-    return [OCAPredicate predicateForClass:accessor.valueClass block:^BOOL(id object) {
+    return [OCAPredicate predicateForClass:accessor.objectClass block:^BOOL(id object) {
         id value = [accessor accessObject:object];
         return [predicate evaluateWithObject:value];
     }];
