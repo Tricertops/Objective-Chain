@@ -49,6 +49,8 @@
 
 @property (atomic, readwrite, weak) id value;
 
+- (void)repeatLastValue;
+
 
 #pragma mark Deriving Producers
 

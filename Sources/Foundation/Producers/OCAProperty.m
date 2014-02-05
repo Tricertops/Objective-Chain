@@ -203,6 +203,12 @@
 }
 
 
+- (void)repeatLastValue {
+    OCAKeyValueChange *change = [super lastValue];
+    [self produceValue:change];
+}
+
+
 
 
 
