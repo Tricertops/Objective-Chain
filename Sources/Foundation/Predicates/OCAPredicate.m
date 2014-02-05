@@ -194,6 +194,14 @@
 }
 
 
++ (NSPredicate *)isProperty:(OCAProperty *)property {
+    NSPredicate *isTrue = [OCAPredicate isTrue];
+    return [OCAPredicate predicateForClass:nil block:^BOOL(id object) {
+        return [isTrue evaluateWithObject:property.value];
+    }];
+}
+
+
 + (NSPredicate *)compare:(OCAAccessor *)accessor format:(NSString *)operatorFormat value:(id)rightValue {
     return [OCAPredicate predicateForClass:accessor.objectClass block:^BOOL(id object) {
         id leftValue = [accessor accessObject:object];

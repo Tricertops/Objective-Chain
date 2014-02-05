@@ -8,6 +8,7 @@
 
 #import "OCAObject.h"
 #import "OCAAccessor.h"
+#import "OCAProperty.h"
 
 
 
@@ -60,6 +61,7 @@
 + (NSPredicate *)predicateForClass:(Class)class predicate:(NSPredicate *)predicate;
 + (NSPredicate *)predicateFor:(Class)class format:(NSString *)format, ...;
 
++ (NSPredicate *)isProperty:(OCAProperty *)property;
 
 + (NSPredicate *)compare:(OCAAccessor *)accessor using:(NSPredicate *)predicate;
 + (NSPredicate *)compare:(OCAAccessor *)accessor format:(NSString *)operatorFormat value:(id)value;
