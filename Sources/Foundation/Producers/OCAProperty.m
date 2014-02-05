@@ -32,10 +32,6 @@
     return nil;
 }
 
-- (NSString *)descriptionName {
-    return @"PropertyChangePrivateBridge";
-}
-
 @end
 
 
@@ -136,7 +132,7 @@
 
 
 - (void)didAddConsumer:(id<OCAConsumer>)consumer {    
-    if (self.finished) {
+    if (self.isFinished) {
         // I we already finished remove immediately.
         [consumer finishConsumingWithError:self.error];
         [self removeConsumer:consumer];

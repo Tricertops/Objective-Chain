@@ -46,7 +46,7 @@
 
 
 @property (nonatomic, readonly, assign) BOOL isInitial;
-@property (nonatomic, readonly, strong) id previousValue;
+@property (nonatomic, readonly, strong) id previousValue; //TODO: Hold weakly, maybe.
 
 - (BOOL)isLatestEqualToPrevious;
 

@@ -27,7 +27,7 @@
 
 
 @property (atomic, readwrite, assign) NSUInteger numberOfSentValues;
-@property (atomic, readwrite, assign) BOOL finished;
+@property (atomic, readwrite, assign) BOOL isFinished;
 @property (atomic, readwrite, strong) NSError *error;
 
 @property (atomic, readonly, strong) NSMutableArray *mutableConsumers;
@@ -109,7 +109,7 @@
 
 
 - (void)didAddConsumer:(id<OCAConsumer>)consumer {
-    if (self.finished) {
+    if (self.isFinished) {
         // I we already finished remove immediately.
         [consumer finishConsumingWithError:self.error];
         [self removeConsumer:consumer];
@@ -164,7 +164,7 @@
 - (void)produceValue:(id)value {
     if ( ! [self validateProducedValue:value]) return;
     
-    if (self.finished) return;
+    if (self.isFinished) return;
     self.lastValue = value;
     self.numberOfSentValues ++;
     
@@ -179,9 +179,9 @@
 
 
 - (void)finishProducingWithError:(NSError *)error {
-    if (self.finished) return;
+    if (self.isFinished) return;
     
-    self.finished = YES;
+    self.isFinished = YES;
     self.error = error;
     
     NSArray *consumers = [self.mutableConsumers copy];
@@ -212,7 +212,7 @@
 
 
 - (NSString *)description {
-    NSString *adjective = (self.finished? @"Finished " : @"");
+    NSString *adjective = (self.isFinished? @"Finished " : @"");
     NSString *className = [[self.valueClass description] stringByAppendingString:@"s"] ?: @"something";
     return [NSString stringWithFormat:@"%@%@ of %@", adjective, self.shortDescription, className];
     // Finished Producer of NSStrings
@@ -224,7 +224,7 @@
     return @{
              @"valueClass": self.valueClass ?: @"nil",
              @"lastValue": self.lastValue ?: @"nil",
-             @"finished": (self.finished? @"YES" : @"NO"),
+             @"finished": (self.isFinished? @"YES" : @"NO"),
              @"error": self.error ?: @"nil",
              @"consumers": @(self.consumers.count),
              };

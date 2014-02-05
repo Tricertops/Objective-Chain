@@ -31,7 +31,7 @@
 @property (atomic, readonly, strong) id lastValue;
 
 //! Flag whether the receiver finished producing values. Once the Producer finishes, it al Consumers are informed about it.
-@property (atomic, readonly, assign) BOOL finished; //TODO: isFinished
+@property (atomic, readonly, assign) BOOL isFinished;
 
 //! If the receiver is finished, contains error that caused the producer to finish, or nil of there was none.
 @property (atomic, readonly, strong) NSError *error;

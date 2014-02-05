@@ -148,7 +148,7 @@
             }
             case OCAHubTypeDependency: {
                 OCAProducer *first = self.producers.firstObject;
-                if (first.finished) {
+                if (first.isFinished) {
                     [self finishProducingWithError:nil];
                 }
                 [self removeFinishedProducers];
@@ -161,7 +161,7 @@
 - (void)removeFinishedProducers {
     NSIndexSet *finishedIndexes = [self.mutableProducers indexesOfObjectsPassingTest:
                                    ^BOOL(OCAProducer *producer, NSUInteger idx, BOOL *stop) {
-                                       return producer.finished;
+                                       return producer.isFinished;
                                    }];
     [self.mutableProducers removeObjectsAtIndexes:finishedIndexes];
 }
@@ -169,7 +169,7 @@
 
 - (BOOL)areAllProducersFinished {
     for (OCAProducer *producer in self.mutableProducers) {
-        if ( ! producer.finished) {
+        if ( ! producer.isFinished) {
             return NO;
         }
     }
