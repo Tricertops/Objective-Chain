@@ -170,7 +170,7 @@
     Class outputClass = [OCAObject valueClassForClasses:[dictionary.allValues valueForKey:OCAKP(NSObject, classForKeyedArchiver)]];
     
     return [[OCATransformer fromClass:inputClass toClass:outputClass transform:^id(id input) {
-        return [dictionary objectForKey:input];
+        return [dictionary objectForKey:input ?: NSNull.null];
     } reverse:^id(id input){
         return [[dictionary allKeysForObject:input] firstObject];
     }]
