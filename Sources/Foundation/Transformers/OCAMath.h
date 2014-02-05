@@ -96,6 +96,12 @@ typedef OCAReal(^OCARealTransformBlock)(OCAReal x);
 + (OCATransformer *)randomUpTo:(NSUInteger)bound;
 
 
+#pragma mark Logic
+
++ (OCATransformer *)allTrue;
++ (OCATransformer *)anyTrue;
+
+
 
 @end
 

@@ -7,6 +7,7 @@
 //
 
 #import "OCAMath.h"
+#import "OCAPredicate.h"
 
 
 
@@ -375,6 +376,30 @@
     }]
             describe:[NSString stringWithFormat:@"random up to %@", @(bound)]
             reverse:@"pass"];
+}
+
+
+
+
+
+#pragma mark Logic
+
+
++ (OCATransformer *)allTrue {
+    return [OCATransformer sequence:
+            @[
+              [OCAMath minimum],
+              [OCATransformer evaluatePredicate:[OCAPredicate isGreaterThan:@0]],
+              ]];
+}
+
+
++ (OCATransformer *)anyTrue {
+    return [OCATransformer sequence:
+            @[
+              [OCAMath maximum],
+              [OCATransformer evaluatePredicate:[OCAPredicate isGreaterThan:@0]],
+              ]];
 }
 
 
