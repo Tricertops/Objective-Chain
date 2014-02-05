@@ -45,7 +45,7 @@
 - (instancetype)initWithType:(OCAHubType)type producers:(NSArray *)producers {
     
     NSArray *valueClasses = [producers valueForKeyPath:OCAKP(OCAProducer, valueClass)];
-    Class consumedValueClass = [OCAHub consumedValueClassForType:type valueClasses:valueClasses];
+    Class consumedValueClass = [self valueClassForClasses:valueClasses];
     Class valueClass = [OCAHub producedValueClassForType:type valueClasses:valueClasses];
     
     self = [super initWithValueClass:valueClass];
@@ -57,15 +57,6 @@
         [self openConnections];
     }
     return self;
-}
-
-
-+ (Class)consumedValueClassForType:(OCAHubType)type valueClasses:(NSArray *)valueClasses {
-    switch (type) {
-        case OCAHubTypeMerge: return [self valueClassForClasses:valueClasses];
-        case OCAHubTypeCombine: return [self valueClassForClasses:valueClasses];
-        case OCAHubTypeDependency: return [valueClasses oca_valueAtIndex:0];
-    }
 }
 
 
