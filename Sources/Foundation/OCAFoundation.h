@@ -32,6 +32,7 @@
 #import "OCAConsumer.h"
 #import "OCASubscriber.h"
 #import "OCAInvoker.h"
+#import "OCASwitch.h"
 
 
 /// Transformers
