@@ -26,7 +26,7 @@
  *  Designated initializer.
  *
  *  @param owner       Object that created the timer or nil. Lifetime of the timer will be tied with the owner, so when the owner deallocates, the timer will stop.
- *  @param targetQueue Queue on which the timer produces values – instances of NSDate. If nil, default background queue is used.
+ *  @param targetQueue Queue on which the timer produces values – time intervals. If nil, default background queue is used.
  *  @param startDate   Date on which the timer fires for the first time. If nil, current time is used.
  *  @param interval    Time interval for repeating timer. If zero or negative, the timer fires only once.
  *  @param leeway      The amount of time, that the timer can defer fire.

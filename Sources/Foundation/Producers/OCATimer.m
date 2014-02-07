@@ -47,7 +47,7 @@
 
 
 - (instancetype)initWithOwner:(NSObject *)owner queue:(OCAQueue *)targetQueue startDate:(NSDate *)startDate interval:(NSTimeInterval)interval leeway:(NSTimeInterval)leeway endDate:(NSDate *)endDate {
-    self = [super initWithValueClass:[NSDate class]];
+    self = [super initWithValueClass:[NSNumber class]];
     if (self) {
         OCAAssert(interval >= 0, @"Works only with positive intervals.") return nil;
         OCAAssert(leeway >= 0, @"Works only with non-negative leeway.") return nil;
@@ -121,8 +121,11 @@
     BOOL isNonRepeating = (self.interval <= 0);
     NSDate *endDate = self.endDate; // So we don't access the property multiple times in the block.
     __block NSUInteger fire = 1;
+    __block NSDate *lastFireDate = [NSDate date];
     
     dispatch_source_set_event_handler(self.timer, ^{
+        NSTimeInterval fireInterval = -lastFireDate.timeIntervalSinceNow;
+        lastFireDate = [NSDate date];
         
         BOOL isAfterEndDate = (endDate && [endDate timeIntervalSinceNow] <= 0);
         if (isAfterEndDate) {
@@ -133,13 +136,13 @@
         
         if (isNonRepeating) {
             // One fire is enough.
-            [self produceValue:[NSDate date]];
+            [self produceValue:@(fireInterval)];
             [self stop];
             return;
         }
         else {
             // Repeating timer.
-            [self produceValue:[NSDate date]];
+            [self produceValue:@(fireInterval)];
             fire ++;
         }
     });

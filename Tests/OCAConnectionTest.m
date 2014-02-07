@@ -98,7 +98,7 @@
     
     [[timer
      switchToQueue:timer.queue]
-     subscribeForClass:[NSDate class] handler:^(NSDate *value) {
+     subscribeForClass:[NSNumber class] handler:^(NSNumber *timeInterval) {
          tickCount ++;
      } finish:^(NSError *error) {
          [semaphore signal];
@@ -190,9 +190,8 @@
     OCASemaphore *semaphore = [[OCASemaphore alloc] init];
     __block NSUInteger tickCount = 0;
     
-    [[[timer
-       switchToQueue:queue]
-      transformValues:[OCATransformer access:OCAKeyPath(NSDate, timeIntervalSinceNow, NSTimeInterval)], nil]
+    [[timer
+      switchToQueue:queue]
      subscribeForClass:[NSNumber class] handler:^(NSNumber *timeInterval) {
          tickCount++;
      } finish:^(NSError *error) {
