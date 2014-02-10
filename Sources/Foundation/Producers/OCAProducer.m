@@ -414,8 +414,8 @@
 
 - (void)switchIf:(NSPredicate *)predicate then:(id<OCAConsumer>)thenConsumer else:(id<OCAConsumer>)elseConsumer {
     OCASwitch *ifSwitch = [[OCASwitch alloc] initWithDictionary:@{
-                                                                  predicate: thenConsumer,
-                                                                  [predicate negate]: elseConsumer,
+                                                                  predicate: thenConsumer ?: (id)[NSNull null],
+                                                                  [predicate negate]: elseConsumer ?: (id)[NSNull null],
                                                                   }];
     [self addConsumer:ifSwitch];
 }
@@ -423,8 +423,8 @@
 
 - (void)switchYes:(id<OCAConsumer>)trueConsumer no:(id<OCAConsumer>)falseConsumer {
     OCASwitch *booleanSwitch = [[OCASwitch alloc] initWithDictionary:@{
-                                                                  [OCAPredicate isTrue]: trueConsumer,
-                                                                  [OCAPredicate isFalse]: falseConsumer,
+                                                                       [OCAPredicate isTrue]: trueConsumer ?: (id)[NSNull null],
+                                                                       [OCAPredicate isFalse]: falseConsumer ?: (id)[NSNull null],
                                                                   }];
     [self addConsumer:booleanSwitch];
 }
