@@ -30,6 +30,7 @@
 
 
 + (NSPredicate *)isNil;
++ (NSPredicate *)isNotNil;
 + (NSPredicate *)predicateForClass:(Class)class block:(BOOL(^)(id object))block;
 
 
@@ -62,6 +63,7 @@
 + (NSPredicate *)predicateFor:(Class)class format:(NSString *)format, ...;
 
 + (NSPredicate *)isProperty:(OCAProperty *)property;
++ (NSPredicate *)compareProperty:(OCAProperty *)property using:(NSPredicate *)predicate;
 
 + (NSPredicate *)compare:(OCAAccessor *)accessor using:(NSPredicate *)predicate;
 + (NSPredicate *)compare:(OCAAccessor *)accessor format:(NSString *)operatorFormat value:(id)value;

@@ -55,6 +55,11 @@
 }
 
 
++ (NSPredicate *)isNotNil {
+    return [[OCAPredicate isNil] negate];
+}
+
+
 + (NSPredicate *)predicateForClass:(Class)class block:(BOOL(^)(id object))block {
     return [NSPredicate predicateWithBlock:^BOOL(id object, NSDictionary *bindings) {
         if ( ! object) return NO;
@@ -195,9 +200,13 @@
 
 
 + (NSPredicate *)isProperty:(OCAProperty *)property {
-    NSPredicate *isTrue = [OCAPredicate isTrue];
+    return [OCAPredicate compareProperty:property using:[OCAPredicate isTrue]];
+}
+
+
++ (NSPredicate *)compareProperty:(OCAProperty *)property using:(NSPredicate *)predicate {
     return [OCAPredicate predicateForClass:nil block:^BOOL(id object) {
-        return [isTrue evaluateWithObject:property.value];
+        return [predicate evaluateWithObject:property.value];
     }];
 }
 
