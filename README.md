@@ -11,8 +11,8 @@ Aim is to build reusable and scalable solution for **MVVM** bindings.
 ##### Project is in early stages of development. Everything you see here can change at any point in time. Follow the [Roadmap](https://github.com/iMartinKiss/Objective-Chain/issues/1) for progress. Thanks!
 
 
-Intro
------
+Concept
+-------
 
 Everything happens for a reason and this is especially true in software. Basic principle of software is to receive input and provide output. **Reacting to events with actions**, but our actions can trigger new events. A reactive framework should allow you to write the rules declaratively. This means you **write it once and it works forever** (or at least until cancelled).
 
@@ -25,46 +25,63 @@ To avoid confusion, we should clarify the difference between *Event* and *Value*
 
 
 
-Concept
--------
+Main Components
+---------------
 
-Core concept is really simple as this is one of the objectives. There are ***Producers*** that produce values and ***Consumers*** that consumes them. We connect these two objects using ***Connections***.
+Core concept is really simple: ***Producers*** send values and ***Consumers*** receive them. _Producer_ and _Consumer_ are abstract terms, so the true functionality is provied by their concrete implementations.
 
-  - **`OCAProducer`** is an abstract class that you can subclass or use one of the provided concrete implementations: `OCACommand`, `OCATimer`, `OCANotificator`, `OCAProperty`, `OCABridge`, `OCAHub` and more. *Producer* can send values to multiple *Connections*.
-  - **`OCAConsumer`** is a protocol that you can implement or customize some provided generic block implementation in a form of `OCASubscriber`.
-  - **`OCAConnection`** is class that takes values from one *Producer* and pass them to one *Consumer*. In addition, a *Connection* can have associated filter *Predicate*, value *Transformer* and *Queue* on which it should deliver the results.
-      - `NSPredicate` class is used to filter values. Only objects that evaluate to `YES` are passed to *Consumer*.
-      - `NSValueTransformer` class (and customizable `OCaTransformer` class) is used to transform objects for *Consumer* after they passed *Predicate*.
-      - `OCAQueue` is a simple, but powerful wrapper for GCD queues. It makes multithreading with Objective-Chain a fun.
+### Producers
 
-![Connection Scheme](Images/Simple Connection.png)
+  - _**Timer**_ – Periodically sends time intervals to _Consumers_ until stopped.
+  - _**Property**_ – Observes KVO notifications of given object and key-path and sends latest values to _Consumers_. It's one of the _Core_ features.
+  - _**Notificator**_ – Observes `NSNotifications` with given name and sends them to _Consumers_.
+  - _**Target**_ – Receiver of target-action callbacks that sends the sender to _Consumers_.
+  - _**Command**_ – Generic _Producer_ to be used manually by invoking its methods.
+  - _**Hub**_ – Special _Producer_, that takes multiple other _Producers_ and forwards their values. There are currently three kinds fof _Hub_: merging, combining and depending. More on those later.
+  
+  - In addition, you can easily subclass _Producer_ with custom implementation. If there are other sources of events/values that should be implemented, feel free to [suggest it](https://github.com/iMartinKiss/Objective-Chain/issues/new).
 
+### Consumers
+  - _**Property**_ – Yes, the same _Property_ as the _Producer_ above, but this time it set received values using KVC. Setting usually triggers KVO event, that is immediately produced. It's one of the _Core_ features.
+  - _**Invoker**_ – Invokes regular invocations optionally replacing the arguments with received values. Don't worry, it has never been easier to create and use `NSInvocations`! It's one of the _Core_ features.
+  - _**Subscriber**_ – Most versatile _Consumer_, that can be customized using blocks. Allows you to easily create ad-hod implementations of consumers, if there is no better alternative (and trust me, there usually is).
+  - _**Switch**_ – Similar to `switch` or `if-else` control statements, _Switch_ takes multiple _Consumers_ with one _Predicate_ for each. Once it receives value, it invokes all sub-consumers whose predicates evaluate to `YES`.
+  
+  - There are some more provided _Consumers_, but they usually only uses _Subscriber_ to perform their task. If there are other special cases, that need custom subclass, [suggest them](https://github.com/iMartinKiss/Objective-Chain/issues/new).
+
+These were only the endpoints of _Chain_, now the fun begins…
+
+### Mediators
+_Mediator_ is simply a _Producer_ **and** _Consumer_ that can stand in between and make changes to the values. It never produces new values and never uses them in a meaningful way.
+
+  - _**Bridge**_ – Basic _Mediator_ that passes all values further. It is best when you want to expose a _Producer_ in object's interface. Optionally, and this is important, _Bridge_ can use a _Value Transformer_ to convert values before passing them to _Consumers_. This is one of the _Core_ features. More on _Transformers_ later.
+  - _**Filter**_ – _Mediator_ that evaluates a _Predicate_ on the values. Those that evaluates to `YES` are passed without changes, otherwise they are ignored (discarded).
+  - _**Context**_ – Interesting and flexible _Mediator_, that simply forwards the values. The point is, it sends them in a **known context**. For example, inside of animation block, or inside of `@synchronized` statement, or even send them on another _Queue_. _Context_ object is really simple, but allows you to do powerful things. More on _Queues_ later.
+  - _**Throttle**_ – Time-aware _Mediator_. It forwards values with reduced frequency, for example when user types fast on keyboard, _Throttle_ can be configured to send latest entered text after 0.3 s pause.
 
 ### Composition
+You can use any of these provided components or create your own and chain them together to build the logic of your application.
 
-The fundamental principle of Objective-Chain is ability to **compose objects of the same kind** and this is true for all parts of the *Connection*.
-
-Despite of the fact, that single *Connection* can have associated only one *Producer*, one *Queue*, one *Predicate*, one *Transformer* and one *Consumer*, with composition the possibilities are endless:
-
-  - ***Producer*** – merge or combine multiple using `OCAHub` (which is again a *Producer* subclass). Keep in mind, that any *Producer* can send values to multiple *Connections*.
-  - ***Queue*** – each *Queue* must have a target *Queue* (with exception of *Main* and *Background* queues). Custom queues are targeted to *Background* queue by default.
-  - ***Predicate*** – combine them using `NSCompoundPredicate` or using convenience factory class `OCAPredicate`.
-  - ***Transformer*** – sequence them, repeat them or make logical decisions of which transformer to use. This all is provided using `OCATransformer` class and its factory.
-  - ***Consumer*** – forward values to multiple consumers using `OCAMulticast` (which is again a *Consumer*). *Consumers* can technically receive values from multiple *Connections*, but this is not used very much.
-  
-  - ***Connection*** – chain and branch multiple *Connections* using ***Bridges***. *Bridge* is a *Producer* **and** *Consumer*. The simplest `OCABridge` produces consumed values. More advanced *Property Bridge* produces values based on KVO notifications and consumes them using KVC setters.
-
-![Connection Scheme](Images/Advanced Connection.png)
+>_Check it, load it, link it, use it,_  
+>_View it, code it, quick - combine it._  
+>
+>_Chain it, branch it, merge it, fork it,_  
+>_Switch it, send it, bridge - transform it._
+>
+>_Catch it, change it, call it, tune it,_  
+>_Drag and drop it, box - unbox it._
 
 
+Additonal Features
+------------------
+To be described later:
 
-## [Modules](./Sources)
-
-**Objective-Chain** is made up of *Core* and additional libraries that are built on top of it. 
-
-Basic library ***Foundation*** provides transformers for many standard classes like `NSArray`, `NSDictionary`, `NSString` or `NSNumber`, and also implements *Timer* and *Notification* producers. ***Geometry*** library makes it easy to work with frames, insets or transforms. [Read more…](./Sources)
-
-More modules will be added, mainly **UIKit** additions.
+  - Class validation.
+  - Transformers.
+  - Predicates.
+  - Queues.
+  - Invocation catcher.
+  - Decomposer.
 
 
 ---
