@@ -12,7 +12,11 @@
 
 #define OCAKPUnsafe(KEYPATH)            NSStringFromSelector(@selector(KEYPATH))
 #define OCAKP(CLASS, KEYPATH)           OCAKPObject([CLASS new], KEYPATH)
-#define OCAKPObject(OBJECT, KEYPATH)    ((NSString *)@(((void)(NO && ((void)OBJECT.KEYPATH, NO)), # KEYPATH)))
+#define OCAKPObject(OBJECT, KEYPATH)    \
+_Pragma("clang diagnostic push") \
+_Pragma("clang diagnostic ignored \"-Warc-repeated-use-of-weak\"") \
+((NSString *)@(((void)(NO && ((void)OBJECT.KEYPATH, NO)), # KEYPATH))) \
+_Pragma("clang diagnostic pop") \
 
 #define OCAWeakify(VARIABLE)            __weak typeof(VARIABLE) VARIABLE##_weak = VARIABLE
 #define OCAStrongify(VARIABLE)          __strong typeof(VARIABLE##_weak) VARIABLE = VARIABLE##_weak
