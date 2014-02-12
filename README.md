@@ -83,6 +83,7 @@ To be described later:
   - Invocation catcher.
   - Decomposer.
 
+Follow the [Roadmap](https://github.com/iMartinKiss/Objective-Chain/issues/1) for progress.
 
 ---
 
