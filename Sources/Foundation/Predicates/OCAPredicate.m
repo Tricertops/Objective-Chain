@@ -62,7 +62,6 @@
 
 + (NSPredicate *)predicateForClass:(Class)class block:(BOOL(^)(id object))block {
     return [NSPredicate predicateWithBlock:^BOOL(id object, NSDictionary *bindings) {
-        if ( ! object) return NO;
         BOOL compatible = [self isClass:[object class] compatibleWithClass:class];
         if ( ! compatible) return NO;
         
