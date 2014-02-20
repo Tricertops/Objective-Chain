@@ -18,7 +18,7 @@ extern void OCABreakpointStop(id value) {
     /*
      *  This function is used for Symbolic Breakpoint.
      *  If you stopped here, you can see the `value`, that was send from Producer to Consumer.
-     *  Yo canu navigate up in the stack trace and you will see the the place where this happened.
+     *  You can navigate up in the stack trace and you will see the the place where this happened.
      */
 }
 

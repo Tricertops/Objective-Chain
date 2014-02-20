@@ -170,6 +170,9 @@
     
     for (id<OCAConsumer> consumer in [self.mutableConsumers copy]) {
         id consumedValue = value; // Always new variable.
+        
+        //TODO: Special class to declare, that it is passed without changes.
+        
         BOOL consumedValid = [self validateObject:&consumedValue ofClass:[consumer consumedValueClass]];
         if (consumedValid) {
             [consumer consumeValue:consumedValue];

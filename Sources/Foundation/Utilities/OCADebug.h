@@ -25,6 +25,9 @@ extern void OCABreakpointStop(id value);
 extern void OCABreakpointSound(id value);
 
 
+#define OCADebugLog(FLAG)         ^(id value) { NSLog(@"%@: %@", @#FLAG, value); }
+
+
 
 
 
