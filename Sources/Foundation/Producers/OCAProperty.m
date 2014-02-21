@@ -14,6 +14,7 @@
 #import "OCAThrottle.h"
 #import "OCAPredicate.h"
 #import "OCAFilter.h"
+#import "OCAContext.h"
 
 
 
@@ -347,28 +348,51 @@
     if (transformer) {
         OCAAssert([transformer.class allowsReverseTransformation], @"Need reversible transformer for two-way binding.") return;
     }
-    OCAAssert(throttle!=nil, @"Throttle needed");
+    OCAAssert(throttle != nil, @"Throttle needed");
     
-    [self addConsumer:throttle];
+    /// Throttling affects production of values in time, which brings feedback problems.
     
+    /// First feedback type is when Throttle produces value and this value returns back to Self. This value may already be transformed and not really equal to the original.
     NSPredicate *predicate = [[OCAPredicate isProperty:OCAProperty(throttle, isThrottled, BOOL)] negate];
     OCAFilter *filter = [OCAFilter filterWithPredicate:predicate];
     
+    /// Second feedback type is when the Other proerty is changed by external source, it changes Self and triggers Throttling back to the Other property. This change is delayed and causes glitches.
+    __block BOOL preventFeedback = NO;
+    OCAContext *feedbackContext = [OCAContext custom:^(OCAContextExecutionBlock executionBlock) {
+        BOOL previousValue = preventFeedback;
+        preventFeedback = YES;
+        executionBlock(); // The Filter will not pass.
+        preventFeedback = previousValue;
+    }];
+    OCAFilter *feedbackFilter = [OCAFilter filterWithPredicate:[OCAPredicate predicateForClass:nil block:^BOOL(id object) {
+        return ! preventFeedback; // Block when produced in the Context.
+    }]];
+    
     if (transformer) {
         OCABridge *bridge = [[OCABridge alloc] initWithTransformer:transformer];
+        // There
+        [self addConsumer:feedbackFilter];
+        [feedbackFilter addConsumer:throttle];
         [throttle addConsumer:bridge];
         [bridge addConsumer:property];
         
         OCABridge *reversedBridge = [[OCABridge alloc] initWithTransformer:[transformer reversed]];
+        // Back
         [property addConsumer:filter];
-        [filter addConsumer:reversedBridge];
+        [filter connectTo:feedbackContext];
+        [feedbackContext addConsumer:reversedBridge];
         [reversedBridge addConsumer:self];
         
     } else {
+        // There
+        [self addConsumer:feedbackFilter];
+        [feedbackFilter addConsumer:throttle];
         [throttle addConsumer:property];
         
+        // Back
         [property addConsumer:filter];
-        [filter addConsumer:self];
+        [filter connectTo:feedbackContext];
+        [feedbackContext addConsumer:self];
     }
 }
 
