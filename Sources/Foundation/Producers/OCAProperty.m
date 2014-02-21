@@ -11,6 +11,9 @@
 #import "OCADecomposer.h"
 #import "OCATransformer.h"
 #import "OCABridge.h"
+#import "OCAThrottle.h"
+#import "OCAPredicate.h"
+#import "OCAFilter.h"
 
 
 
@@ -340,6 +343,34 @@
 }
 
 
+- (void)bindThrottled:(OCAThrottle *)throttle transformed:(NSValueTransformer *)transformer with:(OCAProperty *)property {
+    if (transformer) {
+        OCAAssert([transformer.class allowsReverseTransformation], @"Need reversible transformer for two-way binding.") return;
+    }
+    OCAAssert(throttle!=nil, @"Throttle needed");
+    
+    [self addConsumer:throttle];
+    
+    NSPredicate *predicate = [[OCAPredicate isProperty:OCAProperty(throttle, isThrottled, BOOL)] negate];
+    OCAFilter *filter = [OCAFilter filterWithPredicate:predicate];
+    
+    if (transformer) {
+        OCABridge *bridge = [[OCABridge alloc] initWithTransformer:transformer];
+        [throttle addConsumer:bridge];
+        [bridge addConsumer:property];
+        
+        OCABridge *reversedBridge = [[OCABridge alloc] initWithTransformer:[transformer reversed]];
+        [property addConsumer:filter];
+        [filter addConsumer:reversedBridge];
+        [reversedBridge addConsumer:self];
+        
+    } else {
+        [throttle addConsumer:property];
+        
+        [property addConsumer:filter];
+        [filter addConsumer:self];
+    }
+}
 
 
 
