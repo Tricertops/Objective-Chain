@@ -201,3 +201,22 @@
 @end
 
 
+
+
+
+
+
+@implementation UISlider (OCATargetter)
+
+//TODO: Make this universal?
+- (OCAProducer *)producerForValue {
+    OCATargetter *target = [[OCATargetter alloc] initWithOwner:self];
+    [self addTarget:target action:target.action forControlEvents:UIControlEventValueChanged];
+    
+    OCABridge *bridge = [[OCABridge alloc] initWithTransformer:[OCATransformer access:OCAKeyPath(UISlider, value, float)]];
+    [target addConsumer:bridge];
+    return bridge;
+}
+
+@end
+
