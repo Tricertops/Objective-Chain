@@ -76,3 +76,12 @@
 @end
 
 
+
+
+@interface UISlider (OCATargetter)
+
+- (OCAProducer *)producerForValue;
+
+@end
+
+
