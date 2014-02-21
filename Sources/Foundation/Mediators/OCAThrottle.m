@@ -62,10 +62,10 @@
                                                        valueHandler:^(id value) {
                                                            OCAStrongify(self);
                                                            
+                                                           self.isThrottled = NO;
                                                            [self produceValue:self.lastThrottledValue];
                                                            self.lastThrottledValue = nil;
                                                            self.timer = nil;
-                                                           self.isThrottled = NO;
                                                            
                                                        } finishHandler:nil];
     }
@@ -95,13 +95,13 @@
         return;
     }
     
+    self.lastThrottledValue = value;
     if (self.isContinuous && self.timer.isRunning) return;
-        
+    
     [self.timer stop];
     NSDate *fireDate = [NSDate dateWithTimeIntervalSinceNow:self.interval];
     self.timer = [[OCATimer alloc] initWithOwner:self queue:nil startDate:fireDate interval:0 leeway:0 endDate:nil];
     self.isThrottled = YES;
-    self.lastThrottledValue = value;
     [self.timer addConsumer:self.subscriber];
 }
 
