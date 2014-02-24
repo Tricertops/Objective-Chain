@@ -156,15 +156,20 @@
 }
 
 
-+ (OCATransformer *)shareBetween:(OCAReal)lower and:(OCAReal)upper {
++ (OCATransformer *)relativeBetween:(OCAReal)lower and:(OCAReal)upper {
     OCAReal delta = upper - lower;
     return [[self transform:^OCAReal(OCAReal x) {
         return (x - lower) / delta;
     } reverse:^OCAReal(OCAReal y) {
         return lower + (delta * y);
     }]
-            describe:[NSString stringWithFormat:@"share between %@ and %@", @(lower), @(upper)]
-            reverse:[NSString stringWithFormat:@"scale between %@ and %@", @(lower), @(upper)]];
+            describe:[NSString stringWithFormat:@"relative between %@ and %@", @(lower), @(upper)]
+            reverse:[NSString stringWithFormat:@"absolute between %@ and %@", @(lower), @(upper)]];
+}
+
+
++ (OCATransformer *)absoluteBetween:(OCAReal)lower and:(OCAReal)upper {
+    return [[OCAMath relativeBetween:lower and:upper] reversed];
 }
 
 
