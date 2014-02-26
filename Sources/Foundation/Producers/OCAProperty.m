@@ -136,18 +136,16 @@
 
 
 - (void)didAddConsumer:(id<OCAConsumer>)consumer {    
+    // Trick: Get real last value as Change object. Bypasses overriden implementation intended for public.
+    OCAKeyValueChange *lastChange = [super lastValue];
+    if (lastChange) {
+        // It there was at least one sent value, send the last one.
+        [consumer consumeValue:lastChange];
+    }
     if (self.isFinished) {
         // I we already finished remove immediately.
         [consumer finishConsumingWithError:self.error];
         [self removeConsumer:consumer];
-    }
-    else {
-        // Trick: Get real last value as Change object. Bypasses overriden implementation intended for public.
-        OCAKeyValueChange *lastChange = [super lastValue];
-        if (lastChange) {
-            // It there was at least one sent value, send the last one.
-            [consumer consumeValue:lastChange];
-        }
     }
 }
 
