@@ -129,6 +129,7 @@
         
         BOOL isAfterEndDate = (endDate && [endDate timeIntervalSinceNow] <= 0);
         if (isAfterEndDate) {
+            // TODO: more precise endDate
             // Not producing value after endDate.
             [self stop];
             return;
