@@ -204,6 +204,10 @@
 		5BEA02AF189999640065DD89 /* OCAKeyValueChange.h in Headers */ = {isa = PBXBuildFile; fileRef = 5BEA02AD189999640065DD89 /* OCAKeyValueChange.h */; };
 		5BEA02B0189999640065DD89 /* OCAKeyValueChange.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BEA02AE189999640065DD89 /* OCAKeyValueChange.m */; };
 		5BEA02B1189999640065DD89 /* OCAKeyValueChange.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BEA02AE189999640065DD89 /* OCAKeyValueChange.m */; };
+		5F84F18E18BBA2680074D308 /* OCAInterpolator.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F84F18D18BBA2680074D308 /* OCAInterpolator.m */; };
+		5FBC533E18BE237B002F2B79 /* OCAInterpolatorTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBC533D18BE237B002F2B79 /* OCAInterpolatorTest.m */; };
+		5FBC533F18BE237B002F2B79 /* OCAInterpolatorTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBC533D18BE237B002F2B79 /* OCAInterpolatorTest.m */; };
+		5FBC534018BE2390002F2B79 /* OCAInterpolator.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F84F18D18BBA2680074D308 /* OCAInterpolator.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -376,6 +380,9 @@
 		5BD9ED0C1873351C0069044C /* OCATransformerTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCATransformerTest.m; sourceTree = "<group>"; };
 		5BEA02AD189999640065DD89 /* OCAKeyValueChange.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCAKeyValueChange.h; sourceTree = "<group>"; };
 		5BEA02AE189999640065DD89 /* OCAKeyValueChange.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCAKeyValueChange.m; sourceTree = "<group>"; };
+		5F84F18C18BBA2680074D308 /* OCAInterpolator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCAInterpolator.h; sourceTree = "<group>"; };
+		5F84F18D18BBA2680074D308 /* OCAInterpolator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCAInterpolator.m; sourceTree = "<group>"; };
+		5FBC533D18BE237B002F2B79 /* OCAInterpolatorTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCAInterpolatorTest.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -500,6 +507,7 @@
 				5B8F4DB0187EF60800D75EEE /* OCAPropertyTest.m */,
 				5B882019189D219200D2DDEB /* OCAHubTest.m */,
 				5B88201C189E813B00D2DDEB /* OCAFilterTest.m */,
+				5FBC533D18BE237B002F2B79 /* OCAInterpolatorTest.m */,
 				5B882029189E8EC000D2DDEB /* OCAThrottleTest.m */,
 				5B882036189FB17500D2DDEB /* OCAInvokerTest.m */,
 				5B88205C18A0E56100D2DDEB /* OCASwitchTest.m */,
@@ -579,6 +587,8 @@
 				5BA549111896FBED0050288D /* OCATimer.m */,
 				5BA549091896FBED0050288D /* OCANotificator.h */,
 				5BA5490A1896FBED0050288D /* OCANotificator.m */,
+				5F84F18C18BBA2680074D308 /* OCAInterpolator.h */,
+				5F84F18D18BBA2680074D308 /* OCAInterpolator.m */,
 			);
 			path = Producers;
 			sourceTree = "<group>";
@@ -968,6 +978,7 @@
 				5BA5498C1896FBED0050288D /* NSArray+Ordinals.m in Sources */,
 				5BA5497C1896FBED0050288D /* OCATransformer+NSString.m in Sources */,
 				5BA549B418970D6F0050288D /* OCATransformer+CATransform3D.m in Sources */,
+				5FBC534018BE2390002F2B79 /* OCAInterpolator.m in Sources */,
 				5BA549C318970D6F0050288D /* OCATransformer+UIEdgeInsets.m in Sources */,
 				5BA549951896FBED0050288D /* OCAInvocationCatcher.m in Sources */,
 				5BA549BD18970D6F0050288D /* OCATransformer+CGRect.m in Sources */,
@@ -1007,6 +1018,7 @@
 				5B88202B189E8EC000D2DDEB /* OCAThrottleTest.m in Sources */,
 				5B88201E189E813B00D2DDEB /* OCAFilterTest.m in Sources */,
 				5BA8A6461875BD950012BA5D /* OCAMathTest.m in Sources */,
+				5FBC533F18BE237B002F2B79 /* OCAInterpolatorTest.m in Sources */,
 				5B097E601871BED0006240D8 /* OCAObjectTest.m in Sources */,
 				5B882038189FB17500D2DDEB /* OCAInvokerTest.m in Sources */,
 				5B88201B189D219200D2DDEB /* OCAHubTest.m in Sources */,
@@ -1047,6 +1059,7 @@
 				5BA549B318970D6F0050288D /* OCATransformer+CATransform3D.m in Sources */,
 				5B882027189E8B2700D2DDEB /* OCAThrottle.m in Sources */,
 				5B882014189D0EF600D2DDEB /* OCAVariadic.m in Sources */,
+				5F84F18E18BBA2680074D308 /* OCAInterpolator.m in Sources */,
 				5BA549C218970D6F0050288D /* OCATransformer+UIEdgeInsets.m in Sources */,
 				5BA549941896FBED0050288D /* OCAInvocationCatcher.m in Sources */,
 				5BA549BC18970D6F0050288D /* OCATransformer+CGRect.m in Sources */,
@@ -1088,6 +1101,7 @@
 				5B88202A189E8EC000D2DDEB /* OCAThrottleTest.m in Sources */,
 				5B88201D189E813B00D2DDEB /* OCAFilterTest.m in Sources */,
 				5BA8A6451875BD950012BA5D /* OCAMathTest.m in Sources */,
+				5FBC533E18BE237B002F2B79 /* OCAInterpolatorTest.m in Sources */,
 				5B097E5F1871BED0006240D8 /* OCAObjectTest.m in Sources */,
 				5B882037189FB17500D2DDEB /* OCAInvokerTest.m in Sources */,
 				5B88201A189D219200D2DDEB /* OCAHubTest.m in Sources */,

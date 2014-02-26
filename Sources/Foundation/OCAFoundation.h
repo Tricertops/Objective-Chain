@@ -16,6 +16,7 @@
 #import "OCAProperty.h"
 #import "OCATimer.h"
 #import "OCANotificator.h"
+#import "OCAInterpolator.h"
 
 
 /// Mediators
