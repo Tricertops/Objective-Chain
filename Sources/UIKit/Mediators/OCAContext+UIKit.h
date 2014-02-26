@@ -25,6 +25,8 @@
 + (OCAContext *)animateWithDelay:(NSTimeInterval)delay duration:(NSTimeInterval)duration options:(UIViewAnimationOptions)options;
 //TODO: Animate with spring animation
 //TODO: Animate with System animation
++ (OCAContext *)transitionWithView:(UIView *)view duration:(NSTimeInterval)duration options:(UIViewAnimationOptions)options;
+
 
 
 #pragma mark Core Animation
