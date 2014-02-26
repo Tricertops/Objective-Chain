@@ -47,6 +47,13 @@
 }
 
 
++ (OCAContext *)transitionWithView:(UIView *)view duration:(NSTimeInterval)duration options:(UIViewAnimationOptions)options {
+    return [[self alloc] initWithDefinitionBlock:^(OCAContextExecutionBlock executionBlock) {
+        [UIView transitionWithView:view duration:duration options:options animations:executionBlock completion:nil];
+    }];
+}
+
+
 
 
 
