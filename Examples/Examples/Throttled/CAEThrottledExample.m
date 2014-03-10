@@ -58,7 +58,7 @@
 
 
 + (NSString *)exampleDescription {
-    return @"";
+    return @"This example uses Throttling mechanism to limit how often is value from Slider applied. It then animates the changed value by interpolating from previous to the current. Total of 2 chains";
 }
 
 
@@ -110,12 +110,12 @@
     [super setupChains];
     OCAWeakify(self);
     
-    __block __weak OCAInterpolator *interpolator = nil;
+    __block __weak OCAInterpolator *interpolator = nil; // Weak, because it will deallocate automatically once finished.
     [[OCAProperty(self, integer, NSUInteger) produceChanges]
      subscribeForClass:[OCAKeyValueChangeSetting class] handler:^(OCAKeyValueChangeSetting *change) {
          OCAStrongify(self);
          
-         [interpolator finishWithLastValue:YES]; // Will display final value.
+         [interpolator finishWithLastValue:YES]; // Will stop and display final value.
          
          NSUInteger previous = [change.previousValue unsignedIntegerValue];
          NSUInteger latest = [change.latestValue unsignedIntegerValue];
