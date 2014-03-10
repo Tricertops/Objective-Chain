@@ -16,6 +16,7 @@
 
 
 
+@property (nonatomic, readwrite, assign) NSUInteger integer;
 @property (nonatomic, readwrite, strong) UILabel *label;
 @property (nonatomic, readwrite, strong) UISlider *slider;
 
@@ -96,7 +97,7 @@
         UISlider *slider = [[UISlider alloc] init];
         slider.frame = CGRectMake(20, CGRectGetMaxY(self.label.frame) + 60, 280, 44);
         slider.minimumValue = 0;
-        slider.maximumValue = 1000;
+        slider.maximumValue = 100;
         
         [self.view addSubview:slider];
         slider;
@@ -107,6 +108,13 @@
 
 - (void)setupChains {
     [super setupChains];
+    
+    
+    [[OCAProperty(self, integer, NSUInteger) transformValues:
+     [OCATransformer stringWithNumberStyle:NSNumberFormatterDecimalStyle fractionDigits:0],
+     nil] connectTo:OCAProperty(self, label.text, NSString)];
+    
+    [[self.slider producerForValue] connectTo:OCAProperty(self, integer, NSUInteger)];
 }
 
 
