@@ -108,14 +108,29 @@
 
 - (void)setupChains {
     [super setupChains];
+    OCAWeakify(self);
     
-    
-    [[OCAProperty(self, integer, NSUInteger) transformValues:
-     [OCATransformer stringWithNumberStyle:NSNumberFormatterDecimalStyle fractionDigits:0],
-     nil] connectTo:OCAProperty(self, label.text, NSString)];
+    __block __weak OCAInterpolator *interpolator = nil;
+    [[OCAProperty(self, integer, NSUInteger) produceChanges]
+     subscribeForClass:[OCAKeyValueChangeSetting class] handler:^(OCAKeyValueChangeSetting *change) {
+         OCAStrongify(self);
+         
+         [interpolator finishWithLastValue:YES]; // Will display final value.
+         
+         NSUInteger previous = [change.previousValue unsignedIntegerValue];
+         NSUInteger latest = [change.latestValue unsignedIntegerValue];
+         interpolator = [OCAInterpolator interpolatorWithDuration:0.5
+                                                        frequency:30
+                                                        fromValue:previous
+                                                          toValue:latest];
+         
+         [[interpolator transformValues:
+           [OCATransformer stringWithNumberStyle:NSNumberFormatterDecimalStyle fractionDigits:0],
+           nil] connectTo:OCAProperty(self, label.text, NSString)];
+     }];
     
     [[[self.slider producerForValue]
-      throttleContinuous:1]
+      throttleContinuous:1] // Sends latest value every 1 second
      connectTo:OCAProperty(self, integer, NSUInteger)];
 }
 
