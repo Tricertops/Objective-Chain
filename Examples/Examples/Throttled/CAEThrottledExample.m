@@ -114,7 +114,9 @@
      [OCATransformer stringWithNumberStyle:NSNumberFormatterDecimalStyle fractionDigits:0],
      nil] connectTo:OCAProperty(self, label.text, NSString)];
     
-    [[self.slider producerForValue] connectTo:OCAProperty(self, integer, NSUInteger)];
+    [[[self.slider producerForValue]
+      throttleContinuous:1]
+     connectTo:OCAProperty(self, integer, NSUInteger)];
 }
 
 
