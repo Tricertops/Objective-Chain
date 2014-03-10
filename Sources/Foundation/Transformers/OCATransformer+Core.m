@@ -90,6 +90,7 @@
     return [OCATransformer map:@{
                                  @YES: yesReplacement ?: NSNull.null,
                                  @NO: noReplacement ?: NSNull.null,
+                                 NSNull.null: noReplacement ?: NSNull.null,
                                  }];
 }
 
