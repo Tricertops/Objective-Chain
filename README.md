@@ -64,7 +64,7 @@ You can use any of those provided components or create your own and chain them t
 
 1. **Listen for notification and invoke a selector:**
   
-    ``` 
+    ```objc
     [[OCANotificator notify:NSUserDefaultsDidChangeNotification]
      invoke:OCAInvocation(self, reloadPreferences)];
     ```
@@ -75,7 +75,7 @@ You can use any of those provided components or create your own and chain them t
 
 2. **Anytime the name of user changes, display it in a label:**
 
-    ```
+    ```objc
     [OCAProperty(self, user.name, NSString)
      connectTo:OCAProperty(self, label.text, NSString)];
     ```
@@ -85,7 +85,7 @@ You can use any of those provided components or create your own and chain them t
 
 3. **When text of text field doesn't change for 0.3 seconds, initiate search:**
 
-    ```
+    ```objc
     [[[self.textField producerForText]
       throttle:0.3]
      invoke:OCAInvocation(self, startSearchWithText: OCAPH(NSString) )];
