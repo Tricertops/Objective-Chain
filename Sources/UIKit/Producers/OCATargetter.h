@@ -78,7 +78,18 @@
 
 
 
+
 @interface UISlider (OCATargetter)
+
+- (OCAProducer *)producerForValue;
+
+@end
+
+
+
+
+
+@interface UIStepper (OCATargetter)
 
 - (OCAProducer *)producerForValue;
 

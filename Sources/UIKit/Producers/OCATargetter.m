@@ -175,6 +175,7 @@
 
 
 
+
 @implementation UITextField (OCATargetter)
 
 
@@ -206,9 +207,12 @@
 
 
 
+
+
+
 @implementation UISlider (OCATargetter)
 
-//TODO: Make this universal?
+
 - (OCAProducer *)producerForValue {
     OCATargetter *target = [[OCATargetter alloc] initWithOwner:self];
     [self addTarget:target action:target.action forControlEvents:UIControlEventValueChanged];
@@ -218,5 +222,31 @@
     return bridge;
 }
 
+
 @end
+
+
+
+
+
+
+
+
+
+
+@implementation UIStepper (OCATargetter)
+
+
+- (OCAProducer *)producerForValue {
+    OCATargetter *target = [[OCATargetter alloc] initWithOwner:self];
+    [self addTarget:target action:target.action forControlEvents:UIControlEventValueChanged];
+    
+    OCABridge *bridge = [[OCABridge alloc] initWithTransformer:[OCATransformer access:OCAKeyPath(UIStepper, value, double)]];
+    [target addConsumer:bridge];
+    return bridge;
+}
+
+
+@end
+
 

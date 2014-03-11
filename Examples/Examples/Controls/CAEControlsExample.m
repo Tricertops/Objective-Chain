@@ -84,14 +84,10 @@
     
     
     // Connect Slider changes to temperature property.
-    [[[self.slider producerForEvent:UIControlEventValueChanged] transformValues:
-      [OCATransformer access:OCAKeyPath(UISlider, value, float)],
-      nil] connectTo:OCAProperty(self, temperature, float)];
+    [[self.slider producerForValue] connectTo:OCAProperty(self, temperature, float)];
     
     // Connect Stepper changes to temperature property.
-    [[[self.stepper producerForEvent:UIControlEventValueChanged] transformValues:
-      [OCATransformer access:OCAKeyPath(UIStepper, value, float)],
-      nil] connectTo:OCAProperty(self, temperature, float)];
+    [[self.stepper producerForValue] connectTo:OCAProperty(self, temperature, float)];
     
     // Connect temperature property back to Slider and Stepper. Now we have two-way binding.
     [OCAProperty(self, temperature, float)
