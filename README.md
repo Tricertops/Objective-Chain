@@ -8,7 +8,7 @@ Project is inspired by [ReactiveCocoa](https://github.com/ReactiveCocoa/Reactive
 Aim is to build reusable and scalable solution for **MVVM** bindings.
 
 
-##### Project is in early stages of development. Everything you see here can change at any point in time. Follow the [Roadmap](https://github.com/iMartinKiss/Objective-Chain/issues/1) for progress. Thanks!
+##### Project is under active development, but at this stage it can be reliably used in production. Follow the [Roadmap](https://github.com/iMartinKiss/Objective-Chain/issues/1) for progress.
 
 
 Concept
@@ -59,17 +59,46 @@ _Mediator_ is simply a _Producer_ **and** _Consumer_ that can stand in between a
   - _**Context**_ – Interesting and flexible _Mediator_, that simply forwards the values. The point is, it sends them in a **known context**. For example, inside of animation block, or inside of `@synchronized` statement, or even send them on another _Queue_. _Context_ object is really simple, but allows you to do powerful things. More on _Queues_ later.
   - _**Throttle**_ – Time-aware _Mediator_. It forwards values with reduced frequency, for example when user types fast on keyboard, _Throttle_ can be configured to send latest entered text after 0.3 s pause.
 
-### Composition
-You can use any of these provided components or create your own and chain them together to build the logic of your application.
+## Creating Chains
+You can use any of those provided components or create your own and chain them together to build the logic of your application. Examples:
 
->_Check it, load it, link it, use it,_  
->_View it, code it, quick - combine it._  
->
->_Chain it, branch it, merge it, fork it,_  
->_Switch it, send it, bridge - transform it._
->
->_Catch it, change it, call it, tune it,_  
->_Drag and drop it, box - unbox it._
+1. **Listen for notification and invoke a selector:**
+  
+    ``` 
+    [[OCANotificator notify:NSUserDefaultsDidChangeNotification]
+     invoke:OCAInvocation(self, reloadPreferences)];
+    ```
+    
+    - `+notify:` – Creates a _Producer_ that **listens** for given notification.
+    - `OCAInvocation` – Macro that creates `NSInvocation` for `[self reloadPreferences]` call.
+    - `-invoke:` – Internally creates a _Consumer_ `OCAInvoker` with given invocation and attaches it to the _Notificator_. Target of the invocation is stored **weakly**.
+
+2. **Anytime the name of user changes, display it in a label:**
+
+    ```
+    [OCAProperty(self, user.name, NSString)
+     connectTo:OCAProperty(self, label.text, NSString)];
+    ```
+    
+    - `OCAProperty` – **Macro** that creates an `OCAProperty` object. It takes a _target_, _key-path_ and a _class_ of values (`NSString` in both cases, more about class-validation later). _Property_ object can act as **both** _Producer_ and _Consumer_. This macro uses Xcode **autocompletion** and is validated during build time.
+    - `-connectTo:` – Adds the argument to the receiver's list of _Consumers_. Any changes in `user.name` will be reflected by `label.text`.
+
+3. **When text of text field doesn't change for 0.3 seconds, initiate search:**
+
+    ```
+    [[[self.textField producerForText]
+      throttle:0.3]
+     invoke:OCAInvocation(self, startSearchWithText: OCAPH(NSString) )];
+    ```
+    
+    - `-producerForText` – Creates `OCATarget` _Producer_ **configured** for the text field (receiver). Sends the entered text every time it changes.
+    - `-throttle:` – Internally creates `OCAThrottle` _Mediator_ with given **delay**, attaches it to the receiver and returns it (so we can continue chaining). _Throttle_ will send the entered text only after it didn't change (nothing is received) for 0.3 seconds.
+    - (`-invoke:` and `OCAInvocation` are described in the first example above)
+    - `OCAPH` – Macro that is a short **alias** for `OCAPlaceholder`. When used as an argument of invocation passed to `OCAInvoker`, it will be **replaced by real value**. In this case, we used only **one** _Placeholer_, so the received text from text field (and throttled) will be passed to the invocation. Argument of the macro is class used for **validation**.
+
+
+### Example Project
+For more code examples see included _Chain Examples_ project. You can use it as a sandbox for experimenting with Objective-Chain and even submit a Pull Request, so your experiments will be merged into the master repo.
 
 
 Additonal Features
@@ -80,10 +109,22 @@ To be described later:
   - Transformers.
   - Predicates.
   - Queues.
+  - Value boxing/unboxing.
   - Invocation catcher.
   - Decomposer.
 
 Follow the [Roadmap](https://github.com/iMartinKiss/Objective-Chain/issues/1) for progress.
+
+---
+
+> Check it, load it, link it, use it,  
+> View it, code it, quick - combine it.  
+>
+> Chain it, branch it, merge it, fork it,  
+> Switch it, send it, bridge - transform it.
+>
+> Catch it, change it, call it, tune it,  
+> Drag and drop it, box - unbox it.
 
 ---
 
