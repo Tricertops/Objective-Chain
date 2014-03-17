@@ -17,6 +17,8 @@
 
 
 + (OCATransformer *)countCollection;
++ (OCATransformer *)objectForKey:(id)key;
+
 
 
 
@@ -81,7 +83,6 @@
 #pragma mark Disposing Dictionary
 
 + (OCATransformer *)joinPairs:(NSString *)string;
-+ (OCATransformer *)valueForKey:(id)key;
 + (OCATransformer *)keysForValue:(id)value;
 
 

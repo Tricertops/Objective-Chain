@@ -32,6 +32,20 @@
 }
 
 
++ (OCATransformer *)objectForKey:(id)key {
+    return [[OCATransformer fromClass:nil toClass:nil
+                            asymetric:^id(id input) {
+                                
+                                if ([input respondsToSelector:@selector(objectForKey:)]) {
+                                    return [input objectForKey:key];
+                                }
+                                return nil;
+                            }]
+            describe:[NSString stringWithFormat:@"object for key “%@”", key]];
+}
+
+
+
 
 
 
@@ -450,16 +464,6 @@
                                return output;
                            }]
             describe:[NSString stringWithFormat:@"join pairs with “%@”", string]];
-}
-
-
-+ (OCATransformer *)valueForKey:(id)key {
-    return [[OCATransformer fromClass:[NSDictionary class] toClass:nil
-                            asymetric:^id(NSDictionary *input) {
-                                
-                                return [input valueForKey:key];
-                            }]
-            describe:[NSString stringWithFormat:@"value for key “%@”", key]];
 }
 
 
