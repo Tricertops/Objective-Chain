@@ -107,6 +107,9 @@
 
 + (NSPredicate *)isEmpty {
     return [OCAPredicate predicateForClass:nil block:^BOOL(id object) {
+        if ( ! object) {
+            return YES;
+        }
         if ([object respondsToSelector:@selector(count)]) {
             return ([object count] == 0);
         }
