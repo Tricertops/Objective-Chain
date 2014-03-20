@@ -118,6 +118,18 @@
 }
 
 
++ (OCATransformer *)trimWhitespace {
+    return [[OCATransformer fromClass:[NSString class] toClass:[NSString class]
+                            transform:^NSString *(NSString *input) {
+                                
+                                return [input stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+                                
+                            } reverse:OCATransformationPass]
+            describe:@"trim whitespace"
+            reverse:@"pass"];
+}
+
+
 + (OCATransformer *)replaceString:(NSString *)find withString:(NSString *)replace {
     return [[OCATransformer fromClass:[NSString class] toClass:[NSString class]
                             transform:^NSString *(NSString *input) {

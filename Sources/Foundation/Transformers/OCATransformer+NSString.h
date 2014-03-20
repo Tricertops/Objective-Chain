@@ -38,6 +38,7 @@
 #pragma mark Altering String
 
 + (OCATransformer *)appendFormat:(NSString *)format, ... NS_FORMAT_FUNCTION(1, 2);
++ (OCATransformer *)trimWhitespace;
 + (OCATransformer *)replaceString:(NSString *)find withString:(NSString *)replace;
 + (OCATransformer *)mutateString:(void(^)(NSMutableString *string))block;
 
