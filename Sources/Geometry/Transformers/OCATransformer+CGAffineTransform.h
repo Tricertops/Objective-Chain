@@ -19,6 +19,7 @@
 
 #pragma mark Creating Affine Transforms
 
++ (OCATransformer *)affineTransformFromScale;
 + (OCATransformer *)affineTransformFromScales;
 + (OCATransformer *)affineTransformFromRotation;
 + (OCATransformer *)affineTransformFromTranslation;

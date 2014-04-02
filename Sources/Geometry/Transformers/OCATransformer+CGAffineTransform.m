@@ -28,6 +28,18 @@
 #pragma mark Creating Affine Transforms
 
 
++ (OCATransformer *)affineTransformFromScale {
+    return [[OCATransformer fromClass:[NSNumber class] toClass:[NSValue class]
+                            asymetric:^NSValue *(NSNumber *input) {
+                                
+                                CGFloat scale = input.doubleValue;
+                                CGAffineTransform t = CGAffineTransformMakeScale(scale, scale);
+                                return OCABox(t);
+                            }]
+            describe:@"affine transform from scale"];
+}
+
+
 + (OCATransformer *)affineTransformFromScales {
     return [[OCATransformer fromClass:[NSValue class] toClass:[NSValue class]
                            transform:^NSValue *(NSValue *input) {
