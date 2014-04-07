@@ -57,6 +57,23 @@
 + (OCATransformer *)hexFromData;
 
 
+
+#pragma mark -
+#pragma mark UUID
+#pragma mark -
+
+#pragma mark Creating UUID
+
++ (OCATransformer *)UUIDFromData;
++ (OCATransformer *)UUIDFromString;
+
+#pragma mark Disposing UUID
+
++ (OCATransformer *)dataFromUUID;
++ (OCATransformer *)stringFromUUID;
+
+
+
 @end
 
 

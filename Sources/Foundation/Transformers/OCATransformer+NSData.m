@@ -287,6 +287,72 @@
 
 
 
+#pragma mark -
+#pragma mark NSUUID
+#pragma mark -
+
+
+
+#pragma mark NSUUID - Creating UUID
+
+
++ (OCATransformer *)UUIDFromData {
+    return [[OCATransformer fromClass:[NSData class] toClass:[NSUUID class]
+                            transform:^NSUUID *(NSData *input) {
+                                if ( ! input) return nil;
+                                
+                                uuid_t bytes;
+                                [input getBytes:bytes length:sizeof(bytes)];
+                                return [[NSUUID alloc] initWithUUIDBytes:bytes];
+                                
+                            } reverse:^NSData *(NSUUID *input) {
+                                if ( ! input) return nil;
+                                
+                                uuid_t bytes;
+                                [input getUUIDBytes:bytes];
+                                return [NSData dataWithBytes:bytes length:sizeof(bytes)];
+                            }]
+            describe:@"UUID from data"
+            reverse:@"data from UUID"];
+}
+
+
++ (OCATransformer *)UUIDFromString {
+    return [[OCATransformer fromClass:[NSString class] toClass:[NSUUID class]
+                            transform:^NSUUID *(NSString *input) {
+                                if ( ! input) return nil;
+                                
+                                return [[NSUUID alloc] initWithUUIDString:input];
+                                
+                            } reverse:^NSString *(NSUUID *input) {
+                                if ( ! input) return nil;
+                                
+                                return [input UUIDString];
+                            }]
+            describe:@"UUID from string"
+            reverse:@"string from UUID"];
+}
+
+
+
+
+
+#pragma mark NSUUID - Disposing UUID
+
+
++ (OCATransformer *)dataFromUUID {
+    return [[OCATransformer UUIDFromData] reversed];
+}
+
+
++ (OCATransformer *)stringFromUUID {
+    return [[OCATransformer UUIDFromString] reversed];
+}
+
+
+
+
+
 @end
 
 
