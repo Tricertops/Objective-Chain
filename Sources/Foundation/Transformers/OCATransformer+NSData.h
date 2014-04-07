@@ -23,7 +23,7 @@
 #pragma mark Creating Data
 
 + (OCATransformer *)dataFromFile;
-+ (OCATransformer *)dataFromString;
++ (OCATransformer *)dataFromString; //! UTF-8
 + (OCATransformer *)subdataWithRange:(NSRange)range;
 
 
@@ -50,6 +50,11 @@
 + (OCATransformer *)decodeBase64Data;
 + (OCATransformer *)encodeBase64Data;
 
+
+#pragma mark Hexadecimal String
+
++ (OCATransformer *)dataFromHex;
++ (OCATransformer *)hexFromData;
 
 
 @end

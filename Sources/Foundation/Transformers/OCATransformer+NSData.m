@@ -47,8 +47,8 @@
                                 
                                 return [[NSString alloc] initWithData:input encoding:NSUTF8StringEncoding];
                             }]
-            describe:@"data from string"
-            reverse:@"string from data"];
+            describe:@"data from UTF-8 string"
+            reverse:@"UTF-8 string from data"];
 }
 
 
@@ -232,6 +232,55 @@
 
 + (OCATransformer *)encodeBase64Data {
     return [[OCATransformer decodeBase64Data] reversed];
+}
+
+
+
+
+
+#pragma mark NSData - Hexadecimal Encoding
+
+
++ (OCATransformer *)dataFromHex {
+    return [[OCATransformer fromClass:[NSString class] toClass:[NSData class]
+                            transform:^NSData *(NSString *input) {
+                                if ( ! input) return nil;
+                                
+                                const char *hex = [input cStringUsingEncoding:NSUTF8StringEncoding];
+                                NSUInteger length = strlen(hex);
+                                NSMutableData *data = [NSMutableData dataWithCapacity:length];
+                                
+                                char byteHex[3] = { '\0', '\0', '\0'};
+                                for (NSUInteger index = 0; index < length/2; index++) {
+                                    byteHex[0] = hex[2 * index];
+                                    byteHex[0] = hex[2 * index + 1];
+                                    
+                                    unsigned char byte = strtol(byteHex, NULL, 16);
+                                    [data appendBytes:&byte length:1];
+                                }
+                                
+                                return data;
+                                
+                            } reverse:^NSString *(NSData *input) {
+                                if ( ! input) return nil;
+                                
+                                const unsigned char *data = [input bytes];
+                                NSUInteger length  = input.length;
+                                NSMutableString *hex  = [NSMutableString stringWithCapacity:(length * 2)];
+                                
+                                for (int index = 0; index < length; index++) {
+                                    [hex appendFormat:@"%02lx", (unsigned long)data[index]];
+                                }
+                                
+                                return hex;
+                            }]
+            describe:@"data from hex string"
+            reverse:@"hex string from data"];
+}
+
+
++ (OCATransformer *)hexFromData {
+    return [[OCATransformer dataFromHex] reversed];
 }
 
 
