@@ -71,6 +71,7 @@
 + (OCATransformer *)dictionaryFromFile;
 + (OCATransformer *)mappedArray:(NSValueTransformer *)transformer;
 + (OCATransformer *)keyedArray:(NSArray *)keys;
++ (OCATransformer *)mergeDictionaries;
 
 
 #pragma mark Altering Dictionary

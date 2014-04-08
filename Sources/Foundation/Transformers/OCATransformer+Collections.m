@@ -382,6 +382,20 @@
 }
 
 
++ (OCATransformer *)mergeDictionaries {
+    return [[OCATransformer fromClass:[NSArray class] toClass:[NSDictionary class]
+                            asymetric:^NSDictionary *(NSArray *input) {
+                                
+                                NSMutableDictionary *output = [[NSMutableDictionary alloc] init];
+                                for (NSDictionary *dictionary in input) {
+                                    [output addEntriesFromDictionary:dictionary];
+                                }
+                                return output;
+                            }]
+            describe:@"merge dictionaries"];
+}
+
+
 
 
 
