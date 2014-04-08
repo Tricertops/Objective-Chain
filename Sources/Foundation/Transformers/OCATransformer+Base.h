@@ -73,7 +73,7 @@ typedef id (^OCATransformerBlock)(id input);
 + (OCATransformer *)fromClass:(Class)fromClass toClass:(Class)toClass asymetric:(OCATransformerBlock)asymetric;
 + (OCATransformer *)fromClass:(Class)fromClass toClass:(Class)toClass transform:(OCATransformerBlock)transform reverse:(OCATransformerBlock)reverse;
 
-//TODO: +composeForward:reversed:
++ (OCATransformer *)there:(NSValueTransformer *)forward back:(NSValueTransformer *)backward;
 
 
 
@@ -92,7 +92,7 @@ extern OCATransformerBlock const OCATransformationPass;
 
 @interface NSObject (NSValueTransformer)
 
-- (id)transform:(NSValueTransformer *)transformer;
+- (id)transform:(NSValueTransformer *)transformer __deprecated;
 
 @end
 
