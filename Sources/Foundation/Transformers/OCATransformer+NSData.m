@@ -253,7 +253,7 @@
                                 char byteHex[3] = { '\0', '\0', '\0'};
                                 for (NSUInteger index = 0; index < length/2; index++) {
                                     byteHex[0] = hex[2 * index];
-                                    byteHex[0] = hex[2 * index + 1];
+                                    byteHex[1] = hex[2 * index + 1];
                                     
                                     unsigned char byte = strtol(byteHex, NULL, 16);
                                     [data appendBytes:&byte length:1];
