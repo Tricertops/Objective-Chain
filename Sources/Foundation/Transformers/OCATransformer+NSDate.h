@@ -21,6 +21,9 @@
 #pragma mark -
 
 
++ (OCATransformer *)replaceWithCurrentDate;
+
+
 #pragma mark Working with Time Intervals
 
 + (OCATransformer *)dateFromTimeIntervalSinceUNIX:(BOOL)unix;

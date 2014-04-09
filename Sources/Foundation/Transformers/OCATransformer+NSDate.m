@@ -23,6 +23,17 @@
 #pragma mark -
 
 
++ (OCATransformer *)replaceWithCurrentDate {
+    return [[OCATransformer fromClass:nil toClass:[NSDate class] transform:^NSDate *(id input) {
+        return [NSDate new];
+    } reverse:OCATransformationPass]
+            describe:@"replace with current date"];
+}
+
+
+
+
+
 #pragma mark NSDate - Time Interval
 
 
