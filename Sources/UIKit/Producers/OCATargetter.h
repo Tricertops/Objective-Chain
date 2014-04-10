@@ -38,8 +38,16 @@
 @interface UIControl (OCATargetter)
 
 - (OCATargetter *)producerForEvent:(UIControlEvents)event;
-//TODO: producerForTouchUpInside
-//TODO: producerForValueChanged
+
+@end
+
+
+
+
+
+@interface UIButton (OCATargetter)
+
+- (OCATargetter *)producer;
 
 @end
 

@@ -110,8 +110,6 @@
 
 
 
-
-
 - (OCATargetter *)producerForEvent:(UIControlEvents)event {
     OCATargetter *target = [[OCATargetter alloc] initWithOwner:self];
     [self addTarget:target action:target.action forControlEvents:event];
@@ -119,6 +117,27 @@
 }
 
 
+
+@end
+
+
+
+
+
+
+
+
+
+
+@implementation UIButton (OCATargetter)
+
+
+
+- (OCATargetter *)producer {
+    OCATargetter *target = [[OCATargetter alloc] initWithOwner:self];
+    [self addTarget:target action:target.action forControlEvents:UIControlEventTouchUpInside];
+    return target;
+}
 
 
 
