@@ -86,6 +86,7 @@
 - (OCAHub *)dependOn:(OCAProducer *)producer, ... NS_REQUIRES_NIL_TERMINATION;
 
 - (OCABridge *)transformValues:(NSValueTransformer *)transformer, ... NS_REQUIRES_NIL_TERMINATION;
+- (OCABridge *)replaceValuesWith:(id)replacement;
 
 - (OCAContext *)produceInContext:(OCAContext *)context;
 - (OCAContext *)switchToQueue:(OCAQueue *)queue;

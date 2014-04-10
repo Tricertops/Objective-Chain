@@ -310,6 +310,13 @@
 }
 
 
+- (OCABridge *)replaceValuesWith:(id)replacement {
+    OCABridge *bridge = [[OCABridge alloc] initWithTransformer:[OCATransformer replaceWith:replacement]];
+    [self addConsumer:bridge];
+    return bridge;
+}
+
+
 
 
 
