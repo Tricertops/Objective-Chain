@@ -43,8 +43,8 @@
         OCAAssert(invocation != nil, @"Need invocation");
         
         self->_invocation = invocation;
-        [self findPlaceholders]; // Includes replacing the target,
         [invocation retainArguments];
+        [self findPlaceholders]; // Includes replacing the target.
     }
     return self;
 }
@@ -58,42 +58,75 @@
 - (void)findPlaceholders {
     NSMutableIndexSet *indexes = [[NSMutableIndexSet alloc] init];
     NSMutableArray *placeholders = [[NSMutableArray alloc] init];
-    
-    NSInvocation *invocation = self->_invocation;
-    NSUInteger count = invocation.methodSignature.numberOfArguments;
-    for (NSUInteger index = 0; index < count; index++) {
-        // At least two arguments are always there.
+    [self invocation:self.invocation substituteObjectArguments:^id(NSUInteger index, id argument) {
         
-        const char *cType = [invocation.methodSignature getArgumentTypeAtIndex:index];
-        NSString *type = @(cType);
-        if ( ! [type isEqualToString:@(@encode(id))]) continue;
-            // Found object argument.
-            
-        __unsafe_unretained id unsafe_argument = nil;
-        [invocation getArgument:&unsafe_argument atIndex:index];
-        id argument = unsafe_argument; // Retain it.
-        
+        OCAPlaceholderObject *placeholder = nil;
         if (index == 0 && argument && ! [argument isKindOfClass:[OCAPlaceholderObject class]]) {
             // Target is always replaced by placeholder and is stored weakly.
-            self->_target = argument;
-            argument = [[OCAPlaceholderObject alloc] initWithRepresentedClass:[argument class]];
+            self->_target = argument; // This is weak, so the target must be retained somewhere else to make this work.
+            
+            placeholder = [[OCAPlaceholderObject alloc] initWithRepresentedClass:[argument classForCoder]];
+        }
+        else if ([argument isKindOfClass:[OCAPlaceholderObject class]]) {
+            // Found placeholder. Works even if the placeholder is the target.
+            placeholder = argument;
         }
         
-        if ([argument isKindOfClass:[OCAPlaceholderObject class]]) {
-            // Found placeholder. This may be the target or other argument.
-            
-            OCAPlaceholderObject *placeholder = (OCAPlaceholderObject *)argument;
+        if (placeholder) {
             [indexes addIndex:index];
             [placeholders addObject:placeholder];
-            
-            // Remove it from there.
-            id nothing = nil;
-            [invocation setArgument:&nothing atIndex:index];
         }
-    }
+        
+        return placeholder ?: argument;
+    }];
     
     self->_placeholderIndexes = indexes;
     self->_placeholders = placeholders;
+}
+
+
+- (void)invocation:(NSInvocation *)invocation enumerateObjectArguments:(void(^)(NSUInteger index))block {
+    NSUInteger count = invocation.methodSignature.numberOfArguments;
+    for (NSUInteger index = 0; index < count; index++) {
+        const char *cType = [invocation.methodSignature getArgumentTypeAtIndex:index];
+        NSString *type = @(cType);
+        if ([type isEqualToString:@(@encode(id))]) {
+            block(index);
+        }
+    }
+}
+
+
+- (void)invocation:(NSInvocation *)invocation substituteObjectArguments:(id(^)(NSUInteger index, id argument))block {
+   [self invocation:invocation enumerateObjectArguments:^(NSUInteger index) {
+       id argument = [self invocation:invocation objectArgumentAtIndex:index];
+       id replacement = block(index, argument);
+       if (argument != replacement) {
+           [self invocation:invocation setObjectArgument:replacement atIndex:index];
+       }
+   }];
+}
+
+
+- (id)invocation:(NSInvocation *)invocation objectArgumentAtIndex:(NSUInteger)index {
+    void *oldPointer = nil;
+    [self.invocation getArgument:&oldPointer atIndex:index];
+    return (__bridge id)oldPointer;
+}
+
+
+- (void)invocation:(NSInvocation *)invocation setObjectArgument:(id)newObject atIndex:(NSUInteger)index {
+    OCAAssert(invocation.argumentsRetained, @"Current implementation works only for retained arguments.") return;
+    
+    const char *cType = [invocation.methodSignature getArgumentTypeAtIndex:index];
+    OCAAssert([@(cType) isEqualToString:@(@encode(id))], @"Argument at index %lu is not of object type.", (unsigned long)index) return;
+    
+    void *oldPointer = nil;
+    [self.invocation getArgument:&oldPointer atIndex:index];
+    __unused id oldObject = (__bridge_transfer id)oldPointer; // -release
+    
+    void *newPointer = (__bridge_retained void *)newObject; // -retain
+    [self.invocation setArgument:&newPointer atIndex:index];
 }
 
 
