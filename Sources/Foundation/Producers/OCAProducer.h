@@ -67,6 +67,7 @@
 @class OCAQueue;
 @class OCAFilter;
 @class OCAThrottle;
+@class OCAInvoker;
 
 
 
@@ -103,7 +104,7 @@
 - (void)subscribeForClass:(Class)class handler:(void(^)(id value))handler;
 - (void)subscribeForClass:(Class)class handler:(void(^)(id value))handler finish:(void(^)(NSError *error))handler;
 
-- (void)invoke:(NSInvocation *)invocation;
+- (void)invoke:(OCAInvoker *)invoker;
 
 - (void)switchIf:(NSPredicate *)predicate then:(id<OCAConsumer>)consumer else:(id<OCAConsumer>)consumer;
 - (void)switchYes:(id<OCAConsumer>)consumer no:(id<OCAConsumer>)consumer;

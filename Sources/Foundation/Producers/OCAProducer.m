@@ -414,8 +414,7 @@
 
 
 
-- (void)invoke:(NSInvocation *)invocation {
-    OCAInvoker *invoker = [[OCAInvoker alloc] initWithInvocation:invocation];
+- (void)invoke:(OCAInvoker *)invoker {
     [self addConsumer:invoker];
 }
 

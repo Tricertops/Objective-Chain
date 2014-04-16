@@ -33,13 +33,53 @@
 - (void)forwardInvocation:(NSInvocation *)invocation {
     [invocation invokeWithTarget:nil];
     invocation.target = self.target;
-    [invocation retainArguments];
+    self->_invocation = invocation;
     
-    self->_lastInvocation = invocation;
-    self->_target = nil;
+    [self retainArguments]; //! Because NSInvocation is fucked up.
 }
 
 
+- (void)retainArguments {
+    NSMutableArray *retainedArguments = [[NSMutableArray alloc] init];
+    [self.invocation oca_enumerateObjectArgumentsUsingBlock:^(NSUInteger index, id argument) {
+        [retainedArguments addObject:argument];
+    }];
+    self->_retainedArguments = retainedArguments;
+}
+
+
+
+
+
+@end
+
+
+
+
+
+
+
+
+
+@implementation NSInvocation (ObjectArguments)
+
+
+
+- (void)oca_enumerateObjectArgumentsUsingBlock:(void(^)(NSUInteger index, id argument))block {
+    NSUInteger count = self.methodSignature.numberOfArguments;
+    for (NSUInteger index = 0; index < count; index++) {
+        
+        const char *cType = [self.methodSignature getArgumentTypeAtIndex:index];
+        if ([@(cType) isEqualToString:@(@encode(id))]) {
+            // Only objects, including target.
+            
+            __unsafe_unretained id argument = nil;
+            [self getArgument:&argument atIndex:index];
+            
+            block(index, argument);
+        }
+    }
+}
 
 
 

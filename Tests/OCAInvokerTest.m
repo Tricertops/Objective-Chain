@@ -55,7 +55,10 @@
 - (void)test_placeholders {
     OCACommand *command = [OCACommand commandForClass:[NSArray class]];
     
-    [command invoke:OCAInvocation( OCAPH(OCAInvokerTest), setValue: OCAPH(NSString) )];
+    @autoreleasepool {
+        //! Autorelease pool causes the placeholders to be released, so they must be retained by the Invoker.
+        [command invoke:OCAInvocation( OCAPH(OCAInvokerTest), setValue: OCAPH(NSString) )];
+    }
     
     [command sendValue:@[ self, @"ABC" ]];
     XCTAssertEqualObjects(self.value, @"ABC");
