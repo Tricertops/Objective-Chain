@@ -50,6 +50,7 @@
 
 #import "OCAKeyPathAccessor.h"
 #import "OCAStructureAccessor.h"
+#import "OCAIndexAccessor.h"
 
 #import "OCAQueue.h"
 #import "OCASemaphore.h"
