@@ -204,6 +204,9 @@
 		5BEA02AF189999640065DD89 /* OCAKeyValueChange.h in Headers */ = {isa = PBXBuildFile; fileRef = 5BEA02AD189999640065DD89 /* OCAKeyValueChange.h */; };
 		5BEA02B0189999640065DD89 /* OCAKeyValueChange.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BEA02AE189999640065DD89 /* OCAKeyValueChange.m */; };
 		5BEA02B1189999640065DD89 /* OCAKeyValueChange.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BEA02AE189999640065DD89 /* OCAKeyValueChange.m */; };
+		5BFB66D819000FC1005D0920 /* OCAIndexAccessor.h in Headers */ = {isa = PBXBuildFile; fileRef = 5BFB66D619000FC1005D0920 /* OCAIndexAccessor.h */; };
+		5BFB66D919000FC1005D0920 /* OCAIndexAccessor.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BFB66D719000FC1005D0920 /* OCAIndexAccessor.m */; };
+		5BFB66DA19000FC1005D0920 /* OCAIndexAccessor.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BFB66D719000FC1005D0920 /* OCAIndexAccessor.m */; };
 		5F84F18E18BBA2680074D308 /* OCAInterpolator.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F84F18D18BBA2680074D308 /* OCAInterpolator.m */; };
 		5FBC533E18BE237B002F2B79 /* OCAInterpolatorTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBC533D18BE237B002F2B79 /* OCAInterpolatorTest.m */; };
 		5FBC533F18BE237B002F2B79 /* OCAInterpolatorTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBC533D18BE237B002F2B79 /* OCAInterpolatorTest.m */; };
@@ -380,6 +383,8 @@
 		5BD9ED0C1873351C0069044C /* OCATransformerTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCATransformerTest.m; sourceTree = "<group>"; };
 		5BEA02AD189999640065DD89 /* OCAKeyValueChange.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCAKeyValueChange.h; sourceTree = "<group>"; };
 		5BEA02AE189999640065DD89 /* OCAKeyValueChange.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCAKeyValueChange.m; sourceTree = "<group>"; };
+		5BFB66D619000FC1005D0920 /* OCAIndexAccessor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCAIndexAccessor.h; sourceTree = "<group>"; };
+		5BFB66D719000FC1005D0920 /* OCAIndexAccessor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCAIndexAccessor.m; sourceTree = "<group>"; };
 		5F84F18C18BBA2680074D308 /* OCAInterpolator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCAInterpolator.h; sourceTree = "<group>"; };
 		5F84F18D18BBA2680074D308 /* OCAInterpolator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCAInterpolator.m; sourceTree = "<group>"; };
 		5FBC533D18BE237B002F2B79 /* OCAInterpolatorTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCAInterpolatorTest.m; sourceTree = "<group>"; };
@@ -652,6 +657,8 @@
 				5BA549291896FBED0050288D /* OCAKeyPathAccessor.m */,
 				5BA5492A1896FBED0050288D /* OCAStructureAccessor.h */,
 				5BA5492B1896FBED0050288D /* OCAStructureAccessor.m */,
+				5BFB66D619000FC1005D0920 /* OCAIndexAccessor.h */,
+				5BFB66D719000FC1005D0920 /* OCAIndexAccessor.m */,
 			);
 			path = Accessors;
 			sourceTree = "<group>";
@@ -799,6 +806,7 @@
 				5BA5497A1896FBED0050288D /* OCATransformer+NSString.h in Headers */,
 				5BA549811896FBED0050288D /* OCAAccessor.h in Headers */,
 				5BA549381896FBED0050288D /* OCAConsumer.h in Headers */,
+				5BFB66D819000FC1005D0920 /* OCAIndexAccessor.h in Headers */,
 				5B882026189E8B2700D2DDEB /* OCAThrottle.h in Headers */,
 				5BA549B218970D6F0050288D /* OCATransformer+CATransform3D.h in Headers */,
 				5BA549771896FBED0050288D /* OCATransformer+NSDate.h in Headers */,
@@ -961,6 +969,7 @@
 				5BA549DE1897A4800050288D /* OCAPredicate+UIEdgeInsets.m in Sources */,
 				5B882010189D099900D2DDEB /* OCAInvoker.m in Sources */,
 				5BA549471896FBED0050288D /* OCAFilter.m in Sources */,
+				5BFB66DA19000FC1005D0920 /* OCAIndexAccessor.m in Sources */,
 				5BA549701896FBED0050288D /* OCATransformer+Base.m in Sources */,
 				5B88205B18A0DFE000D2DDEB /* OCASwitch.m in Sources */,
 				5BA549641896FBED0050288D /* OCAProperty.m in Sources */,
@@ -1066,6 +1075,7 @@
 				5BA549881896FBED0050288D /* OCAStructureAccessor.m in Sources */,
 				5BA549531896FBED0050288D /* OCACommand.m in Sources */,
 				5BA549431896FBED0050288D /* OCAContext.m in Sources */,
+				5BFB66D919000FC1005D0920 /* OCAIndexAccessor.m in Sources */,
 				5B88205418A028DE00D2DDEB /* OCADebug.m in Sources */,
 				5BA549F71897A8060050288D /* OCAUIKit+UIButton.m in Sources */,
 				5BA549971896FBED0050288D /* OCAQueue.m in Sources */,
