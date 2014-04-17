@@ -50,18 +50,27 @@
 
 
 - (void)oca_tintColorDidChange {
-    OCACommand *tintColorCommand = (OCACommand *)self.tintColorProducer;
-    [tintColorCommand sendValue:self.tintColor];
+    [self oca_tintColorDidChange]; // Calling original implementation.
+    
+    OCACommand *command = [self oca_tintColorCommandAndCreateIfNone:NO];
+    [command sendValue:self.tintColor];
+}
+
+
+- (OCACommand *)oca_tintColorCommandAndCreateIfNone:(BOOL)create {
+    OCACommand *command = objc_getAssociatedObject(self, _cmd);
+    
+    if ( ! command && create) {
+        command = [OCACommand commandForClass:[UIColor class]];
+        [command sendValue:self.tintColor]; // Initial value.
+        objc_setAssociatedObject(self, _cmd, command, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    }
+    return command;
 }
 
 
 - (OCAProducer *)tintColorProducer {
-    OCACommand *command = objc_getAssociatedObject(self, _cmd);
-    if ( ! command) {
-        command = [OCACommand commandForClass:[UIColor class]];
-        objc_setAssociatedObject(self, _cmd, command, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-    }
-    return command;
+    return [self oca_tintColorCommandAndCreateIfNone:YES];
 }
 
 
