@@ -207,6 +207,7 @@
 		5BFB66D819000FC1005D0920 /* OCAIndexAccessor.h in Headers */ = {isa = PBXBuildFile; fileRef = 5BFB66D619000FC1005D0920 /* OCAIndexAccessor.h */; };
 		5BFB66D919000FC1005D0920 /* OCAIndexAccessor.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BFB66D719000FC1005D0920 /* OCAIndexAccessor.m */; };
 		5BFB66DA19000FC1005D0920 /* OCAIndexAccessor.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BFB66D719000FC1005D0920 /* OCAIndexAccessor.m */; };
+		5BFB66DD19002585005D0920 /* UIView+tintColor.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BFB66DC19002585005D0920 /* UIView+tintColor.m */; };
 		5F84F18E18BBA2680074D308 /* OCAInterpolator.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F84F18D18BBA2680074D308 /* OCAInterpolator.m */; };
 		5FBC533E18BE237B002F2B79 /* OCAInterpolatorTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBC533D18BE237B002F2B79 /* OCAInterpolatorTest.m */; };
 		5FBC533F18BE237B002F2B79 /* OCAInterpolatorTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBC533D18BE237B002F2B79 /* OCAInterpolatorTest.m */; };
@@ -385,6 +386,8 @@
 		5BEA02AE189999640065DD89 /* OCAKeyValueChange.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCAKeyValueChange.m; sourceTree = "<group>"; };
 		5BFB66D619000FC1005D0920 /* OCAIndexAccessor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCAIndexAccessor.h; sourceTree = "<group>"; };
 		5BFB66D719000FC1005D0920 /* OCAIndexAccessor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCAIndexAccessor.m; sourceTree = "<group>"; };
+		5BFB66DB19002585005D0920 /* UIView+tintColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+tintColor.h"; sourceTree = "<group>"; };
+		5BFB66DC19002585005D0920 /* UIView+tintColor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+tintColor.m"; sourceTree = "<group>"; };
 		5F84F18C18BBA2680074D308 /* OCAInterpolator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCAInterpolator.h; sourceTree = "<group>"; };
 		5F84F18D18BBA2680074D308 /* OCAInterpolator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCAInterpolator.m; sourceTree = "<group>"; };
 		5FBC533D18BE237B002F2B79 /* OCAInterpolatorTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCAInterpolatorTest.m; sourceTree = "<group>"; };
@@ -748,6 +751,8 @@
 			children = (
 				5BA549F21897A8060050288D /* OCATargetter.h */,
 				5BA549F31897A8060050288D /* OCATargetter.m */,
+				5BFB66DB19002585005D0920 /* UIView+tintColor.h */,
+				5BFB66DC19002585005D0920 /* UIView+tintColor.m */,
 			);
 			path = Producers;
 			sourceTree = "<group>";
@@ -1047,6 +1052,7 @@
 				5BEA02B0189999640065DD89 /* OCAKeyValueChange.m in Sources */,
 				5BA549F81897A8060050288D /* OCAContext+UIKit.m in Sources */,
 				5BA5494D1896FBED0050288D /* OCAObject.m in Sources */,
+				5BFB66DD19002585005D0920 /* UIView+tintColor.m in Sources */,
 				5BA549851896FBED0050288D /* OCAKeyPathAccessor.m in Sources */,
 				5BA549DD1897A4800050288D /* OCAPredicate+UIEdgeInsets.m in Sources */,
 				5BA549461896FBED0050288D /* OCAFilter.m in Sources */,

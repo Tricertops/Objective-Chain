@@ -9,6 +9,7 @@
 
 
 #import "OCATargetter.h"
+#import "UIView+tintColor.h"
 
 #import "OCAContext+UIKit.h"
 
