@@ -282,11 +282,13 @@
     Class outputClass = [OCAObject valueClassForClasses:@[ [forward.class transformedValueClass] ?: [NSNull null],
                                                            [backward.class valueClass] ?: [NSNull null] ]];
     Class genericClass = [OCATransformer subclassForInputClass:inputClass outputClass:outputClass reversible:YES];
-    return [[genericClass alloc] initWithBlock:^id(id input) {
+    return [[[genericClass alloc] initWithBlock:^id(id input) {
         return [forward transformedValue:input];
     } reverseBlock:^id(id input) {
         return [backward transformedValue:input];
-    }];
+    }]
+            describe:forward.description
+            reverse:backward.description];
 }
 
 
