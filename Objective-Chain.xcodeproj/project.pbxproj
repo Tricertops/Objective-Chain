@@ -191,6 +191,7 @@
 		5BA8A6451875BD950012BA5D /* OCAMathTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BA8A6441875BD950012BA5D /* OCAMathTest.m */; };
 		5BA8A6461875BD950012BA5D /* OCAMathTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BA8A6441875BD950012BA5D /* OCAMathTest.m */; };
 		5BAB21B51884199500459B56 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5BAB21B41884199500459B56 /* UIKit.framework */; };
+		5BB4FC7219093B19005A46CE /* OCAErrorRecoveryAttempter.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BB4FC7119093B19005A46CE /* OCAErrorRecoveryAttempter.m */; };
 		5BB7CD331879BE51006916AB /* OCAFoundationTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BB7CD321879BE51006916AB /* OCAFoundationTest.m */; };
 		5BB7CD341879BE51006916AB /* OCAFoundationTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BB7CD321879BE51006916AB /* OCAFoundationTest.m */; };
 		5BB7CD5A187B397E006916AB /* OCAQueueTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BB7CD59187B397E006916AB /* OCAQueueTest.m */; };
@@ -377,6 +378,8 @@
 		5BA549F61897A8060050288D /* OCATransformer+UIColor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "OCATransformer+UIColor.m"; sourceTree = "<group>"; };
 		5BA8A6441875BD950012BA5D /* OCAMathTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCAMathTest.m; sourceTree = "<group>"; };
 		5BAB21B41884199500459B56 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/System/Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
+		5BB4FC7019093B19005A46CE /* OCAErrorRecoveryAttempter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCAErrorRecoveryAttempter.h; sourceTree = "<group>"; };
+		5BB4FC7119093B19005A46CE /* OCAErrorRecoveryAttempter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCAErrorRecoveryAttempter.m; sourceTree = "<group>"; };
 		5BB7CD321879BE51006916AB /* OCAFoundationTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCAFoundationTest.m; sourceTree = "<group>"; };
 		5BB7CD59187B397E006916AB /* OCAQueueTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCAQueueTest.m; sourceTree = "<group>"; };
 		5BD8AEA11876B41200EE2029 /* OCAAccessorTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCAAccessorTest.m; sourceTree = "<group>"; };
@@ -724,6 +727,7 @@
 				5BA549EA1897A8060050288D /* Consumers */,
 				5BA549ED1897A8060050288D /* Mediators */,
 				5BA549F41897A8060050288D /* Transformers */,
+				5BB4FC6F19093ADA005A46CE /* Utilities */,
 			);
 			path = UIKit;
 			sourceTree = "<group>";
@@ -764,6 +768,15 @@
 				5BA549F61897A8060050288D /* OCATransformer+UIColor.m */,
 			);
 			path = Transformers;
+			sourceTree = "<group>";
+		};
+		5BB4FC6F19093ADA005A46CE /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				5BB4FC7019093B19005A46CE /* OCAErrorRecoveryAttempter.h */,
+				5BB4FC7119093B19005A46CE /* OCAErrorRecoveryAttempter.m */,
+			);
+			path = Utilities;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1068,6 +1081,7 @@
 				5BA549FA1897A8060050288D /* OCATransformer+UIColor.m in Sources */,
 				5BA549751896FBED0050288D /* OCATransformer+NSData.m in Sources */,
 				5BA549401896FBED0050288D /* OCABridge.m in Sources */,
+				5BB4FC7219093B19005A46CE /* OCAErrorRecoveryAttempter.m in Sources */,
 				5BA549561896FBED0050288D /* OCAHub.m in Sources */,
 				5BA5498B1896FBED0050288D /* NSArray+Ordinals.m in Sources */,
 				5BA5497B1896FBED0050288D /* OCATransformer+NSString.m in Sources */,
