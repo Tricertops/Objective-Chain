@@ -19,11 +19,14 @@
 
 
 
+@property (atomic, readwrite, copy) NSString *recoverySuggestion;
+
 - (OCAProducer *)addRecoveryOptionWithTitle:(NSString *)title;
 - (OCAProducer *)recoveryOptionAtIndex:(NSUInteger)index;
 
-
 - (NSString *)recoveryOptionTitles;
+
+- (NSError *)recoverableError:(NSError *)error;
 
 
 
