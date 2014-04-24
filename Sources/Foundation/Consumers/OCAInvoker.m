@@ -16,6 +16,7 @@
 
 @interface OCAInvoker ()
 
+@property (nonatomic, readonly, assign) NSUInteger numberOfConsumedObjects;
 
 @property (atomic, readonly, strong) NSArray *fixedArguments;
 @property (atomic, readonly, strong) NSIndexSet *placeholderIndexes;
@@ -81,6 +82,7 @@
         else if ([argument isKindOfClass:[OCAPlaceholderObject class]]) {
             // Found placeholder. Works even if the placeholder is the target.
             placeholder = argument;
+            self->_numberOfConsumedObjects ++;
         }
         
         if (placeholder) {
@@ -129,16 +131,23 @@
 
 
 - (Class)consumedValueClass {
-    return nil;
+    switch (self.numberOfConsumedObjects) {
+        case 0: return nil;
+        case 1: return [self.placeholders.lastObject representedClass]; // There should be 2 placeholders, since target always has one.
+        default: return [NSArray class];
+    }
 }
 
 
 - (void)consumeValue:(id)value {
     NSMutableArray *substitutions = [NSMutableArray arrayWithObjects:self->_target, nil]; // May be nil, so empty.
-    if ([value isKindOfClass:[NSArray class]]) {
+    
+    if ([value isKindOfClass:[NSArray class]] && self.consumedValueClass == [NSArray class]) {
+        // Expand the array only if multiple arguments are expected.
         [substitutions addObjectsFromArray:(NSArray *)value];
     }
     else if (value) {
+        // Even in case of NSArray, when only single argument is expected.
         [substitutions addObject:value];
     }
     [self invokeWithSubstitutions:substitutions];
