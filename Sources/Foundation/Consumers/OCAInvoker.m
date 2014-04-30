@@ -140,7 +140,13 @@
 
 
 - (void)consumeValue:(id)value {
-    NSMutableArray *substitutions = [NSMutableArray arrayWithObjects:self->_target, nil]; // May be nil, so empty.
+    NSObject *target = self.target;
+    if ( ! target) {
+        self->_invocation = nil;
+        return;
+    }
+    
+    NSMutableArray *substitutions = [NSMutableArray arrayWithObjects:target, nil]; // May be nil, so empty.
     
     if ([value isKindOfClass:[NSArray class]] && self.consumedValueClass == [NSArray class]) {
         // Expand the array only if multiple arguments are expected.
