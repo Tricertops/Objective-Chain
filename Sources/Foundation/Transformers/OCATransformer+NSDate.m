@@ -40,14 +40,14 @@
 + (OCATransformer *)dateFromTimeIntervalSinceUNIX:(BOOL)unix {
     return [[OCATransformer fromClass:[NSNumber class] toClass:[NSDate class]
                            transform:^NSDate *(NSNumber *input) {
-                               
+                               if ( ! input) return nil;
                                if (unix)
                                    return [NSDate dateWithTimeIntervalSince1970:input.doubleValue];
                                else
                                    return [NSDate dateWithTimeIntervalSinceReferenceDate:input.doubleValue];
                                
                            } reverse:^NSNumber *(NSDate *input) {
-                               
+                               if ( ! input) return nil;
                                if (unix)
                                    return @(input.timeIntervalSince1970);
                                else

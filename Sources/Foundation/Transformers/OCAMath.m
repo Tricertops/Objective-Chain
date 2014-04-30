@@ -51,10 +51,12 @@
     return [[OCATransformer fromClass:[NSNumber class] toClass:[NSNumber class]
             
                            transform:^NSNumber *(NSNumber *input) {
+                               if ( ! input) return nil;
                                if (transformBlock) return @( transformBlock(input.doubleValue) );
                                else return input;
                                
                            } reverse:^NSNumber *(NSNumber *input) {
+                               if ( ! input) return nil;
                                if (reverseBlock) return @( reverseBlock(input.doubleValue) );
                                else return input;
                                
