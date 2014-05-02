@@ -31,8 +31,16 @@
     return [super initWithValueClass:valueClass];
 }
 
+
 + (instancetype)commandForClass:(Class)valueClass {
     return [[self alloc] initWithValueClass:valueClass];
+}
+
+
++ (void)send:(id)value to:(id<OCAConsumer>)consumer {
+    OCACommand *command = [OCACommand commandForClass:[value classForCoder]];
+    [command connectTo:consumer];
+    [command sendValue:value];
 }
 
 

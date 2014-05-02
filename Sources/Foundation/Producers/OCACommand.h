@@ -25,6 +25,9 @@
 //! Creates Command that produces values of given class.
 + (instancetype)commandForClass:(Class)valueClass;
 
+//! Shortcut to manually send value to any consumer. Creates temporary Command producer.
++ (void)send:(id)value to:(id<OCAConsumer>)consumer;
+
 
 
 #pragma mark Using Command
