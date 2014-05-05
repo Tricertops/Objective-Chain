@@ -203,23 +203,16 @@ static void * OCAQueueSpecificKey = &OCAQueueSpecificKey;
 - (void)performBarrierBlockAndWait:(OCAQueueBlock)block {
     OCAAssert(block != nil, @"No block.") return;
     
-    OCAQueue *current = [OCAQueue current];
-    OCAQueue *main = [OCAQueue main];
-    
-    OCAAssert(self != [OCAQueue background], @"Cannot perform barriers directly on shared Background queue."){
+    OCAAssert(self != [OCAQueue background], @"Cannot perform barriers directly on shared Background queue.") {
         [self performBlockAndWait:block];
         return;
     }
-    OCAAssert(self != main, @"Cannot perform barriers directly on Main queue.") {
+    OCAAssert(self != [OCAQueue main], @"Cannot perform barriers directly on Main queue.") {
         [self performBlockAndWait:block];
         return;
     }
     
-    BOOL isTargetedToMain = [self isTargetedTo:main];
-    BOOL runningOnMain = [current isTargetedTo:main];
-    BOOL mainToMain = (isTargetedToMain && runningOnMain);
-    
-    if (self == current || mainToMain) {
+    if ([self shouldInvokeSynchronousBlocksDirectlyToAvoidDeadlock]) {
         NSLog(@"Objective-Chain: Notice: Preventing deadlock in -[OCAQueue performBarrierBlockAndWait:] by invoking block directly.");
         block();
     }
