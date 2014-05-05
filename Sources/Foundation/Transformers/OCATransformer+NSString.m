@@ -198,6 +198,7 @@
 + (OCATransformer *)stringWithAttributes:(NSDictionary *)attributes {
     return [[OCATransformer fromClass:[NSString class] toClass:[NSAttributedString class]
                             transform:^NSAttributedString *(NSString *input) {
+                                if ( ! input) return nil;
                                 
                                 return [[NSAttributedString alloc] initWithString:input attributes:attributes];
                                 
