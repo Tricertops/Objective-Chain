@@ -6,8 +6,9 @@
 //  Copyright (c) 2014 Martin Kiss. All rights reserved.
 //
 
-#import "UIView+tintColor.h"
 #import <objc/runtime.h>
+#import "UIView+tintColor.h"
+#import "OCASwizzling.h"
 #import "OCACommand.h"
 
 
@@ -23,28 +24,8 @@
 + (void)load {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        /// http://nshipster.com/method-swizzling/
-        
-        SEL originalSelector = @selector(tintColorDidChange);
-        SEL swizzledSelector = @selector(oca_tintColorDidChange);
-        
-        Method originalMethod = class_getInstanceMethod(self, originalSelector);
-        Method swizzledMethod = class_getInstanceMethod(self, swizzledSelector);
-        
-        BOOL didAddMethod =
-        class_addMethod(self,
-                        originalSelector,
-                        method_getImplementation(swizzledMethod),
-                        method_getTypeEncoding(swizzledMethod));
-        
-        if (didAddMethod) {
-            class_replaceMethod(self,
-                                swizzledSelector,
-                                method_getImplementation(originalMethod),
-                                method_getTypeEncoding(originalMethod));
-        } else {
-            method_exchangeImplementations(originalMethod, swizzledMethod);
-        }
+        [self swizzleSelector:@selector(tintColorDidChange)
+                         with:@selector(oca_tintColorDidChange)];
     });
 }
 
