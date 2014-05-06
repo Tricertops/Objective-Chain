@@ -21,6 +21,7 @@
 		5B4F85B01871A4DC004695DA /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B4F85AF1871A4DC004695DA /* XCTest.framework */; };
 		5B4F85B11871A4DC004695DA /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B4F85A11871A4DC004695DA /* Foundation.framework */; };
 		5B4F85B61871A4DC004695DA /* libObjectiveChain-iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B4F859E1871A4DB004695DA /* libObjectiveChain-iOS.a */; };
+		5B52DA47191923210058A5EF /* UITextField+editedText.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B52DA46191923210058A5EF /* UITextField+editedText.m */; };
 		5B52DA4A191924780058A5EF /* OCASwizzling.h in Headers */ = {isa = PBXBuildFile; fileRef = 5B52DA48191924780058A5EF /* OCASwizzling.h */; };
 		5B52DA4B191924780058A5EF /* OCASwizzling.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B52DA49191924780058A5EF /* OCASwizzling.m */; };
 		5B52DA4C191924780058A5EF /* OCASwizzling.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B52DA49191924780058A5EF /* OCASwizzling.m */; };
@@ -262,6 +263,8 @@
 		5B4F85A11871A4DC004695DA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		5B4F85AE1871A4DC004695DA /* ObjectiveChain-iOS-Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "ObjectiveChain-iOS-Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5B4F85AF1871A4DC004695DA /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		5B52DA45191923210058A5EF /* UITextField+editedText.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITextField+editedText.h"; sourceTree = "<group>"; };
+		5B52DA46191923210058A5EF /* UITextField+editedText.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITextField+editedText.m"; sourceTree = "<group>"; };
 		5B52DA48191924780058A5EF /* OCASwizzling.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCASwizzling.h; sourceTree = "<group>"; };
 		5B52DA49191924780058A5EF /* OCASwizzling.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCASwizzling.m; sourceTree = "<group>"; };
 		5B88200C189D099900D2DDEB /* OCAInvoker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCAInvoker.h; sourceTree = "<group>"; };
@@ -764,6 +767,8 @@
 				5BA549F31897A8060050288D /* OCATargetter.m */,
 				5BFB66DB19002585005D0920 /* UIView+tintColor.h */,
 				5BFB66DC19002585005D0920 /* UIView+tintColor.m */,
+				5B52DA45191923210058A5EF /* UITextField+editedText.h */,
+				5B52DA46191923210058A5EF /* UITextField+editedText.m */,
 			);
 			path = Producers;
 			sourceTree = "<group>";
@@ -1090,6 +1095,7 @@
 				5BA549FA1897A8060050288D /* OCATransformer+UIColor.m in Sources */,
 				5BA549751896FBED0050288D /* OCATransformer+NSData.m in Sources */,
 				5BA549401896FBED0050288D /* OCABridge.m in Sources */,
+				5B52DA47191923210058A5EF /* UITextField+editedText.m in Sources */,
 				5BB4FC7219093B19005A46CE /* OCAErrorRecoveryAttempter.m in Sources */,
 				5BA549561896FBED0050288D /* OCAHub.m in Sources */,
 				5BA5498B1896FBED0050288D /* NSArray+Ordinals.m in Sources */,

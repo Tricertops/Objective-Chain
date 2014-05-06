@@ -10,6 +10,7 @@
 
 #import "OCATargetter.h"
 #import "UIView+tintColor.h"
+#import "UITextField+editedText.h"
 
 #import "OCAContext+UIKit.h"
 
