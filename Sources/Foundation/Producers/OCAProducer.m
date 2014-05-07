@@ -161,6 +161,16 @@
 }
 
 
+- (NSArray *)validClassesForConsumer:(id<OCAConsumer>)consumer {
+    if ([consumer respondsToSelector:@selector(consumedValueClasses)]) {
+        return [consumer consumedValueClasses];
+    }
+    else {
+        return @[ [consumer consumedValueClass] ?: NSObject.class ];
+    }
+}
+
+
 - (void)produceValue:(id)value {
     if ( ! [self validateProducedValue:value]) return;
     
@@ -169,12 +179,17 @@
     self.numberOfSentValues ++;
     
     for (id<OCAConsumer> consumer in [self.mutableConsumers copy]) {
-        id consumedValue = value; // Always new variable.
+        id consumedValue = value; // Always new variable, it will be manipulated by reference.
         
         //TODO: Special class to declare, that it is passed without changes.
         
-        BOOL consumedValid = [self validateObject:&consumedValue ofClass:[consumer consumedValueClass]];
-        if (consumedValid) {
+        BOOL validForConsumption = YES;
+        for (Class class in [self validClassesForConsumer:consumer]) {
+            validForConsumption = [self validateObject:&consumedValue ofClass:class];
+            if ( ! validForConsumption) break;
+        }
+        
+        if (validForConsumption) {
             [consumer consumeValue:consumedValue];
         }
     }
