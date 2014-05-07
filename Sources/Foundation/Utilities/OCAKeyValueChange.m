@@ -7,6 +7,7 @@
 //
 
 #import "OCAKeyValueChange.h"
+#import "OCAProperty.h"
 
 
 
@@ -99,6 +100,11 @@
 }
 
 
+- (void)applyToProperty:(OCAProperty *)property {
+    property.value = self.latestValue;
+}
+
+
 
 @end
 
@@ -169,6 +175,11 @@
 }
 
 
+- (void)applyToProperty:(OCAProperty *)property {
+    [property insertCollection:self.insertedObjects atIndexes:self.insertedIndexes];
+}
+
+
 
 @end
 
@@ -198,6 +209,11 @@
 
 - (OCAKeyValueChangeRemoval *)asRemovalChange {
     return self;
+}
+
+
+- (void)applyToProperty:(OCAProperty *)property {
+    [property removeCollectionAtIndexes:self.removedIndexes];
 }
 
 
@@ -231,6 +247,11 @@
 
 - (OCAKeyValueChangeReplacement *)asReplacementChange {
     return self;
+}
+
+
+- (void)applyToProperty:(OCAProperty *)property {
+    [property replaceCollectionAtIndexes:self.replacedIndexes withCollection:self.insertedObjects];
 }
 
 

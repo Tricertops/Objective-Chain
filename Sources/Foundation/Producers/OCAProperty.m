@@ -287,8 +287,13 @@
 
 
 - (void)consumeValue:(id)value {
-    //TODO: Consume changes
-    [self.accessor modifyObject:self.object withValue:value];
+    if ([value isKindOfClass:[OCAKeyValueChange class]]) {
+        OCAKeyValueChange *change = (OCAKeyValueChange *)value;
+        [change applyToProperty:self]; // Those subclasses know what to do.
+    }
+    else {
+        [self.accessor modifyObject:self.object withValue:value];
+    }
 }
 
 
