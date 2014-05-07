@@ -327,6 +327,20 @@
 }
 
 
+- (OCABridge *)replaceNilWith:(id)replacement {
+    OCABridge *bridge = [[OCABridge alloc] initWithTransformer:[OCATransformer replaceNil:replacement]];
+    [self addConsumer:bridge];
+    return bridge;
+}
+
+
+- (OCABridge *)negateBoolean {
+    OCABridge *bridge = [[OCABridge alloc] initWithTransformer:[OCATransformer negateBoolean]];
+    [self addConsumer:bridge];
+    return bridge;
+}
+
+
 
 
 

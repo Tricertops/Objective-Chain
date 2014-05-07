@@ -88,6 +88,8 @@
 
 - (OCABridge *)transformValues:(NSValueTransformer *)transformer, ... NS_REQUIRES_NIL_TERMINATION;
 - (OCABridge *)replaceValuesWith:(id)replacement;
+- (OCABridge *)replaceNilWith:(id)replacement;
+- (OCABridge *)negateBoolean;
 
 - (OCAContext *)produceInContext:(OCAContext *)context;
 - (OCAContext *)switchToQueue:(OCAQueue *)queue;
