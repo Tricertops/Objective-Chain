@@ -48,8 +48,21 @@
 #pragma mark Using Property
 
 @property (atomic, readwrite, weak) id value;
-
 - (void)repeatLastValue;
+
+
+#pragma mark Using Property as a Collection
+
+- (BOOL)isCollection;
+@property (atomic, readwrite, weak) NSMutableArray *collection;
+- (NSUInteger)countOfCollection;
+- (id)objectInCollectionAtIndex:(NSUInteger)index;
+- (void)insertObject:(id)object inCollectionAtIndex:(NSUInteger)index;
+- (void)insertCollection:(NSArray *)array atIndexes:(NSIndexSet *)indexes;
+- (void)removeObjectFromCollectionAtIndex:(NSUInteger)index;
+- (void)removeCollectionAtIndexes:(NSIndexSet *)indexes;
+- (void)replaceObjectInCollectionAtIndex:(NSUInteger)index withObject:(id)object;
+- (void)replaceCollectionAtIndexes:(NSIndexSet *)indexes withCollection:(NSArray *)array;
 
 
 #pragma mark Deriving Producers

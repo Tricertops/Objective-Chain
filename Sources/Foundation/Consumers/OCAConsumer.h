@@ -32,6 +32,13 @@
 
 
 
+@optional
+
+//! Return an array of classes of values that your instance consumes. Implementing this method is optional and takes precedence over -consumedValueClass.
+- (NSArray *)consumedValueClasses;
+
+
+
 @end
 
 

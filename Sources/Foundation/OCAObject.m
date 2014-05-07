@@ -46,7 +46,17 @@
 
 
 + (BOOL)validateObject:(__autoreleasing id *)objectPtr ofClass:(Class)class {
-    if ( ! class) return YES;
+    return [self validateObject:objectPtr ofClasses:(class? @[ class ] : nil)];
+}
+
+
+- (BOOL)validateObject:(__autoreleasing id *)objectPtr ofClass:(Class)class {
+    return [self.class validateObject:objectPtr ofClass:class];
+}
+
+
++ (BOOL)validateObject:(id *)objectPtr ofClasses:(NSArray *)classes {
+    if ( ! classes.count) return YES;
     
     id object = *objectPtr;
     if ( ! object) return YES;
@@ -56,17 +66,18 @@
         return YES;
     }
     
-    OCAAssert([object isKindOfClass:class], @"Expected %@ class, but got %@.", class, [object class]) {
-        *objectPtr = nil;
-        return NO;
+    for (Class class in classes) {
+        if ([object isKindOfClass:class]) return YES;
     }
-    
-    return YES;
+    BOOL isKindOfAnyOfThoseClasses = NO;
+    OCAAssert(isKindOfAnyOfThoseClasses, @"Expected one of [%@] classes, but got %@.", [classes componentsJoinedByString:@", "], [object class]) {}
+    *objectPtr = nil;
+    return NO;
 }
 
 
-- (BOOL)validateObject:(__autoreleasing id *)objectPtr ofClass:(Class)class {
-    return [self.class validateObject:objectPtr ofClass:class];
+- (BOOL)validateObject:(id *)objectPtr ofClasses:(NSArray *)classes {
+    return [self.class validateObject:objectPtr ofClasses:classes];
 }
 
 

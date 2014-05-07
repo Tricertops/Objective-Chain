@@ -47,8 +47,11 @@ _Pragma("clang diagnostic pop") \
 + (Class)valueClassForClasses:(NSArray *)classes;
 - (Class)valueClassForClasses:(NSArray *)classes;
 
+//! These methods take reference to the variable, because they may modify the value to make it valid. So far only one modification is made: NSNull is replaced with nil (and YES is returned).
 + (BOOL)validateObject:(id *)object ofClass:(Class)class;
 - (BOOL)validateObject:(id *)object ofClass:(Class)class;
++ (BOOL)validateObject:(id *)object ofClasses:(NSArray *)classes;
+- (BOOL)validateObject:(id *)object ofClasses:(NSArray *)classes;
 
 + (BOOL)isClass:(Class)class1 compatibleWithClass:(Class)class2;
 - (BOOL)isClass:(Class)class1 compatibleWithClass:(Class)class2;

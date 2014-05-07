@@ -12,6 +12,7 @@
 @class OCAKeyValueChangeInsertion;
 @class OCAKeyValueChangeRemoval;
 @class OCAKeyValueChangeReplacement;
+@class OCAProperty;
 
 
 
@@ -34,6 +35,8 @@
 - (OCAKeyValueChangeInsertion *)asInsertionChange;
 - (OCAKeyValueChangeRemoval *)asRemovalChange;
 - (OCAKeyValueChangeReplacement *)asReplacementChange;
+
+- (void)applyToProperty:(OCAProperty *)property;
 
 
 @end

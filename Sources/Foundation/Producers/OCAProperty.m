@@ -169,6 +169,70 @@
 
 
 
+#pragma mark Using Property as a Collection
+
+
+- (BOOL)isCollection {
+    return [self.valueClass isSubclassOfClass:[NSArray class]];
+}
+
+
+- (NSMutableArray *)collection {
+    if ([self isCollection]) {
+        return [self.object mutableArrayValueForKeyPath:self.accessor.keyPath];
+    }
+    else return nil;
+}
+
+
+- (void)setCollection:(NSMutableArray *)collection {
+    [self.collection setArray:collection];
+}
+
+
+- (NSUInteger)countOfCollection {
+    return [self.collection count];
+}
+
+
+- (id)objectInCollectionAtIndex:(NSUInteger)index {
+    return [self.collection objectAtIndex:index];
+}
+
+
+- (void)insertObject:(id)object inCollectionAtIndex:(NSUInteger)index {
+    [self.collection insertObject:object atIndex:index];
+}
+
+
+- (void)insertCollection:(NSArray *)array atIndexes:(NSIndexSet *)indexes {
+    [self.collection insertObjects:array atIndexes:indexes];
+}
+
+
+- (void)removeObjectFromCollectionAtIndex:(NSUInteger)index {
+    [self.collection removeObjectAtIndex:index];
+}
+
+
+- (void)removeCollectionAtIndexes:(NSIndexSet *)indexes {
+    [self.collection removeObjectsAtIndexes:indexes];
+}
+
+
+- (void)replaceObjectInCollectionAtIndex:(NSUInteger)index withObject:(id)object {
+    [self.collection replaceObjectAtIndex:index withObject:object];
+}
+
+
+- (void)replaceCollectionAtIndexes:(NSIndexSet *)indexes withCollection:(NSArray *)array {
+    [self.collection replaceObjectsAtIndexes:indexes withObjects:array];
+}
+
+
+
+
+
 #pragma mark Producing Values
 
 
@@ -218,13 +282,26 @@
 
 
 - (Class)consumedValueClass {
-    return self.accessor.valueClass;
+    return nil;
+}
+
+
+- (NSArray *)consumedValueClasses {
+    return @[
+             self.accessor.valueClass ?: NSObject.class,
+             [OCAKeyValueChange class],
+             ];
 }
 
 
 - (void)consumeValue:(id)value {
-    //TODO: Consume changes
-    [self.accessor modifyObject:self.object withValue:value];
+    if ([value isKindOfClass:[OCAKeyValueChange class]]) {
+        OCAKeyValueChange *change = (OCAKeyValueChange *)value;
+        [change applyToProperty:self]; // Those subclasses know what to do.
+    }
+    else {
+        [self.accessor modifyObject:self.object withValue:value];
+    }
 }
 
 
