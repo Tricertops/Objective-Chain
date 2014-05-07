@@ -183,10 +183,10 @@
         
         //TODO: Special class to declare, that it is passed without changes.
         
-        BOOL validForConsumption = YES;
+        BOOL validForConsumption = NO;
         for (Class class in [self validClassesForConsumer:consumer]) {
             validForConsumption = [self validateObject:&consumedValue ofClass:class];
-            if ( ! validForConsumption) break;
+            if (validForConsumption) break;
         }
         
         if (validForConsumption) {
