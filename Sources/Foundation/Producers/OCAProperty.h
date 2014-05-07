@@ -80,6 +80,8 @@
 - (void)bindTransformed:(NSValueTransformer *)transformer with:(OCAProperty *)property CONVENIENCE;
 - (void)bindThrottled:(OCAThrottle *)throttle transformed:(NSValueTransformer *)transformer with:(OCAProperty *)property;
 
+- (void)connectTransformedCollection:(NSValueTransformer *)transformer toProperty:(OCAProperty *)property;
+
 
 @end
 

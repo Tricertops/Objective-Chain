@@ -53,6 +53,8 @@
 
 - (BOOL)isLatestEqualToPrevious;
 
+- (instancetype)copyWithTransformedInsertedObjects:(NSValueTransformer *)transformer;
+
 
 @end
 
@@ -65,6 +67,8 @@
 
 @property (nonatomic, readonly, strong) NSArray *insertedObjects;
 @property (nonatomic, readonly, strong) NSIndexSet *insertedIndexes;
+
+- (instancetype)copyWithTransformedInsertedObjects:(NSValueTransformer *)transformer;
 
 
 @end
@@ -92,6 +96,9 @@
 @property (nonatomic, readonly, strong) NSArray *removedObjects;
 @property (nonatomic, readonly, strong) NSArray *insertedObjects;
 @property (nonatomic, readonly, strong) NSIndexSet *replacedIndexes;
+
+
+- (instancetype)copyWithTransformedInsertedObjects:(NSValueTransformer *)transformer;
 
 
 @end

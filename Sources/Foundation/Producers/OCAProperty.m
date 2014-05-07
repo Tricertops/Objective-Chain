@@ -135,7 +135,7 @@
 }
 
 
-- (void)didAddConsumer:(id<OCAConsumer>)consumer {    
+- (void)didAddConsumer:(id<OCAConsumer>)consumer {
     // Trick: Get real last value as Change object. Bypasses overriden implementation intended for public.
     OCAKeyValueChange *lastChange = [super lastValue];
     if (lastChange) {
@@ -469,6 +469,21 @@
         [filter connectTo:feedbackContext];
         [feedbackContext addConsumer:self];
     }
+}
+
+
+- (void)connectTransformedCollection:(NSValueTransformer *)transformer toProperty:(OCAProperty *)property {
+    [[[self produceChanges] transformValues:
+      [OCATransformer fromClass:[OCAKeyValueChange class] toClass:[OCAKeyValueChange class]
+                      asymetric:^OCAKeyValueChange *(id input) {
+                          if ([input respondsToSelector:@selector(copyWithTransformedInsertedObjects:)]) {
+                              return [input copyWithTransformedInsertedObjects:transformer];
+                          }
+                          else {
+                              return input;
+                          }
+                      }],
+      nil] connectTo:property];
 }
 
 

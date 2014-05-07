@@ -8,6 +8,7 @@
 
 #import "OCAKeyValueChange.h"
 #import "OCAProperty.h"
+#import "OCATransformer.h"
 
 
 
@@ -48,6 +49,38 @@
         id latestValue = [object valueForKeyPath:keyPath];
         self->_latestValue = (accessor? [accessor accessObject:latestValue] : latestValue);
         self->_isPrior = [[dictionary objectForKey:NSKeyValueChangeNotificationIsPriorKey] boolValue];
+        
+    }
+    return self;
+}
+
+
+- (instancetype)initWithChange:(OCAKeyValueChange *)change transformer:(NSValueTransformer *)transformer {
+    self = [super init];
+    if (self) {
+        OCAAssert(change != nil, @"Missing existing change.") return nil;
+        OCAAssert(transformer != nil, @"Missing transformer.") return nil;
+        
+        if (self.class != [change class]) {
+            return [[change.class alloc] initWithChange:change transformer:transformer];
+        }
+        
+        // Only subclasses:
+        
+        self->_object = change.object;
+        self->_keyPath = change.keyPath;
+        self->_changeDictionary = nil;
+        self->_accessor = change.accessor;
+        self->_kind = change.kind;
+        
+        if ([self isKindOfClass:[OCAKeyValueChangeSetting class]]) {
+            NSValueTransformer *collectionTransformer = [OCATransformer transformArray:transformer];
+            self->_latestValue = [collectionTransformer transformedValue:change.latestValue];
+        }
+        else {
+            self->_latestValue = nil;
+        }
+        self->_isPrior = change.isPrior;
         
     }
     return self;
@@ -105,6 +138,11 @@
 }
 
 
+- (instancetype)copyWithTransformedInsertedObjects:(NSValueTransformer *)transformer {
+    return [[OCAKeyValueChange alloc] initWithChange:self transformer:transformer];
+}
+
+
 
 @end
 
@@ -143,6 +181,11 @@
 }
 
 
+- (instancetype)copyWithTransformedInsertedObjects:(NSValueTransformer *)transformer {
+    return [[self.class alloc] initWithChange:self transformer:transformer];
+}
+
+
 
 @end
 
@@ -170,6 +213,19 @@
 }
 
 
+- (instancetype)initWithChange:(OCAKeyValueChangeInsertion *)insertion transformer:(NSValueTransformer *)transformer {
+    self = [super initWithChange:insertion transformer:transformer];
+    if (self) {
+        
+        NSValueTransformer *collectionTransformer = [OCATransformer transformArray:transformer];
+        
+        self->_insertedObjects = [collectionTransformer transformedValue:insertion.insertedObjects];
+        self->_insertedIndexes = insertion.insertedIndexes;
+    }
+    return self;
+}
+
+
 - (OCAKeyValueChangeInsertion *)asInsertionChange {
     return self;
 }
@@ -177,6 +233,11 @@
 
 - (void)applyToProperty:(OCAProperty *)property {
     [property insertCollection:self.insertedObjects atIndexes:self.insertedIndexes];
+}
+
+
+- (instancetype)copyWithTransformedInsertedObjects:(NSValueTransformer *)transformer {
+    return [[self.class alloc] initWithChange:self transformer:transformer];
 }
 
 
@@ -245,6 +306,19 @@
 }
 
 
+- (instancetype)initWithChange:(OCAKeyValueChangeReplacement *)replacement transformer:(NSValueTransformer *)transformer {
+    self = [super initWithChange:replacement transformer:transformer];
+    if (self) {
+        
+        NSValueTransformer *collectionTransformer = [OCATransformer transformArray:transformer];
+        
+        self->_insertedObjects = [collectionTransformer transformedValue:replacement.insertedObjects];
+        self->_replacedIndexes = replacement.replacedIndexes;
+    }
+    return self;
+}
+
+
 - (OCAKeyValueChangeReplacement *)asReplacementChange {
     return self;
 }
@@ -252,6 +326,11 @@
 
 - (void)applyToProperty:(OCAProperty *)property {
     [property replaceCollectionAtIndexes:self.replacedIndexes withCollection:self.insertedObjects];
+}
+
+
+- (instancetype)copyWithTransformedInsertedObjects:(NSValueTransformer *)transformer {
+    return [[self.class alloc] initWithChange:self transformer:transformer];
 }
 
 
