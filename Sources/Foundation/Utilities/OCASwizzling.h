@@ -18,6 +18,9 @@
 + (void)swizzleSelector:(SEL)original with:(SEL)replacement;
 
 
++ (void)implementOrderedCollectionAccessorsForKey:(NSString *)key;
+
+
 @end
 
 
