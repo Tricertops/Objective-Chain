@@ -177,11 +177,11 @@
 }
 
 
-@synthesize collection = _collection;
-
-
 - (NSMutableArray *)collection {
-    return [self.object mutableArrayValueForKeyPath:self.accessor.keyPath];
+    if ([self isCollection]) {
+        return [self.object mutableArrayValueForKeyPath:self.accessor.keyPath];
+    }
+    else return nil;
 }
 
 
