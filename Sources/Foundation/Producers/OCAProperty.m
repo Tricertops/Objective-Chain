@@ -205,13 +205,28 @@
 }
 
 
+- (void)insertCollection:(NSArray *)array atIndexes:(NSIndexSet *)indexes {
+    [self.collection insertObjects:array atIndexes:indexes];
+}
+
+
 - (void)removeObjectFromCollectionAtIndex:(NSUInteger)index {
     [self.collection removeObjectAtIndex:index];
 }
 
 
+- (void)removeCollectionAtIndexes:(NSIndexSet *)indexes {
+    [self.collection removeObjectsAtIndexes:indexes];
+}
+
+
 - (void)replaceObjectInCollectionAtIndex:(NSUInteger)index withObject:(id)object {
     [self.collection replaceObjectAtIndex:index withObject:object];
+}
+
+
+- (void)replaceCollectionAtIndexes:(NSIndexSet *)indexes withCollection:(NSArray *)array {
+    [self.collection replaceObjectsAtIndexes:indexes withObjects:array];
 }
 
 
