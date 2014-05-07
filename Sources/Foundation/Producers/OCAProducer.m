@@ -166,7 +166,8 @@
         return [consumer consumedValueClasses];
     }
     else {
-        return @[ [consumer consumedValueClass] ?: NSObject.class ];
+        Class class = [consumer consumedValueClass];
+        return (class? @[ class ] : nil);
     }
 }
 
@@ -183,13 +184,7 @@
         
         //TODO: Special class to declare, that it is passed without changes.
         
-        BOOL validForConsumption = NO;
-        for (Class class in [self validClassesForConsumer:consumer]) {
-            validForConsumption = [self validateObject:&consumedValue ofClass:class];
-            if (validForConsumption) break;
-        }
-        
-        if (validForConsumption) {
+        if ([self validateObject:&consumedValue ofClasses:[self validClassesForConsumer:consumer]]) {
             [consumer consumeValue:consumedValue];
         }
     }
