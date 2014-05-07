@@ -282,7 +282,15 @@
 
 
 - (Class)consumedValueClass {
-    return self.accessor.valueClass;
+    return nil;
+}
+
+
+- (NSArray *)consumedValueClasses {
+    return @[
+             self.accessor.valueClass ?: NSObject.class,
+             [OCAKeyValueChange class],
+             ];
 }
 
 
