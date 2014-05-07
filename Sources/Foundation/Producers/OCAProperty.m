@@ -169,6 +169,55 @@
 
 
 
+#pragma mark Using Property as a Collection
+
+
+- (BOOL)isCollection {
+    return [self.valueClass isSubclassOfClass:[NSArray class]];
+}
+
+
+@synthesize collection = _collection;
+
+
+- (NSMutableArray *)collection {
+    return [self.object mutableArrayValueForKeyPath:self.accessor.keyPath];
+}
+
+
+- (void)setCollection:(NSMutableArray *)collection {
+    [self.collection setArray:collection];
+}
+
+
+- (NSUInteger)countOfCollection {
+    return [self.collection count];
+}
+
+
+- (id)objectInCollectionAtIndex:(NSUInteger)index {
+    return [self.collection objectAtIndex:index];
+}
+
+
+- (void)insertObject:(id)object inCollectionAtIndex:(NSUInteger)index {
+    [self.collection insertObject:object atIndex:index];
+}
+
+
+- (void)removeObjectFromCollectionAtIndex:(NSUInteger)index {
+    [self.collection removeObjectAtIndex:index];
+}
+
+
+- (void)replaceObjectInCollectionAtIndex:(NSUInteger)index withObject:(id)object {
+    [self.collection replaceObjectAtIndex:index withObject:object];
+}
+
+
+
+
+
 #pragma mark Producing Values
 
 
