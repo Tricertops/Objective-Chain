@@ -17,6 +17,7 @@
 #import "OCAUIKit+UIButton.h" //TODO: Replace with Button State Consumer
 
 #import "OCATransformer+UIColor.h"
+#import "OCATransformer+UIImage.h"
 
 #import "OCAErrorRecoveryAttempter.h"
 
