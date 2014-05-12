@@ -34,6 +34,9 @@ _Pragma("clang diagnostic pop") \
 
 #define CONVENIENCE
 
+#define OCAT(TYPE)   @(@encode(TYPE))
+#define OCATypes(...)   ( [@[ __VA_ARGS__ ] componentsJoinedByString:@""] )
+
 
 
 

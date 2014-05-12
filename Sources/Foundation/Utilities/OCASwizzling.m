@@ -9,6 +9,7 @@
 #import <objc/runtime.h>
 #import <objc/message.h>
 #import "OCASwizzling.h"
+#import "OCAObject.h"
 
 
 
@@ -51,7 +52,7 @@
     
     SEL underlayingSelector = NSSelectorFromString([NSString stringWithFormat:@"underlayingMutable%@", capitalizedKey]);
     [self implementSelector:underlayingSelector
-                      types:"@@:"
+                      types:OCATypes(OCAT(id),OCAT(id),OCAT(SEL))
                     replace:NO
                       block:^NSMutableArray *(id self) {
         NSMutableArray *collection = object_getIvar(self, ivar);
@@ -68,7 +69,7 @@
     };
     
     [self implementSelector:NSSelectorFromString(key)
-                      types:"@@:"
+                      types:OCATypes(OCAT(id),OCAT(id),OCAT(SEL))
                     replace:YES
                       block:^NSArray *(id self){
                           NSMutableArray *collection = callUnderlayingSelector(self);
@@ -76,17 +77,15 @@
                       }];
     
     [self implementSelector:NSSelectorFromString([NSString stringWithFormat:@"set%@:", capitalizedKey])
-                      types:"v@:@"
+                      types:OCATypes(OCAT(void),OCAT(id),OCAT(SEL),OCAT(id))
                     replace:YES
                       block:^(id self, NSArray *array){
                           NSMutableArray *collection = callUnderlayingSelector(self);
                           [collection setArray:array];
                       }];
     
-    #warning Uses 32-bit NSUInteger
-    
     [self implementSelector:NSSelectorFromString([NSString stringWithFormat:@"insertObject:in%@AtIndex:", capitalizedKey])
-                      types:"v@:@I"
+                      types:OCATypes(OCAT(void),OCAT(id),OCAT(SEL),OCAT(id),OCAT(NSUInteger))
                     replace:NO
                       block:^(id self, id object, NSUInteger index){
                           NSMutableArray *collection = callUnderlayingSelector(self);
@@ -94,7 +93,7 @@
                       }];
     
     [self implementSelector:NSSelectorFromString([NSString stringWithFormat:@"removeObjectFrom%@AtIndex:", capitalizedKey])
-                      types:"v@:I"
+                      types:OCATypes(OCAT(void),OCAT(id),OCAT(SEL),OCAT(NSUInteger))
                     replace:NO
                       block:^(id self, NSUInteger index){
                           NSMutableArray *collection = callUnderlayingSelector(self);
@@ -105,14 +104,14 @@
 }
 
 
-+ (BOOL)implementSelector:(SEL)selector types:(const char *)types replace:(BOOL)replace block:(id)block {
++ (BOOL)implementSelector:(SEL)selector types:(NSString *)types replace:(BOOL)replace block:(id)block {
     IMP implementation = imp_implementationWithBlock(block);
     
     if (replace) {
-        class_replaceMethod(self, selector, implementation, types);
+        class_replaceMethod(self, selector, implementation, types.UTF8String);
         return YES;
     }
-    else return class_addMethod(self, selector, implementation, types);
+    else return class_addMethod(self, selector, implementation, types.UTF8String);
 }
 
 
