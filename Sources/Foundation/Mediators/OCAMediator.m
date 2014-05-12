@@ -7,6 +7,7 @@
 //
 
 #import "OCAMediator.h"
+#import "OCAProducer+Subclass.h"
 
 
 
@@ -30,6 +31,28 @@
 
 - (void)finishConsumingWithError:(NSError *)error {
     OCAAssert(NO, @"You can't use this abstract class!");
+}
+
+
+
+
+
+- (void)finishProducingWithError:(NSError *)error {
+    if (self.isFinished) return;
+    
+    if (error) {
+        // Errors are fatal, so we finish.
+        [super finishProducingWithError:error];
+    }
+    else {
+        // When Producer finished successfully, do nothing there should be more of them. And if not...
+    }
+}
+
+
+- (void)dealloc {
+    // ... we will finish once deallocated.
+    [super finishProducingWithError:nil];
 }
 
 

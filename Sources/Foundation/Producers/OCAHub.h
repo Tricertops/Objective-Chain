@@ -34,7 +34,7 @@ typedef enum : NSInteger {
 #pragma mark Attributes of Hub
 
 @property (atomic, readonly, assign) OCAHubType type;
-@property (atomic, readonly, copy) NSArray *producers;
+@property (atomic, readonly, copy) NSArray *producers; //TODO: Make mutable
 
 
 
