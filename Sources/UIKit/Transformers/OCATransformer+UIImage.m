@@ -88,7 +88,7 @@
                                 UIImage *clipped = UIGraphicsGetImageFromCurrentImageContext();
                                 UIGraphicsEndImageContext();
                                 
-                                return clipped;
+                                return [clipped imageWithRenderingMode:input.renderingMode];
                                 
                             } reverse:OCATransformationPass]
             describe:@"clip image to circle"
