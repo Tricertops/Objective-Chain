@@ -310,6 +310,28 @@
 }
 
 
++ (OCATransformer *)joinWithAttributedString:(NSAttributedString *)attrString {
+    return [[OCATransformer fromClass:[NSArray class] toClass:[NSAttributedString class]
+                            transform:^NSAttributedString *(NSArray *input) {
+                                
+                                NSMutableAttributedString *mutable = [[NSMutableAttributedString alloc] init];
+                                [input enumerateObjectsUsingBlock:^(NSAttributedString *component, NSUInteger index, BOOL *stop) {
+                                    if (index != 0 && attrString) {
+                                        [mutable appendAttributedString:attrString];
+                                    }
+                                    if ( ! [component isKindOfClass:[NSAttributedString class]]) {
+                                        component = [[NSAttributedString alloc] initWithString:component.description];
+                                    }
+                                    [mutable appendAttributedString:component];
+                                }];
+                                
+                                return mutable;
+                                
+                            } reverse:OCATransformationDiscard]
+            describe:[NSString stringWithFormat:@"join with “%@”", attrString.string]];
+}
+
+
 + (OCATransformer *)joinWithString:(NSString *)string last:(NSString *)lastString {
     return [[OCATransformer fromClass:[NSArray class] toClass:[NSString class]
                             asymetric:^NSString *(NSArray *input) {

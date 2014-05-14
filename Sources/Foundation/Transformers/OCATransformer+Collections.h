@@ -57,6 +57,7 @@
 
 + (OCATransformer *)objectAtIndex:(NSInteger)index;
 + (OCATransformer *)joinWithString:(NSString *)string;
++ (OCATransformer *)joinWithAttributedString:(NSAttributedString *)attrString;
 + (OCATransformer *)joinWithString:(NSString *)string last:(NSString *)lastString;
 
 
