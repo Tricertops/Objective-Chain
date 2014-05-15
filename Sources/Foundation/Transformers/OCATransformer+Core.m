@@ -87,11 +87,9 @@
 
 
 + (OCATransformer *)ifYes:(id)yesReplacement ifNo:(id)noReplacement {
-    return [OCATransformer map:@{
-                                 @YES: yesReplacement ?: NSNull.null,
-                                 @NO: noReplacement ?: NSNull.null,
-                                 NSNull.null: noReplacement ?: NSNull.null,
-                                 }];
+    return [OCATransformer if:[OCAPredicate isTrue]
+            then:[OCATransformer replaceWith:yesReplacement]
+            else:[OCATransformer replaceWith:noReplacement]];
 }
 
 
