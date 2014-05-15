@@ -95,7 +95,10 @@
         if ([object respondsToSelector:@selector(boolValue)]) {
             return [object boolValue];
         }
-        return NO;
+        if (object == NSNull.null) {
+            return NO;
+        }
+        return (object != nil);
     }];
 }
 
