@@ -50,7 +50,7 @@
 
 + (NSPredicate *)isNil {
     return [NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
-        return (evaluatedObject == nil);
+        return (evaluatedObject == nil || evaluatedObject == NSNull.null);
     }];
 }
 
