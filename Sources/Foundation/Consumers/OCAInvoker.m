@@ -16,6 +16,7 @@
 
 @interface OCAInvoker ()
 
+@property (nonatomic, readonly, assign) BOOL isTargetConsumed;
 @property (nonatomic, readonly, assign) NSUInteger numberOfConsumedObjects;
 
 @property (atomic, readonly, strong) NSArray *fixedArguments;
@@ -83,6 +84,9 @@
             // Found placeholder. Works even if the placeholder is the target.
             placeholder = argument;
             self->_numberOfConsumedObjects ++;
+            if (index == 0) {
+                self->_isTargetConsumed = YES;
+            }
         }
         
         if (placeholder) {
@@ -141,7 +145,7 @@
 
 - (void)consumeValue:(id)value {
     NSObject *target = self.target;
-    if ( ! target && ! [self.placeholderIndexes containsIndex:0]) {
+    if ( ! target && ! self.isTargetConsumed) {
         self->_invocation = nil;
         return;
     }
