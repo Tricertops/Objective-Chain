@@ -141,7 +141,7 @@
 
 - (void)consumeValue:(id)value {
     NSObject *target = self.target;
-    if ( ! target) {
+    if ( ! target && ! [self.placeholderIndexes containsIndex:0]) {
         self->_invocation = nil;
         return;
     }
