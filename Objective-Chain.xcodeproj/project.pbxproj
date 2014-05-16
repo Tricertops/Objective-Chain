@@ -11,6 +11,7 @@
 		5B097E481871BE01006240D8 /* libObjectiveChain-OSX.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B097E321871BE01006240D8 /* libObjectiveChain-OSX.a */; };
 		5B097E5F1871BED0006240D8 /* OCAObjectTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B097E5B1871BED0006240D8 /* OCAObjectTest.m */; };
 		5B097E601871BED0006240D8 /* OCAObjectTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B097E5B1871BED0006240D8 /* OCAObjectTest.m */; };
+		5B1F4A4919264CD200158200 /* OCAFader.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B1F4A4819264CD200158200 /* OCAFader.m */; };
 		5B217C96188442A100706ED9 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B217C95188442A100706ED9 /* QuartzCore.framework */; };
 		5B217C98188442B300706ED9 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B217C97188442B300706ED9 /* QuartzCore.framework */; };
 		5B2A3291192110F5008E5B36 /* OCATransformer+UIImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B2A3290192110F5008E5B36 /* OCATransformer+UIImage.m */; };
@@ -255,6 +256,8 @@
 		5B097E5A1871BED0006240D8 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5B097E5B1871BED0006240D8 /* OCAObjectTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCAObjectTest.m; sourceTree = "<group>"; };
 		5B097E5C1871BED0006240D8 /* Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Prefix.pch; sourceTree = "<group>"; };
+		5B1F4A4719264CD200158200 /* OCAFader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCAFader.h; sourceTree = "<group>"; };
+		5B1F4A4819264CD200158200 /* OCAFader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCAFader.m; sourceTree = "<group>"; };
 		5B217C95188442A100706ED9 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/System/Library/Frameworks/QuartzCore.framework; sourceTree = DEVELOPER_DIR; };
 		5B217C97188442B300706ED9 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		5B2A328F192110F5008E5B36 /* OCATransformer+UIImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "OCATransformer+UIImage.h"; sourceTree = "<group>"; };
@@ -759,6 +762,8 @@
 			children = (
 				5BA549EE1897A8060050288D /* OCAContext+UIKit.h */,
 				5BA549EF1897A8060050288D /* OCAContext+UIKit.m */,
+				5B1F4A4719264CD200158200 /* OCAFader.h */,
+				5B1F4A4819264CD200158200 /* OCAFader.m */,
 			);
 			path = Mediators;
 			sourceTree = "<group>";
@@ -1117,6 +1122,7 @@
 				5BA549431896FBED0050288D /* OCAContext.m in Sources */,
 				5BFB66D919000FC1005D0920 /* OCAIndexAccessor.m in Sources */,
 				5B88205418A028DE00D2DDEB /* OCADebug.m in Sources */,
+				5B1F4A4919264CD200158200 /* OCAFader.m in Sources */,
 				5BA549F71897A8060050288D /* OCAUIKit+UIButton.m in Sources */,
 				5BA549971896FBED0050288D /* OCAQueue.m in Sources */,
 				5BA549601896FBED0050288D /* OCAProducer.m in Sources */,

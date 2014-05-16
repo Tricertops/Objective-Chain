@@ -13,6 +13,7 @@
 #import "UITextField+editedText.h"
 
 #import "OCAContext+UIKit.h"
+#import "OCAFader.h"
 
 #import "OCAUIKit+UIButton.h" //TODO: Replace with Button State Consumer
 
