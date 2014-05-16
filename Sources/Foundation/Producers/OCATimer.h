@@ -89,6 +89,16 @@
 
 
 
+#pragma mark Elapsed Time
+
+//! Cumulative time intervals ever sent by the receiver.
+@property (atomic, readonly, assign) NSTimeInterval elapsedTime;
+
+//! Shorthand to produce elapsedTime property
+- (OCAProducer *)produceElapsedTime;
+
+
+
 #pragma mark Controlling Timer
 
 //! Flag whether the receiver didn't stop yet.

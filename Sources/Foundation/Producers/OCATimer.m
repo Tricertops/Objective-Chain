@@ -9,6 +9,9 @@
 #import "OCATimer.h"
 #import "OCAProducer+Subclass.h"
 #import "OCADecomposer.h"
+#import "OCABridge.h"
+#import "OCAMath.h"
+#import "OCAProperty.h"
 
 
 
@@ -19,6 +22,8 @@
 
 @property (atomic, readwrite, strong) dispatch_source_t timer;
 @property (atomic, readwrite, assign) BOOL isRunning;
+
+@property (atomic, readwrite, assign) NSTimeInterval elapsedTime;
 
 
 @end
@@ -157,6 +162,12 @@
 }
 
 
+- (void)produceValue:(NSNumber *)value {
+    [super produceValue:value];
+    self.elapsedTime += value.doubleValue;
+}
+
+
 - (void)stop {
     if ( ! self.timer) return;
     
@@ -169,6 +180,17 @@
 
 - (void)dealloc {
     [self stop];
+}
+
+
+
+
+
+#pragma mark Derived Producers
+
+
+- (OCAProducer *)produceElapsedTime {
+    return OCAProperty(self, elapsedTime, NSTimeInterval);
 }
 
 
