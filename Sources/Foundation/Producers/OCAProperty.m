@@ -15,6 +15,7 @@
 #import "OCAPredicate.h"
 #import "OCAFilter.h"
 #import "OCAContext.h"
+#import "OCASubscriber.h"
 
 
 
@@ -227,6 +228,42 @@
 
 - (void)replaceCollectionAtIndexes:(NSIndexSet *)indexes withCollection:(NSArray *)array {
     [self.collection replaceObjectsAtIndexes:indexes withObjects:array];
+}
+
+
+
+
+
+#pragma mark Using Property as a Number
+
+
+- (BOOL)isNumber {
+    return [self.valueClass isSubclassOfClass:[NSNumber class]];
+}
+
+
+- (OCAReal)number {
+    NSNumber *value = self.value;
+    if ([value isKindOfClass:[NSNumber class]]) {
+        return value.doubleValue;
+    }
+    else return NAN;
+}
+
+
+- (void)setNumber:(double)number {
+    if ([self isNumber]) {
+        self.value = @(number);
+    }
+}
+
+
+- (id<OCAConsumer>)consumeAdditions {
+    OCAWeakify(self);
+    return [OCASubscriber subscribeForClass:[NSNumber class] handler:^(NSNumber *value) {
+        OCAStrongify(self);
+        self.number += value.doubleValue;
+    }];
 }
 
 
