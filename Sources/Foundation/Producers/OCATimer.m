@@ -124,7 +124,7 @@
     __block NSDate *lastFireDate = [NSDate date];
     
     dispatch_source_set_event_handler(self.timer, ^{
-        NSTimeInterval fireInterval = -lastFireDate.timeIntervalSinceNow;
+        NSTimeInterval fireInterval = OCARound(-lastFireDate.timeIntervalSinceNow, self.interval);
         lastFireDate = [NSDate date];
         
         BOOL isAfterEndDate = (endDate && [endDate timeIntervalSinceNow] <= 0);
