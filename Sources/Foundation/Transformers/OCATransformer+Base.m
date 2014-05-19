@@ -64,34 +64,31 @@
 #pragma mark Transformation
 
 
-- (id)transformedValue:(id)value {
-    BOOL inputValid = [OCAObject validateObject:&value ofClass:[self.class valueClass]];
-    if ( ! inputValid) return nil;
-    
-    OCATransformerBlock block = self.transformationBlock;
-    id transformedValue = (block? block(value) : nil);
-    
-    BOOL outputValid = [OCAObject validateObject:&transformedValue ofClass:[self.class transformedValueClass]];
-    if ( ! outputValid) return nil;
-    
-    return transformedValue;
+- (id)transformedValue:(NSObject *)value {
+    return [self transformValue:value ofClass:[self.class valueClass] usingBlock:self.transformationBlock toClass:[self.class transformedValueClass]];
 }
 
 
-- (id)reverseTransformedValue:(id)value {
+- (id)reverseTransformedValue:(NSObject *)value {
     if ([self.class allowsReverseTransformation]) {
-        [OCAObject validateObject:&value ofClass:[self.class transformedValueClass]];
-        if ( ! value) return nil; // Skip nils.
-        
-        OCATransformerBlock block = self.reverseTransformationBlock;
-        id transformedValue = (block? block(value) : nil);
-        
-        [OCAObject validateObject:&transformedValue ofClass:[self.class valueClass]];
-        return transformedValue;
+        return [self transformValue:value ofClass:[self.class transformedValueClass] usingBlock:self.reverseTransformationBlock toClass:[self.class valueClass]];
     }
     else {
         return nil;
     }
+}
+
+
+- (id)transformValue:(NSObject *)value ofClass:(Class)inClass usingBlock:(OCATransformerBlock)block toClass:(Class)outClass {
+    BOOL inputValid = [OCAObject validateObject:&value ofClass:inClass];
+    if ( ! inputValid) return nil;
+    
+    id transformedValue = (block? block(value) : nil);
+    
+    BOOL outputValid = [OCAObject validateObject:&transformedValue ofClass:outClass];
+    if ( ! outputValid) return nil;
+    
+    return transformedValue;
 }
 
 
