@@ -19,6 +19,7 @@
 
 
 
+@property (atomic, readwrite, copy) NSString *failureReason;
 @property (atomic, readwrite, copy) NSString *recoverySuggestion;
 
 - (OCAProducer *)addRecoveryOptionWithTitle:(NSString *)title;
