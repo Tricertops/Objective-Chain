@@ -54,6 +54,11 @@
 }
 
 
++ (OCAContext *)crossDissolveView:(UIView *)view duration:(NSTimeInterval)duration {
+    return [self transitionWithView:view duration:duration options:UIViewAnimationOptionTransitionCrossDissolve];
+}
+
+
 
 
 

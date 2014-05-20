@@ -26,6 +26,7 @@
 //TODO: Animate with spring animation
 //TODO: Animate with System animation
 + (OCAContext *)transitionWithView:(UIView *)view duration:(NSTimeInterval)duration options:(UIViewAnimationOptions)options;
++ (OCAContext *)crossDissolveView:(UIView *)view duration:(NSTimeInterval)duration;
 
 
 
