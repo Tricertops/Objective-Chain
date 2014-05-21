@@ -126,6 +126,10 @@
     }];
 }
 
++ (NSPredicate *)isNotEmpty {
+    return [[OCAPredicate isEmpty] negate];
+}
+
 
 + (NSPredicate *)pass {
     return [NSPredicate predicateWithValue:YES];
@@ -266,6 +270,11 @@
 
 + (NSPredicate *)isEqualTo:(id)value {
     return [self operator:NSEqualToPredicateOperatorType options:kNilOptions value:value];
+}
+
+
++ (NSPredicate *)isNotEqualTo:(id)value {
+    return [[OCAPredicate isEqualTo:value] negate];
 }
 
 

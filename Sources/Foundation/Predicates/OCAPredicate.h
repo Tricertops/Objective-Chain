@@ -47,6 +47,7 @@
 + (NSPredicate *)isTrue;
 + (NSPredicate *)isFalse;
 + (NSPredicate *)isEmpty;
++ (NSPredicate *)isNotEmpty;
 
 + (NSPredicate *)pass;
 + (NSPredicate *)discard;
@@ -74,6 +75,7 @@
 + (NSPredicate *)isGreaterThan:(id)value;
 + (NSPredicate *)isGreaterThanOrEqual:(id)value;
 + (NSPredicate *)isEqualTo:(id)value;
++ (NSPredicate *)isNotEqualTo:(id)value;
 + (NSPredicate *)matches:(NSString *)regex;
 + (NSPredicate *)isLike:(NSString *)string;
 + (NSPredicate *)beginsWith:(id)value;
