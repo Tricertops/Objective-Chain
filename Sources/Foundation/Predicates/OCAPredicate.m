@@ -120,7 +120,7 @@
             return ([object length] == 0);
         }
         if ([object respondsToSelector:@selector(boolValue)]) {
-            return [object boolValue];
+            return ([object boolValue] == NO);
         }
         return NO;
     }];
