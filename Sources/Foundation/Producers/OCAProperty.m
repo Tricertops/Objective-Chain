@@ -279,8 +279,8 @@
         
         [interpolator finishWithLastValue:YES]; // Will stop and display final value.
         
-        NSUInteger previous = [change.previousValue unsignedIntegerValue];
-        NSUInteger latest = [change.latestValue unsignedIntegerValue];
+        OCAReal previous = [change.previousValue doubleValue];
+        OCAReal latest = [change.latestValue doubleValue];
         OCAInterpolator *newInterpolator = [OCAInterpolator interpolatorWithDuration:duration
                                                              frequency:30
                                                              fromValue:previous
