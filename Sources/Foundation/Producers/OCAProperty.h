@@ -70,6 +70,7 @@
 - (BOOL)isNumber;
 @property (atomic, readwrite) double number;
 - (id<OCAConsumer>)consumeAdditions;
+- (OCAProducer *)produceInterpolatedWithDuration:(NSTimeInterval)duration;
 
 
 #pragma mark Deriving Producers

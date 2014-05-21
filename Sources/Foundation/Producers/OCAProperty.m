@@ -16,6 +16,8 @@
 #import "OCAFilter.h"
 #import "OCAContext.h"
 #import "OCASubscriber.h"
+#import "OCAInterpolator.h"
+
 
 
 
@@ -266,6 +268,28 @@
     }];
 }
 
+
+- (OCAProducer *)produceInterpolatedWithDuration:(NSTimeInterval)duration {
+    
+    OCABridge *bridge = [OCABridge bridgeForClass:[NSNumber class]];
+    
+    __block __weak OCAInterpolator *interpolator = nil; // Weak, because it will deallocate automatically once finished.
+    
+    [[self produceChanges] subscribeForClass:[OCAKeyValueChangeSetting class] handler:^(OCAKeyValueChangeSetting *change) {
+        
+        [interpolator finishWithLastValue:YES]; // Will stop and display final value.
+        
+        NSUInteger previous = [change.previousValue unsignedIntegerValue];
+        NSUInteger latest = [change.latestValue unsignedIntegerValue];
+        OCAInterpolator *newInterpolator = [OCAInterpolator interpolatorWithDuration:duration
+                                                             frequency:30
+                                                             fromValue:previous
+                                                               toValue:latest];
+        [newInterpolator addConsumer:bridge];
+        interpolator = newInterpolator;
+    }];
+    return bridge;
+}
 
 
 
