@@ -92,7 +92,7 @@
 
 + (NSPredicate *)isTrue {
     return [OCAPredicate predicateForClass:nil block:^BOOL(id object) {
-        if ([object respondsToSelector:@selector(boolValue)]) {
+        if ([object isKindOfClass:[NSNumber class]]) {
             return [object boolValue];
         }
         if (object == NSNull.null) {
