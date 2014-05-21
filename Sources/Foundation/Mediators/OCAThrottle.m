@@ -62,10 +62,10 @@
                                                        valueHandler:^(id value) {
                                                            OCAStrongify(self);
                                                            
+                                                           self.timer = nil;
                                                            self.isThrottled = NO;
                                                            [self produceValue:self.lastThrottledValue];
                                                            self.lastThrottledValue = nil;
-                                                           self.timer = nil;
                                                            
                                                        } finishHandler:nil];
     }
