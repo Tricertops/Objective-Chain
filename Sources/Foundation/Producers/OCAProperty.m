@@ -233,6 +233,18 @@
 }
 
 
+- (void)addObject:(id)object {
+    if ( ! [self.collection containsObject:object]) {
+        [self.collection addObject:object];
+    }
+}
+
+
+- (void)removeObject:(id)object {
+    [self.collection removeObject:object];
+}
+
+
 
 
 

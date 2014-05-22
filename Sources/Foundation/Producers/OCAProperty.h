@@ -63,6 +63,8 @@
 - (void)removeCollectionAtIndexes:(NSIndexSet *)indexes;
 - (void)replaceObjectInCollectionAtIndex:(NSUInteger)index withObject:(id)object;
 - (void)replaceCollectionAtIndexes:(NSIndexSet *)indexes withCollection:(NSArray *)array;
+- (void)addObject:(id)object; // distinct
+- (void)removeObject:(id)object; // distinct
 
 
 #pragma mark Using Property as a Number
