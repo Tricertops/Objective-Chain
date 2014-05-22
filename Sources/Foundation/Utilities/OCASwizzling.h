@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "OCAConsumer.h"
 
 
 
@@ -19,6 +20,7 @@
 
 
 + (void)implementOrderedCollectionAccessorsForKey:(NSString *)key;
++ (void)implementOrderedCollectionAccessorsForKey:(NSString *)key insertionCallback:(id<OCAConsumer>)insertionCallback removalCallback:(id<OCAConsumer>)removalCallback;
 
 
 @end

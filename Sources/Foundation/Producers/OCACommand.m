@@ -38,6 +38,8 @@
 
 
 + (void)send:(id)value to:(id<OCAConsumer>)consumer {
+    if ( ! consumer) return;
+    
     OCACommand *command = [OCACommand commandForClass:[value classForCoder]];
     [command connectTo:consumer];
     [command sendValue:value];

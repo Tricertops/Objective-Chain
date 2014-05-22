@@ -9,7 +9,7 @@
 #import <objc/runtime.h>
 #import <objc/message.h>
 #import "OCASwizzling.h"
-#import "OCAObject.h"
+#import "OCACommand.h"
 
 
 
@@ -43,6 +43,11 @@
 
 
 + (void)implementOrderedCollectionAccessorsForKey:(NSString *)key {
+    [self implementOrderedCollectionAccessorsForKey:key insertionCallback:nil removalCallback:nil];
+}
+
+
++ (void)implementOrderedCollectionAccessorsForKey:(NSString *)key insertionCallback:(id<OCAConsumer>)insertionCallback removalCallback:(id<OCAConsumer>)removalCallback {
     NSString *capitalizedKey = [NSString stringWithFormat:@"%@%@", [[key substringToIndex:1] uppercaseString], [key substringFromIndex:1]];
     
     objc_property_t property = class_getProperty(self, key.UTF8String);
@@ -81,7 +86,28 @@
                     replace:YES
                       block:^(id self, NSArray *array){
                           NSMutableArray *collection = callUnderlayingSelector(self);
+                          
+                          NSMutableArray *inserted = (insertionCallback? [array mutableCopy] : nil);
+                          [inserted removeObjectsInArray:collection];
+                          NSMutableArray *removed = (removalCallback? [collection mutableCopy] : nil);
+                          [removed removeObjectsInArray:array];
+                          
                           [collection setArray:array];
+                          
+                          if (insertionCallback) {
+                              OCACommand *removalCommand = [OCACommand commandForClass:[NSArray class]];
+                              [removalCommand connectTo:insertionCallback];
+                              for (id removedObject in removed) {
+                                  [removalCommand sendValue:@[ self, removedObject ]];
+                              }
+                          }
+                          if (removalCallback) {
+                              OCACommand *insertionCommand = [OCACommand commandForClass:[NSArray class]];
+                              [insertionCommand connectTo:insertionCallback];
+                              for (id insertedObject in inserted) {
+                                  [insertionCommand sendValue:@[ self, insertedObject ]];
+                              }
+                          }
                       }];
     
     [self implementSelector:NSSelectorFromString([NSString stringWithFormat:@"insertObject:in%@AtIndex:", capitalizedKey])
@@ -90,6 +116,7 @@
                       block:^(id self, id object, NSUInteger index){
                           NSMutableArray *collection = callUnderlayingSelector(self);
                           [collection insertObject:object atIndex:index];
+                          [OCACommand send:@[ self, object ] to:insertionCallback];
                       }];
     
     [self implementSelector:NSSelectorFromString([NSString stringWithFormat:@"removeObjectFrom%@AtIndex:", capitalizedKey])
@@ -97,7 +124,9 @@
                     replace:NO
                       block:^(id self, NSUInteger index){
                           NSMutableArray *collection = callUnderlayingSelector(self);
+                          id object = [collection objectAtIndex:index];
                           [collection removeObjectAtIndex:index];
+                          [OCACommand send:@[ self, object ] to:removalCallback];
                       }];
     
     //TODO: Implement more than minimum.
