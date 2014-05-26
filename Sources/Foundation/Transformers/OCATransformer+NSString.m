@@ -359,6 +359,7 @@
             reverse:[NSString stringWithFormat:@"parse number using %@", formatter]];
 }
 
+
 + (OCATransformer *)stringFromNumber {
     return [[OCATransformer fromClass:[NSNumber class] toClass:[NSString class]
                            transform:^NSString *(NSNumber *input) {
@@ -377,6 +378,30 @@
             describe:@"string from number"
             reverse:@"number from string"];
 }
+
+
++ (OCATransformer *)stringFromCountWithZero:(NSString *)zeroSuffix one:(NSString *)oneSuffix few:(NSString *)fewSuffix many:(NSString *)manySuffix {
+    return [[OCATransformer fromClass:[NSNumber class] toClass:[NSString class]
+                            asymetric:^NSString *(NSNumber *input) {
+                                
+                                NSInteger count = input.integerValue;
+                                NSString *suffix;
+                                
+                                switch (ABS(count)) {
+                                    case 0: suffix = zeroSuffix;  break;
+                                    case 1: suffix = oneSuffix;   break;
+                                    case 2:
+                                    case 3:
+                                    case 4: suffix = fewSuffix;   break;
+                                    default: suffix = manySuffix; break;
+                                }
+                                
+                                return [NSString stringWithFormat:@"%d %@", count, suffix];
+                            }]
+            describe:@"string from count"];
+}
+
+
 
 
 
