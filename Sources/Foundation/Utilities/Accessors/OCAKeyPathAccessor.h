@@ -116,7 +116,7 @@
 
 #define OCAKeyPathAccessorCreateUnsafe(KEYPATH) \
 (OCAKeyPathAccessor *)({ \
-    [[OCAKeyPathAccessor alloc] initWithObjectClass:nil keyPath:KEYPATH objCType:NULL valueClass:nil]; \
+    [[OCAKeyPathAccessor alloc] initWithObjectClass:nil keyPath:KEYPATH objCType:@encode(id) valueClass:nil]; \
 }) \
 
 
