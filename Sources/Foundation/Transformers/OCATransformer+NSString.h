@@ -84,7 +84,7 @@
 + (OCATransformer *)stringWithNumberStyle:(NSNumberFormatterStyle)style fractionDigits:(NSUInteger)fractionalDigits;
 + (OCATransformer *)stringWithNumberFormatter:(NSNumberFormatter *)formatter;
 + (OCATransformer *)stringFromNumber;
-
++ (OCATransformer *)stringFromCountWithZero:(NSString *)zeroSuffix one:(NSString *)oneSuffix few:(NSString *)fewSuffix many:(NSString *)manySuffix;
 
 #pragma mark Format Byte Count
 
