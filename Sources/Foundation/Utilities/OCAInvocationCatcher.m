@@ -42,7 +42,9 @@
 - (void)retainArguments {
     NSMutableArray *retainedArguments = [[NSMutableArray alloc] init];
     [self.invocation oca_enumerateObjectArgumentsUsingBlock:^(NSUInteger index, id argument) {
-        [retainedArguments addObject:argument];
+        if (argument) {
+            [retainedArguments addObject:argument];
+        }
     }];
     self->_retainedArguments = retainedArguments;
 }
