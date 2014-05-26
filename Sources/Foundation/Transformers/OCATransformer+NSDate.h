@@ -49,6 +49,7 @@
 
 + (OCATransformer *)earlierDate:(NSDate *)otherDate;
 + (OCATransformer *)laterDate:(NSDate *)otherDate;
++ (OCATransformer *)roundDateToUnit:(NSCalendarUnit)unit mode:(NSRoundingMode)mode;
 
 
 #pragma mark Date Components

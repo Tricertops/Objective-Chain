@@ -183,6 +183,36 @@
 }
 
 
++ (OCATransformer *)roundDateToUnit:(NSCalendarUnit)unit mode:(NSRoundingMode)mode {
+    OCAAssert(mode != NSRoundBankers, @"Bankerz date? Rly?");
+    return [[OCATransformer fromClass:[NSDate class] toClass:[NSDate class]
+                            transform:^NSDate *(NSDate *input) {
+                                if ( ! input) return nil;
+                                
+                                NSDate *startDate = nil;
+                                NSTimeInterval interval = 0;
+                                BOOL succes = [[NSCalendar currentCalendar] rangeOfUnit:unit startDate:&startDate interval:&interval forDate:input];
+                                if ( ! succes) return input;
+                                
+                                switch (mode) {
+                                    case NSRoundPlain: {
+                                        NSDate *midDate = [startDate dateByAddingTimeInterval:(interval / 2)];
+                                        NSComparisonResult comparison = [input compare:midDate];
+                                        if (comparison == NSOrderedAscending) return startDate;
+                                        else return [startDate dateByAddingTimeInterval:interval];
+                                    } break;
+                                    case NSRoundDown: return startDate;
+                                    case NSRoundUp: return [startDate dateByAddingTimeInterval:interval];
+                                    default: break;
+                                }
+                                return nil;
+                                
+                            } reverse:OCATransformationPass]
+            describe:@"round date"
+            reverse:@"pass"];
+}
+
+
 
 
 
