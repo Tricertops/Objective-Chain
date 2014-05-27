@@ -268,6 +268,19 @@
 }
 
 
+- (instancetype)initWithChange:(OCAKeyValueChangeRemoval *)removal transformer:(NSValueTransformer *)transformer {
+    self = [super initWithChange:removal transformer:transformer];
+    if (self) {
+        
+        NSValueTransformer *collectionTransformer = [OCATransformer transformArray:transformer];
+        
+        self->_removedObjects = [collectionTransformer transformedValue:removal.removedObjects];
+        self->_removedIndexes = removal.removedIndexes;
+    }
+    return self;
+}
+
+
 - (OCAKeyValueChangeRemoval *)asRemovalChange {
     return self;
 }
