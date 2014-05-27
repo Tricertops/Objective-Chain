@@ -79,6 +79,7 @@
 
 
 - (void)connectTo:(id<OCAConsumer>)consumer;
+- (void)connectWeaklyTo:(id<OCAConsumer>)consumer;
 - (void)connectToMany:(id<OCAConsumer>)consumer, ... NS_REQUIRES_NIL_TERMINATION;
 - (OCAMediator *)chainTo:(OCAMediator *)mediator;
 

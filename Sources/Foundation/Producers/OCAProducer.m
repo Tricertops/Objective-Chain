@@ -268,6 +268,13 @@
 }
 
 
+- (void)connectWeaklyTo:(id<OCAConsumer>)consumer {
+    OCAPlaceholderObject *placeholder = [[OCAPlaceholderObject alloc] initWithRepresentedClass:[consumer consumedValueClass]];
+    OCAInvoker *invoker = OCAInvocation(consumer, consumeValue:placeholder);
+    [self addConsumer:invoker];
+}
+
+
 - (void)connectToMany:(id<OCAConsumer>)firstConsumer, ... NS_REQUIRES_NIL_TERMINATION {
     NSArray *consumers = OCAArrayFromVariadicArguments(firstConsumer);
     for (id<OCAConsumer> consumer in consumers) {
