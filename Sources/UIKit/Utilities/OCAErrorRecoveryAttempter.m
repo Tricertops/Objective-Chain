@@ -69,8 +69,8 @@
     NSMutableDictionary *userInfo = [NSMutableDictionary dictionaryWithDictionary:error.userInfo];
     [userInfo setObject:self forKey:NSRecoveryAttempterErrorKey];
     [userInfo setObject:[self recoveryOptionTitles] forKey:NSLocalizedRecoveryOptionsErrorKey];
-    [userInfo setObject:self.failureReason forKey:NSLocalizedFailureReasonErrorKey];
-    [userInfo setObject:self.recoverySuggestion forKey:NSLocalizedRecoverySuggestionErrorKey];
+    if (self.failureReason.length) [userInfo setObject:self.failureReason forKey:NSLocalizedFailureReasonErrorKey];
+    if (self.recoverySuggestion.length) [userInfo setObject:self.recoverySuggestion forKey:NSLocalizedRecoverySuggestionErrorKey];
     return [NSError errorWithDomain:error.domain code:error.code userInfo:userInfo];
 }
 
