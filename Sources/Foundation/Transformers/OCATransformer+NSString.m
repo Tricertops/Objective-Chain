@@ -396,7 +396,7 @@
                                     default: suffix = manySuffix; break;
                                 }
                                 
-                                return [NSString stringWithFormat:@"%d %@", count, suffix];
+                                return [NSString stringWithFormat:@"%ld %@", (unsigned long)count, suffix];
                             }]
             describe:@"string from count"];
 }
