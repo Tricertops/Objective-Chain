@@ -97,6 +97,13 @@
 //! Shorthand to produce elapsedTime property
 - (OCAProducer *)produceElapsedTime;
 
+//! Sends time that remains to the endDate property, if any.
+- (OCAProducer *)produceRemainingTime;
+
+//! Sends current instances of NSDate starting immediatelly.<
+- (OCAProducer *)produceCurrentDate;
+
+
 
 
 #pragma mark Controlling Timer

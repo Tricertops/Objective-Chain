@@ -12,6 +12,7 @@
 #import "OCABridge.h"
 #import "OCAMath.h"
 #import "OCAProperty.h"
+#import "OCACommand.h"
 
 
 
@@ -191,6 +192,26 @@
 
 - (OCAProducer *)produceElapsedTime {
     return OCAProperty(self, elapsedTime, NSTimeInterval);
+}
+
+
+- (OCAProducer *)produceRemainingTime {
+    OCABridge *bridge = [OCABridge bridgeWithTransformers:
+                         [OCATransformer timeIntervalToDate:self.endDate],
+                         [OCAMath minimumOf:0],
+                         nil];
+    [[self produceCurrentDate] connectTo:bridge];
+    return bridge;
+}
+
+
+- (OCAProducer *)produceCurrentDate {
+    OCABridge *bridge = [OCABridge bridgeWithTransformers:
+                         [OCATransformer replaceWithCurrentDate],
+                         nil];
+    [self connectTo:bridge];
+    [OCACommand send:[NSDate new] to:bridge];
+    return bridge;
 }
 
 
