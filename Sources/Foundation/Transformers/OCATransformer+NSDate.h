@@ -30,6 +30,7 @@
 + (OCATransformer *)timeIntervalSinceUNIX:(BOOL)unix;
 + (OCATransformer *)addTimeInterval:(NSTimeInterval)interval;
 + (OCATransformer *)timeIntervalSinceDate:(NSDate *)otherDate;
++ (OCATransformer *)timeIntervalToDate:(NSDate *)otherDate;
 
 
 #pragma mark Parsing Dates

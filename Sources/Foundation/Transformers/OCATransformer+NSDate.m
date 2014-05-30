@@ -81,7 +81,8 @@
 + (OCATransformer *)timeIntervalSinceDate:(NSDate *)otherDate {
     return [[OCATransformer fromClass:[NSDate class] toClass:[NSNumber class]
                             transform:^NSNumber *(NSDate *input) {
-                                
+                                if ( ! input) return @(INFINITY);
+                                    
                                 return @([input timeIntervalSinceDate:otherDate]);
                                 
                             } reverse:^NSDate *(NSNumber *input) {
@@ -90,6 +91,22 @@
                             }]
             describe:[NSString stringWithFormat:@"time interval since %@", otherDate]
             reverse:[NSString stringWithFormat:@"date with time interval since %@", otherDate]];
+}
+
+
++ (OCATransformer *)timeIntervalToDate:(NSDate *)otherDate {
+    return [[OCATransformer fromClass:[NSDate class] toClass:[NSNumber class]
+                            transform:^NSNumber *(NSDate *input) {
+                                if ( ! input) return @(INFINITY);
+                                
+                                return @([otherDate timeIntervalSinceDate:input]);
+                                
+                            } reverse:^NSDate *(NSNumber *input) {
+                                
+                                return [otherDate dateByAddingTimeInterval:input.doubleValue];
+                            }]
+            describe:[NSString stringWithFormat:@"time interval to %@", otherDate]
+            reverse:[NSString stringWithFormat:@"date with time interval to %@", otherDate]];
 }
 
 
