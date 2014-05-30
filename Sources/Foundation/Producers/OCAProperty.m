@@ -474,7 +474,7 @@
 
 - (void)bindWith:(OCAProperty *)otherProperty CONVENIENCE {
     [self addConsumer:otherProperty];
-    [otherProperty addConsumer:self];
+    [[otherProperty skipFirst:1] addConsumer:self];
 }
 
 
@@ -487,7 +487,7 @@
     [bridge addConsumer:otherProperty];
     
     OCABridge *reversedBridge = [[OCABridge alloc] initWithTransformer:[transformer reversed]];
-    [otherProperty addConsumer:reversedBridge];
+    [[otherProperty skipFirst:1] addConsumer:reversedBridge];
     [reversedBridge addConsumer:self];
 }
 
