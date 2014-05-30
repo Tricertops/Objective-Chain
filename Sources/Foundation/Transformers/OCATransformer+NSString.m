@@ -461,6 +461,7 @@
 + (OCATransformer *)URLFromString {
     return [[OCATransformer fromClass:[NSString class] toClass:[NSURL class]
                             transform:^NSURL *(NSString *input) {
+                                if ( ! input) return nil;
                                 
                                 return [NSURL URLWithString:input];
                                 
