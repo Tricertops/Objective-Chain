@@ -344,7 +344,7 @@
     NSDateFormatter *formatter = [NSDateFormatter new];
     NSArray *weekdays = (shortWeekdays?
                          formatter.shortStandaloneWeekdaySymbols
-                         : formatter.shortWeekdaySymbols);
+                         : formatter.standaloneWeekdaySymbols);
     
     return [[OCATransformer fromClass:[NSNumber class] toClass:[NSString class]
                             transform:^NSString *(NSNumber *input) {
@@ -366,7 +366,7 @@
     NSDateFormatter *formatter = [NSDateFormatter new];
     NSArray *months = (shortMonths?
                        formatter.shortStandaloneMonthSymbols
-                       : formatter.shortMonthSymbols);
+                       : formatter.standaloneMonthSymbols);
     
     return [[OCATransformer fromClass:[NSNumber class] toClass:[NSString class]
                            transform:^NSString *(NSNumber *input) {
