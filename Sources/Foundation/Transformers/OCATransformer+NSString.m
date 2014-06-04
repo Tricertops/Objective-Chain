@@ -158,6 +158,19 @@
 }
 
 
++ (OCATransformer *)capitalizeString {
+    return [[OCATransformer fromClass:[NSString class] toClass:[NSString class]
+                            transform:^NSString *(NSString *input) {
+                                if ( ! input) return nil;
+                                
+                                return [input capitalizedStringWithLocale:nil];
+                                
+                            } reverse:OCATransformationPass]
+            describe:@"capitalize"
+            reverse:@"pass"];
+}
+
+
 
 
 

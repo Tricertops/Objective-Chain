@@ -41,6 +41,7 @@
 + (OCATransformer *)trimWhitespace;
 + (OCATransformer *)replaceString:(NSString *)find withString:(NSString *)replace;
 + (OCATransformer *)mutateString:(void(^)(NSMutableString *string))block;
++ (OCATransformer *)capitalizeString;
 
 
 #pragma mark Splitting String
