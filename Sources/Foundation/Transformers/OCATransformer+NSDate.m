@@ -303,6 +303,42 @@
 }
 
 
++ (NSInteger)valueForUnit:(NSCalendarUnit)unit inComponents:(NSDateComponents *)c {
+    switch (unit) {
+        case NSCalendarUnitEra: return c.era;
+        case NSCalendarUnitYear: return c.year;
+        case NSCalendarUnitMonth: return c.minute;
+        case NSWeekCalendarUnit: return c.week;
+        case NSCalendarUnitDay: return c.day;
+        case NSCalendarUnitHour: return c.hour;
+        case NSCalendarUnitMinute: return c.minute;
+        case NSCalendarUnitSecond: return c.second;
+            
+        case NSCalendarUnitWeekday: return c.weekday;
+        case NSCalendarUnitWeekdayOrdinal: return c.weekdayOrdinal;
+        case NSCalendarUnitQuarter: return c.quarter;
+        case NSCalendarUnitWeekOfMonth: return c.weekOfMonth;
+        case NSCalendarUnitWeekOfYear: return c.weekOfYear;
+        case NSCalendarUnitYearForWeekOfYear: return c.yearForWeekOfYear;
+            
+        default: return NSUndefinedDateComponent;
+    }
+}
+
+
++ (OCATransformer *)dateComponent:(NSCalendarUnit)unit {
+    return [[OCATransformer fromClass:[NSDate class] toClass:[NSNumber class]
+                           asymetric:^NSNumber *(NSDate *input) {
+                               if ( ! input) return nil;
+                               
+                               NSDateComponents *components = [[NSCalendar currentCalendar] components:unit fromDate:input];
+                               NSInteger value = [OCATransformer valueForUnit:unit inComponents:components];
+                               return (value == NSUndefinedDateComponent? nil : @(value));
+                           }]
+            describe:@"date component from date"];
+}
+
+
 
 
 
