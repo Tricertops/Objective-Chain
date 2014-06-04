@@ -60,6 +60,8 @@
 + (OCATransformer *)addDateComponents:(NSDateComponents *)components;
 + (OCATransformer *)modifyDateComponents:(NSCalendarUnit)units block:(void(^)(NSDateComponents *components))block;
 + (OCATransformer *)dateComponent:(NSCalendarUnit)unit;
++ (OCATransformer *)nameFromWeekdayShort:(BOOL)shortWeekdays;
++ (OCATransformer *)nameFromMonthShort:(BOOL)shortMonths;
 
 
 

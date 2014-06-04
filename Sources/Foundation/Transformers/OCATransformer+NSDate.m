@@ -7,6 +7,7 @@
 //
 
 #import "OCATransformer+NSDate.h"
+#import "NSArray+Ordinals.h"
 
 
 
@@ -336,6 +337,50 @@
                                return (value == NSUndefinedDateComponent? nil : @(value));
                            }]
             describe:@"date component from date"];
+}
+
+
++ (OCATransformer *)nameFromWeekdayShort:(BOOL)shortWeekdays {
+    NSDateFormatter *formatter = [NSDateFormatter new];
+    NSArray *weekdays = (shortWeekdays?
+                         formatter.shortStandaloneWeekdaySymbols
+                         : formatter.shortWeekdaySymbols);
+    
+    return [[OCATransformer fromClass:[NSNumber class] toClass:[NSString class]
+                            transform:^NSString *(NSNumber *input) {
+                                if ( ! input) return nil;
+                                
+                                return [weekdays oca_valueAtIndex:input.unsignedIntegerValue - 1];
+                                
+                            } reverse:^NSNumber *(NSString *input) {
+                                if ( ! input) return nil;
+                                
+                                return @([weekdays indexOfObject:input] + 1);
+                            }]
+            describe:[NSString stringWithFormat:@"%@weekday name", (shortWeekdays? @"short " : @"")]
+            reverse:@"weekday index"];
+}
+
+
++ (OCATransformer *)nameFromMonthShort:(BOOL)shortMonths {
+    NSDateFormatter *formatter = [NSDateFormatter new];
+    NSArray *months = (shortMonths?
+                       formatter.shortStandaloneMonthSymbols
+                       : formatter.shortMonthSymbols);
+    
+    return [[OCATransformer fromClass:[NSNumber class] toClass:[NSString class]
+                           transform:^NSString *(NSNumber *input) {
+                               if ( ! input) return nil;
+                               
+                               return [months oca_valueAtIndex:input.unsignedIntegerValue - 1];
+                               
+                           } reverse:^NSNumber *(NSString *input) {
+                               if ( ! input) return nil;
+                               
+                               return @([months indexOfObject:input] + 1);
+                           }]
+            describe:[NSString stringWithFormat:@"%@month name", (shortMonths? @"short " : @"")]
+            reverse:@"month index"];
 }
 
 
