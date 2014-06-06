@@ -57,6 +57,7 @@ _Pragma("clang diagnostic pop") \
 - (BOOL)validateObject:(id *)object ofClasses:(NSArray *)classes;
 
 + (BOOL)isClass:(Class)class1 compatibleWithClass:(Class)class2;
++ (BOOL)isClass:(Class)classToCheck compatibleWithClasses:(NSArray *)classes;
 - (BOOL)isClass:(Class)class1 compatibleWithClass:(Class)class2;
 
 

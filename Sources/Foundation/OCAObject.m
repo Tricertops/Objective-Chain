@@ -88,6 +88,17 @@
 }
 
 
++ (BOOL)isClass:(Class)classToCheck compatibleWithClasses:(NSArray *)classes {
+    if ( ! classToCheck) return YES;
+    if ( ! classes.count) return YES;
+    
+    for (Class class in classes) {
+        if ([classToCheck isSubclassOfClass:class]) return YES;
+    }
+    return NO;
+}
+
+
 - (BOOL)isClass:(Class)class1 compatibleWithClass:(Class)class2 {
     return [self.class isClass:class1 compatibleWithClass:class2];
 }

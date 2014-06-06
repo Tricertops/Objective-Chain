@@ -9,6 +9,9 @@
 #import "OCAKeyValueChange.h"
 #import "OCAProperty.h"
 #import "OCATransformer.h"
+#if OCA_iOS
+    #import <UIKit/UIKit.h>
+#endif
 
 
 
@@ -154,6 +157,17 @@
 
 
 
+@interface OCAKeyValueChangeSetting ()
+
+@property (nonatomic, readwrite, assign) BOOL previousValueWasNonNil;
+@property (nonatomic, readwrite, assign) BOOL previousValueWasStoredStrongly;
+
+@property (nonatomic, readwrite, weak) id weakPreviousValue;
+@property (nonatomic, readwrite, strong) id strongPreviousValue;
+
+@end
+
+
 @implementation OCAKeyValueChangeSetting
 
 
@@ -164,10 +178,49 @@
         
         id old = [dictionary objectForKey:NSKeyValueChangeOldKey];
         self->_isInitial = (self.kind == NSKeyValueChangeSetting && old == nil && ! self.isPrior);
-        id previousValue = (old == NSNull.null? nil : old);
-        self->_previousValue = (accessor? [accessor accessObject:previousValue] : previousValue);
+        id oldValue = (old == NSNull.null? nil : old);
+        id previousValue = (accessor? [accessor accessObject:oldValue] : oldValue);
+        
+        self->_previousValueWasNonNil = (previousValue != nil);
+        if (self->_previousValueWasNonNil) {
+            self.previousValueWasStoredStrongly = [self.class isClass:[previousValue class] compatibleWithClasses:[self.class strongClasses]];
+            // It's easier to whitelist few classes, than using strong or weak for everthing.
+            if (self->_previousValueWasStoredStrongly) {
+                self.strongPreviousValue = previousValue;
+            }
+            else {
+                self.weakPreviousValue = previousValue; // If this gets deallocated, the above flag will tell us.
+            }
+        }
     }
     return self;
+}
+
+
++ (NSArray *)strongClasses {
+    static NSArray *strongClasses = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        /// Classes that are just data types that can be stored for extended perios of time without side effects.
+        // They shouln't contain any other objects.
+        strongClasses = @[
+                          [NSValue class],
+                          [NSString class],
+                          [NSUUID class],
+                          [NSDate class],
+                          [NSDateComponents class],
+                          [NSURL class],
+                          [NSIndexPath class],
+                          [NSLocale class],
+                          [NSNull class],
+                          // NSError can contain recovery attempter
+#if OCA_iOS
+                          [UIColor class],
+                          [UIFont class],
+#endif
+                          ];
+    });
+    return strongClasses;
 }
 
 
@@ -176,8 +229,24 @@
 }
 
 
+- (id)previousValue {
+    if (self->_previousValueWasStoredStrongly) return self->_strongPreviousValue;
+    else return self->_weakPreviousValue;
+}
+
+
+- (BOOL)previousValueHasBeenDeallocated {
+    if ( ! self->_previousValueWasNonNil) return NO; // Previous was nil, so couldn't be deallocated.
+    if (self->_previousValueWasStoredStrongly) return NO; // Strong couldn't be deallocated.
+    return (self->_weakPreviousValue == nil); // The last option is, that it was stored weakly, but it's not there anymore.
+}
+
+
 - (BOOL)isLatestEqualToPrevious {
-    return OCAEqual(self->_previousValue, self.latestValue);
+    if ([self previousValueHasBeenDeallocated]) {
+        return NO;
+    }
+    return OCAEqual(self.previousValue, self.latestValue);
 }
 
 

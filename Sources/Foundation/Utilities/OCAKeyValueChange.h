@@ -49,7 +49,7 @@
 
 
 @property (nonatomic, readonly, assign) BOOL isInitial;
-@property (nonatomic, readonly, strong) id previousValue; //TODO: Hold weakly, maybe.
+@property (nonatomic, readonly) id previousValue; // Do not use to compare.
 
 - (BOOL)isLatestEqualToPrevious;
 
