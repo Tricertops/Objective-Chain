@@ -83,17 +83,8 @@
         self->_valueClass = valueClass;
         self->_isWrapping = isWrapping;
         self->_structureAccessor = structAccess;
-        
-        NSLog(@"Alloc %@: %@.%@", self.class, objectClass, keyPath);
     }
     return self;
-}
-
-
-- (void)dealloc {
-    if (self.objectClass) {
-        NSLog(@"Dealloc %@: %@.%@", self.class, self.objectClass, self.keyPath);
-    }
 }
 
 
