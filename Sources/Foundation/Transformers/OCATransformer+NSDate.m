@@ -111,6 +111,31 @@
 }
 
 
++ (OCATransformer *)timeIntervalSinceMidnight {
+    return [[OCATransformer fromClass:[NSDate class] toClass:[NSNumber class]
+                            transform:^NSNumber *(NSDate *input) {
+                                if ( ! input) return nil;
+                                
+                                NSDate *midnight = nil;
+                                BOOL didIt = [[NSCalendar currentCalendar] rangeOfUnit:NSCalendarUnitDay startDate:&midnight interval:nil forDate:input];
+                                if ( ! didIt) return nil;
+                                
+                                return @( input.timeIntervalSinceReferenceDate - midnight.timeIntervalSinceReferenceDate );
+                                
+                            } reverse:^NSDate *(NSNumber *input) {
+                                if ( ! input) return nil;
+                                
+                                NSDate *todayMidnight = nil;
+                                BOOL didIt = [[NSCalendar currentCalendar] rangeOfUnit:NSCalendarUnitDay startDate:&todayMidnight interval:nil forDate:[NSDate date]];
+                                if ( ! didIt) return nil;
+                                
+                                return [todayMidnight dateByAddingTimeInterval:input.doubleValue];
+                            }]
+            describe:@"time interval since midnight"
+            reverse:@"date from time interval since midnight"];
+}
+
+
 
 
 

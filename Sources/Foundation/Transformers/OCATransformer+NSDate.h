@@ -31,6 +31,7 @@
 + (OCATransformer *)addTimeInterval:(NSTimeInterval)interval;
 + (OCATransformer *)timeIntervalSinceDate:(NSDate *)otherDate;
 + (OCATransformer *)timeIntervalToDate:(NSDate *)otherDate;
++ (OCATransformer *)timeIntervalSinceMidnight;
 
 
 #pragma mark Parsing Dates
