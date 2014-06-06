@@ -27,10 +27,10 @@
 @implementation OCAPropertyChangePrivateBridge
 
 + (instancetype)privateBridgeForKeyPath:(NSString *)keyPath valueClass:(Class)valueClass {
-    OCAKeyPathAccessor *accessor = [[OCAKeyPathAccessor alloc] initWithObjectClass:[OCAKeyValueChange class]
-                                                                           keyPath:keyPath
-                                                                          objCType:@encode(id)
-                                                                        valueClass:valueClass];
+    OCAKeyPathAccessor *accessor = [OCAKeyPathAccessor accessorForObjectClass:[OCAKeyValueChange class]
+                                                                      keyPath:keyPath
+                                                                     objCType:@encode(id)
+                                                                   valueClass:valueClass];
     OCAPropertyChangePrivateBridge *privateBridge = [[OCAPropertyChangePrivateBridge alloc] initWithTransformer:[OCATransformer access:accessor]];
     return privateBridge;
 }
@@ -425,14 +425,14 @@
 
 
 - (OCAProducer *)producePreviousWithLatest {
-    OCAKeyPathAccessor *previousAccessor = [[OCAKeyPathAccessor alloc] initWithObjectClass:[OCAKeyValueChangeSetting class]
-                                                                                   keyPath:OCAKP(OCAKeyValueChangeSetting, previousValue)
-                                                                                  objCType:@encode(id)
-                                                                                valueClass:self.accessor.valueClass];
-    OCAKeyPathAccessor *latestAccessor = [[OCAKeyPathAccessor alloc] initWithObjectClass:[OCAKeyValueChangeSetting class]
-                                                                                 keyPath:OCAKP(OCAKeyValueChangeSetting, latestValue)
-                                                                                objCType:@encode(id)
-                                                                              valueClass:self.accessor.valueClass];
+    OCAKeyPathAccessor *previousAccessor = [OCAKeyPathAccessor accessorForObjectClass:[OCAKeyValueChangeSetting class]
+                                                                              keyPath:OCAKP(OCAKeyValueChangeSetting, previousValue)
+                                                                             objCType:@encode(id)
+                                                                           valueClass:self.accessor.valueClass];
+    OCAKeyPathAccessor *latestAccessor = [OCAKeyPathAccessor accessorForObjectClass:[OCAKeyValueChangeSetting class]
+                                                                            keyPath:OCAKP(OCAKeyValueChangeSetting, latestValue)
+                                                                           objCType:@encode(id)
+                                                                         valueClass:self.accessor.valueClass];
     // Combine previous and latest values.
     NSValueTransformer *transformer = [OCATransformer branchArray:@[
                                                                     [OCATransformer access:previousAccessor],

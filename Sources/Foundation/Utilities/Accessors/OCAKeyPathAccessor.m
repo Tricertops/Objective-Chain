@@ -34,44 +34,77 @@
 #pragma mark Creating Key-Path Accessor
 
 
-- (instancetype)initWithObjectClass:(Class)objectClass keyPath:(NSString *)keyPath objCType:(const char *)objCType valueClass:(__unsafe_unretained Class)valueClass {
++ (instancetype)accessorForObjectClass:(Class)objectClass keyPath:(NSString *)keyPath objCType:(const char *)objCType valueClass:(Class)valueClass {
+    OCAAssert(keyPath.length > 0, @"Missing key-path.") return nil;
+    return [self accessorForObjectClass:objectClass keyPath:keyPath objCType:objCType valueClass:valueClass structureAccessor:nil];
+}
+
+
++ (instancetype)accessorForObjectClass:(Class)objectClass keyPath:(NSString *)keyPath structureAccessor:(OCAStructureAccessor *)structureAccessor {
+    OCAAssert(structureAccessor != nil, @"") return nil;
+    return [self accessorForObjectClass:objectClass keyPath:keyPath objCType:structureAccessor.memberType valueClass:structureAccessor.valueClass structureAccessor:structureAccessor];
+}
+
+
++ (instancetype)accessorForObjectClass:(Class)objectClass keyPath:(NSString *)keyPath objCType:(const char *)objCType valueClass:(Class)valueClass structureAccessor:(OCAStructureAccessor *)structAccess {
+    BOOL isObject = (objCType && strcmp(@encode(id), objCType) == 0);
+    BOOL isNumeric = [NSValue objCTypeIsNumeric:objCType];
+    BOOL isWrapping = NO;
+    if (isNumeric) {
+        OCAAssert(valueClass == nil || valueClass == [NSNumber class], @"Provided wrongs wrapper class.");
+        valueClass = [NSNumber class];
+        isWrapping = YES;
+    }
+    else if ( ! isObject) {
+        OCAAssert(valueClass == nil || valueClass == [NSValue class], @"Provided wrongs wrapper class.");
+        valueClass = [NSValue class];
+        isWrapping = YES;
+    }
+    else {
+        valueClass = (valueClass == [NSObject class]? nil : valueClass); // NSObject is useless, better use nil.
+    }
+    
+    id cacheKey = @[ objectClass ?: NSNull.null, keyPath ?: @"", valueClass ?: NSNull.null, structAccess ?: NSNull.null ];
+    OCAKeyPathAccessor *existing = [[self.class sharedKeyPathAccessors] objectForKey:cacheKey];
+    if (existing) return existing;
+    
+    OCAKeyPathAccessor *nonexisting = [[self alloc] initWithObjectClass:objectClass keyPath:keyPath objCType:objCType valueClass:valueClass isWrapping:isWrapping structureAccessor:structAccess];
+    [[self.class sharedKeyPathAccessors] setObject:nonexisting forKey:cacheKey];
+    return nonexisting;
+}
+
+
+- (instancetype)initWithObjectClass:(Class)objectClass keyPath:(NSString *)keyPath objCType:(const char *)objCType valueClass:(Class)valueClass isWrapping:(BOOL)isWrapping structureAccessor:(OCAStructureAccessor *)structAccess {
     self = [super init];
     if (self) {
-        OCAAssert(keyPath.length > 0, @"Missing key-path.") return nil;
-        
         self->_objectClass = objectClass;
         self->_keyPath = keyPath;
         self->_objCType = objCType;
+        self->_valueClass = valueClass;
+        self->_isWrapping = isWrapping;
+        self->_structureAccessor = structAccess;
         
-        BOOL isObject = (objCType && strcmp(@encode(id), objCType) == 0);
-        BOOL isNumeric = [NSValue objCTypeIsNumeric:objCType];
-        if (isNumeric) {
-            OCAAssert(valueClass == nil || valueClass == [NSNumber class], @"Provided wrongs wrapper class.");
-            self->_valueClass = [NSNumber class];
-            self->_isWrapping = YES;
-        }
-        else if ( ! isObject) {
-            OCAAssert(valueClass == nil || valueClass == [NSValue class], @"Provided wrongs wrapper class.");
-            self->_valueClass = [NSValue class];
-            self->_isWrapping = YES;
-        }
-        else {
-            self->_valueClass = (valueClass == [NSObject class]? nil : valueClass); // NSObject is useless, better use nil.
-            self->_isWrapping = NO;
-        }
+        NSLog(@"Alloc %@: %@.%@", self.class, objectClass, keyPath);
     }
     return self;
 }
 
 
-- (instancetype)initWithObjectClass:(Class)objectClass keyPath:(NSString *)keyPath structureAccessor:(OCAStructureAccessor *)structureAccessor {
-    self = [self initWithObjectClass:objectClass keyPath:keyPath objCType:[structureAccessor memberType] valueClass:[structureAccessor valueClass]];
-    if (self) {
-        OCAAssert(structureAccessor != nil, @"") return nil;
-        
-        self->_structureAccessor = structureAccessor;
+- (void)dealloc {
+    if (self.objectClass) {
+        NSLog(@"Dealloc %@: %@.%@", self.class, self.objectClass, self.keyPath);
     }
-    return self;
+}
+
+
++ (NSCache *)sharedKeyPathAccessors {
+    static NSCache *sharedAccessors = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        sharedAccessors = [NSCache new];
+        sharedAccessors.name = NSStringFromClass(self);
+    });
+    return sharedAccessors;
 }
 
 
