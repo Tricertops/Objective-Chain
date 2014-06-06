@@ -19,17 +19,31 @@
 
 
 
+#define OCATransformerShared(NAME)\
++ (OCATransformer *)NAME {\
+    static OCATransformer *NAME = nil;\
+    static dispatch_once_t onceToken;\
+    dispatch_once(&onceToken, ^{\
+        NAME = [OCATransformer sharedTransformer_##NAME];\
+    });\
+    return NAME;\
+}\
++ (OCATransformer *)sharedTransformer_##NAME\
+
+
+
+
 
 #pragma mark Basic
 
 
-+ (OCATransformer *)pass {
+OCATransformerShared(pass) {
     return [[OCATransformer fromClass:nil toClass:nil symetric:OCATransformationPass]
             describe:@"pass"];
 }
 
 
-+ (OCATransformer *)discard {
+OCATransformerShared(discard) {
     return [[OCATransformer fromClass:nil toClass:nil symetric:OCATransformationDiscard]
             describe:@"discard"];
 }
@@ -107,10 +121,11 @@
 }
 
 
-+ (OCATransformer *)negateBoolean {
-    return [OCATransformer if:[OCAPredicate isTrue]
-            then:[OCATransformer replaceWith:@NO]
-            else:[OCATransformer replaceWith:@YES]];
+OCATransformerShared(negateBoolean) {
+    return [[OCATransformer if:[OCAPredicate isTrue]
+             then:[OCATransformer replaceWith:@NO]
+             else:[OCATransformer replaceWith:@YES]]
+            specializeFromClass:[NSNumber class] toClass:[NSNumber class]];
 }
 
 
