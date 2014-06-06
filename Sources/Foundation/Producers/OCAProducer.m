@@ -269,7 +269,7 @@
 
 
 - (void)connectWeaklyTo:(id<OCAConsumer>)consumer {
-    OCAPlaceholderObject *placeholder = [[OCAPlaceholderObject alloc] initWithRepresentedClass:[consumer consumedValueClass]];
+    OCAPlaceholderObject *placeholder = [OCAPlaceholderObject placeholderForClass:[consumer consumedValueClass]];
     OCAInvoker *invoker = OCAInvocation(consumer, consumeValue:placeholder);
     [self addConsumer:invoker];
 }

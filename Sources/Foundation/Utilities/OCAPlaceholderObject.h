@@ -17,9 +17,9 @@
 
 
 #define OCAPH(CLASS)                OCAPlaceholder(CLASS)
-#define OCAPlaceholder(CLASS)       ((CLASS *)[[OCAPlaceholderObject alloc] initWithRepresentedClass:[CLASS class]])
+#define OCAPlaceholder(CLASS)       ((CLASS *)[OCAPlaceholderObject placeholderForClass:[CLASS class]])
 
-- (instancetype)initWithRepresentedClass:(Class)class;
++ (instancetype)placeholderForClass:(Class)class;
 
 @property (atomic, readonly, strong) Class representedClass;
 

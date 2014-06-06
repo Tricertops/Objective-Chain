@@ -78,7 +78,7 @@
             // Target is always replaced by placeholder and is stored weakly.
             self->_target = argument; // This is weak, so the target must be retained somewhere else to make this work.
             
-            placeholder = [[OCAPlaceholderObject alloc] initWithRepresentedClass:[argument classForCoder]];
+            placeholder = [OCAPlaceholderObject placeholderForClass:[argument classForCoder]];
         }
         else if ([argument isKindOfClass:[OCAPlaceholderObject class]]) {
             // Found placeholder. Works even if the placeholder is the target.

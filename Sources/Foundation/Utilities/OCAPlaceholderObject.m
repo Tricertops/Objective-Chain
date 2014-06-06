@@ -7,6 +7,7 @@
 //
 
 #import "OCAPlaceholderObject.h"
+#import <objc/runtime.h>
 
 
 
@@ -21,6 +22,17 @@
 
 
 
+
+
++ (instancetype)placeholderForClass:(Class)class {
+    static void *OCAPlaceholderObjectKey = &OCAPlaceholderObjectKey;
+    OCAPlaceholderObject *placeholder = objc_getAssociatedObject(class, OCAPlaceholderObjectKey);
+    if (placeholder) return placeholder;
+    
+    placeholder = [[self alloc] initWithRepresentedClass:class];
+    objc_setAssociatedObject(class, OCAPlaceholderObjectKey, placeholder, OBJC_ASSOCIATION_RETAIN);
+    return placeholder;
+}
 
 
 - (instancetype)init {
