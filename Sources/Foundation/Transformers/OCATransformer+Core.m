@@ -8,6 +8,7 @@
 
 #import "OCATransformer+Core.h"
 #import "OCAPredicate.h"
+#import <objc/runtime.h>
 
 
 
@@ -120,11 +121,18 @@
 
 
 + (OCATransformer *)access:(OCAAccessor *)accessor {
-    return [[OCATransformer fromClass:accessor.objectClass toClass:accessor.valueClass
-                            asymetric:^id(id input) {
-                                return [accessor accessObject:input];
-                            }]
-            describe:accessor.description];
+    static void * OCATransformerAccess = &OCATransformerAccess;
+    OCATransformer *transformer = objc_getAssociatedObject(accessor, OCATransformerAccess);
+    if (transformer) return transformer;
+    
+    transformer = [[OCATransformer fromClass:accessor.objectClass toClass:accessor.valueClass
+                                   asymetric:^id(id input) {
+                                       return [accessor accessObject:input];
+                                   }]
+                   describe:accessor.description];
+    
+    objc_setAssociatedObject(accessor, OCATransformerAccess, transformer, OBJC_ASSOCIATION_RETAIN);
+    return transformer;
 }
 
 
