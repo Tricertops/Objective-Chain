@@ -169,12 +169,14 @@
 
 
 - (OCAPropertyChangePrivateBridge *)privateBridgeForSelector:(SEL)selector block:(OCAPropertyChangePrivateBridge *(^)(void))block {
-    OCAPropertyChangePrivateBridge *bridge = objc_getAssociatedObject(self, selector);
-    if ( ! bridge) {
-        bridge = block();
-        objc_setAssociatedObject(self, selector, bridge, OBJC_ASSOCIATION_RETAIN);
-    }
-    return bridge;
+    return block();
+    
+//    OCAPropertyChangePrivateBridge *bridge = objc_getAssociatedObject(self, selector);
+//    if ( ! bridge) {
+//        bridge = block();
+//        objc_setAssociatedObject(self, selector, bridge, OBJC_ASSOCIATION_RETAIN);
+//    }
+//    return bridge;
 }
 
 
