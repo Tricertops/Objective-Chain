@@ -21,6 +21,9 @@ _Pragma("clang diagnostic pop") \
 #define OCAWeakify(VARIABLE)            __weak typeof(VARIABLE) VARIABLE##_weak = VARIABLE
 #define OCAStrongify(VARIABLE)          __strong typeof(VARIABLE##_weak) VARIABLE = VARIABLE##_weak
 
+#define OCAKeyPathsAffecting(AFFECTED, KEYPATHS...)\
++ (NSSet *)keyPathsForValuesAffecting##AFFECTED { return [NSSet setWithObjects: KEYPATHS, nil]; }
+
 #define OCAEqual(A, B)                  OCAEqualCustom(A, isEqual:, B)
 #define OCAEqualString(A, B)            OCAEqualCustom(A, isEqualToString:, B)
 #define OCAEqualCustom(A, SELECTOR, B) \
