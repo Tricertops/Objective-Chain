@@ -9,6 +9,7 @@
 #import "OCAInvoker.h"
 #import "OCAInvocationCatcher.h"
 #import "NSArray+Ordinals.h"
+#import "OCADecomposer.h"
 
 
 
@@ -51,6 +52,10 @@
         
         self->_invocation = invocation;
         [self findPlaceholders];
+        
+        [[self.target decomposer] addOwnedObject:self cleanup:^(__unsafe_unretained id owner) {
+            [self clearInvocationAndArguments];
+        }];
         
         //! Catcher must live until here, because it retains the arguments.
         [catcher self];
@@ -146,7 +151,7 @@
 - (void)consumeValue:(id)value {
     NSObject *target = self.target;
     if ( ! target && ! self.isTargetConsumed) {
-        self->_invocation = nil;
+        [self clearInvocationAndArguments];
         return;
     }
     
@@ -164,12 +169,17 @@
 }
 
 
-- (void)finishConsumingWithError:(NSError *)error {
+- (void)clearInvocationAndArguments {
     self->_target = nil;
     self->_invocation = nil;
     self->_fixedArguments = nil;
     self->_placeholderIndexes = nil;
     self->_placeholders = nil;
+}
+
+
+- (void)finishConsumingWithError:(NSError *)error {
+    [self clearInvocationAndArguments];
 }
 
 
