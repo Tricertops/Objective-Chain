@@ -10,6 +10,8 @@
 #import "OCAProducer+Subclass.h"
 #import "NSArray+Ordinals.h"
 #import "OCAVariadic.h"
+#import "OCABridge.h"
+#import "OCATransformer.h"
 
 
 
@@ -76,6 +78,22 @@
 
 + (instancetype)combine:(OCAProducer *)producers, ... NS_REQUIRES_NIL_TERMINATION {
     return [[self alloc] initWithType:OCAHubTypeCombine producers:OCAArrayFromVariadicArguments(producers)];
+}
+
+
++ (OCAProducer *)allTrue:(OCAProducer *)producers, ... NS_REQUIRES_NIL_TERMINATION {
+    OCAHub *hub = [[self alloc] initWithType:OCAHubTypeCombine producers:OCAArrayFromVariadicArguments(producers)];
+    OCABridge *bridge = [[OCABridge alloc] initWithTransformer:[OCAMath allTrue]];
+    [hub connectTo:bridge];
+    return bridge;
+}
+
+
++ (OCAProducer *)anyTrue:(OCAProducer *)producers, ... NS_REQUIRES_NIL_TERMINATION {
+    OCAHub *hub = [[self alloc] initWithType:OCAHubTypeCombine producers:OCAArrayFromVariadicArguments(producers)];
+    OCABridge *bridge = [[OCABridge alloc] initWithTransformer:[OCAMath anyTrue]];
+    [hub connectTo:bridge];
+    return bridge;
 }
 
 
