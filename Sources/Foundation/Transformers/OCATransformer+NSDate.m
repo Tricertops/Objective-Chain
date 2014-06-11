@@ -374,8 +374,11 @@
     return [[OCATransformer fromClass:[NSNumber class] toClass:[NSString class]
                             transform:^NSString *(NSNumber *input) {
                                 if ( ! input) return nil;
+                                NSInteger index = input.unsignedIntegerValue - 1;
+                                if (index < 0) return nil;
+                                if (index >= weekdays.count) return nil;
                                 
-                                return [weekdays oca_valueAtIndex:input.unsignedIntegerValue - 1];
+                                return [weekdays objectAtIndex:index];
                                 
                             } reverse:^NSNumber *(NSString *input) {
                                 if ( ! input) return nil;
@@ -396,8 +399,11 @@
     return [[OCATransformer fromClass:[NSNumber class] toClass:[NSString class]
                            transform:^NSString *(NSNumber *input) {
                                if ( ! input) return nil;
+                               NSInteger index = input.unsignedIntegerValue - 1;
+                               if (index < 0) return nil;
+                               if (index >= months.count) return nil;
                                
-                               return [months oca_valueAtIndex:input.unsignedIntegerValue - 1];
+                               return [months objectAtIndex:index];
                                
                            } reverse:^NSNumber *(NSString *input) {
                                if ( ! input) return nil;
