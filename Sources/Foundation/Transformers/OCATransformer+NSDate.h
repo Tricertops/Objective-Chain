@@ -69,3 +69,19 @@
 @end
 
 
+
+
+
+
+extern NSCalendarUnit const OCACalendarUnitDefault;
+
+
+
+@interface NSDateComponents (OCATransformer)
+
+- (NSInteger)oca_valueForUnit:(NSCalendarUnit)unit;
+- (void)oca_setValue:(NSInteger)value forUnit:(NSCalendarUnit)unit;
+
+@end
+
+

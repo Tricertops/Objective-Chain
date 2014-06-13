@@ -262,24 +262,17 @@
 #pragma mark NSDate - Components
 
 
-+ (NSCalendarUnit)defaultCalendarUnits {
-    return (NSCalendarUnitYear
-            | NSCalendarUnitMonth
-            | NSCalendarUnitDay
-            | NSCalendarUnitHour
-            | NSCalendarUnitMinute
-            | NSCalendarUnitSecond);
-}
-
 
 + (OCATransformer *)dateComponents:(NSCalendarUnit)units {
     return [[OCATransformer fromClass:[NSDate class] toClass:[NSDateComponents class]
                             transform:^NSDateComponents *(NSDate *input) {
+                                if ( ! input) return nil;
                                 
-                                return [[NSCalendar currentCalendar] components:units ?: [self defaultCalendarUnits]
+                                return [[NSCalendar currentCalendar] components:units ?: OCACalendarUnitDefault
                                                                        fromDate:input];
                                 
                             } reverse:^NSDate *(NSDateComponents *input) {
+                                if ( ! input) return nil;
                                 
                                 return [[NSCalendar currentCalendar] dateFromComponents:input];
                             }]
@@ -291,13 +284,15 @@
 + (OCATransformer *)dateComponents:(NSCalendarUnit)units sinceDate:(NSDate *)otherDate {
     return [[OCATransformer fromClass:[NSDate class] toClass:[NSDateComponents class]
                             transform:^NSDateComponents *(NSDate *input) {
+                                if ( ! input) return nil;
                                 
-                                return [[NSCalendar currentCalendar] components:units ?: [self defaultCalendarUnits]
+                                return [[NSCalendar currentCalendar] components:units ?: OCACalendarUnitDefault
                                                                        fromDate:otherDate
                                                                          toDate:input
                                                                         options:kNilOptions];
                                 
                             } reverse:^NSDate *(NSDateComponents *input) {
+                                if ( ! input) return nil;
                                 
                                 return [[NSCalendar currentCalendar] dateByAddingComponents:input toDate:otherDate options:kNilOptions];
                             }]
@@ -309,6 +304,7 @@
 + (OCATransformer *)addDateComponents:(NSDateComponents *)components {
     return [[OCATransformer fromClass:[NSDate class] toClass:[NSDate class]
                             asymetric:^NSDate *(NSDate *input) {
+                                if ( ! input) return nil;
                                 
                                 return [[NSCalendar currentCalendar] dateByAddingComponents:components toDate:input options:kNilOptions];
                             }]
@@ -319,36 +315,14 @@
 + (OCATransformer *)modifyDateComponents:(NSCalendarUnit)units block:(void(^)(NSDateComponents *components))block {
     return [[OCATransformer fromClass:[NSDate class] toClass:[NSDate class]
                             asymetric:^NSDate *(NSDate *input) {
+                                if ( ! input) return nil;
                                 
-                                NSDateComponents *components = [[NSCalendar currentCalendar] components:units ?: [self defaultCalendarUnits]
+                                NSDateComponents *components = [[NSCalendar currentCalendar] components:units ?: OCACalendarUnitDefault
                                                                                                fromDate:input];
                                 block(components);
                                 return [[NSCalendar currentCalendar] dateFromComponents:components];
                             }]
             describe:@"modify date components"];
-}
-
-
-+ (NSInteger)valueForUnit:(NSCalendarUnit)unit inComponents:(NSDateComponents *)c {
-    switch (unit) {
-        case NSCalendarUnitEra: return c.era;
-        case NSCalendarUnitYear: return c.year;
-        case NSCalendarUnitMonth: return c.minute;
-        case NSWeekCalendarUnit: return c.week;
-        case NSCalendarUnitDay: return c.day;
-        case NSCalendarUnitHour: return c.hour;
-        case NSCalendarUnitMinute: return c.minute;
-        case NSCalendarUnitSecond: return c.second;
-            
-        case NSCalendarUnitWeekday: return c.weekday;
-        case NSCalendarUnitWeekdayOrdinal: return c.weekdayOrdinal;
-        case NSCalendarUnitQuarter: return c.quarter;
-        case NSCalendarUnitWeekOfMonth: return c.weekOfMonth;
-        case NSCalendarUnitWeekOfYear: return c.weekOfYear;
-        case NSCalendarUnitYearForWeekOfYear: return c.yearForWeekOfYear;
-            
-        default: return NSUndefinedDateComponent;
-    }
 }
 
 
@@ -358,7 +332,7 @@
                                if ( ! input) return nil;
                                
                                NSDateComponents *components = [[NSCalendar currentCalendar] components:unit fromDate:input];
-                               NSInteger value = [OCATransformer valueForUnit:unit inComponents:components];
+                               NSInteger value = [components oca_valueForUnit:unit];
                                return (value == NSUndefinedDateComponent? nil : @(value));
                            }]
             describe:@"date component from date"];
@@ -419,3 +393,71 @@
 
 
 @end
+
+
+
+
+
+NSCalendarUnit const OCACalendarUnitDefault = (NSCalendarUnitYear
+                                               | NSCalendarUnitMonth
+                                               | NSCalendarUnitDay
+                                               | NSCalendarUnitHour
+                                               | NSCalendarUnitMinute
+                                               | NSCalendarUnitSecond);
+
+
+
+
+
+@implementation NSDateComponents (OCATransformer)
+
+
+- (NSInteger)oca_valueForUnit:(NSCalendarUnit)unit {
+    switch (unit) {
+        case NSCalendarUnitEra: return self.era;
+        case NSCalendarUnitYear: return self.year;
+        case NSCalendarUnitMonth: return self.minute;
+        case NSWeekCalendarUnit: return self.week;
+        case NSCalendarUnitDay: return self.day;
+        case NSCalendarUnitHour: return self.hour;
+        case NSCalendarUnitMinute: return self.minute;
+        case NSCalendarUnitSecond: return self.second;
+            
+        case NSCalendarUnitWeekday: return self.weekday;
+        case NSCalendarUnitWeekdayOrdinal: return self.weekdayOrdinal;
+        case NSCalendarUnitQuarter: return self.quarter;
+        case NSCalendarUnitWeekOfMonth: return self.weekOfMonth;
+        case NSCalendarUnitWeekOfYear: return self.weekOfYear;
+        case NSCalendarUnitYearForWeekOfYear: return self.yearForWeekOfYear;
+            
+        default: return NSUndefinedDateComponent;
+    }
+}
+
+
+- (void)oca_setValue:(NSInteger)value forUnit:(NSCalendarUnit)unit {
+    switch (unit) {
+        case NSCalendarUnitEra: self.era = value; break;
+        case NSCalendarUnitYear: self.year = value; break;
+        case NSCalendarUnitMonth: self.minute = value; break;
+        case NSWeekCalendarUnit: self.week = value; break;
+        case NSCalendarUnitDay: self.day = value; break;
+        case NSCalendarUnitHour: self.hour = value; break;
+        case NSCalendarUnitMinute: self.minute = value; break;
+        case NSCalendarUnitSecond: self.second = value; break;
+            
+        case NSCalendarUnitWeekday: self.weekday = value; break;
+        case NSCalendarUnitWeekdayOrdinal: self.weekdayOrdinal = value; break;
+        case NSCalendarUnitQuarter: self.quarter = value; break;
+        case NSCalendarUnitWeekOfMonth: self.weekOfMonth = value; break;
+        case NSCalendarUnitWeekOfYear: self.weekOfYear = value; break;
+        case NSCalendarUnitYearForWeekOfYear: self.yearForWeekOfYear = value; break;
+            
+        default: OCAAssert(NO, @"Cannot set value for this unit.");
+    }
+}
+
+
+@end
+
+
