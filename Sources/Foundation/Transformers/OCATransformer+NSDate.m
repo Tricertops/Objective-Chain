@@ -301,6 +301,40 @@
 }
 
 
++ (OCATransformer *)dateComponentsSinceCurrentDate:(NSCalendarUnit)units {
+    return [[OCATransformer fromClass:[NSDate class] toClass:[NSDateComponents class]
+                            transform:^NSDateComponents *(NSDate *input) {
+                                if ( ! input) return nil;
+                                
+                                return [[NSCalendar currentCalendar] components:units ?: OCACalendarUnitDefault
+                                                                       fromDate:[NSDate new]
+                                                                         toDate:input
+                                                                        options:kNilOptions];
+                                
+                            } reverse:^NSDate *(NSDateComponents *input) {
+                                if ( ! input) return nil;
+                                
+                                return [[NSCalendar currentCalendar] dateByAddingComponents:input toDate:[NSDate new] options:kNilOptions];
+                            }]
+            describe:@"components since now"
+            reverse:@"add components to now"];
+}
+
+
++ (OCATransformer *)dateComponentsUntilCurrentDate:(NSCalendarUnit)units {
+    return [[OCATransformer fromClass:[NSDate class] toClass:[NSDateComponents class]
+                            asymetric:^NSDateComponents *(NSDate *input) {
+                                if ( ! input) return nil;
+                                
+                                return [[NSCalendar currentCalendar] components:units ?: OCACalendarUnitDefault
+                                                                       fromDate:input
+                                                                         toDate:[NSDate new]
+                                                                        options:kNilOptions];
+                            }]
+            describe:@"components until now"];
+}
+
+
 + (OCATransformer *)addDateComponents:(NSDateComponents *)components {
     return [[OCATransformer fromClass:[NSDate class] toClass:[NSDate class]
                             asymetric:^NSDate *(NSDate *input) {

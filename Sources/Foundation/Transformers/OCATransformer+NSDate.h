@@ -58,6 +58,8 @@
 
 + (OCATransformer *)dateComponents:(NSCalendarUnit)units;
 + (OCATransformer *)dateComponents:(NSCalendarUnit)units sinceDate:(NSDate *)otherDate;
++ (OCATransformer *)dateComponentsSinceCurrentDate:(NSCalendarUnit)units;
++ (OCATransformer *)dateComponentsUntilCurrentDate:(NSCalendarUnit)units;
 + (OCATransformer *)addDateComponents:(NSDateComponents *)components;
 + (OCATransformer *)modifyDateComponents:(NSCalendarUnit)units block:(void(^)(NSDateComponents *components))block;
 + (OCATransformer *)dateComponent:(NSCalendarUnit)unit;
