@@ -94,14 +94,14 @@
                           
                           [collection setArray:array];
                           
-                          if (insertionCallback) {
+                          if (removalCallback) {
                               OCACommand *removalCommand = [OCACommand commandForClass:[NSArray class]];
-                              [removalCommand connectTo:insertionCallback];
+                              [removalCommand connectTo:removalCallback];
                               for (id removedObject in removed) {
                                   [removalCommand sendValue:@[ self, removedObject ]];
                               }
                           }
-                          if (removalCallback) {
+                          if (insertionCallback) {
                               OCACommand *insertionCommand = [OCACommand commandForClass:[NSArray class]];
                               [insertionCommand connectTo:insertionCallback];
                               for (id insertedObject in inserted) {
