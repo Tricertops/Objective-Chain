@@ -170,7 +170,7 @@
 
 - (OCAPropertyChangePrivateBridge *)privateBridgeForSelector:(SEL)selector block:(OCAPropertyChangePrivateBridge *(^)(void))block {
     return block();
-    
+    /// Reusing is disabled, since it caused some problems.
 //    OCAPropertyChangePrivateBridge *bridge = objc_getAssociatedObject(self, selector);
 //    if ( ! bridge) {
 //        bridge = block();
@@ -209,11 +209,6 @@
 
 - (OCAPropertyChangePrivateBridge *)privateBridgeForObject {
     return [self privateBridgeForSelector:_cmd keyPath:OCAKP(OCAKeyValueChange, object) valueClass:[self.object class]];
-}
-
-
-- (OCAPropertyChangePrivateBridge *)privateBridgeForChanges {
-    return [self privateBridgeForSelector:_cmd transformer:nil];
 }
 
 
@@ -510,9 +505,18 @@
 
 
 - (OCAProducer *)produceChanges {
-    // Only passing bridge.
-    OCAPropertyChangePrivateBridge *bridge = [self privateBridgeForChanges];
+    OCAKeyValueChangeSetting *initialFakeSetting = [[OCAKeyValueChangeSetting alloc] initWithObject:self.object
+                                                                                            keyPath:self.accessor.keyPath
+                                                                                             change:@{
+                                                                                                      NSKeyValueChangeKindKey: @(NSKeyValueChangeSetting),
+                                                                                                      }
+                                                                                  structureAccessor:nil];
+    
+    OCAPropertyChangePrivateBridge *bridge = [[OCAPropertyChangePrivateBridge alloc] initWithTransformer:nil];
     [self addConsumer:bridge];
+    
+    /// Initial fake setting for cases, when collection was mutated before, so the observer will not receive last mutation, which can lead to inconsistencies.
+    [bridge produceValue:initialFakeSetting];
     return bridge;
 }
 
