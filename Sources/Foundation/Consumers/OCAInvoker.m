@@ -149,6 +149,8 @@
 
 
 - (void)consumeValue:(id)value {
+    OCAAssert(self.invocation, @"Attempt to call nil invocation") return;
+    
     NSObject *target = self.target;
     if ( ! target && ! self.isTargetConsumed) {
         [self clearInvocationAndArguments];
@@ -179,7 +181,6 @@
 
 
 - (void)finishConsumingWithError:(NSError *)error {
-    [self clearInvocationAndArguments];
 }
 
 
