@@ -171,6 +171,32 @@
 }
 
 
++ (OCATransformer *)uppercaseString {
+    return [[OCATransformer fromClass:[NSString class] toClass:[NSString class]
+                            transform:^NSString *(NSString *input) {
+                                if ( ! input) return nil;
+                                
+                                return [input uppercaseStringWithLocale:nil];
+                                
+                            } reverse:OCATransformationPass]
+            describe:@"uppercase"
+            reverse:@"pass"];
+}
+
+
++ (OCATransformer *)lowercaseString {
+    return [[OCATransformer fromClass:[NSString class] toClass:[NSString class]
+                            transform:^NSString *(NSString *input) {
+                                if ( ! input) return nil;
+                                
+                                return [input lowercaseStringWithLocale:nil];
+                                
+                            } reverse:OCATransformationPass]
+            describe:@"lowercase"
+            reverse:@"pass"];
+}
+
+
 
 
 
