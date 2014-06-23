@@ -60,6 +60,9 @@
 + (OCATransformer *)joinWithAttributedString:(NSAttributedString *)attrString;
 + (OCATransformer *)joinWithString:(NSString *)string last:(NSString *)lastString;
 
++ (OCATransformer *)objectFromArray:(NSArray *)objects;
++ (OCATransformer *)indexInArray:(NSArray *)objects;
+
 
 
 #pragma mark -

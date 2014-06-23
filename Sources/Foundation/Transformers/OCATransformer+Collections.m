@@ -347,6 +347,26 @@
 }
 
 
++ (OCATransformer *)objectFromArray:(NSArray *)objects {
+    return [[OCATransformer fromClass:[NSNumber class] toClass:nil
+                           transform:^id(NSNumber *input) {
+                               
+                               return [objects oca_valueAtIndex:input.integerValue];
+                               
+                           } reverse:^NSNumber *(id input) {
+                               
+                               return @([objects indexOfObject:input]);
+                           }]
+            describe:[NSString stringWithFormat:@"object from {%@}", [objects componentsJoinedByString:@", "]]
+            reverse:[NSString stringWithFormat:@"index in {%@}", [objects componentsJoinedByString:@", "]]];
+}
+
+
++ (OCATransformer *)indexInArray:(NSArray *)objects {
+    return [[OCATransformer objectFromArray:objects] reversed];
+}
+
+
 
 
 
