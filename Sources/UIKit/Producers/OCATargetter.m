@@ -11,6 +11,8 @@
 #import "OCADecomposer.h"
 #import "OCABridge.h"
 #import "OCATransformer.h"
+#import "OCAHub.h"
+#import "OCAProperty.h"
 
 
 
@@ -204,7 +206,13 @@
     
     OCABridge *bridge = [[OCABridge alloc] initWithTransformer:[OCATransformer access:OCAKeyPath(UITextField, text, NSString)]];
     [target addConsumer:bridge];
-    return bridge;
+    
+    OCAHub *merged = [[OCAHub alloc] initWithType:OCAHubTypeMerge
+                                        producers:@[
+                                                    bridge,
+                                                    OCAProperty(self, text, NSString),
+                                                    ]];
+    return merged;
 }
 
 
