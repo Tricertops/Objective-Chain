@@ -52,6 +52,7 @@
 + (OCATransformer *)modify:(OCAAccessor *)accessor transformer:(NSValueTransformer *)transformer;
 + (OCATransformer *)evaluateExpression:(NSExpression *)expression;
 + (OCATransformer *)map:(NSDictionary *)dictionary;
++ (OCATransformer *)replace:(NSDictionary *)dictionary;
 + (OCATransformer *)makeCopy;
 
 

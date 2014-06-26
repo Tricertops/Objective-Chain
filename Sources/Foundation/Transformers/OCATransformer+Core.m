@@ -201,6 +201,19 @@ OCATransformerShared(negateBoolean) {
 }
 
 
++ (OCATransformer *)replace:(NSDictionary *)dictionary {
+    return [[OCATransformer fromClass:nil toClass:nil transform:^id(id input) {
+        id replacement = [dictionary objectForKey:input ?: NSNull.null];
+        return replacement ?: input;
+    } reverse:^id(id input){
+        id replacement = [[dictionary allKeysForObject:input ?: NSNull.null] firstObject];
+        return replacement ?: input;
+    }]
+            describe:[NSString stringWithFormat:@"replace %@ values", @(dictionary.count)]
+            reverse:[NSString stringWithFormat:@"replace %@ values", @(dictionary.count)]];
+}
+
+
 + (OCATransformer *)makeCopy {
     return [[OCATransformer fromClass:nil toClass:nil symetric:^id(id input) {
         if ([input conformsToProtocol:@protocol(NSCopying)]) return [input copy];
