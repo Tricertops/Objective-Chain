@@ -66,7 +66,7 @@ You can use any of those provided components or create your own and chain them t
   
     ```objc
     [[OCANotificator notify:NSUserDefaultsDidChangeNotification]
-     invoke:OCAInvocation(self, reloadPreferences)];
+     connectTo:OCAInvocation(self, reloadPreferences)];
     ```
     
     - `+notify:` – Creates a _Producer_ that **listens** for given notification.
@@ -88,7 +88,7 @@ You can use any of those provided components or create your own and chain them t
     ```objc
     [[[self.textField producerForText]
       throttle:0.3]
-     invoke:OCAInvocation(self, startSearchWithText: OCAPH(NSString) )];
+     connectTo:OCAInvocation(self, startSearchWithText: OCAPH(NSString) )];
     ```
     
     - `-producerForText` – Creates `OCATarget` _Producer_ **configured** for the text field (receiver). Sends the entered text every time it changes.
