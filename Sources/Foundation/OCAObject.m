@@ -7,6 +7,7 @@
 //
 
 #import "OCAObject.h"
+@import ObjectiveC.runtime;
 
 
 
@@ -65,9 +66,16 @@
         *objectPtr = nil;
         return YES;
     }
-    
-    for (Class class in classes) {
-        if ([object isKindOfClass:class]) return YES;
+    BOOL isClass = class_isMetaClass(object_getClass(object));
+    if (isClass) {
+        for (Class class in classes) {
+            if ([object isSubclassOfClass:class]) return YES;
+        }
+    }
+    else {
+        for (Class class in classes) {
+            if ([object isKindOfClass:class]) return YES;
+        }
     }
     BOOL isKindOfAnyOfThoseClasses = NO;
     OCAAssert(isKindOfAnyOfThoseClasses, @"Expected one of [%@] classes, but got %@.", [classes componentsJoinedByString:@", "], [object class]) {}
