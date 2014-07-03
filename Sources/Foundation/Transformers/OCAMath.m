@@ -395,6 +395,7 @@
 + (OCATransformer *)allTrue {
     return [OCATransformer sequence:
             @[
+              [OCATransformer transformArray:[OCATransformer replaceNil:@NO]],
               [OCAMath minimum],
               [OCATransformer evaluatePredicate:[OCAPredicate isGreaterThan:@0]],
               ]];
@@ -404,6 +405,7 @@
 + (OCATransformer *)anyTrue {
     return [OCATransformer sequence:
             @[
+              [OCATransformer transformArray:[OCATransformer replaceNil:@NO]],
               [OCAMath maximum],
               [OCATransformer evaluatePredicate:[OCAPredicate isGreaterThan:@0]],
               ]];
