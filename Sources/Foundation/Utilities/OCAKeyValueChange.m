@@ -141,11 +141,6 @@
 }
 
 
-- (instancetype)copyWithTransformedInsertedObjects:(NSValueTransformer *)transformer {
-    return [[OCAKeyValueChange alloc] initWithChange:self transformer:transformer];
-}
-
-
 
 @end
 
