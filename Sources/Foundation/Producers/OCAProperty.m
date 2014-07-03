@@ -604,6 +604,7 @@
     [[[self produceChanges] transformValues:
       [OCATransformer fromClass:[OCAKeyValueChange class] toClass:[OCAKeyValueChange class]
                       asymetric:^OCAKeyValueChange *(id input) {
+                          //TODO: Optimize setting change
                           if ([input respondsToSelector:@selector(copyWithTransformedInsertedObjects:)]) {
                               return [input copyWithTransformedInsertedObjects:transformer];
                           }
