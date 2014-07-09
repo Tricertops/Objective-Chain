@@ -101,7 +101,7 @@ You can use any of those provided components or create your own and chain them t
 For more code examples see included _Chain Examples_ project. You can use it as a sandbox for experimenting with Objective-Chain and even submit a Pull Request, so your experiments will be merged into the master repo.
 
 
-Additonal Features
+Additional Features
 ------------------
 To be described later:
 
