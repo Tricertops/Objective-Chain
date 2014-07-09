@@ -22,9 +22,13 @@
 
 #define OCAInvocation(TARGET, METHOD) \
 (OCAInvoker *)({ \
-    OCAInvocationCatcher *catcher = [[OCAInvocationCatcher alloc] initWithTarget:(TARGET)]; \
-    [(typeof(TARGET))catcher METHOD]; \
-    [[OCAInvoker alloc] initWithInvocationCatcher:catcher]; \
+    OCAInvoker *invoker = nil;\
+    if (TARGET) {\
+        OCAInvocationCatcher *catcher = [[OCAInvocationCatcher alloc] initWithTarget:(TARGET)]; \
+        [(typeof(TARGET))catcher METHOD]; \
+        invoker = [[OCAInvoker alloc] initWithInvocationCatcher:catcher]; \
+    }\
+    invoker;\
 }) \
 
 //TODO: OCAInvocation subclass to handle flaws of NSInvocation.

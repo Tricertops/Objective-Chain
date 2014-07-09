@@ -65,6 +65,12 @@
 }
 
 
+- (void)test_nilTarget {
+    id coolObject = nil;
+    XCTAssertNoThrow(OCAInvocation(coolObject, test_nilTarget), "Macro should return nil when the target is nil.");
+}
+
+
 
 
 
