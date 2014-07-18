@@ -66,7 +66,16 @@
         valueClass = (valueClass == [NSObject class]? nil : valueClass); // NSObject is useless, better use nil.
     }
     
-    id cacheKey = @[ objectClass ?: NSNull.null, keyPath ?: @"", valueClass ?: NSNull.null, structAccess ?: NSNull.null ];
+    // This is faster than using NSArray.
+    id uniqueParts = @[
+                       objectClass ?: [NSObject class],
+                       keyPath ?: @"",
+                       valueClass ?: [NSObject class],
+                       @(structAccess.structType ?: ""),
+                       structAccess.memberPath ?: @"",
+                       @(structAccess.memberType ?: ""),
+                       ];
+    id cacheKey = [uniqueParts componentsJoinedByString:@" | "];
     
     static volatile OSSpinLock lock = OS_SPINLOCK_INIT;
     OSSpinLockLock(&lock);
