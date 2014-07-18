@@ -8,6 +8,8 @@
 
 #import "OCAKeyPathAccessor.h"
 #import "OCAStructureAccessor.h"
+#import <libkern/OSAtomic.h>
+
 
 
 
@@ -65,12 +67,19 @@
     }
     
     id cacheKey = @[ objectClass ?: NSNull.null, keyPath ?: @"", valueClass ?: NSNull.null, structAccess ?: NSNull.null ];
-    OCAKeyPathAccessor *existing = [[self.class sharedKeyPathAccessors] objectForKey:cacheKey];
-    if (existing) return existing;
     
-    OCAKeyPathAccessor *nonexisting = [[self alloc] initWithObjectClass:objectClass keyPath:keyPath objCType:objCType valueClass:valueClass isWrapping:isWrapping structureAccessor:structAccess];
-    [[self.class sharedKeyPathAccessors] setObject:nonexisting forKey:cacheKey];
-    return nonexisting;
+    static volatile OSSpinLock lock = OS_SPINLOCK_INIT;
+    OSSpinLockLock(&lock);
+    
+    OCAKeyPathAccessor *accessor = [[self.class sharedKeyPathAccessors] objectForKey:cacheKey];
+    if ( ! accessor) {
+        accessor = [[self alloc] initWithObjectClass:objectClass keyPath:keyPath objCType:objCType valueClass:valueClass isWrapping:isWrapping structureAccessor:structAccess];
+        [[self.class sharedKeyPathAccessors] setObject:accessor forKey:cacheKey];
+    }
+    
+    OSSpinLockUnlock(&lock);
+    
+    return accessor;
 }
 
 
@@ -88,12 +97,11 @@
 }
 
 
-+ (NSCache *)sharedKeyPathAccessors {
-    static NSCache *sharedAccessors = nil;
++ (NSMutableDictionary *)sharedKeyPathAccessors {
+    static NSMutableDictionary *sharedAccessors = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        sharedAccessors = [NSCache new];
-        sharedAccessors.name = NSStringFromClass(self);
+        sharedAccessors = [NSMutableDictionary new];
     });
     return sharedAccessors;
 }
