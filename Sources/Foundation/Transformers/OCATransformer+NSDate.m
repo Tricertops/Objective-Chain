@@ -188,9 +188,15 @@
 
 
 + (OCATransformer *)stringWithDateStyle:(NSDateFormatterStyle)dateStyle timeStyle:(NSDateFormatterStyle)timeStyle {
+    return [OCATransformer stringWithDateStyle:dateStyle timeStyle:timeStyle relative:NO];
+}
+
+
++ (OCATransformer *)stringWithDateStyle:(NSDateFormatterStyle)dateStyle timeStyle:(NSDateFormatterStyle)timeStyle relative:(BOOL)doesRelative {
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     formatter.dateStyle = dateStyle;
     formatter.timeStyle = timeStyle;
+    formatter.doesRelativeDateFormatting = doesRelative;
     
     return [OCATransformer stringWithDateFormatter:formatter];
 }

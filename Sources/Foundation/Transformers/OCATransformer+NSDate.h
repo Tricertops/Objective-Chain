@@ -45,6 +45,7 @@
 + (OCATransformer *)stringWithDateFormatter:(NSDateFormatter *)formatter;
 + (OCATransformer *)stringWithDateFormat:(NSString *)dateFormat;
 + (OCATransformer *)stringWithDateStyle:(NSDateFormatterStyle)dateStyle timeStyle:(NSDateFormatterStyle)timeStyle;
++ (OCATransformer *)stringWithDateStyle:(NSDateFormatterStyle)dateStyle timeStyle:(NSDateFormatterStyle)timeStyle relative:(BOOL)doesRelative;
 
 
 #pragma mark Limiting Dates
