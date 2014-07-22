@@ -50,7 +50,7 @@
     return [[OCATransformer fromClass:nil toClass:[NSString class]
                             asymetric:^NSString *(id input) {
                                 
-                                NSArray *array = ([input isKindOfClass:[NSArray class]] ? input : @[ input ]);
+                                NSArray *array = ( ! input || [input isKindOfClass:[NSArray class]] ? input : @[ input ]);
                                 NSMutableString *output = [format mutableCopy];
                                 for (NSObject *object in array) {
                                     NSRange range = [output rangeOfString:@"%@"];
