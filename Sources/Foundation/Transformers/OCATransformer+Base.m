@@ -164,13 +164,14 @@
 
 
 + (Class)subclassForInputClass:(Class)inputClass outputClass:(Class)outputClass reversible:(BOOL)isReversible {
-    // OCAAnythingToAnythingReversibleTransformer
-    NSString *genericClassName = [NSString stringWithFormat:@"OCA%@To%@%@Transformer",
-                                  inputClass ?: @"Anything",
-                                  outputClass ?: @"Anything",
-                                  (isReversible? @"Reversible" : @"")];
+    // This is much faster than +stringWithFormat: and since this piece of code is called a pretty often, it makes difference.
+    char genericClassName[128];
+    snprintf(genericClassName, 128, "OCA%sTo%s%sTransformer",
+             (inputClass? class_getName(inputClass) : "Anything"),
+             (outputClass? class_getName(outputClass) : "Anything"),
+             (isReversible? "Reversible" : ""));
     
-    Class genericClass = [OCATransformer subclassWithName:genericClassName
+    Class genericClass = [OCATransformer subclassWithName:@(genericClassName)
                                             customization:^(Class subclass) {
                                                 [subclass setValueClass:inputClass];
                                                 [subclass setTransformedValueClass:outputClass];
@@ -238,6 +239,7 @@
         self->_transformationBlock = transformationBlock;
         self->_reverseTransformationBlock = reverseTransformationBlock;
         
+#if DEBUG
         NSString *inputClassName = NSStringFromClass([self.class valueClass]) ?: @"anything";
         NSString *outputClassName = NSStringFromClass([self.class transformedValueClass]) ?: @"anything";
         BOOL preservesClass = [inputClassName isEqualToString:outputClassName];
@@ -249,7 +251,7 @@
             [self describe:[NSString stringWithFormat:@"convert %@ to %@", inputClassName, outputClassName]
                    reverse:[NSString stringWithFormat:@"convert %@ to %@", outputClassName, inputClassName]];
         }
-        
+#endif
     }
     return self;
 }
