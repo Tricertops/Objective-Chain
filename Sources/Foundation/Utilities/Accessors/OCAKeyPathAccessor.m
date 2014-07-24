@@ -9,6 +9,7 @@
 #import "OCAKeyPathAccessor.h"
 #import "OCAStructureAccessor.h"
 #import <libkern/OSAtomic.h>
+#import <objc/runtime.h>
 
 
 
@@ -66,16 +67,17 @@
         valueClass = (valueClass == [NSObject class]? nil : valueClass); // NSObject is useless, better use nil.
     }
     
-    // This is faster than using NSArray.
-    id uniqueParts = @[
-                       objectClass ?: [NSObject class],
-                       keyPath ?: @"",
-                       valueClass ?: [NSObject class],
-                       @(structAccess.structType ?: ""),
-                       structAccess.memberPath ?: @"",
-                       @(structAccess.memberType ?: ""),
-                       ];
-    id cacheKey = [uniqueParts componentsJoinedByString:@" | "];
+    // We need a key that is unique for given combination of arguments.
+    // This is much faster than +stringWithFormat: and since this piece of code is called a pretty often, it makes difference.
+    char cacheKeyRaw[200];
+    snprintf(cacheKeyRaw, 200, "%s|%s|%s|%s|%s|%s",
+             class_getName(objectClass ?: [NSObject class]),
+             keyPath.UTF8String ?: "",
+             class_getName(valueClass ?: [NSObject class]),
+             structAccess.structType ?: "",
+             structAccess.memberPath.UTF8String ?: "",
+             structAccess.memberType ?: "");
+    id cacheKey = @(cacheKeyRaw);
     
     static volatile OSSpinLock lock = OS_SPINLOCK_INIT;
     OSSpinLockLock(&lock);
