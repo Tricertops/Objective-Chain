@@ -236,15 +236,24 @@ OCATransformerShared(negateBoolean) {
     NSValueTransformer *firstTransformer = transformers.firstObject;
     NSValueTransformer *lastTransformer = transformers.lastObject;
     
-    BOOL areReversible = YES;
+#if DEBUG
     NSMutableArray *descriptions = [[NSMutableArray alloc] init];
     NSMutableArray *reverseDescriptions = [[NSMutableArray alloc] init];
+    for (NSValueTransformer *t in transformers) {
+        [descriptions addObject:t.description ?: @"unknown"];
+        [reverseDescriptions addObject:t.reversed.description ?: @"unknown"];
+    }
+    NSString *description = [NSString stringWithFormat:@"[%@]", [descriptions componentsJoinedByString:@", "]];
+    NSString *reversedDescription = [NSString stringWithFormat:@"[%@]", [reverseDescriptions.reverseObjectEnumerator.allObjects componentsJoinedByString:@", "]];
+#else
+    NSString *description = nil;
+    NSString *reversedDescription = nil;
+#endif
     
+    BOOL areReversible = YES;
     Class previousOutputClass = nil;
     for (NSValueTransformer *t in transformers) {
         areReversible &= [t.class allowsReverseTransformation];
-        [descriptions addObject:t.description ?: @"unknown"];
-        [reverseDescriptions addObject:t.reversed.description ?: @"unknown"];
         
         OCAAssert(previousOutputClass == Nil || [t.class valueClass] == Nil || [[t.class valueClass] isSubclassOfClass:previousOutputClass], @"Classes of transformers in sequence are incompatible.") return [OCATransformer discard];
         previousOutputClass = [t.class transformedValueClass];
@@ -264,8 +273,8 @@ OCATransformerShared(negateBoolean) {
                                 }
                                 return value;
                             }]
-            describe:[NSString stringWithFormat:@"[%@]", [descriptions componentsJoinedByString:@", "]]
-            reverse:[NSString stringWithFormat:@"[%@]", [reverseDescriptions.reverseObjectEnumerator.allObjects componentsJoinedByString:@", "]]];
+            describe:description
+            reverse:reversedDescription];
 }
 
 

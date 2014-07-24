@@ -104,6 +104,7 @@
 
 
 - (instancetype)describe:(NSString *)description reverse:(NSString *)reverseDescription {
+#if DEBUG
     if (description.length) self.description = description;
     
     if ( ! self.reverseTransformationBlock) {
@@ -112,7 +113,18 @@
     else if (reverseDescription.length) {
         self.reverseDescription = reverseDescription;
     }
+#endif
     return self;
+}
+
+
+- (NSString *)description {
+    return self->_description ?: @"";
+}
+
+
+- (NSString *)reverseDescription {
+    return self->_reverseDescription ?: @"";
 }
 
 
