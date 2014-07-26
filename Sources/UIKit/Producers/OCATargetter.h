@@ -68,6 +68,8 @@
 @interface UIGestureRecognizer (OCATargetter)
 
 - (OCATargetter *)producer;
+- (OCAProducer *)producerForState:(UIGestureRecognizerState)state;
+- (OCAProducer *)callback; // Recognized state.
 
 @end
 

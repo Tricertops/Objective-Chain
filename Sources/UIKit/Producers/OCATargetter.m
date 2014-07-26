@@ -13,6 +13,9 @@
 #import "OCATransformer.h"
 #import "OCAHub.h"
 #import "OCAProperty.h"
+#import "OCAPredicate.h"
+#import "OCAFilter.h"
+
 
 
 
@@ -183,6 +186,21 @@
     OCATargetter *target = [[OCATargetter alloc] initWithOwner:self];
     [self addTarget:target action:target.action];
     return target;
+}
+
+- (OCAProducer *)producerForState:(UIGestureRecognizerState)state {
+    OCAKeyPathAccessor *accessor = OCAKeyPath(UIGestureRecognizer, state, UIGestureRecognizerState);
+    NSPredicate *isRecognized = [OCAPredicate isEqualTo:@(UIGestureRecognizerStateRecognized)];
+    NSPredicate *isGestureRecognized = [OCAPredicate compare:accessor using:isRecognized];
+    OCATargetter *target = [[OCATargetter alloc] initWithOwner:self];
+    [self addTarget:target action:target.action];
+    OCAFilter *filter = [[OCAFilter alloc] initWithPredicate:isGestureRecognized];
+    [target addConsumer:filter];
+    return filter;
+}
+
+- (OCAProducer *)callback {
+    return [self producerForState:UIGestureRecognizerStateRecognized];
 }
 
 
