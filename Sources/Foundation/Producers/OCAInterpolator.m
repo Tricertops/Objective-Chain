@@ -69,7 +69,7 @@
 
 - (void)start {
     
-    if (self.duration <= 0) {
+    if (self.duration <= 0 || (self.fromValue == self.toValue)) {
         [self finishWithLastValue:YES];
         return;
     }
