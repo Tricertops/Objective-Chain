@@ -190,7 +190,7 @@
 
 - (OCAProducer *)producerForState:(UIGestureRecognizerState)state {
     OCAKeyPathAccessor *accessor = OCAKeyPath(UIGestureRecognizer, state, UIGestureRecognizerState);
-    NSPredicate *isRecognized = [OCAPredicate isEqualTo:@(UIGestureRecognizerStateRecognized)];
+    NSPredicate *isRecognized = [OCAPredicate isEqualTo:@(state)];
     NSPredicate *isGestureRecognized = [OCAPredicate compare:accessor using:isRecognized];
     OCATargetter *target = [[OCATargetter alloc] initWithOwner:self];
     [self addTarget:target action:target.action];
