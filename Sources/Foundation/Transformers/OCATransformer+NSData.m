@@ -246,6 +246,11 @@
                             transform:^NSData *(NSString *input) {
                                 if ( ! input) return nil;
                                 
+                                NSArray *ignoringSymbols = @[@"-", @"\n", @" "];
+                                for (NSString *symbol in ignoringSymbols) {
+                                    input = [input stringByReplacingOccurrencesOfString:symbol withString:@""];
+                                }
+                                
                                 const char *hex = [input cStringUsingEncoding:NSUTF8StringEncoding];
                                 NSUInteger length = strlen(hex);
                                 NSMutableData *data = [NSMutableData dataWithCapacity:length];
