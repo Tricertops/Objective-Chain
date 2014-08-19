@@ -20,8 +20,8 @@
 @property (atomic, readonly, copy) OCATransformerBlock transformationBlock;
 @property (atomic, readonly, copy) OCATransformerBlock reverseTransformationBlock;
 
-@property (atomic, readwrite, copy) NSString *description;
-@property (atomic, readwrite, copy) NSString *reverseDescription;
+@property (nonatomic, readwrite, copy) NSString *description;
+@property (nonatomic, readwrite, copy) NSString *reverseDescription;
 
 
 @end
