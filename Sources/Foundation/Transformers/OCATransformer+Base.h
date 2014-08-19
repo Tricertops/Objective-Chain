@@ -50,7 +50,6 @@ typedef id (^OCATransformerBlock)(id input);
 
 #pragma mark Describing
 
-@property (nonatomic, readonly, copy) NSString *description;
 @property (nonatomic, readonly, copy) NSString *reverseDescription;
 - (instancetype)describe:(NSString *)description;
 - (instancetype)describe:(NSString *)description reverse:(NSString *)reverseDescription;

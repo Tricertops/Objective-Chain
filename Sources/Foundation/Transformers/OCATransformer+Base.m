@@ -118,6 +118,7 @@
 }
 
 
+@synthesize description = _description;
 - (NSString *)description {
     return self->_description ?: @"";
 }
