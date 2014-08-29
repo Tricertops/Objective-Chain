@@ -5,7 +5,7 @@ Object-oriented reactive framework written in **Objective-C**, that abstracts _p
 
 Project is inspired by [ReactiveCocoa](https://github.com/ReactiveCocoa/ReactiveCocoa), but takes more object-oriented approach.
 
-Aim is to build reusable and scalable solution for **MVVM** bindings.
+Aim is to build reusable and scalable solution for **MVVM** bindings. [Article about MVVM implementation using Objective-Chain.](https://gist.github.com/iMartinKiss/bd038dfbf0663818b0ad)
 
 
 ##### Project is under active development, but at this stage it can be reliably used in production. Follow the [Roadmap](https://github.com/iMartinKiss/Objective-Chain/issues/1) for progress.
