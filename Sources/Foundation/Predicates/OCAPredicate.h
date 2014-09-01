@@ -31,7 +31,7 @@
 
 + (NSPredicate *)isNil;
 + (NSPredicate *)isNotNil;
-+ (NSPredicate *)predicateForClass:(Class)class block:(BOOL(^)(id object))block;
++ (NSPredicate *)predicateForClass:(Class)theClass block:(BOOL(^)(id object))block;
 
 
 @end
@@ -52,7 +52,7 @@
 + (NSPredicate *)pass;
 + (NSPredicate *)discard;
 
-+ (NSPredicate *)isKindOf:(Class)class;
++ (NSPredicate *)isKindOf:(Class)theClass;
 
 + (NSPredicate *)not:(NSPredicate *)predicate;
 + (NSPredicate *)and:(NSArray *)subpredicates;
@@ -60,8 +60,8 @@
 + (NSPredicate *)all:(NSPredicate *)predicate;
 + (NSPredicate *)any:(NSPredicate *)predicate;
 
-+ (NSPredicate *)predicateForClass:(Class)class predicate:(NSPredicate *)predicate;
-+ (NSPredicate *)predicateFor:(Class)class format:(NSString *)format, ...;
++ (NSPredicate *)predicateForClass:(Class)theClass predicate:(NSPredicate *)predicate;
++ (NSPredicate *)predicateFor:(Class)theClass format:(NSString *)format, ...;
 
 + (NSPredicate *)isProperty:(OCAProperty *)property;
 + (NSPredicate *)compareProperty:(OCAProperty *)property using:(NSPredicate *)predicate;
@@ -69,7 +69,7 @@
 + (NSPredicate *)compare:(OCAAccessor *)accessor using:(NSPredicate *)predicate;
 + (NSPredicate *)compare:(OCAAccessor *)accessor format:(NSString *)operatorFormat value:(id)value;
 
-+ (NSPredicate *)operator:(NSPredicateOperatorType)operator options:(NSComparisonPredicateOptions)options value:(id)value;
++ (NSPredicate *)operator:(NSPredicateOperatorType)theOperator options:(NSComparisonPredicateOptions)options value:(id)value;
 + (NSPredicate *)isLessThan:(id)value;
 + (NSPredicate *)isLessThanOrEqual:(id)value;
 + (NSPredicate *)isGreaterThan:(id)value;

@@ -26,7 +26,7 @@ typedef void(^OCADecomposerBlock)(__unsafe_unretained id owner);
 - (void)removeOwnedObject:(id)object;
 
 - (NSArray *)ownedObjects;
-- (id)findOwnedObjectOfClass:(Class)class usingBlock:(BOOL(^)(id ownedObject))filterBlock;
+- (id)findOwnedObjectOfClass:(Class)theClass usingBlock:(BOOL(^)(id ownedObject))filterBlock;
 
 
 

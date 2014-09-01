@@ -104,8 +104,8 @@
 - (OCAThrottle *)throttleContinuous:(NSTimeInterval)interval;
 
 - (void)subscribe:(void(^)(void))handler;
-- (void)subscribeForClass:(Class)class handler:(void(^)(id value))handler;
-- (void)subscribeForClass:(Class)class handler:(void(^)(id value))handler finish:(void(^)(NSError *error))handler;
+- (void)subscribeForClass:(Class)theClass handler:(void(^)(id value))handler;
+- (void)subscribeForClass:(Class)theClass handler:(void(^)(id value))handler finish:(void(^)(NSError *error))handler;
 
 - (void)invoke:(OCAInvoker *)invoker;
 

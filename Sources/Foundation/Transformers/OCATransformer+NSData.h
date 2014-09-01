@@ -36,13 +36,13 @@
 #pragma mark Property List Serialization
 
 + (OCATransformer *)serializePropertyListBinary:(BOOL)binary;
-+ (OCATransformer *)deserializePropertyListMutable:(BOOL)mutable;
++ (OCATransformer *)deserializePropertyListMutable:(BOOL)isMutable;
 
 
 #pragma mark JSON Serialization
 
 + (OCATransformer *)serializeJSONPretty:(BOOL)pretty;
-+ (OCATransformer *)deserializeJSONMutable:(BOOL)mutable;
++ (OCATransformer *)deserializeJSONMutable:(BOOL)isMutable;
 
 
 #pragma mark Base64 Encoding
