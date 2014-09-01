@@ -25,7 +25,7 @@
 - (instancetype)initWithTransformer:(NSValueTransformer *)transformer;
 
 //! Creates new Bridge, that passes values of given class. If class is nil, it passes all values to its Consumers.
-+ (OCABridge *)bridgeForClass:(Class)class;
++ (OCABridge *)bridgeForClass:(Class)theClass;
 
 //! Create new Bridge, that uses sequence of transformers to transform values passed then to Consumers.
 + (OCABridge *)bridgeWithTransformers:(NSValueTransformer *)transformer, ... NS_REQUIRES_NIL_TERMINATION;

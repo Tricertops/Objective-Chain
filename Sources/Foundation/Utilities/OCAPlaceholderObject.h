@@ -19,7 +19,7 @@
 #define OCAPH(CLASS)                OCAPlaceholder(CLASS)
 #define OCAPlaceholder(CLASS)       ((CLASS *)[OCAPlaceholderObject placeholderForClass:[CLASS class]])
 
-+ (instancetype)placeholderForClass:(Class)class;
++ (instancetype)placeholderForClass:(Class)theClass;
 
 @property (atomic, readonly, strong) Class representedClass;
 
