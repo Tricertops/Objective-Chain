@@ -10,6 +10,7 @@
 #import "OCAProducer+Subclass.h"
 #import "OCATimer.h"
 #import "OCAInvoker.h"
+#import "OCAVariadic.h"
 
 
 
@@ -35,19 +36,25 @@
 
 + (instancetype)filterWithTolerance:(OCAReal)fraction {
     OCAInteger frequency = 60;
-    return [[self alloc] initWithFrequency:frequency cutoff:(frequency * fraction)];
+    return [[self alloc] initWithFrequency:frequency cutoff:(frequency * fraction) inputClass:nil accessors:nil];
 }
 
 
-- (instancetype)initWithFrequency:(OCAInteger)frequency cutoff:(OCAInteger)cutoff {
++ (instancetype)filterWithFrequency:(OCAInteger)frequency cutoff:(OCAInteger)cutoff {
+    return [[self alloc] initWithFrequency:frequency cutoff:cutoff inputClass:nil accessors:nil];
+}
+
+
+- (instancetype)initWithFrequency:(OCAInteger)frequency cutoff:(OCAInteger)cutoff inputClass:(__unsafe_unretained Class)inputClass accessors:(OCAAccessor *)accessors, ... {
     OCAAssert(frequency > 0, @"Low-pass filter need positive frequency") return nil;
     OCAAssert(cutoff > 0, @"Low-pass filter need positive frequency") return nil;
     OCAAssert(frequency > cutoff, @"Low-pass filter need cut-off less than frequency") return nil;
     
-    self = [super initWithValueClass:[NSNumber class]];
+    self = [super initWithValueClass:inputClass];
     if (self) {
         self->_frequency = frequency;
         self->_cutoff = cutoff;
+        self->_accessors = OCAArrayFromVariadicArguments(accessors);
         
         NSTimeInterval interval = 1.0/self.frequency;
         NSTimeInterval tolerance = 1.0/cutoff;
@@ -59,18 +66,18 @@
 }
 
 
-- (void)processValue {
-    OCAReal alpha = self.alpha;
-    OCAReal input = self.input;
-    OCAReal previous = self.output;
-    
-    OCAReal output = input * alpha + previous * (1 - alpha);
-    [self produceValue:@(output)];
+- (Class)consumedValueClass {
+    return self.valueClass;
 }
 
 
-- (OCAReal)output {
-    return [self.lastValue doubleValue];
+- (void)consumeValue:(id<NSCopying>)value {
+    self.input = value;
+}
+
+
+- (id<NSCopying>)output {
+    return self.lastValue;
 }
 
 
@@ -80,13 +87,33 @@ OCAKeyPathsAffecting(Output, OCAKP(OCALowPassFilter, lastValue))
 
 
 
-- (Class)consumedValueClass {
-    return [NSNumber class];
+- (void)processValue {
+    OCAReal alpha = self.alpha;
+    id input = self.input;
+    id previous = self.output;
+    id output = [input copy];
+    
+    if (self.accessors.count) {
+        for (OCAAccessor *accessor in self.accessors) {
+            OCAReal inputComponent = [[accessor accessObject:input] doubleValue];
+            OCAReal previousComponent = [[accessor accessObject:previous] doubleValue];
+            
+            OCAReal outputComponent = [self outputForPrevious:previousComponent input:inputComponent alpha:alpha];
+            
+            output = [accessor modifyObject:output withValue:@(outputComponent)];
+        }
+    }
+    else {
+        OCAReal outputComponent = [self outputForPrevious:[previous doubleValue] input:[input doubleValue] alpha:alpha];
+        output = @(outputComponent);
+    }
+    
+    [self produceValue:output];
 }
 
 
-- (void)consumeValue:(NSNumber *)value {
-    self.input = [value doubleValue];
+- (OCAReal)outputForPrevious:(OCAReal)previous input:(OCAReal)input alpha:(OCAReal)alpha {
+    return input * alpha + previous * (1 - alpha);
 }
 
 
