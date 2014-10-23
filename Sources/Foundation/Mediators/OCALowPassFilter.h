@@ -19,14 +19,11 @@
  *
  *  Low-pass filter typically processes scalar values, but you may also provide class and its accessors to proces structured values.
  *  Example: To process CGPoint values wrapped in NSValue, initialize the instance with NSValue class and accessors for X and Y components.
- *  Processing non-scalar types in more computationally expensive and processed types must conform to NSCopying protocol.
+ *  Processing non-scalar types is more computationally expensive and processed types must conform to NSCopying protocol.
  *  When no accessors are specified, the filter uses -doubleValue method to convert the processed values to scalars.
  */
 @interface OCALowPassFilter : OCAMediator
 
-
-//TODO: Custom transform/calculation, including point, size, rect.
-//TODO: Circular wrap, maybe as transformer.
 
 //! Creates new low-pass filter at 60Hz, with cut-off frequency of fraction * 60Hz.
 + (instancetype)filterWithTolerance:(OCAReal)fraction;
@@ -50,7 +47,6 @@
 @property (atomic) id<NSCopying> input;
 //! Lats value produced by this filter. Read this property, observe it or connecting the filter to other Consumer.
 @property (atomic, readonly) id<NSCopying> output;
-
 
 
 @end
