@@ -32,13 +32,15 @@
 + (instancetype)filterWithFrequency:(OCAInteger)hertz cutoff:(OCAInteger)hertz;
 
 //! Creates new low-pass filter that operates on given frequency. You may specify custom class and its accessors that must return NSNumber objects.
-- (instancetype)initWithFrequency:(OCAInteger)hertz cutoff:(OCAInteger)hertz inputClass:(Class)inputClass accessors:(OCAAccessor *)accessors, ... NS_REQUIRES_NIL_TERMINATION;
+- (instancetype)initWithFrequency:(OCAInteger)hertz cutoff:(OCAInteger)hertz fadeNils:(BOOL)fadeNils inputClass:(Class)inputClass accessors:(OCAAccessor *)accessors, ... NS_REQUIRES_NIL_TERMINATION;
 
 
 //! Frequency on which this filter operates. Use 60Hz when you display the output values.
 @property (nonatomic, readonly) OCAInteger frequency;
 //! Cut-off frequency used to calculate intersteps of output values.
 @property (nonatomic, readonly) OCAInteger cutoff;
+//! Whether the filter treats nils as zero values (YES), or it immediately produces nils (NO).
+@property (nonatomic, readonly) BOOL fadeNils;
 //! Accessors used on input values to obtain numeric components and then used on copy of the input to set them.
 @property (nonatomic, readonly) NSArray *accessors;
 
