@@ -26,6 +26,7 @@
 #import "OCAContext.h"
 #import "OCAFilter.h"
 #import "OCAThrottle.h"
+#import "OCALowPassFilter.h"
 
 
 /// Consumers

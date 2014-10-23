@@ -27,6 +27,9 @@
 		5B52DA4A191924780058A5EF /* OCASwizzling.h in Headers */ = {isa = PBXBuildFile; fileRef = 5B52DA48191924780058A5EF /* OCASwizzling.h */; };
 		5B52DA4B191924780058A5EF /* OCASwizzling.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B52DA49191924780058A5EF /* OCASwizzling.m */; };
 		5B52DA4C191924780058A5EF /* OCASwizzling.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B52DA49191924780058A5EF /* OCASwizzling.m */; };
+		5B538E3319F91A3E005E7773 /* OCALowPassFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = 5B538E3119F91A3E005E7773 /* OCALowPassFilter.h */; };
+		5B538E3419F91A3E005E7773 /* OCALowPassFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B538E3219F91A3E005E7773 /* OCALowPassFilter.m */; };
+		5B538E3519F91A3E005E7773 /* OCALowPassFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B538E3219F91A3E005E7773 /* OCALowPassFilter.m */; };
 		5B88200E189D099900D2DDEB /* OCAInvoker.h in Headers */ = {isa = PBXBuildFile; fileRef = 5B88200C189D099900D2DDEB /* OCAInvoker.h */; };
 		5B88200F189D099900D2DDEB /* OCAInvoker.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B88200D189D099900D2DDEB /* OCAInvoker.m */; };
 		5B882010189D099900D2DDEB /* OCAInvoker.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B88200D189D099900D2DDEB /* OCAInvoker.m */; };
@@ -273,6 +276,8 @@
 		5B52DA46191923210058A5EF /* UITextField+editedText.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITextField+editedText.m"; sourceTree = "<group>"; };
 		5B52DA48191924780058A5EF /* OCASwizzling.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCASwizzling.h; sourceTree = "<group>"; };
 		5B52DA49191924780058A5EF /* OCASwizzling.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCASwizzling.m; sourceTree = "<group>"; };
+		5B538E3119F91A3E005E7773 /* OCALowPassFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCALowPassFilter.h; sourceTree = "<group>"; };
+		5B538E3219F91A3E005E7773 /* OCALowPassFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCALowPassFilter.m; sourceTree = "<group>"; };
 		5B88200C189D099900D2DDEB /* OCAInvoker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCAInvoker.h; sourceTree = "<group>"; };
 		5B88200D189D099900D2DDEB /* OCAInvoker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCAInvoker.m; sourceTree = "<group>"; };
 		5B882011189D0EF600D2DDEB /* OCAVariadic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCAVariadic.h; sourceTree = "<group>"; };
@@ -583,6 +588,8 @@
 				5BA548F91896FBED0050288D /* OCAFilter.m */,
 				5B882024189E8B2700D2DDEB /* OCAThrottle.h */,
 				5B882025189E8B2700D2DDEB /* OCAThrottle.m */,
+				5B538E3119F91A3E005E7773 /* OCALowPassFilter.h */,
+				5B538E3219F91A3E005E7773 /* OCALowPassFilter.m */,
 			);
 			path = Mediators;
 			sourceTree = "<group>";
@@ -818,6 +825,7 @@
 				5BA549BE18970D6F0050288D /* OCATransformer+CGSize.h in Headers */,
 				5BA549B518970D6F0050288D /* OCATransformer+CGAffineTransform.h in Headers */,
 				5B882013189D0EF600D2DDEB /* OCAVariadic.h in Headers */,
+				5B538E3319F91A3E005E7773 /* OCALowPassFilter.h in Headers */,
 				5BA549DC1897A4800050288D /* OCAPredicate+UIEdgeInsets.h in Headers */,
 				5B88200E189D099900D2DDEB /* OCAInvoker.h in Headers */,
 				5BA549841896FBED0050288D /* OCAKeyPathAccessor.h in Headers */,
@@ -1009,6 +1017,7 @@
 				5B52DA4C191924780058A5EF /* OCASwizzling.m in Sources */,
 				5BA549861896FBED0050288D /* OCAKeyPathAccessor.m in Sources */,
 				5BA549DE1897A4800050288D /* OCAPredicate+UIEdgeInsets.m in Sources */,
+				5B538E3519F91A3E005E7773 /* OCALowPassFilter.m in Sources */,
 				5B882010189D099900D2DDEB /* OCAInvoker.m in Sources */,
 				5BA549471896FBED0050288D /* OCAFilter.m in Sources */,
 				5BFB66DA19000FC1005D0920 /* OCAIndexAccessor.m in Sources */,
@@ -1103,6 +1112,7 @@
 				5BA549501896FBED0050288D /* OCAPredicate.m in Sources */,
 				5B88205A18A0DFE000D2DDEB /* OCASwitch.m in Sources */,
 				5BA549FA1897A8060050288D /* OCATransformer+UIColor.m in Sources */,
+				5B538E3419F91A3E005E7773 /* OCALowPassFilter.m in Sources */,
 				5BA549751896FBED0050288D /* OCATransformer+NSData.m in Sources */,
 				5BA549401896FBED0050288D /* OCABridge.m in Sources */,
 				5B52DA47191923210058A5EF /* UITextField+editedText.m in Sources */,
