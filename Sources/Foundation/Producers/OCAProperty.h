@@ -47,14 +47,14 @@
 
 #pragma mark Using Property
 
-@property (atomic, readwrite) id value;
+@property (atomic, readwrite, strong) id value;
 - (void)repeatLastValue;
 
 
 #pragma mark Using Property as a Collection
 
 - (BOOL)isCollection;
-@property (atomic, readwrite) NSMutableArray *collection;
+@property (atomic, readwrite, strong) NSMutableArray *collection;
 - (NSUInteger)countOfCollection;
 - (id)objectInCollectionAtIndex:(NSUInteger)index;
 - (void)insertObject:(id)object inCollectionAtIndex:(NSUInteger)index;

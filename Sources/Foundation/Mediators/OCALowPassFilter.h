@@ -46,7 +46,7 @@
 
 
 //! Last value that has passes to the filter. Set this to feed the filter, or use it as a Consumer.
-@property (atomic) id<NSCopying> input;
+@property (atomic, strong) id<NSCopying> input;
 //! Lats value produced by this filter. Read this property, observe it or connecting the filter to other Consumer.
 @property (atomic, readonly) id<NSCopying> output;
 
