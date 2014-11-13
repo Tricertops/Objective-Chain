@@ -187,6 +187,11 @@
 }
 
 
+- (NSSortDescriptor *)sortAscending:(BOOL)ascending {
+    return [NSSortDescriptor sortDescriptorWithKey:self.keyPath ascending:ascending];
+}
+
+
 
 
 #pragma mark Describing Key-Path Accessors

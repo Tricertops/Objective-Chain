@@ -50,6 +50,9 @@
 - (BOOL)isEqual:(OCAKeyPathAccessor *)other;
 
 
+- (NSSortDescriptor *)sortAscending:(BOOL)ascending;
+
+
 
 @end
 
