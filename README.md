@@ -1,4 +1,4 @@
-Objective-Chain
+Objective-Chain <a href="https://flattr.com/submit/auto?user_id=Tricertops&url=http%3A%2F%2Fgithub.com%2FiMartinKiss%2FObjective-Chain" target="_blank"><img src="https://api.flattr.com/button/flattr-badge-large.png" alt="Flattr this" title="Flattr this" border="0"></a>
 ===============
 
 Object-oriented reactive framework written in **Objective-C**, that abstracts _production_, _transformation_ and _consumption_ of values in a declarative way.
