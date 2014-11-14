@@ -188,7 +188,10 @@
 
 
 - (NSSortDescriptor *)sortAscending:(BOOL)ascending {
-    return [NSSortDescriptor sortDescriptorWithKey:self.keyPath ascending:ascending];
+    SEL stringCompare = @selector(localizedCaseInsensitiveCompare:);
+    SEL objectCompare = @selector(compare:);
+    SEL compare = ([self.class instanceMethodForSelector:stringCompare] ? stringCompare : objectCompare);
+    return [NSSortDescriptor sortDescriptorWithKey:self.keyPath ascending:ascending selector:compare];
 }
 
 
