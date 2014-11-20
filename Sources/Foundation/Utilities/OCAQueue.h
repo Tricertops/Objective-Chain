@@ -23,6 +23,9 @@ typedef void (^OCAQueueBlock)(void);
 #pragma mark Getting Shared Queues
 
 + (instancetype)main;
++ (instancetype)interactive;
++ (instancetype)user;
++ (instancetype)utility;
 + (instancetype)background;
 
 

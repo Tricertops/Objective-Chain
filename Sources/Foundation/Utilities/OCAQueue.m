@@ -88,27 +88,41 @@ static void * OCAQueueSpecificKey = &OCAQueueSpecificKey;
 #pragma mark Getting Shared Queues
 
 
+#define OCAQueueGetShared(Name, Concurrent, Queue) \
+(OCAQueue *)({ \
+    static OCAQueue *shared = nil; \
+    static dispatch_once_t token; \
+    dispatch_once(&token, ^{ \
+        shared = [[OCAQueue alloc] initWithDispatchQueue:(Queue)]; \
+        shared->_name = @ Name; \
+        shared->_isConcurrent = (Concurrent); \
+    }); \
+    shared; \
+})
+
+
 + (instancetype)main {
-    static OCAQueue *mainQueue = nil;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        mainQueue = [[OCAQueue alloc] initWithDispatchQueue:dispatch_get_main_queue()];
-        mainQueue->_name = @"Main";
-        mainQueue->_isConcurrent = NO;
-    });
-    return mainQueue;
+    return OCAQueueGetShared("Main", NO, dispatch_get_main_queue());
+}
+
+
++ (instancetype)interactive {
+    return OCAQueueGetShared("User Interactive", YES, dispatch_get_global_queue(QOS_CLASS_USER_INTERACTIVE, 0));
+}
+
+
++ (instancetype)user {
+    return OCAQueueGetShared("User Initiated", YES, dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0));
+}
+
+
++ (instancetype)utility {
+    return OCAQueueGetShared("Utility", YES, dispatch_get_global_queue(QOS_CLASS_UTILITY, 0));
 }
 
 
 + (instancetype)background {
-    static OCAQueue *backgroundQueue = nil;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        backgroundQueue = [[OCAQueue alloc] initWithDispatchQueue:dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)];
-        backgroundQueue->_name = @"Background";
-        backgroundQueue->_isConcurrent = YES;
-    });
-    return backgroundQueue;
+    return OCAQueueGetShared("Background", YES, dispatch_get_global_queue(QOS_CLASS_BACKGROUND, 0));
 }
 
 
