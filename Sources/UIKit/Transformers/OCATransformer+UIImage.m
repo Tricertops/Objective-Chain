@@ -9,6 +9,7 @@
 #import <UIKit/UIGraphics.h>
 #import "OCATransformer+UIImage.h"
 #import "OCAGeometry+Functions.h"
+#import "OCAVariadic.h"
 
 
 
@@ -105,6 +106,42 @@
                             } reverse:OCATransformationPass]
             describe:@"set rendering mode"
             reverse:@"pass"];
+}
+
+
++ (OCATransformer *)filterImage:(CIFilter *)filter, ... NS_REQUIRES_NIL_TERMINATION {
+    NSArray *filters = OCAArrayFromVariadicArguments(filter);
+    return [OCATransformer fromClass:[UIImage class] toClass:[UIImage class]
+                           asymetric:^UIImage *(UIImage *input) {
+                               if ( ! input) return nil;
+                               if ( ! filters.count) return input;
+                               
+                               CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+                               CIContext *context = [CIContext contextWithOptions:
+                                                     @{
+                                                       kCIContextWorkingColorSpace: (__bridge id)colorSpace,
+                                                       kCIContextOutputColorSpace: (__bridge id)colorSpace,
+                                                       }];
+                               CGColorSpaceRelease(colorSpace);
+                               
+                               CIImage *inputCI = [CIImage imageWithCGImage:input.CGImage];
+                               
+                               [filters.firstObject setValue:inputCI forKey:kCIInputImageKey];
+                               
+                               CIFilter *latestFilter = nil;
+                               for (CIFilter *filter in filters) {
+                                   if (latestFilter) {
+                                       [filter setValue:latestFilter.outputImage forKey:kCIInputImageKey];
+                                   }
+                                   latestFilter = filter;
+                               }
+                               
+                               CGImageRef outputCG = [context createCGImage:latestFilter.outputImage fromRect:inputCI.extent];
+                               UIImage *output = [UIImage imageWithCGImage:outputCG scale:input.scale orientation:input.imageOrientation];
+                               CGImageRelease(outputCG);
+                               
+                               return [output imageWithRenderingMode:input.renderingMode];
+                           }];
 }
 
 
