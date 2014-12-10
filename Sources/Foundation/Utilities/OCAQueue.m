@@ -122,7 +122,7 @@ static void * OCAQueueSpecificKey = &OCAQueueSpecificKey;
 
 
 + (instancetype)background {
-    return OCAQueueGetShared("Background", YES, dispatch_get_global_queue(QOS_CLASS_BACKGROUND, 0));
+    return OCAQueueGetShared("Background", YES, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0));
 }
 
 
