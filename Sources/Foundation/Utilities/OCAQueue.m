@@ -35,7 +35,6 @@ static void * OCAQueueSpecificKey = &OCAQueueSpecificKey;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         [self main];
-        [self background];
     });
 }
 
@@ -126,6 +125,15 @@ static void * OCAQueueSpecificKey = &OCAQueueSpecificKey;
 }
 
 
+- (BOOL)isGlobalQueue {
+    return (self == [OCAQueue main]
+            || self == [OCAQueue interactive]
+            || self == [OCAQueue user]
+            || self == [OCAQueue utility]
+            || self == [OCAQueue background]);
+}
+
+
 + (NSMapTable *)sharedQueueTable {
     static NSMapTable *table = nil;
     static dispatch_once_t onceToken;
@@ -201,11 +209,7 @@ static void * OCAQueueSpecificKey = &OCAQueueSpecificKey;
 - (void)performBarrierBlock:(OCAQueueBlock)block {
     OCAAssert(block != nil, @"No block.") return;
     
-    OCAAssert(self != [OCAQueue background], @"Cannot perform barriers directly on shared Background queue."){
-        [self performBlock:block];
-        return;
-    }
-    OCAAssert(self != [OCAQueue main], @"Cannot perform barriers directly on Main queue.") {
+    OCAAssert( ! [self isGlobalQueue], @"Cannot perform barriers directly on shared global queue."){
         [self performBlock:block];
         return;
     }
@@ -217,12 +221,8 @@ static void * OCAQueueSpecificKey = &OCAQueueSpecificKey;
 - (void)performBarrierBlockAndWait:(OCAQueueBlock)block {
     OCAAssert(block != nil, @"No block.") return;
     
-    OCAAssert(self != [OCAQueue background], @"Cannot perform barriers directly on shared Background queue.") {
-        [self performBlockAndWait:block];
-        return;
-    }
-    OCAAssert(self != [OCAQueue main], @"Cannot perform barriers directly on Main queue.") {
-        [self performBlockAndWait:block];
+    OCAAssert( ! [self isGlobalQueue], @"Cannot perform barriers directly on shared global queue."){
+        [self performBlock:block];
         return;
     }
     
@@ -277,9 +277,7 @@ static void * OCAQueueSpecificKey = &OCAQueueSpecificKey;
 
 
 - (NSString *)descriptionName {
-    if (self == [OCAQueue main]) return @"Main Queue";
-    if (self == [OCAQueue background]) return @"Background Queue";
-    return self.name;
+    return [self.name stringByAppendingString:@" Queue"];
 }
 
 

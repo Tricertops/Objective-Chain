@@ -8,6 +8,7 @@
 
 #import <UIKit/UIImage.h>
 #import <UIKit/UIBezierPath.h>
+#import <CoreImage/CoreImage.h>
 #import "OCATransformer+Base.h"
 
 
@@ -25,6 +26,8 @@
 + (OCATransformer *)clipImageToCircle;
 
 + (OCATransformer *)setImageRenderingMode:(UIImageRenderingMode)mode;
+
++ (OCATransformer *)filterImage:(CIFilter *)filter, ... NS_REQUIRES_NIL_TERMINATION;
 
 
 

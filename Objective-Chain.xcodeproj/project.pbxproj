@@ -19,6 +19,7 @@
 		5B2F2FEF1883DF8B0028367B /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B2F2FEE1883DF8B0028367B /* CoreGraphics.framework */; };
 		5B2F2FF01883DF930028367B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B4F85A11871A4DC004695DA /* Foundation.framework */; };
 		5B2F2FF61883DFCB0028367B /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B2F2FF51883DFCB0028367B /* CoreGraphics.framework */; };
+		5B4148E11A3096DE005E77FB /* UIView+Gestures.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B4148E01A3096DE005E77FB /* UIView+Gestures.m */; };
 		5B4F85A21871A4DC004695DA /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B4F85A11871A4DC004695DA /* Foundation.framework */; };
 		5B4F85B01871A4DC004695DA /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B4F85AF1871A4DC004695DA /* XCTest.framework */; };
 		5B4F85B11871A4DC004695DA /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B4F85A11871A4DC004695DA /* Foundation.framework */; };
@@ -268,6 +269,8 @@
 		5B2F2F7E1881D9510028367B /* ObjectiveChain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ObjectiveChain.h; sourceTree = "<group>"; };
 		5B2F2FEE1883DF8B0028367B /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/System/Library/Frameworks/CoreGraphics.framework; sourceTree = DEVELOPER_DIR; };
 		5B2F2FF51883DFCB0028367B /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		5B4148DF1A3096DE005E77FB /* UIView+Gestures.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Gestures.h"; sourceTree = "<group>"; };
+		5B4148E01A3096DE005E77FB /* UIView+Gestures.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Gestures.m"; sourceTree = "<group>"; };
 		5B4F859E1871A4DB004695DA /* libObjectiveChain-iOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libObjectiveChain-iOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5B4F85A11871A4DC004695DA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		5B4F85AE1871A4DC004695DA /* ObjectiveChain-iOS-Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "ObjectiveChain-iOS-Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -784,6 +787,8 @@
 				5BFB66DC19002585005D0920 /* UIView+tintColor.m */,
 				5B52DA45191923210058A5EF /* UITextField+editedText.h */,
 				5B52DA46191923210058A5EF /* UITextField+editedText.m */,
+				5B4148DF1A3096DE005E77FB /* UIView+Gestures.h */,
+				5B4148E01A3096DE005E77FB /* UIView+Gestures.m */,
 			);
 			path = Producers;
 			sourceTree = "<group>";
@@ -1149,6 +1154,7 @@
 				5B2A3291192110F5008E5B36 /* OCATransformer+UIImage.m in Sources */,
 				5B882034189FA8D800D2DDEB /* OCAPlaceholderObject.m in Sources */,
 				5BA549CE1897A1B40050288D /* OCAPredicate+CGSize.m in Sources */,
+				5B4148E11A3096DE005E77FB /* UIView+Gestures.m in Sources */,
 				5BA549D81897A3080050288D /* OCAPredicate+CGAffineTransform.m in Sources */,
 				5BA549C918979F500050288D /* OCAPredicate+CGPoint.m in Sources */,
 				5BA549781896FBED0050288D /* OCATransformer+NSDate.m in Sources */,
