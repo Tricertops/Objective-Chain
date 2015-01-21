@@ -8,8 +8,7 @@ Pod::Spec.new do |s|
 
   s.author       = { "Martin Kiss" => "martin.kiss@me.com" }
 
-  #s.source       = { :git => "https://github.com/iMartinKiss/Objective-Chain.git", :tag => "#{s.version}" }
-  s.source       = { :git => "https://github.com/maximkhatskevich/Objective-Chain.git", :tag => "#{s.version}" }
+  s.source       = { :git => "https://github.com/iMartinKiss/Objective-Chain.git", :tag => "#{s.version}" }
   
   s.framework = "Foundation"
   s.framework = "UIKit"
