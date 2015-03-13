@@ -39,7 +39,6 @@
 @property (atomic, readonly, weak) id object;
 @property (atomic, readonly, copy) NSString *keyPath;
 @property (atomic, readonly, copy) NSString *memberPath;
-@property (atomic, readonly, strong) Class valueClass;
 @property (atomic, readonly, assign) BOOL isPrior;
 
 @property (atomic, readonly, strong) OCAKeyPathAccessor *accessor;
