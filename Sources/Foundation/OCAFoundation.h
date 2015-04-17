@@ -63,6 +63,7 @@
 #import "OCAKeyValueChange.h"
 #import "OCAVariadic.h"
 #import "OCAPlaceholderObject.h"
+#import "OCAMutableArrayProxy.h"
 
 #import "OCADebug.h"
 

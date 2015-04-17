@@ -17,6 +17,7 @@
 #import "OCAContext.h"
 #import "OCASubscriber.h"
 #import "OCAInterpolator.h"
+#import "OCAMutableArrayProxy.h"
 #import <objc/runtime.h>
 
 
@@ -241,7 +242,8 @@
 
 - (NSMutableArray *)collection {
     if ([self isCollection]) {
-        return [self.object mutableArrayValueForKeyPath:self.accessor.keyPath];
+        OCAMutableArrayProxy *mutableProxy = [[OCAMutableArrayProxy alloc] initWithReceiver:self.object accessor:self.accessor];
+        return [mutableProxy asMutableArray];
     }
     else return nil;
 }
