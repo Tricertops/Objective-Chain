@@ -19,6 +19,23 @@
                   </ActionContent>
                </BreakpointActionProxy>
             </Actions>
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "OCABreakpointSound"
+                  moduleName = "Mucosolvan"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/Martin/Development/iAdverti/Mugotussol/Libraries/Objective-Chain/Sources/Foundation/Utilities/OCADebug.m"
+                  timestampString = "465559396.05612"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "30"
+                  endingLineNumber = "30"
+                  offsetFromSymbolStart = "44">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -29,6 +46,23 @@
             continueAfterRunningActions = "No"
             symbolName = "OCABreakpointStop"
             moduleName = "">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "OCABreakpointStop"
+                  moduleName = "Mucosolvan"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/Martin/Development/iAdverti/Mugotussol/Libraries/Objective-Chain/Sources/Foundation/Utilities/OCADebug.m"
+                  timestampString = "465559396.056865"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "23"
+                  endingLineNumber = "23"
+                  offsetFromSymbolStart = "44">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>
