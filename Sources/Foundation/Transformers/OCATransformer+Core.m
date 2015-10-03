@@ -290,7 +290,7 @@ OCATransformerShared(negateBoolean) {
         [byOutputClass setObject:t forKey:outputClass];
         [inputClasses addObject:inputClass];
         
-        OCAAssert([outputClass isSubclassOfClass:finalClass], @"Provided transformer doesn't have requested output class.");
+        OCAAssert([outputClass isSubclassOfClass:finalClass], @"Provided transformer doesn't have requested output class.") continue;
     }
     NSString *inputClassesString = [inputClasses.allObjects componentsJoinedByString:@", "];
     

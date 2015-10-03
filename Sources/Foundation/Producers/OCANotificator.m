@@ -51,7 +51,7 @@
 - (instancetype)initWithCenter:(NSNotificationCenter *)center name:(NSString *)name sender:(NSObject *)sender {
     self = [super initWithValueClass:[NSNotification class]];
     if (self) {
-        OCAAssert(name.length > 0, @"Missing notification name.");
+        OCAAssert(name.length > 0, @"Missing notification name.") return nil;
         center = center ?: [NSNotificationCenter defaultCenter];
         
         OCANotificator *existing = [OCANotificator existingNotificatorForCenter:center name:name sender:sender];

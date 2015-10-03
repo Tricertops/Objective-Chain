@@ -233,7 +233,7 @@
 
 
 + (OCATransformer *)roundDateToUnit:(NSCalendarUnit)unit mode:(NSRoundingMode)mode {
-    OCAAssert(mode != NSRoundBankers, @"Bankerz date? Rly?");
+    OCAAssert(mode != NSRoundBankers, @"Bankerz date? Rly?") return nil;
     return [[OCATransformer fromClass:[NSDate class] toClass:[NSDate class]
                             transform:^NSDate *(NSDate *input) {
                                 if ( ! input) return nil;
@@ -493,7 +493,7 @@ NSCalendarUnit const OCACalendarUnitDefault = (NSCalendarUnitYear
         case NSCalendarUnitWeekOfYear: self.weekOfYear = value; break;
         case NSCalendarUnitYearForWeekOfYear: self.yearForWeekOfYear = value; break;
             
-        default: OCAAssert(NO, @"Cannot set value for this unit.");
+        default: OCAAssert(NO, @"Cannot set value for this unit.") break;
     }
 }
 

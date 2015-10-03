@@ -553,7 +553,7 @@
     if (transformer) {
         OCAAssert([transformer.class allowsReverseTransformation], @"Need reversible transformer for two-way binding.") return;
     }
-    OCAAssert(throttle != nil, @"Throttle needed");
+    OCAAssert(throttle != nil, @"Throttle needed") return;
     
     /// Throttling affects production of values in time, which brings feedback problems.
     

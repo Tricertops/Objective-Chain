@@ -198,7 +198,7 @@
     self.error = error;
     
     NSArray *consumers = [self.mutableConsumers copy];
-    [self.mutableConsumers setArray:nil];
+    [self.mutableConsumers setArray:@[]];
     
     for (id<OCAConsumer> consumer in consumers) {
         [consumer finishConsumingWithError:error];

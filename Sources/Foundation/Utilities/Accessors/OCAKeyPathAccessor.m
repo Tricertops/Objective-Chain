@@ -54,12 +54,12 @@
     BOOL isNumeric = [NSValue objCTypeIsNumeric:objCType];
     BOOL isWrapping = NO;
     if (isNumeric) {
-        OCAAssert(valueClass == nil || valueClass == [NSNumber class], @"Provided wrongs wrapper class.");
+        OCAAssert(valueClass == nil || valueClass == [NSNumber class], @"Provided wrongs wrapper class.") return nil;
         valueClass = [NSNumber class];
         isWrapping = YES;
     }
     else if ( ! isObject) {
-        OCAAssert(valueClass == nil || valueClass == [NSValue class], @"Provided wrongs wrapper class.");
+        OCAAssert(valueClass == nil || valueClass == [NSValue class], @"Provided wrongs wrapper class.") return nil;
         valueClass = [NSValue class];
         isWrapping = YES;
     }
@@ -151,7 +151,7 @@
                 value = @0;
             }
             else {
-                OCAAssert(NO, @"Cannot automatically replace nil for this type '%s', yet.", self.objCType);
+                OCAAssert(NO, @"Cannot automatically replace nil for this type '%s', yet.", self.objCType) return object;
                 return object;
             }
         }

@@ -48,8 +48,8 @@
     if (self) {
         OCAAssert( ! [NSValue objCTypeIsNumeric:structType], @"This is not a struct! Don't play with types or bad things will happen!") return nil;
         OCAAssert(memberPath.length > 0, @"Missing member path.") return nil;;
-        OCAAssert(getBlock != nil, @"Missing get block.");
-        OCAAssert(setBlock != nil, @"Missing set block.");
+        OCAAssert(getBlock != nil, @"Missing get block.") return nil;
+        OCAAssert(setBlock != nil, @"Missing set block.") return nil;
         
         self->_structType = structType;
         self->_memberPath = memberPath;

@@ -55,7 +55,8 @@
 
 
 - (void)forwardInvocation:(NSInvocation *)invocation {
-    [invocation invokeWithTarget:nil];
+    __nonnull id null = nil; // Silences warning on the next line.
+    [invocation invokeWithTarget:null];
 }
 
 

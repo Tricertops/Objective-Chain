@@ -25,12 +25,12 @@
 
 
 - (void)consumeValue:(id)value {
-    OCAAssert(NO, @"You can't use this abstract class!");
+    OCAAssert(NO, @"You can't use this abstract class!") return;
 }
 
 
 - (void)finishConsumingWithError:(NSError *)error {
-    OCAAssert(NO, @"You can't use this abstract class!");
+    OCAAssert(NO, @"You can't use this abstract class!") return;
 }
 
 

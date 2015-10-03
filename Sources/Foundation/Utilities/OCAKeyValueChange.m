@@ -111,7 +111,7 @@
     else if ([collection isKindOfClass:[NSOrderedSet class]]) {
         return [(NSOrderedSet *)collection array];
     }
-    OCAAssert(NO, @"Some other collection class? %@", [collection class]);
+    OCAAssert(NO, @"Some other collection class? %@", [collection class]) return nil;
     return nil;
 }
 
