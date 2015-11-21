@@ -8,7 +8,7 @@ Project is inspired by [ReactiveCocoa](https://github.com/ReactiveCocoa/Reactive
 Aim is to build reusable and scalable solution for **MVVM** bindings. [Article about MVVM implementation using Objective-Chain.](https://gist.github.com/iMartinKiss/bd038dfbf0663818b0ad)
 
 
-##### Project is under active development, but at this stage it can be reliably used in production. Follow the [Roadmap](https://github.com/iMartinKiss/Objective-Chain/issues/1) for progress.
+##### Project can be reliably used in production. Follow the [Roadmap](https://github.com/iMartinKiss/Objective-Chain/issues/1) for progress.
 
 
 Concept
@@ -129,4 +129,4 @@ Follow the [Roadmap](https://github.com/iMartinKiss/Objective-Chain/issues/1) fo
 ---
 
 Licensed under The MIT License (MIT)  
-Copyright © 2014 Martin Kiss
+Copyright © 2014-2015 Martin Kiss
