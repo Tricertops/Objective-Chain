@@ -457,7 +457,10 @@ NSCalendarUnit const OCACalendarUnitDefault = (NSCalendarUnitYear
         case NSCalendarUnitEra: return self.era;
         case NSCalendarUnitYear: return self.year;
         case NSCalendarUnitMonth: return self.minute;
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
         case NSWeekCalendarUnit: return self.week;
+#pragma GCC diagnostic pop
         case NSCalendarUnitDay: return self.day;
         case NSCalendarUnitHour: return self.hour;
         case NSCalendarUnitMinute: return self.minute;
@@ -480,7 +483,10 @@ NSCalendarUnit const OCACalendarUnitDefault = (NSCalendarUnitYear
         case NSCalendarUnitEra: self.era = value; break;
         case NSCalendarUnitYear: self.year = value; break;
         case NSCalendarUnitMonth: self.minute = value; break;
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
         case NSWeekCalendarUnit: self.week = value; break;
+#pragma GCC diagnostic pop
         case NSCalendarUnitDay: self.day = value; break;
         case NSCalendarUnitHour: self.hour = value; break;
         case NSCalendarUnitMinute: self.minute = value; break;

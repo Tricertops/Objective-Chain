@@ -55,7 +55,7 @@
 @implementation OCAProperty
 
 
-
+@dynamic valueClass;
 
 
 #pragma mark Creating Property
