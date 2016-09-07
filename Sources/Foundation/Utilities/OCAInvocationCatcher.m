@@ -31,8 +31,7 @@
 
 
 - (void)forwardInvocation:(NSInvocation *)invocation {
-    __nonnull id null = nil; // Silences warning on the next line.
-    [invocation invokeWithTarget:null];
+    [invocation invokeWithTarget:(__nonnull id)nil]; // Ah.
     invocation.target = self.target;
     self->_invocation = invocation;
     

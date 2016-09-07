@@ -373,7 +373,7 @@
                                
                                NSDateComponents *components = [[NSCalendar currentCalendar] components:unit fromDate:input];
                                NSInteger value = [components oca_valueForUnit:unit];
-                               return (value == NSUndefinedDateComponent? nil : @(value));
+                               return (value == NSDateComponentUndefined? nil : @(value));
                            }]
             describe:@"date component from date"];
 }
@@ -457,7 +457,6 @@ NSCalendarUnit const OCACalendarUnitDefault = (NSCalendarUnitYear
         case NSCalendarUnitEra: return self.era;
         case NSCalendarUnitYear: return self.year;
         case NSCalendarUnitMonth: return self.minute;
-        case NSWeekCalendarUnit: return self.week;
         case NSCalendarUnitDay: return self.day;
         case NSCalendarUnitHour: return self.hour;
         case NSCalendarUnitMinute: return self.minute;
@@ -470,7 +469,7 @@ NSCalendarUnit const OCACalendarUnitDefault = (NSCalendarUnitYear
         case NSCalendarUnitWeekOfYear: return self.weekOfYear;
         case NSCalendarUnitYearForWeekOfYear: return self.yearForWeekOfYear;
             
-        default: return NSUndefinedDateComponent;
+        default: return NSDateComponentUndefined;
     }
 }
 
@@ -480,7 +479,6 @@ NSCalendarUnit const OCACalendarUnitDefault = (NSCalendarUnitYear
         case NSCalendarUnitEra: self.era = value; break;
         case NSCalendarUnitYear: self.year = value; break;
         case NSCalendarUnitMonth: self.minute = value; break;
-        case NSWeekCalendarUnit: self.week = value; break;
         case NSCalendarUnitDay: self.day = value; break;
         case NSCalendarUnitHour: self.hour = value; break;
         case NSCalendarUnitMinute: self.minute = value; break;
